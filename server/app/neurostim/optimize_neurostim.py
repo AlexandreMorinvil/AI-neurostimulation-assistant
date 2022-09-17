@@ -5,9 +5,8 @@ import GPy
 from utils import *
 
 
-
 def optimize_neurostim():
-    path_to_dataset= 'nhp_data'
+    path_to_dataset= 'app/neurostim/nhp'
     dataset='nhp' # selected dataset
     which_opt= 'kappa' # hyperparameter to optimize
     nRep=30 # number of repetitions
@@ -214,17 +213,26 @@ def optimize_neurostim():
                 Stored_perf_exploit[m_i,e_i,k_i]= MPm[perf_exploit.astype(int)]/mMPm;
                 count_perf+=1
 
-    # Saving variables
-    np.savez(dataset+'_'+which_opt+'_'+str(nRep)+'_'+date.today().strftime("%y%m%d")+'.npz',
+
+    #Saving variables
+    path = 'app/neurostim/optim_nhp/'
+    filename = path + dataset+'_'+which_opt+'_'+str(nRep)+'_'+date.today().strftime("%y%m%d")+'.npz'
+    np.savez(filename,
              Stored_MaxSeenResp=Stored_MaxSeenResp, hyperparams=hyperparams, Stored_P_test=Stored_P_test,
              Stored_perf_explore=Stored_perf_explore, Stored_perf_exploit=Stored_perf_exploit,
              Stored_MappingAccuracyRSQ=Stored_MappingAccuracyRSQ, this_opt=this_opt)
 
-    data = np.load('optim_nhp/nhp_kappa_30_210623.npz')
+    data = np.load(filename)
     Stored_perf_explore= data['Stored_perf_explore']
     Stored_perf_exploit= data['Stored_perf_exploit']
     this_opt=data['this_opt']
     which_opt='kappa'
     dataset='nhp'
 
-    plot_optim_results(Stored_perf_explore,Stored_perf_exploit,which_opt, this_opt, dataset)
+    # plot_optim_results(Stored_perf_explore,Stored_perf_exploit,which_opt, this_opt, dataset)
+    print("finish")
+    
+
+
+if __name__ == "__main__":
+    optimize_neurostim()

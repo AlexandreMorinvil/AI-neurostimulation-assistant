@@ -12,18 +12,16 @@ import * as Inputs from '../components/Inputs.js';
 const HomeScreen = () => {
   return (
     <ScrollView style={styles.viewContainer}>
-      <Button title="Server Testing" OnPress={Nav} />
-      <Button title="Testing" OnPress={Nav} />
+      <Text> Home </Text>
     </ScrollView>
   );
 };
 
-function Nav(){}
 
 const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
-    backgroundColor: '#444',
+    backgroundColor: '#111',
     padding: 10,
   },
 });

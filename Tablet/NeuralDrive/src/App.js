@@ -1,17 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
 import type {Node} from 'react';
-import ServerTesting from './views/ServerTesting';
-import HomeScreen from './views/HomeScreen';
+
+import { Navigation } from 'react-native-navigation';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import HomeScreen from './views/HomeScreen';
+import ServerTesting from './views/ServerTesting';
 
 import {
   SafeAreaView,
@@ -25,22 +21,40 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const Stack = createNativeStackNavigator();
-const App: () => Node = () => {
+const Drawer = createDrawerNavigator();
+
+const App = () => {
   return(
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: 'Welcome' }}
-        />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-      </Stack.Navigator>
+      <Drawer.Navigator screenOptions={{headerShown: false}}>
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Server Testing" component={ServerTesting} />
+      </Drawer.Navigator>
     </NavigationContainer>
-    // <HomeScreen/>
   );
-  // return <ServerTesting />;
+    // <ServerTesting />
+    // return <HomeScreen/>
 };
 
+
 export default App;
+
+// Custom Drawer from scratch
+// const App: () => Node = () => {
+//   return(
+//     <SafeAreaView style={styles.container}>
+//       <View>
+//         <Text> Hello </Text>
+//       </View>
+//     </SafeAreaView>
+//   )
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#5359D1',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });

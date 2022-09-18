@@ -21,6 +21,8 @@ import android.hardware.SensorManager
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.widget.TextView
+import okhttp3.*
+import okio.IOException
 
 /**
  * Activity displaying the app UI. Notably, this binds data from [MainViewModel] to views on screen,
@@ -50,6 +52,8 @@ public class MainActivity : Activity() {
     private val maxY: TextView? = null
     private val maxZ: TextView? = null
 
+    private val client = OkHttpClient()
+
 //    private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
 //    private val viewModel: MainViewModel by viewModels()
@@ -60,6 +64,30 @@ public class MainActivity : Activity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //http request+++++++++++++++++++++++++++++++++++++++
+        val request = Request.Builder()
+            .url("http://10.0.2.2:5000/packet/")
+            .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+                    for ((name, value) in response.headers) {
+                        println("$name: $value")
+                    }
+
+                    println(response.body!!.string())
+                }
+            }
+        })
+        //http request+++++++++++++++++++++++++++++++++++++++
+
 
         if (checkSelfPermission(Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.BODY_SENSORS), 1)

@@ -1,11 +1,12 @@
 import React from 'react';
 import type {Node} from 'react';
 
-import { Navigation } from 'react-native-navigation';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {Navigation} from 'react-native-navigation';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import CustomDrawer from './components/CustomDrawer';
 import HomeScreen from './views/HomeScreen';
 import ServerTesting from './views/ServerTesting';
 
@@ -24,18 +25,19 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 const Drawer = createDrawerNavigator();
 
 const App = () => {
-  return(
+  return (
     <NavigationContainer>
-      <Drawer.Navigator screenOptions={{headerShown: false}}>
+      <Drawer.Navigator
+        drawerContent={props => <CustomDrawer {...props} />}
+        screenOptions={{headerShown: false}}>
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Server Testing" component={ServerTesting} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
-    // <ServerTesting />
-    // return <HomeScreen/>
+  // <ServerTesting />
+  // return <HomeScreen/>
 };
-
 
 export default App;
 

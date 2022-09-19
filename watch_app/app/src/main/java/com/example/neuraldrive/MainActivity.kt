@@ -7,15 +7,13 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.neuraldrive.databinding.ActivityMainBinding
-//import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.hardware.SensorEvent
@@ -29,7 +27,7 @@ import okio.IOException
  * and performs the permission check when enabling passive data.
  */
 //@AndroidEntryPoint
-public class MainActivity : Activity() {
+public class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -54,9 +52,9 @@ public class MainActivity : Activity() {
 
     private val client = OkHttpClient()
 
-//    private lateinit var permissionLauncher: ActivityResultLauncher<String>
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
+    private val viewModel: MainViewModel by viewModels()
 
-//    private val viewModel: MainViewModel by viewModels()
 //    private val mSensorManager: SensorManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,15 +86,12 @@ public class MainActivity : Activity() {
         })
         //http request+++++++++++++++++++++++++++++++++++++++
 
-
         if (checkSelfPermission(Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.BODY_SENSORS), 1)
         } else {
             Log.d(TAG, "ALREADY GRANTED")
         }
 
-        setContentView(R.layout.activity_main)
-        //initializeViews()
 //        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager?
 //        if (sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
 //            // success! we have an accelerometer
@@ -106,43 +101,36 @@ public class MainActivity : Activity() {
 //        } else {
 //            // fai! we dont have an accelerometer!
 //        }
-//        permissionLauncher =
-//            registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
-//                when (result) {
-//                    true -> {
-//                        Log.i(TAG, "Body sensors permission granted")
-//                        viewModel.togglePassiveData(true)
-//                    }
-//                    false -> {
-//                        Log.i(TAG, "Body sensors permission not granted")
-//                        viewModel.togglePassiveData(false)
-//                    }
-//                }
-//            }
-//
-//        binding.enablePassiveData.setOnCheckedChangeListener { _, isChecked ->
-//            if (isChecked) {
-//                // Make sure we have the necessary permission first.
-//                permissionLauncher.launch(android.Manifest.permission.BODY_SENSORS)
-//            } else {
-//                viewModel.togglePassiveData(false)
-//            }
-//        }
 
-//        // Bind viewmodel state to the UI.
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.uiState.collect {
-//                updateViewVisiblity(it)
-//            }
-//        }
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.latestSpeedRate.collect {
-//                binding.lastMeasuredValue.text = it.toString()
-//            }
-//        }
+        permissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+                when (result) {
+                    true -> {
+                        Log.i(TAG, "Body sensors permission granted")
+                    }
+                    false -> {
+                        Log.i(TAG, "Body sensors permission not granted")
+                    }
+                }
+            }
+
+        binding.enableData.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                //TODO
+                permissionLauncher.launch(android.Manifest.permission.BODY_SENSORS)
+            } else {
+                //
+            }
+        }
+        // Bind viewmodel state to the UI.
+        lifecycleScope.launchWhenStarted {
+            viewModel.uiState.collect {
+                updateViewVisiblity(it)
+            }
+        }
 //        lifecycleScope.launchWhenStarted {
 //            viewModel.passiveDataEnabled.collect {
-//                binding.enablePassiveData.isChecked = it
+//                binding.enableData.isChecked = it
 //            }
 //        }
     }
@@ -210,22 +198,18 @@ public class MainActivity : Activity() {
 //            maxZ.setText(java.lang.Float.toString(deltaZMax))
 //        }
 //    }
-
-//    private fun updateViewVisiblity(uiState: UiState) {
-//        (uiState is UiState.Startup).let {
-//            binding.progress.isVisible = it
-//        }
-//        // These views are visible when heart rate capability is not available.
-//        (uiState is UiState.SpeedRateNotAvailable).let {
-//            binding.broken.isVisible = it
-//            binding.notAvailable.isVisible = it
-//        }
-//        // These views are visible when the capability is available.
-//        (uiState is UiState.SpeedRateAvailable).let {
-//            binding.enablePassiveData.isVisible = it
-//            binding.lastMeasuredLabel.isVisible = it
-//            binding.lastMeasuredValue.isVisible = it
-//            binding.check.isVisible = it
-//        }
-//    }
+    private fun updateViewVisiblity(uiState: UiState) {
+        (uiState is UiState.Startup).let {
+            binding.progress.isVisible = it
+        }
+        // These views are visible when heart rate capability is not available.
+        (uiState is UiState.SensorsNotAvailable).let {
+            binding.broken.isVisible = it
+            binding.notAvailable.isVisible = it
+        }
+        // These views are visible when the capability is available.
+        (uiState is UiState.SensorsAvailable).let {
+            binding.enableData.isVisible = it
+        }
+    }
 }

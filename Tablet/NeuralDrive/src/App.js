@@ -6,6 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomDrawer from './components/CustomDrawer';
 import HomeScreen from './views/HomeScreen';
 import ServerTesting from './views/ServerTesting';
@@ -30,7 +31,10 @@ const App = () => {
       <Drawer.Navigator
         drawerContent={props => <CustomDrawer {...props} />}
         screenOptions={{headerShown: false}}>
-        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Home" component={HomeScreen} options={{
+          drawerIcon: () =>(
+          <Ionicons name="add" size={32} color={"#000"}/>
+          )}}/>
         <Drawer.Screen name="Server Testing" component={ServerTesting} />
       </Drawer.Navigator>
     </NavigationContainer>

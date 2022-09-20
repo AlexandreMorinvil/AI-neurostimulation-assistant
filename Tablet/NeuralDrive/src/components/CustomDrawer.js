@@ -20,9 +20,10 @@ const CustomDrawer = props => {
         <DrawerItemList {...props}/>
         {/* <FontAwesomeIcon icon='square-check' color='red' size={32} transform={{rotate: 42}} mask='circle'/> */}
         {/* <FontAwesomeIcon icon="mug-saucer" mask="circle" transform="shrink-6" /> */}
-        {/* <FontAwesome5 name='fa-circle' size={40} color='#000'/> */}
+        <FontAwesome5 name='home' size={40} color='#000'/>
         {/* <FontAwesomeIcon name='fa-solid fa-circle' size={40} color='#000'/> */}
       <FontAwesomeIcon icon={faCircle} />
+      <Ionicons name="home-outline" size={22} color="#000"/>
 
       </DrawerContentScrollView>
     </View>

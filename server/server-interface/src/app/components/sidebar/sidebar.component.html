@@ -1,0 +1,25 @@
+<link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<div class="sidebar">
+  <div class="logo-details">
+    <i class="bx bxl-c-plus-plus icon"></i>
+    <div class="logo_name">NeuralDrive</div>
+    <i class="bx bx-menu" id="btn" (click)="openSidebar()"></i>
+  </div>
+  <ul class="nav-list">
+    <li>
+      <a routerLink="/home">
+        <i class='bx bxs-dashboard'></i>
+        <span class="links_name">Dashboard</span>
+      </a>
+      <span class="tooltip">Dashboard</span>
+    </li>
+    <li>
+      <a routerLink="/dataBase">
+        <i class='bx bx-data'></i>
+        <span class="links_name">database</span>
+      </a>
+      <span class="tooltip">database</span>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,30 @@
+<div id="mainDiv">
+    <div class="tools">
+        <div class="input">
+            <div class="title">Dimention</div>
+            <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Dimention</mat-label>
+                    <input matInput [(ngModel)]="dimention">
+                </mat-form-field>
+            </td>
+        </div>
+        <div class="input">
+            <div class="title">Number of parameters </div>
+            <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Number of parameters</mat-label>
+                    <input matInput [(ngModel)]="n_param">
+                </mat-form-field>
+            </td>
+        </div>
+        <div class="input">
+            <button mat-raised-button color="primary" (click)="sendMessage()">Start simulation </button>
+        </div>
+    </div>
+    <div class="chart_box">
+        <div class="chart-title">Patient data</div>
+        <canvas #myChart id="myChart"></canvas>
+    </div>
+
+</div>

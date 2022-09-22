@@ -2,66 +2,45 @@ package com.example.neuraldrive
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import com.example.neuraldrive.databinding.ActivityMainBinding
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
-import android.widget.TextView
 import okhttp3.*
 import okio.IOException
 
-/**
- * Activity displaying the app UI. Notably, this binds data from [MainViewModel] to views on screen,
- * and performs the permission check when enabling passive data.
- */
-//@AndroidEntryPoint
-public class MainActivity : AppCompatActivity() {
+
+class MainActivity : Activity(), SensorEventListener {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val lastX = 0f
-    private val lastY = 0f
-    private val lastZ = 0f
-    private var sensorManager: SensorManager? = null
-    private var accelerometer: Sensor? = null
-    private val deltaXMax = 0f
-    private val deltaYMax = 0f
-    private val deltaZMax = 0f
-    private val deltaX = 0f
-    private val deltaY = 0f
-    private val deltaZ = 0f
-    private var vibrateThreshold = 0f
-    private val currentX: TextView? = null
-    private val currentY: TextView? = null
-    private val currentZ: TextView? = null
-    private val maxX: TextView? = null
-    private val maxY: TextView? = null
-    private val maxZ: TextView? = null
-
     private val client = OkHttpClient()
 
-    private lateinit var permissionLauncher: ActivityResultLauncher<String>
-    private val viewModel: MainViewModel by viewModels()
+    private val sensorFeature: String = PackageManager.FEATURE_SENSOR_ACCELEROMETER // PackageManager.FEATURE_SENSOR_GYROSCOPE
+    private val sensorType: Int = Sensor.TYPE_ACCELEROMETER // Sensor.TYPE_GYROSCOPE
 
-//    private val mSensorManager: SensorManager
+    private val doesSensorExist: Boolean
+        get() = packageManager.hasSystemFeature(sensorFeature)
+
+    protected var onSensorValuesChanged: ((List<Float>) -> Unit)? = null
+
+    private lateinit var sensorManager: SensorManager
+    private var sensor: Sensor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.enableData.isVisible = true
+        Log.d("alllllooooooooo", doesSensorExist.toString())
 
         //http request+++++++++++++++++++++++++++++++++++++++
         val request = Request.Builder()
@@ -92,64 +71,55 @@ public class MainActivity : AppCompatActivity() {
             Log.d(TAG, "ALREADY GRANTED")
         }
 
-//        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager?
-//        if (sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-//            // success! we have an accelerometer
-//            accelerometer = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-//            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
-//            vibrateThreshold = accelerometer?.getMaximumRange() / 2
-//        } else {
-//            // fai! we dont have an accelerometer!
-//        }
-
-        permissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
-                when (result) {
-                    true -> {
-                        Log.i(TAG, "Body sensors permission granted")
-                    }
-                    false -> {
-                        Log.i(TAG, "Body sensors permission not granted")
-                    }
-                }
-            }
-
         binding.enableData.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                //TODO
-                permissionLauncher.launch(android.Manifest.permission.BODY_SENSORS)
+                startListening()
             } else {
-                //
+                stopListening()
             }
         }
-        // Bind viewmodel state to the UI.
-        lifecycleScope.launchWhenStarted {
-            viewModel.uiState.collect {
-                updateViewVisiblity(it)
-            }
-        }
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.passiveDataEnabled.collect {
-//                binding.enableData.isChecked = it
-//            }
-//        }
     }
 
-//    //onResume() register the accelerometer for listening the events
-//    protected override fun onResume() {
-//        super.onResume()
-//        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
+    private fun startListening() {
+        if(!doesSensorExist) {
+            return
+        }
+        if(!::sensorManager.isInitialized && sensor == null) {
+            sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            sensor = sensorManager.getDefaultSensor(sensorType)
+//            val accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+//            Log.d("Accelerometer:", accelerometerSensor.toString())
+            Log.d("Sensors:", sensor.toString())
+        }
+        sensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+    }
+
+    private fun stopListening() {
+        if(!doesSensorExist || !::sensorManager.isInitialized) {
+            return
+        }
+        sensorManager.unregisterListener(this)
+    }
+
+//    fun setOnSensorValuesChangedListener(listener: (List<Float>) -> Unit) {
+//        onSensorValuesChanged = listener
 //    }
-//
-//    //onPause() unregister the accelerometer for stop listening the events
-//    protected override fun onPause() {
-//        super.onPause()
-//        sensorManager.unregisterListener(this)
-//    }
-//
-//    fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+
+    override fun onSensorChanged(p0: SensorEvent?) {
+        if(!doesSensorExist) {
+            return
+        }
+        if(p0?.sensor?.type == sensorType) {
+            onSensorValuesChanged?.invoke(p0.values.toList())
+        }
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) = Unit
+}
+
 //    fun onSensorChanged(event: SensorEvent) {
-//
 //        // clean current values
 //        displayCleanValues()
 //        // display the current x,y,z accelerometer values
@@ -198,18 +168,29 @@ public class MainActivity : AppCompatActivity() {
 //            maxZ.setText(java.lang.Float.toString(deltaZMax))
 //        }
 //    }
-    private fun updateViewVisiblity(uiState: UiState) {
-        (uiState is UiState.Startup).let {
-            binding.progress.isVisible = it
-        }
-        // These views are visible when heart rate capability is not available.
-        (uiState is UiState.SensorsNotAvailable).let {
-            binding.broken.isVisible = it
-            binding.notAvailable.isVisible = it
-        }
-        // These views are visible when the capability is available.
-        (uiState is UiState.SensorsAvailable).let {
-            binding.enableData.isVisible = it
-        }
-    }
-}
+
+//        if (sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
+//            // success! we have an accelerometer
+//            accelerometer = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+//            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
+//            vibrateThreshold = accelerometer?.getMaximumRange() / 2
+//        } else {
+//            // fai! we dont have an accelerometer!
+//        }
+
+//    private val lastY = 0f
+//    private val lastZ = 0f
+//    private var accelerometer: Sensor? = null
+//    private val deltaXMax = 0f
+//    private val deltaYMax = 0f
+//    private val deltaZMax = 0f
+//    private val deltaX = 0f
+//    private val deltaY = 0f
+//    private val deltaZ = 0f
+//    private var vibrateThreshold = 0f
+//    private val currentX: TextView? = null
+//    private val currentY: TextView? = null
+//    private val currentZ: TextView? = null
+//    private val maxX: TextView? = null
+//    private val maxY: TextView? = null
+//    private val maxZ: TextView? = null

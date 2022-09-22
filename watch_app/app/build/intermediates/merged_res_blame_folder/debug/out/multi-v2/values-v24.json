@@ -1,0 +1,55 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-35:/values-v24/values-v24.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\4d5b64de3dda425222805ae36898dcb6\\transformed\\appcompat-1.2.0\\res\\values-v24\\values-v24.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,212",
+                        "endColumns": "156,134",
+                        "endOffsets": "207,342"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\28d81d862d631ca084a15b3b90b0d241\\transformed\\media-1.0.0\\res\\values-v24\\values-v24.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,121,182,248",
+                        "endColumns": "65,60,65,66",
+                        "endOffsets": "116,177,243,310"
+                    },
+                    "to": {
+                        "startLines": "4,5,6,7",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "347,413,474,540",
+                        "endColumns": "65,60,65,66",
+                        "endOffsets": "408,469,535,602"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\37b14a5523b4984131fc6eca972d3d4b\\transformed\\wear-1.1.0\\res\\values-v24\\values-v24.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "14",
+                        "endColumns": "12",
+                        "endOffsets": "929"
+                    },
+                    "to": {
+                        "startLines": "8",
+                        "startColumns": "4",
+                        "startOffsets": "607",
+                        "endLines": "20",
+                        "endColumns": "12",
+                        "endOffsets": "1481"
+                    }
+                }
+            ]
+        }
+    ]
+}

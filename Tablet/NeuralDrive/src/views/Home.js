@@ -1,23 +1,29 @@
 import React, {useState} from 'react';
-import {Text, TextInput, ScrollView, Button, ToastAndroid, StyleSheet} from 'react-native';
+import {
+  Text,
+  TextInput,
+  ScrollView,
+  Button,
+  ToastAndroid,
+  StyleSheet,
+} from 'react-native';
 import * as Inputs from '../components/Inputs.js';
 
-const Testing = () => {
+const HomeScreen = () => {
   return (
     <ScrollView style={styles.viewContainer}>
-      <Inputs.RegInput />
-      <Inputs.Round />
-      <Inputs.RoundGrey />
+    <Text style={{color: "#fff"}}> Home </Text>
     </ScrollView>
   );
 };
 
+
 const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
-    backgroundColor: '#444',
+    backgroundColor: '#111',
     padding: 10,
   },
 });
 
-export default Testing;
+export default HomeScreen;

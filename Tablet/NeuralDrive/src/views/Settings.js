@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import * as Inputs from '../components/Inputs.js';
 
-const HomeScreen = () => {
+const SettingsScreen = () => {
   return (
     <ScrollView style={styles.viewContainer}>
-      <Text> Home </Text>
+    <Text style={{color: "#fff"}}> Settings </Text>
     </ScrollView>
   );
 };
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default SettingsScreen;

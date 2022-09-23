@@ -34,10 +34,6 @@ const ServerTesting = () => {
         }}>
         blabla... {serverResponse}
       </Text>
-
-      {/* <Inputs.RegInput/> */}
-      {/* <Inputs.Round/> */}
-      {/* <Inputs.RoundGrey/> */}
     </ScrollView>
   );
 };

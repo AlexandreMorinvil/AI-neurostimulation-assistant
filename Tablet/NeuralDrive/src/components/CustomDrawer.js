@@ -3,31 +3,51 @@ import {View, Text} from 'react-native';
 import {DrawerContentScrollView, DrawerItemList} from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-// import Icon from 'react-native-ionicons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSquareCheck } from '@fortawesome/free-solid-svg-icons/faSquareCheck';
-import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer';
-import { faCircle } from '@fortawesome/free-solid-svg-icons/faCircle';
+// Calm Coastal
+let Color1 = '#8FA5B2'
+let Color2 = '#C4D0C6'
+let Color3 = '#E3E939'
+let Color4 = '#EAE9E7'
 
-// library.add(faSquareCheck, faMugSaucer, faCircle)
+// Fruity
+
+// let Color1 = '#E984a2'
+// let Color2 = '#b9cc95'
+// let Color3 = '#f8d49b'
+// let Color4 = '#f8e6cb'
 
 const CustomDrawer = props => {
   return (
-    <View style={{flex:1}}>
-    <DrawerContentScrollView {...props} contentContainerStyle={{backgroundColor: '#fff'}}>
-        <DrawerItemList {...props}/>
-        {/* <FontAwesomeIcon icon='square-check' color='red' size={32} transform={{rotate: 42}} mask='circle'/> */}
-        {/* <FontAwesomeIcon icon="mug-saucer" mask="circle" transform="shrink-6" /> */}
-        <FontAwesome5 name='home' size={40} color='#000'/>
-        {/* <FontAwesomeIcon name='fa-solid fa-circle' size={40} color='#000'/> */}
-      <FontAwesomeIcon icon={faCircle} />
-      <Ionicons name="home-outline" size={22} color="#000"/>
-
+    <View style={{flex:1, backgroundColor: Color4}}>
+      <DrawerContentScrollView {...props} contentContainerStyle={{backgroundColor: Color4}}>
+        <View style={{flex:1, backgroundColor: Color4, paddingTop:10}}>
+          <DrawerItemList {...props}/>
+        </View>
       </DrawerContentScrollView>
     </View>
   );
 };
 
 export default CustomDrawer;
+
+
+// Custom Drawer from scratch
+// const App: () => Node = () => {
+//   return(
+//     <SafeAreaView style={styles.container}>
+//       <View>
+//         <Text> Hello </Text>
+//       </View>
+//     </SafeAreaView>
+//   )
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#5359D1',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });

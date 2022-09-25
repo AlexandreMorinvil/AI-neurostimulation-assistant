@@ -12,7 +12,7 @@ CORS(app)
 ssid = None
 
 
-command_handler = CommandHandler()
+command_handler = CommandHandler(socketio)
 
 signal.signal(signal.SIGINT, command_handler.release)
 signal.signal(signal.SIGTERM, command_handler.release)

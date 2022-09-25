@@ -14,8 +14,9 @@ class Mode(Enum):
 
 
 class CommandHandler:
-    def __init__(self):
+    def __init__(self, socketIO):
         self.current_handler = None
+        self.socketIO = socketIO
 
 
     def handle_command(self, command: int, arg: Union[int, dict, str]) -> Union[None, list, int]:
@@ -31,8 +32,8 @@ class CommandHandler:
             return data
             
 
-        # elif command == Command.NEW_MISSION.value:
-        #     self.database.add_mission(arg)
+        elif command == Command.RECEIVE_DATA_WATCH.value:
+           self.socketIO.emit('message', arg, room=ssid)
 
 
     def release(self, *_) -> None:

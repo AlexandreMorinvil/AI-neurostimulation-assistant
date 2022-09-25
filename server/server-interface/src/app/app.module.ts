@@ -16,6 +16,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
 
@@ -39,6 +40,7 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
     SocketIoModule.forRoot(config),
     HttpClientModule,
     MatInputModule,
+    MatSelectModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [HttpClient],

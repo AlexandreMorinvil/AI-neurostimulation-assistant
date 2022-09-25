@@ -30,6 +30,7 @@ def on_disconnect():
 def messaging(message, methods=['GET', 'POST']):
     print('received message: ' + str(message))
     ssid = request.sid
+    command_handler.ssid = ssid
     socketio.emit('message', 'reponseVersNoe', room=request.sid)
     #message['from'] = request.sid
     #socketio.emit('message', message, room=request.sid)

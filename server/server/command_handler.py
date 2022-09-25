@@ -17,6 +17,7 @@ class CommandHandler:
     def __init__(self, socketIO):
         self.current_handler = None
         self.socketIO = socketIO
+        self.ssid = None
 
 
     def handle_command(self, command: int, arg: Union[int, dict, str]) -> Union[None, list, int]:
@@ -33,7 +34,12 @@ class CommandHandler:
             
 
         elif command == Command.RECEIVE_DATA_WATCH.value:
-           self.socketIO.emit('message', arg, room=ssid)
+            #print(arg["value"])
+            print(arg["value"])
+            if(self.ssid):
+                print(arg["value"])
+                self.socketIO.emit('message', arg["value"], room=self.ssid)
+           #return arg["value"]
 
 
     def release(self, *_) -> None:

@@ -4,5 +4,7 @@ export interface Command {
 }
 
 export enum Action {
-  START_ALGORITHM = 0
+  START_ALGORITHM = 0,
+  CONNECT_WATCH = 1,
+  RECEIVE_DATA_WATCH = 2,
 }

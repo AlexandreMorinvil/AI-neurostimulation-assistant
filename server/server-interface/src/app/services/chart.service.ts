@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Chart, registerables } from 'chart.js';
 import { Algorithm } from 'src/app/interfaces/algorithm';
+import { ChartType } from 'chart.js';
+import { HttpService } from './http.service';
+import { Action, Command } from '../interfaces/command';
+
 
 let COLOR_MAP = [
   [0, "blue"],
@@ -11,15 +16,63 @@ let COLOR_MAP = [
 
 ]
 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class ChartService {
 
   public ctx: CanvasRenderingContext2D;
+  myChart: Chart = null;
   public color: string = "white";
+  CLOCK_TICK = 0.5;
+  current_label = 0;
+  chart_data = [];
+  chart_label = [];
 
-  constructor() { }
+  constructor(private httpService: HttpService) {
+    Chart.register(...registerables);
+
+    setInterval(() => {
+      if (this.ctx) {
+        this.mock_watch_data();
+      }
+    }, 500);
+  }
+
+  public mock_watch_data() {
+    const random_value = this.getRandomInt(-100, 100);
+    const command: Command = { action: Action.RECEIVE_DATA_WATCH, arg: { value: random_value } };
+    this.httpService.postCommand(command).subscribe(
+      (data) => {
+        //this.receive_watch_data(data.content);
+      },
+      (error) => {
+        console.log("+++ error send command +++")
+      }
+    );
+  }
+
+  receive_watch_data(data: number) {
+    if (this.chart_label.length > 25) {
+      this.chart_label.shift();
+      this.chart_data.shift();
+    }
+    this.current_label += 0.5;
+    this.chart_label.push(this.current_label);
+    this.chart_data.push(data);
+    if (this.myChart) {
+      this.myChart.update();
+    }
+  }
+
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
 
 
   public setCanvas(ctx: CanvasRenderingContext2D) {
@@ -89,6 +142,40 @@ export class ChartService {
       }
     }
     return COLOR_MAP[0][1];
+  }
+
+
+  draw_watch_data(data_watch: number[]) {
+    this.myChart = new Chart(this.ctx, {
+      type: 'line',
+      data: {
+        labels: this.chart_label,
+        datasets: [{
+          label: 'My First Dataset',
+          data: this.chart_data,
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        }]
+      }
+    });
+
+  }
+
+  addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+      dataset.data.push(data);
+    });
+    chart.update();
+  }
+
+  removeData(chart) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset) => {
+      dataset.data.pop();
+    });
+    chart.update();
   }
 
 

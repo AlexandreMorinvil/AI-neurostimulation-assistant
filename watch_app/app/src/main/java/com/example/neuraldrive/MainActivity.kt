@@ -13,6 +13,11 @@ import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
+import android.content.Intent
 
 
 class MainActivity : Activity(), SensorEventListener {
@@ -20,6 +25,8 @@ class MainActivity : Activity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
 
 //    private val client = OkHttpClient()
+
+    lateinit var bluetoothAdapter: BluetoothAdapter
 
     private val sensorAccelFeature: String = PackageManager.FEATURE_SENSOR_ACCELEROMETER
     private val sensorGyroFeature: String = PackageManager.FEATURE_SENSOR_GYROSCOPE
@@ -36,11 +43,38 @@ class MainActivity : Activity(), SensorEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.enableData.isVisible = true
         Log.d("alllllooooooooo", doesSensorsExist.toString())
+
+        //init bluetooth adapter
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+//        Log.d("osooksowksokwsow:",bluetoothAdapter.isEnabled.toString())
+
+        if(bluetoothAdapter.isEnabled){
+            //bluetooth is on
+            binding.bluetoothIv.setImageResource(R.drawable.ic_bluetooth_on)
+        }else{
+            //bluetooth is off
+            binding.bluetoothIv.setImageResource(R.drawable.ic_bluetooth_off)
+        }
+
+        // turn on/off bluetooth
+        binding.bluetoothIv.setOnClickListener{
+            if(bluetoothAdapter.isEnabled){
+                bluetoothAdapter.disable()
+                binding.bluetoothIv.setImageResource(R.drawable.ic_bluetooth_off)
+//                bluetoothAdapter.cancelDiscovery()
+                Log.d("osooksowksokwsow:",bluetoothAdapter.isEnabled.toString())
+            }else{
+                var enable = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivityForResult(enable,1)
+//                var discoverable =Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE)
+//                startActivityForResult(enable,2)
+                Log.d("osooksowksokwsow:",bluetoothAdapter.isEnabled.toString())
+            }
+        }
 
 //        //http request+++++++++++++++++++++++++++++++++++++++
 //        val request = Request.Builder()
@@ -77,9 +111,9 @@ class MainActivity : Activity(), SensorEventListener {
             if (isChecked) {
                 if((sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)  != null)and(sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)  != null)) {
                     accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-                    sensorManager.registerListener(this,accelSensor,SensorManager.SENSOR_DELAY_NORMAL)
+                    sensorManager.registerListener(this,accelSensor,SensorManager.SENSOR_DELAY_FASTEST)
                     gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-                    sensorManager.registerListener(this,gyroSensor,SensorManager.SENSOR_DELAY_NORMAL)
+                    sensorManager.registerListener(this,gyroSensor,SensorManager.SENSOR_DELAY_FASTEST)
                 }else{
                     //Fail to get
                     Log.d("Fail:", doesSensorsExist.toString())
@@ -89,6 +123,16 @@ class MainActivity : Activity(), SensorEventListener {
                 onPause()
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode){
+            1->
+                if(requestCode == Activity.RESULT_OK){
+                    binding.bluetoothIv.setImageResource(R.drawable.ic_bluetooth_on)
+                }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onResume() {

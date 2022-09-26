@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-anydpi/ic_bluetooth_off.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_bluetooth_on.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_blutooth_on_background.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_blutooth_on_foreground.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/ic_broken.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_broken_heart.xml" value="0.18" />
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.1165" />
@@ -10,6 +14,8 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.18" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5188659667968751" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_blutooth_on.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_blutooth_on_round.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap/ic_launcher.xml" value="0.1735" />
         <entry key="app/src/main/res/mipmap/ic_launcher_round.xml" value="0.1745" />
       </map>

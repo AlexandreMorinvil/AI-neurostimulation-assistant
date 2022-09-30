@@ -189,23 +189,45 @@ const WatchManager = () => {
     );
 
     if (Platform.OS === 'android' && Platform.Version >= 23) {
-      PermissionsAndroid.check(
+      PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      ).then(result => {
-        if (result) {
+      ]).then(result => {
+        if (
+          result['android.permission.BLUETOOTH_CONNECT'] &&
+          result['android.permission.BLUETOOTH_SCAN'] &&
+          result['android.permission.ACCESS_FINE_LOCATION'] === 'granted'
+        ) {
           console.log('Permission is OK');
-        } else {
-          PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          ).then(result => {
-            if (result) {
-              console.log('User accept');
-            } else {
-              console.log('User refuse');
-            }
-          });
+        } else if (
+          result['android.permission.BLUETOOTH_CONNECT'] ||
+          result['android.permission.BLUETOOTH_SCAN'] ||
+          result['android.permission.ACCESS_FINE_LOCATION'] ===
+            'never_ask_again'
+        ) {
+          this.refs.toast.show(
+            'Please Go into Settings -> Applications -> APP_NAME -> Permissions and Allow permissions to continue',
+          );
         }
       });
+      // PermissionsAndroid.check(
+      //   PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      // ).then(result => {
+      //   if (result) {
+      //     console.log('Permission is OK');
+      //   } else {
+      //     PermissionsAndroid.request(
+      //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      //     ).then(result => {
+      //       if (result) {
+      //         console.log('User accept');
+      //       } else {
+      //         console.log('User refuse');
+      //       }
+      //     });
+      //   }
+      // });
     }
 
     return () => {

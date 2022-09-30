@@ -18,6 +18,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 // Icon Imports
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // View Imports
@@ -58,9 +59,9 @@ const App = () => {
           drawerIcon: () =>(
           <Ionicons name="grid-outline" size={20} color={"#000"}/>
           )}}/>
-        <Drawer.Screen name="Home" component={HomeScreen} options={{
+        <Drawer.Screen name="Component Testing" component={HomeScreen} options={{
           drawerIcon: () =>(
-          <Ionicons name="home-outline" size={20} color={"#000"}/>
+          <FontAwesome name="puzzle-piece" size={20} color={"#000"}/>
           )}}/>
         <Drawer.Screen name="Server Testing" component={ServerTesting} options={{
           drawerIcon: () =>(

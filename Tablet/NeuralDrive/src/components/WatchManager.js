@@ -35,7 +35,7 @@ const WatchManager = () => {
 
   const startScan = () => {
     if (!isScanning) {
-      BleManager.scan([], 8, true)
+      BleManager.scan([], 20, true)
         .then(results => {
           console.log('Scanning...', results);
           setIsScanning(true);
@@ -211,23 +211,6 @@ const WatchManager = () => {
           );
         }
       });
-      // PermissionsAndroid.check(
-      //   PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      // ).then(result => {
-      //   if (result) {
-      //     console.log('Permission is OK');
-      //   } else {
-      //     PermissionsAndroid.request(
-      //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      //     ).then(result => {
-      //       if (result) {
-      //         console.log('User accept');
-      //       } else {
-      //         console.log('User refuse');
-      //       }
-      //     });
-      //   }
-      // });
     }
 
     return () => {

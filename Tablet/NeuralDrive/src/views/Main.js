@@ -17,7 +17,6 @@ import Buttons from '../components/Buttons.js';
 import MainModules from '../components/MainModules.js';
 import * as OtherButtons from '../components/OtherButtons.js';
 import * as Inputs from '../components/Inputs.js';
-import WatchManager from '../components/WatchManager.js';
 
 // Style Imports
 import * as ColorTheme from '../styles/Colors';
@@ -25,7 +24,6 @@ import * as ColorTheme from '../styles/Colors';
 const Main = () => {
   return (
     <View style={styles.viewContainer}>
-      <WatchManager />
       <MainModules.FlexContainer flex={0.1} jc="space-evenly">
         <Buttons.RoundedButton
           title="Record"

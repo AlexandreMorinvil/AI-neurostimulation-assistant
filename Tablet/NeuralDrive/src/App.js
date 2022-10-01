@@ -26,6 +26,7 @@ import HomeScreen from './views/Home';
 import ServerTesting from './views/ServerTesting';
 import SettingsScreen from './views/Settings';
 import Main from './views/Main';
+import WatchTesting from './views/WatchTesting';
 
 // Component Imports
 import CustomDrawer from './components/CustomDrawer';
@@ -67,6 +68,11 @@ const App = () => {
           drawerIcon: () =>(
           <MaterialCommunityIcons name="test-tube" size={20} color={"#000"}/>
           )}}/>
+        <Drawer.Screen name="Watch Testing" component={WatchTesting} options={{
+          drawerIcon: () =>(
+          <MaterialCommunityIcons name="test-tube" size={20} color={"#000"}/>
+          )}}/>
+
         <Drawer.Screen name="Settings" component={SettingsScreen} options={{
           drawerIcon: () =>(
           <Ionicons name="settings-outline" size={20} color={"#000"}/>

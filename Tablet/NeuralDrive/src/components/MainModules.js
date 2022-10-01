@@ -2,12 +2,14 @@ import styled from 'styled-components';
 import React from 'react';
 import {Text, TextInput, Button, View} from 'react-native';
 import * as Inputs from '../components/Inputs.js';
+import Buttons from '../components/Buttons.js';
 
 // VIEWS AND CONTAINERS
 const FlexContainer = styled.View`
     flex: ${props => props.flex || '1'};
     flexDirection: ${props => props.flexDirection || 'row'};
     justify-content: ${props => props.jc || 'space-evenly'};
+    align-items: ${props => props.alignItems || 'center'};
     margin: 10px 10px 10px 10px;
     background-color: ${props => props.bgColor || '#222'};
 `;

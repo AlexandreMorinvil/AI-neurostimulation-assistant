@@ -1,30 +1,102 @@
 [
     {
-        "merged": "com.example.neuraldrive.app-merged_res-37:/mipmap_ic_launcher_round.xml.flat",
-        "source": "com.example.neuraldrive.app-main-39:/mipmap/ic_launcher_round.xml"
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-xxhdpi_ic_bluetooth_on.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-xxhdpi/ic_bluetooth_on.png"
     },
     {
-        "merged": "com.example.neuraldrive.app-merged_res-37:/layout_activity_main.xml.flat",
-        "source": "com.example.neuraldrive.app-main-39:/layout/activity_main.xml"
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-hdpi_ic_bluetooth_on.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-hdpi/ic_bluetooth_on.png"
     },
     {
-        "merged": "com.example.neuraldrive.app-merged_res-37:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.example.neuraldrive.app-main-39:/drawable/ic_launcher_background.xml"
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-mdpi_ic_bluetooth_on.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-mdpi/ic_bluetooth_on.png"
     },
     {
-        "merged": "com.example.neuraldrive.app-merged_res-37:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.example.neuraldrive.app-main-39:/drawable/ic_launcher_foreground.xml"
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-xxhdpi_ic_start.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-xxhdpi/ic_start.png"
     },
     {
-        "merged": "com.example.neuraldrive.app-merged_res-37:/drawable_ic_broken.xml.flat",
-        "source": "com.example.neuraldrive.app-main-39:/drawable/ic_broken.xml"
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-anydpi_ic_start.xml.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-anydpi/ic_start.xml"
     },
     {
-        "merged": "com.example.neuraldrive.app-merged_res-37:/drawable_ic_check.xml.flat",
-        "source": "com.example.neuraldrive.app-main-39:/drawable/ic_check.xml"
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-anydpi_ic_stop.xml.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-anydpi/ic_stop.xml"
     },
     {
-        "merged": "com.example.neuraldrive.app-merged_res-37:/mipmap_ic_launcher.xml.flat",
-        "source": "com.example.neuraldrive.app-main-39:/mipmap/ic_launcher.xml"
+        "merged": "com.example.neuraldrive.app-merged_res-38:/mipmap_ic_launcher_round.xml.flat",
+        "source": "com.example.neuraldrive.app-main-40:/mipmap/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/layout_activity_main.xml.flat",
+        "source": "com.example.neuraldrive.app-main-40:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-mdpi_ic_start.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-mdpi/ic_start.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-xxhdpi_ic_bluetooth_off.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-xxhdpi/ic_bluetooth_off.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-xhdpi_ic_bluetooth_off.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-xhdpi/ic_bluetooth_off.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-anydpi_ic_bluetooth_on.xml.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-anydpi/ic_bluetooth_on.xml"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-hdpi_ic_start.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-hdpi/ic_start.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-xxhdpi_ic_stop.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-xxhdpi/ic_stop.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-xhdpi_ic_stop.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-xhdpi/ic_stop.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-xhdpi_ic_start.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-xhdpi/ic_start.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-hdpi_ic_bluetooth_off.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-hdpi/ic_bluetooth_off.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-hdpi_ic_stop.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-hdpi/ic_stop.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-mdpi_ic_bluetooth_off.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-mdpi/ic_bluetooth_off.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-xhdpi_ic_bluetooth_on.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-xhdpi/ic_bluetooth_on.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/mipmap_ic_launcher.xml.flat",
+        "source": "com.example.neuraldrive.app-main-40:/mipmap/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-mdpi_ic_stop.png.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-mdpi/ic_stop.png"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.neuraldrive.app-merged_res-38:/drawable-anydpi_ic_bluetooth_off.xml.flat",
+        "source": "com.example.neuraldrive.app-main-40:/drawable-anydpi/ic_bluetooth_off.xml"
     }
 ]

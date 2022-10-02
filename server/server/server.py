@@ -36,8 +36,10 @@ def messaging(message, methods=['GET', 'POST']):
     #socketio.emit('message', message, room=request.sid)
     #socketio.emit('message', message, room=message['to'])
 
-@app.route("/packet/", methods=["POST", "GET"])
+@app.route("/packet", methods=["POST", "GET"])
 def packet() -> Response:
+    data = request.data.decode('UTF-8')
+    print(data)
     response = "packet accepted"
     socketio.emit('message', '1', room=ssid)
     return jsonify({"content": response})

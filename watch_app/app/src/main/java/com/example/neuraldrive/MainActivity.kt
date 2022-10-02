@@ -18,13 +18,19 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import okio.IOException
 
 
 class MainActivity : Activity(), SensorEventListener {
 
     private lateinit var binding: ActivityMainBinding
 
-//    private val client = OkHttpClient()
+    private val client = OkHttpClient()
 
     lateinit var bluetoothAdapter: BluetoothAdapter
 
@@ -75,29 +81,7 @@ class MainActivity : Activity(), SensorEventListener {
                 Log.d("osooksowksokwsow:",bluetoothAdapter.isEnabled.toString())
             }
         }
-
-//        //http request+++++++++++++++++++++++++++++++++++++++
-//        val request = Request.Builder()
-//            .url("http://10.0.2.2:5000/packet/")
-//            .build()
-//        client.newCall(request).enqueue(object : Callback {
-//            override fun onFailure(call: Call, e: IOException) {
-//                e.printStackTrace()
-//            }
 //
-//            override fun onResponse(call: Call, response: Response) {
-//                response.use {
-//                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-//
-//                    for ((name, value) in response.headers) {
-//                        println("$name: $value")
-//                    }
-//
-//                    println(response.body!!.string())
-//                }
-//            }
-//        })
-//        //http request+++++++++++++++++++++++++++++++++++++++
 
         if (checkSelfPermission(Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.BODY_SENSORS), 1)
@@ -123,6 +107,37 @@ class MainActivity : Activity(), SensorEventListener {
                 onPause()
             }
         }
+    }
+
+    companion object {
+        val MEDIA_TYPE_MARKDOWN = "text/x-markdown; charset=utf-8".toMediaType()
+    }
+
+    fun sendData(aX : Float, aY:Float, aZ:Float){
+
+        val postBody = aX.toString() + "," + aY.toString() + ","+ aZ.toString()
+        val requestBody = postBody.toRequestBody()
+        val request = Request.Builder()
+            .method("POST", requestBody)
+            .url("http://10.0.2.2:5000/packet")
+            .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+           }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+                   for ((name, value) in response.headers) {
+                        println("$name: $value")
+                    }
+
+                    println(response.body!!.string())
+               }
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -160,6 +175,7 @@ class MainActivity : Activity(), SensorEventListener {
             gyroZ = event.values[2]
             Log.d("Gyroscope:", "$gyroX,$gyroY,$gyroZ")
         }
+        //sendData(accelX, accelY, accelZ)
     }
 
     override fun onAccuracyChanged(event: Sensor?, p1: Int) = Unit

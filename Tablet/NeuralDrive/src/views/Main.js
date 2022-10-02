@@ -40,20 +40,21 @@ const Main = () => {
       <MainModules.FlexContainer>
         <MainModules.FlexContainer flex={0.3}>
           <MainModules.FlexContainer flexDirection="column">
-            <Buttons.RoundedButton
-              title="Old Data"
-              onPress={() => blank()}
-              bgColor={ColorTheme.Fruity.First}></Buttons.RoundedButton>
-            <MainModules.InputModule
-              height="80%"
-              width="100%"
-              bgColor="#555"
-              title="test"
-            />
-            <Buttons.RoundedButton
-              title=""
-              onPress={() => blank()}
-              bgColor={ColorTheme.Fruity.First}></Buttons.RoundedButton>
+            <MainModules.Box height='100%' width='100%' bgColor='#222' jc='flex-start'>
+              <Buttons.RoundedButton
+                title="Old Data"
+                onPress={() => blank()}
+                bgColor={ColorTheme.Fruity.First}/>
+              <MainModules.InputModule
+                flex={1}
+                bgColor={'#222'}
+              />
+              <Buttons.RoundedButton
+                title=""
+                onPress={() => blank()}
+                bgColor={ColorTheme.Fruity.First}/>
+              <MainModules.BluetoothModule height={'250px'} width={'100%'} bgColor={'#555'}/>
+            </MainModules.Box>
           </MainModules.FlexContainer>
         </MainModules.FlexContainer>
 

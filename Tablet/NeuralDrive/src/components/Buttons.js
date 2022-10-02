@@ -8,8 +8,9 @@ const TO = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
     background-color: ${props => props.bgColor || 'palevioletred'};
-    margin: 10px 0 0 30px;
 `;
+// TODO add individual margin to each button
+// margin: 10px 0 0 30px;
 
 const TOA = styled(TO)`
     border-radius: 0px;

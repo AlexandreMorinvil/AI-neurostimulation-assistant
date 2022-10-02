@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
 const RegInput = styled.TextInput`
-  font-size: 18px;
-  background-color: #eee;
+  font-size: 16px;
+  background-color: ${props => props.bgColor || '#eee'};
   color: black;
-  width: 80%;
-  height: 60px;
+  width: ${props => props.width || '60%'};
+  height: ${props => props.height || '40px'};
   margin: 16px;
   border-radius: 0px;
-  padding: 16px;
+  padding: 12px;
 `;
 
 const Round = styled(RegInput)`

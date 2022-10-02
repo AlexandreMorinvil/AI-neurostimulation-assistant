@@ -47,13 +47,14 @@ const Main = () => {
                 bgColor={ColorTheme.Fruity.First}/>
               <MainModules.InputModule
                 flex={1}
+                alignItems={'flex-start'}
                 bgColor={'#222'}
               />
               <Buttons.RoundedButton
-                title=""
+                title="TBD"
                 onPress={() => blank()}
                 bgColor={ColorTheme.Fruity.First}/>
-              <MainModules.BluetoothModule height={'250px'} width={'100%'} bgColor={'#555'}/>
+              <MainModules.WatchModule height={'250px'} width={'100%'} bgColor={'#555'}/>
             </MainModules.Box>
           </MainModules.FlexContainer>
         </MainModules.FlexContainer>

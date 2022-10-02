@@ -39,43 +39,39 @@ const CustomText = styled.Text`
 // MODULES
 const GraphModule = ({height, width, bgColor, title}) =>
       <Box height={height} width={width} bgColor={bgColor}>
-        <CustomText fontsize={56} > {title} </CustomText>
+        <CustomText fontsize={'56px'} > {title} </CustomText>
       </Box>
 
-const Input = () =>
+const Input = ({dimension, unitType}) =>
       <FlexContainer jc={'flex-start'} pad={'0px 0px 0px 10px'}>
-        <CustomText fontsize={'16px'}> Dimension: </CustomText>
-          <Box height={'40px'} width={'40px'} bgColor={'#444'} borderRadius={'5px'} >
-            <CustomText fontsize={'16px'}> XY </CustomText>
-          </Box>
-          <Inputs.Round width={'80px'}/>
-        </FlexContainer>
+        <CustomText fontsize={'16px'}> {dimension} </CustomText>
+        <Box height={'40px'} width={'40px'} bgColor={'#444'} borderRadius={'5px'} >
+          <CustomText color={'yellow'} fontsize={'16px'}> XY </CustomText>
+        </Box>
+        <Inputs.Round width={'80px'}/>
+        <CustomText fontsize={'16px'}> {unitType} </CustomText>
+      </FlexContainer>
 
       // Flex around boxes, not box around flexes
 const InputModule = ({flex, bgColor}) =>
       <Box height={'400px'} width={'100%'} bgColor={bgColor}>
-        <FlexContainer flex={flex} flexDirection={'column'} borderRadius={'20px'}>
-          <Input/>
-          <Input/>
-          <Input/>
-          <Input/>
+        <FlexContainer flex={flex} flexDirection={'column'} jc={'flex-start'} alignItems={'flex-start'} borderRadius={'20px'}>
+          <Input dimension={'Frequency'} unitType={'Hz'}/>
+          <Input dimension={'Voltage'} unitType={'Volts'}/>
+          <Input dimension={'Dimension'} unitType={'units'}/>
+          <Input dimension={'Dimension'} unitType={'units'}/>
         </FlexContainer>
       </Box>
 
-const BluetoothModule = ({height, width, bgColor}) =>
+const WatchModule = ({height, width, bgColor}) =>
       <Box height={height} width={width} bgColor={bgColor} marg={'30px 0 0 0'}>
-        <CustomText color={'#fff'} fontsize={'30px'}> Bluetooth </CustomText>
+        <CustomText color={'#fff'} fontsize={'30px'}> Watch Info </CustomText>
       </Box>
-
-const SuggestionModule = ({height, width, bgColor}) =>
-      <Box height={height} width={width} bgColor={bgColor}>
-      </Box>
-
 
       export default MainModules = {
         Box: Box, // You can put Text components directly inside
         GraphModule: GraphModule, // You need to put them here
         FlexContainer: FlexContainer,
         InputModule: InputModule,
-        BluetoothModule: BluetoothModule,
+        WatchModule: WatchModule,
       };

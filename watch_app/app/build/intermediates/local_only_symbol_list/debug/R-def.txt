@@ -1,0 +1,26 @@
+R_DEF: Internal format may change without notice
+local
+dimen box_inset_layout_padding
+dimen icon_size
+dimen inner_frame_layout_padding
+drawable ic_broken
+drawable ic_check
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+id app_name
+id broken
+id check
+id enable_passive_data
+id last_measured_label
+id last_measured_value
+id not_available
+id progress
+layout activity_main
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+string enable
+string hello_world
+string last_measured
+string not_available
+style AppTheme

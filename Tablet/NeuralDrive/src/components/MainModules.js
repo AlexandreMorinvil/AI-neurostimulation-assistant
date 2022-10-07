@@ -4,6 +4,7 @@ import {Text, TextInput, Button, View} from 'react-native';
 import * as Inputs from '../components/Inputs.js';
 import Buttons from '../components/Buttons.js';
 import Swiper from 'react-native-swiper';
+import * as ColorTheme from '../styles/Colors';
 
 // VIEWS AND CONTAINERS
 const FlexContainer = styled.View`
@@ -41,17 +42,6 @@ const CustomText = styled.Text`
 
 // TODO: Clean
 // MODULES
-const GraphModuleasdasd = ({height, width, bgColor, screen1, screen2}) =>
-      <Box height={height} width={width} bgColor={'#555'} marg={'0 0 0 0'}>
-        <Swiper>
-          <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
-            <CustomText fontsize={'56px'} > {screen1} </CustomText>
-          </Box>
-          <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
-            <CustomText fontsize={'56px'} > {screen2} </CustomText>
-          </Box>
-        </Swiper>
-      </Box>
 
 const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
       <FlexContainer bgColor={'#555'} borderRadius='25px'>
@@ -91,10 +81,48 @@ const WatchModule = ({height, width, bgColor}) =>
         <CustomText color={'#fff'} fontsize={'30px'}> Watch Info </CustomText>
       </Box>
 
-      export default MainModules = {
+const SideTabModule = ({ResetPress, QueryPress}) =>
+          <FlexContainer flex={0.3}>
+            <FlexContainer flexDirection="column">
+              <Box height='100%' width='100%' bgColor='#222' jc='flex-start'>
+                <Buttons.RoundedButton
+                  title="Reset"
+                  onPress={ResetPress}
+                  bgColor={ColorTheme.Fruity.First}/>
+                <InputModule
+                  flex={1}
+                  alignItems={'flex-start'}
+                  bgColor={'#222'}
+                />
+                <Buttons.RoundedButton
+                  title="Query"
+                  onPress={QueryPress}
+                  bgColor={ColorTheme.Fruity.First}/>
+                <WatchModule height={'250px'} width={'100%'} bgColor={'#555'}/>
+              </Box>
+            </FlexContainer>
+          </FlexContainer>
+
+const TopTabModule = ({StartSessionPress}) =>
+        <MainModules.FlexContainer flex={0.05} jc="space-evenly">
+          <Buttons.RoundedButton
+            title="Start Session"
+            onPress={StartSessionPress}
+            bgColor={ColorTheme.Fruity.First}></Buttons.RoundedButton>
+          <MainModules.Box height="100%" width="10%" bgColor="#555">
+            <Text> Server Connection Status </Text>
+          </MainModules.Box>
+          <MainModules.Box height="100%" width="10%" bgColor="#555">
+            <Text> Try Connect to server</Text>
+          </MainModules.Box>
+        </MainModules.FlexContainer>
+
+export default MainModules = {
         Box: Box, // You can put Text components directly inside
         GraphModule: GraphModule, // You need to put them here
         FlexContainer: FlexContainer,
         InputModule: InputModule,
         WatchModule: WatchModule,
+        SideTabModule: SideTabModule,
+        TopTabModule: TopTabModule,
       };

@@ -13,8 +13,10 @@ const FlexContainer = styled.View`
     align-items: ${props => props.alignItems || 'center'};
     background-color: ${props => props.bgColor || '#222'};
     border-radius: ${props => props.borderRadius || '0px'};
-    margin: ${props => props.marg || '10px'};
-    padding: ${props => props.pad || '0px'};
+    margin: ${props => props.marg || '0px'};
+    padding: ${props => props.pad || '10px'};
+    width: ${props => props.width || '100%'};
+    height: ${props => props.height || '100%'};
 `;
 
 // justify-content: vertical content position
@@ -39,8 +41,8 @@ const CustomText = styled.Text`
 
 // TODO: Clean
 // MODULES
-const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
-      <Box height={height} width={width} bgColor='red' marg={'0 0 0 0'}>
+const GraphModuleasdasd = ({height, width, bgColor, screen1, screen2}) =>
+      <Box height={height} width={width} bgColor={'#555'} marg={'0 0 0 0'}>
         <Swiper>
           <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
             <CustomText fontsize={'56px'} > {screen1} </CustomText>
@@ -50,6 +52,18 @@ const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
           </Box>
         </Swiper>
       </Box>
+
+const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
+      <FlexContainer bgColor={'#555'} borderRadius='25px'>
+        <Swiper>
+          <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
+            <CustomText fontsize={'56px'} > {screen1} </CustomText>
+          </Box>
+          <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
+            <CustomText fontsize={'56px'} > {screen2} </CustomText>
+          </Box>
+        </Swiper>
+      </FlexContainer>
 
 const Input = ({dimension, unitType, titleSpacing}) =>
       <FlexContainer jc={'flex-start'} pad={'0px 0px 0px 10px'}>

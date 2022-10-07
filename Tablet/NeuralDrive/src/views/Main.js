@@ -9,6 +9,7 @@ import {
   StyleSheet,
   View,
   KeyboardAvoidingView,
+  Dimensions
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 
@@ -23,47 +24,50 @@ import * as Inputs from '../components/Inputs.js';
 // Style Imports
 import * as ColorTheme from '../styles/Colors';
 
-    // <View style={styles.viewContainer}>
+const{width, height} = Dimensions.get('window');
+
 const Main = () => {
   return (
     <ScrollView style={styles.viewContainer}>
-      <MainModules.FlexContainer flex={0.1} jc="space-evenly">
-        <Buttons.RoundedButton
-          title="Start Session"
-          onPress={() => blank()}
-          bgColor={ColorTheme.Fruity.First}></Buttons.RoundedButton>
-        <MainModules.Box height="100%" width="10%" bgColor="#555">
-          <Text> Server Connection Status </Text>
-        </MainModules.Box>
-        <MainModules.Box height="100%" width="10%" bgColor="#555">
-          <Text> Try Connect to server</Text>
-        </MainModules.Box>
-      </MainModules.FlexContainer>
+      <MainModules.FlexContainer flexDirection={'column'} height={height-30+'px'} width={width+'px'}>
 
-      <MainModules.FlexContainer>
-        <MainModules.FlexContainer flex={0.3}>
-          <MainModules.FlexContainer flexDirection="column">
-            <MainModules.Box height='100%' width='100%' bgColor='#222' jc='flex-start'>
-              <Buttons.RoundedButton
-                title="Reset"
-                onPress={() => blank()}
-                bgColor={ColorTheme.Fruity.First}/>
-              <MainModules.InputModule
-                flex={1}
-                alignItems={'flex-start'}
-                bgColor={'#222'}
-              />
-              <Buttons.RoundedButton
-                title="Query"
-                onPress={() => blank()}
-                bgColor={ColorTheme.Fruity.First}/>
-              <MainModules.WatchModule height={'250px'} width={'100%'} bgColor={'#555'}/>
-            </MainModules.Box>
-          </MainModules.FlexContainer>
+        <MainModules.FlexContainer flex={0.05} jc="space-evenly">
+          <Buttons.RoundedButton
+            title="Start Session"
+            onPress={() => blank()}
+            bgColor={ColorTheme.Fruity.First}></Buttons.RoundedButton>
+          <MainModules.Box height="100%" width="10%" bgColor="#555">
+            <Text> Server Connection Status </Text>
+          </MainModules.Box>
+          <MainModules.Box height="100%" width="10%" bgColor="#555">
+            <Text> Try Connect to server</Text>
+          </MainModules.Box>
         </MainModules.FlexContainer>
 
-        <MainModules.FlexContainer flexDirection="row">
-          <MainModules.GraphModule height="100%" width="100%" bgColor='#555' screen1='graph' screen2='heatmap'/>
+        <MainModules.FlexContainer>
+          <MainModules.FlexContainer flex={0.3}>
+            <MainModules.FlexContainer flexDirection="column">
+              <MainModules.Box height='100%' width='100%' bgColor='#222' jc='flex-start'>
+                <Buttons.RoundedButton
+                  title="Reset"
+                  onPress={() => blank()}
+                  bgColor={ColorTheme.Fruity.First}/>
+                <MainModules.InputModule
+                  flex={1}
+                  alignItems={'flex-start'}
+                  bgColor={'#222'}
+                />
+                <Buttons.RoundedButton
+                  title="Query"
+                  onPress={() => blank()}
+                  bgColor={ColorTheme.Fruity.First}/>
+                <MainModules.WatchModule height={'250px'} width={'100%'} bgColor={'#555'}/>
+              </MainModules.Box>
+            </MainModules.FlexContainer>
+          </MainModules.FlexContainer>
+
+          <MainModules.GraphModule height="100%" width="100%" bgColor='#555' screen1={height} screen2={width}/>
+
         </MainModules.FlexContainer>
       </MainModules.FlexContainer>
     </ScrollView>
@@ -109,8 +113,6 @@ function blank() {
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#222',
-    height: '100%',
-    width: '100%',
   },
 });
 

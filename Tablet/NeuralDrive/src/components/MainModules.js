@@ -3,6 +3,7 @@ import React from 'react';
 import {Text, TextInput, Button, View} from 'react-native';
 import * as Inputs from '../components/Inputs.js';
 import Buttons from '../components/Buttons.js';
+import Swiper from 'react-native-swiper';
 
 // VIEWS AND CONTAINERS
 const FlexContainer = styled.View`
@@ -33,18 +34,26 @@ const Box = styled.View`
 const CustomText = styled.Text`
     color: ${props => props.color || 'white'};
     font-size: ${props => props.fontsize || '12px'};
+    margin: ${props => props.marg || '0 0 0 0'};
 `;
 
-
+// TODO: Clean
 // MODULES
-const GraphModule = ({height, width, bgColor, title}) =>
-      <Box height={height} width={width} bgColor={bgColor}>
-        <CustomText fontsize={'56px'} > {title} </CustomText>
+const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
+      <Box height={height} width={width} bgColor='red' marg={'0 0 0 0'}>
+        <Swiper>
+          <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
+            <CustomText fontsize={'56px'} > {screen1} </CustomText>
+          </Box>
+          <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
+            <CustomText fontsize={'56px'} > {screen2} </CustomText>
+          </Box>
+        </Swiper>
       </Box>
 
-const Input = ({dimension, unitType}) =>
+const Input = ({dimension, unitType, titleSpacing}) =>
       <FlexContainer jc={'flex-start'} pad={'0px 0px 0px 10px'}>
-        <CustomText fontsize={'16px'}> {dimension} </CustomText>
+        <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText>
         <Box height={'40px'} width={'40px'} bgColor={'#444'} borderRadius={'5px'} >
           <CustomText color={'yellow'} fontsize={'16px'}> XY </CustomText>
         </Box>
@@ -52,14 +61,14 @@ const Input = ({dimension, unitType}) =>
         <CustomText fontsize={'16px'}> {unitType} </CustomText>
       </FlexContainer>
 
-      // Flex around boxes, not box around flexes
+      // titleSpacing is used to align each row
 const InputModule = ({flex, bgColor}) =>
       <Box height={'400px'} width={'100%'} bgColor={bgColor}>
-        <FlexContainer flex={flex} flexDirection={'column'} jc={'flex-start'} alignItems={'flex-start'} borderRadius={'20px'}>
-          <Input dimension={'Frequency'} unitType={'Hz'}/>
-          <Input dimension={'Voltage'} unitType={'Volts'}/>
-          <Input dimension={'Dimension'} unitType={'units'}/>
-          <Input dimension={'Dimension'} unitType={'units'}/>
+        <FlexContainer flex={flex} flexDirection={'column'} alignItems={'flex-start'} borderRadius={'20px'}>
+          <Input dimension={'Frequency'} unitType={'Hz'} titleSpacing={'0 5px 0 0'}/>
+          <Input dimension={'Voltage'} unitType={'Volts'} titleSpacing={'0 25px 0 0'}/>
+          <Input dimension={'Dimension'} unitType={'units'} titleSpacing={'0 3px 0 0'}/>
+          <Input dimension={'Dimension'} unitType={'units'} titleSpacing={'0 3px 0 0'}/>
         </FlexContainer>
       </Box>
 

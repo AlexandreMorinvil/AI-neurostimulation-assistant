@@ -8,7 +8,9 @@ import {
   ToastAndroid,
   StyleSheet,
   View,
+  KeyboardAvoidingView,
 } from 'react-native';
+import Swiper from 'react-native-swiper';
 
 // Component Imports
 // import RoundedButton from '../components/RoundedButton.js';
@@ -21,12 +23,13 @@ import * as Inputs from '../components/Inputs.js';
 // Style Imports
 import * as ColorTheme from '../styles/Colors';
 
+    // <View style={styles.viewContainer}>
 const Main = () => {
   return (
-    <View style={styles.viewContainer}>
+    <ScrollView style={styles.viewContainer}>
       <MainModules.FlexContainer flex={0.1} jc="space-evenly">
         <Buttons.RoundedButton
-          title="Record"
+          title="Start Session"
           onPress={() => blank()}
           bgColor={ColorTheme.Fruity.First}></Buttons.RoundedButton>
         <MainModules.Box height="100%" width="10%" bgColor="#555">
@@ -42,7 +45,7 @@ const Main = () => {
           <MainModules.FlexContainer flexDirection="column">
             <MainModules.Box height='100%' width='100%' bgColor='#222' jc='flex-start'>
               <Buttons.RoundedButton
-                title="Old Data"
+                title="Reset"
                 onPress={() => blank()}
                 bgColor={ColorTheme.Fruity.First}/>
               <MainModules.InputModule
@@ -51,7 +54,7 @@ const Main = () => {
                 bgColor={'#222'}
               />
               <Buttons.RoundedButton
-                title="TBD"
+                title="Query"
                 onPress={() => blank()}
                 bgColor={ColorTheme.Fruity.First}/>
               <MainModules.WatchModule height={'250px'} width={'100%'} bgColor={'#555'}/>
@@ -59,23 +62,20 @@ const Main = () => {
           </MainModules.FlexContainer>
         </MainModules.FlexContainer>
 
-        <MainModules.FlexContainer flexDirection="column">
-          <MainModules.GraphModule
-            height="95%"
-            width="100%"
-            bgColor="#555"
-            title="Graph"
-          />
-          <MainModules.FlexContainer>
-            <MainModules.Box height="100%" width="80%" bgColor="#555">
-              <Text> View Button </Text>
-            </MainModules.Box>
-          </MainModules.FlexContainer>
+        <MainModules.FlexContainer flexDirection="row">
+          <MainModules.GraphModule height="100%" width="100%" bgColor='#555' screen1='graph' screen2='heatmap'/>
         </MainModules.FlexContainer>
       </MainModules.FlexContainer>
-    </View>
+    </ScrollView>
   );
 };
+
+/* <MainModules.GraphModule */
+/*               height="95%" */
+/*               width="100%" */
+/*               bgColor="#555" */
+/*               title="Graph" */
+/*             /> */
 
 // <MainModules.FlexContainer>
 

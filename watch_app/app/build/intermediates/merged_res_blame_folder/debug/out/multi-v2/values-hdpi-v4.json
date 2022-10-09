@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-35:/values-hdpi-v4/values-hdpi-v4.xml",
+            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-36:/values-hdpi-v4/values-hdpi-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\4d5b64de3dda425222805ae36898dcb6\\transformed\\appcompat-1.2.0\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/4d5b64de3dda425222805ae36898dcb6/transformed/appcompat-1.2.0/res/values-hdpi-v4/values-hdpi-v4.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

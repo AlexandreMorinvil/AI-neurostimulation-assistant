@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-35:/values-v28/values-v28.xml",
+            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-36:/values-v28/values-v28.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\1935078e930ce7d6b8f03f2abcf3d718\\transformed\\material-1.4.0\\res\\values-v28\\values-v28.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/1935078e930ce7d6b8f03f2abcf3d718/transformed/material-1.4.0/res/values-v28/values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\4d5b64de3dda425222805ae36898dcb6\\transformed\\appcompat-1.2.0\\res\\values-v28\\values-v28.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/4d5b64de3dda425222805ae36898dcb6/transformed/appcompat-1.2.0/res/values-v28/values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,8",
                         "startColumns": "4,4,4,4",

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-35:/values-h550dp-port-v13/values-h550dp-port-v13.xml",
+            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-36:/values-h550dp-port-v13/values-h550dp-port-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\1935078e930ce7d6b8f03f2abcf3d718\\transformed\\material-1.4.0\\res\\values-h550dp-port-v13\\values-h550dp-port-v13.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/1935078e930ce7d6b8f03f2abcf3d718/transformed/material-1.4.0/res/values-h550dp-port-v13/values-h550dp-port-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

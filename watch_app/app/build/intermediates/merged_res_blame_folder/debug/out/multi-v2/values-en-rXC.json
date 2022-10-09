@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-35:/values-en-rXC/values-en-rXC.xml",
+            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-36:/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\4d5b64de3dda425222805ae36898dcb6\\transformed\\appcompat-1.2.0\\res\\values-en-rXC\\values-en-rXC.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/4d5b64de3dda425222805ae36898dcb6/transformed/appcompat-1.2.0/res/values-en-rXC/values-en-rXC.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -14,24 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\3d665053c5caa04635aca20d977db69e\\transformed\\core-1.7.0\\res\\values-en-rXC\\values-en-rXC.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "203",
-                        "endOffsets": "254"
-                    },
-                    "to": {
-                        "startLines": "30",
-                        "startColumns": "4",
-                        "startOffsets": "5714",
-                        "endColumns": "203",
-                        "endOffsets": "5913"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\37b14a5523b4984131fc6eca972d3d4b\\transformed\\wear-1.1.0\\res\\values-en-rXC\\values-en-rXC.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/37b14a5523b4984131fc6eca972d3d4b/transformed/wear-1.1.0/res/values-en-rXC/values-en-rXC.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -45,6 +28,23 @@
                         "startOffsets": "5918,6130",
                         "endColumns": "211,215",
                         "endOffsets": "6125,6341"
+                    }
+                },
+                {
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/3d665053c5caa04635aca20d977db69e/transformed/core-1.7.0/res/values-en-rXC/values-en-rXC.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "203",
+                        "endOffsets": "254"
+                    },
+                    "to": {
+                        "startLines": "30",
+                        "startColumns": "4",
+                        "startOffsets": "5714",
+                        "endColumns": "203",
+                        "endOffsets": "5913"
                     }
                 }
             ]

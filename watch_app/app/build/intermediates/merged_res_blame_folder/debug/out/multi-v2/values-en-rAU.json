@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-35:/values-en-rAU/values-en-rAU.xml",
+            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-36:/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\4d5b64de3dda425222805ae36898dcb6\\transformed\\appcompat-1.2.0\\res\\values-en-rAU\\values-en-rAU.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/4d5b64de3dda425222805ae36898dcb6/transformed/appcompat-1.2.0/res/values-en-rAU/values-en-rAU.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -14,24 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\37b14a5523b4984131fc6eca972d3d4b\\transformed\\wear-1.1.0\\res\\values-en-rAU\\values-en-rAU.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,164",
-                        "endColumns": "108,115",
-                        "endOffsets": "159,275"
-                    },
-                    "to": {
-                        "startLines": "31,32",
-                        "startColumns": "4,4",
-                        "startOffsets": "2946,3055",
-                        "endColumns": "108,115",
-                        "endOffsets": "3050,3166"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\3d665053c5caa04635aca20d977db69e\\transformed\\core-1.7.0\\res\\values-en-rAU\\values-en-rAU.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/3d665053c5caa04635aca20d977db69e/transformed/core-1.7.0/res/values-en-rAU/values-en-rAU.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -45,6 +28,23 @@
                         "startOffsets": "2845",
                         "endColumns": "100",
                         "endOffsets": "2941"
+                    }
+                },
+                {
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/37b14a5523b4984131fc6eca972d3d4b/transformed/wear-1.1.0/res/values-en-rAU/values-en-rAU.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,164",
+                        "endColumns": "108,115",
+                        "endOffsets": "159,275"
+                    },
+                    "to": {
+                        "startLines": "31,32",
+                        "startColumns": "4,4",
+                        "startOffsets": "2946,3055",
+                        "endColumns": "108,115",
+                        "endOffsets": "3050,3166"
                     }
                 }
             ]

@@ -18,9 +18,11 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent
+import android.view.View
+import android.widget.EditText
 
 
-class MainActivity : Activity(), SensorEventListener {
+class MainActivity : Activity(), SensorEventListener{
 
     private lateinit var binding: ActivityMainBinding
 
@@ -40,6 +42,9 @@ class MainActivity : Activity(), SensorEventListener {
 
     private var gyroX: Float = 0.0f; private var gyroY: Float = 0.0f ; private var gyroZ: Float = 0.0f
     private var accelX: Float = 0.0f; private var accelY: Float = 0.0f; private var accelZ: Float = 0.0f
+
+//    private var ipAddress:String = null.toString()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +81,11 @@ class MainActivity : Activity(), SensorEventListener {
             }
         }
 
+        binding.ipAddress.findViewById<EditText>(R.id.ipAddress)
+        val addressIP = binding.ipAddress.text.toString()
+        binding.connectServer.setOnClickListener{
+
+        }
 //        //http request+++++++++++++++++++++++++++++++++++++++
 //        val request = Request.Builder()
 //            .url("http://10.0.2.2:5000/packet/")

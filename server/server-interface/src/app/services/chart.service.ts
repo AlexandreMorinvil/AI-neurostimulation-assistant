@@ -114,6 +114,7 @@ export class ChartService {
   }
 
   draw_heat_map(algorithm: Algorithm) {
+    console.log("draw");
     this.clear_canvas();
     let dx = this.ctx.canvas.width / algorithm.dimention;
     let dy = this.ctx.canvas.height / algorithm.dimention;

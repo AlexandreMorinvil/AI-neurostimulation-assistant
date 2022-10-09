@@ -7,6 +7,7 @@ from typing import Callable, Union
 from command import Command
 from algorithm.NeuroAlgorithmPrediction import NeuroAlgorithmPrediction
 from interface.session import Session
+import numpy as np
 
 
 class Mode(Enum):
@@ -32,7 +33,9 @@ class CommandHandler:
 
         
         elif command == Command.EXECUTE_QUERY.value:
-            output = self.current_session.algorithm.execute_query(int(arg["x_chanel"]),float(arg["y_value"]))
+            x_chanel = int(arg["A"]) + int(arg["B"])*self.current_session.algorithm.dimention
+            print("x_chanel = ", x_chanel)
+            output = self.current_session.algorithm.execute_query(x_chanel,float(arg["y_value"]))
             print("EXECUTE_QUERY")
             data = { 
                 "predict_heat_map" : json.dumps(output[0]),

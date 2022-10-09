@@ -9,12 +9,18 @@ from algorithm.NeuroAlgorithmPrediction import NeuroAlgorithmPrediction
 from interface.session import Session
 import numpy as np
 
-
+####################################################################################################
+#### Represent the different mode available to tranfer data
+#### SERIAL : watch - tablet - server - dataBase 
+#### STAR : all data is pass to the server
+####################################################################################################
 class Mode(Enum):
     SERIAL = 0
     STAR = 1
 
-
+####################################################################################################
+#### This class execute process depend of the command and the choosen mode
+####################################################################################################
 class CommandHandler:
     def __init__(self, socketIO):
         self.current_handler = None
@@ -22,7 +28,11 @@ class CommandHandler:
         self.ssid = None
         self.current_session = None
 
-
+####################################################################################################
+#### START_SESSION : Create a new session.
+#### EXECUTE_QUERY : Execute one iteration of the algorithme
+#### RECEIVE_DATA_WATCH : debug canal to recive watch data
+####################################################################################################
     def handle_command(self, command: int, arg: Union[int, dict, str]) -> Union[None, list, int]:
         if command == Command.START_SESSION.value:
             self.current_session = Session(1, NeuroAlgorithmPrediction())

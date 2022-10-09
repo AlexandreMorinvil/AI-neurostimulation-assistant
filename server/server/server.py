@@ -32,17 +32,20 @@ def messaging(message, methods=['GET', 'POST']):
     ssid = request.sid
     command_handler.ssid = ssid
     socketio.emit('message', 'reponseVersNoe', room=request.sid)
-    #message['from'] = request.sid
-    #socketio.emit('message', message, room=request.sid)
-    #socketio.emit('message', message, room=message['to'])
 
+####################################################################################################
+#### Only for debug
+####################################################################################################
 @app.route("/packet/", methods=["POST", "GET"])
 def packet() -> Response:
     response = "packet accepted"
     socketio.emit('message', '1', room=ssid)
     return jsonify({"content": response})
 
-
+####################################################################################################
+#### Recive command form client
+#### See command enum
+####################################################################################################
 @app.route("/command", methods=["POST", "GET"])
 def command() -> Response:
     data = request.get_json()
@@ -50,10 +53,6 @@ def command() -> Response:
     if data != None:
         response = command_handler.handle_command(data["action"], data["arg"])
     return jsonify({"content": response})
-
-
-
-
 
 
 if __name__ == '__main__':

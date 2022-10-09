@@ -4,8 +4,7 @@ package com.example.neuraldrive.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,40 +25,17 @@ public final class ActivityMainBinding implements ViewBinding {
   public final TextView appName;
 
   @NonNull
-  public final ImageView broken;
+  public final ImageButton bluetoothIv;
 
   @NonNull
-  public final ImageView check;
-
-  @NonNull
-  public final SwitchMaterial enablePassiveData;
-
-  @NonNull
-  public final TextView lastMeasuredLabel;
-
-  @NonNull
-  public final TextView lastMeasuredValue;
-
-  @NonNull
-  public final TextView notAvailable;
-
-  @NonNull
-  public final ProgressBar progress;
+  public final SwitchMaterial enableData;
 
   private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull TextView appName,
-      @NonNull ImageView broken, @NonNull ImageView check,
-      @NonNull SwitchMaterial enablePassiveData, @NonNull TextView lastMeasuredLabel,
-      @NonNull TextView lastMeasuredValue, @NonNull TextView notAvailable,
-      @NonNull ProgressBar progress) {
+      @NonNull ImageButton bluetoothIv, @NonNull SwitchMaterial enableData) {
     this.rootView = rootView;
     this.appName = appName;
-    this.broken = broken;
-    this.check = check;
-    this.enablePassiveData = enablePassiveData;
-    this.lastMeasuredLabel = lastMeasuredLabel;
-    this.lastMeasuredValue = lastMeasuredValue;
-    this.notAvailable = notAvailable;
-    this.progress = progress;
+    this.bluetoothIv = bluetoothIv;
+    this.enableData = enableData;
   }
 
   @Override
@@ -95,50 +71,19 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.broken;
-      ImageView broken = ViewBindings.findChildViewById(rootView, id);
-      if (broken == null) {
+      id = R.id.bluetoothIv;
+      ImageButton bluetoothIv = ViewBindings.findChildViewById(rootView, id);
+      if (bluetoothIv == null) {
         break missingId;
       }
 
-      id = R.id.check;
-      ImageView check = ViewBindings.findChildViewById(rootView, id);
-      if (check == null) {
+      id = R.id.enable_data;
+      SwitchMaterial enableData = ViewBindings.findChildViewById(rootView, id);
+      if (enableData == null) {
         break missingId;
       }
 
-      id = R.id.enable_passive_data;
-      SwitchMaterial enablePassiveData = ViewBindings.findChildViewById(rootView, id);
-      if (enablePassiveData == null) {
-        break missingId;
-      }
-
-      id = R.id.last_measured_label;
-      TextView lastMeasuredLabel = ViewBindings.findChildViewById(rootView, id);
-      if (lastMeasuredLabel == null) {
-        break missingId;
-      }
-
-      id = R.id.last_measured_value;
-      TextView lastMeasuredValue = ViewBindings.findChildViewById(rootView, id);
-      if (lastMeasuredValue == null) {
-        break missingId;
-      }
-
-      id = R.id.not_available;
-      TextView notAvailable = ViewBindings.findChildViewById(rootView, id);
-      if (notAvailable == null) {
-        break missingId;
-      }
-
-      id = R.id.progress;
-      ProgressBar progress = ViewBindings.findChildViewById(rootView, id);
-      if (progress == null) {
-        break missingId;
-      }
-
-      return new ActivityMainBinding((ConstraintLayout) rootView, appName, broken, check,
-          enablePassiveData, lastMeasuredLabel, lastMeasuredValue, notAvailable, progress);
+      return new ActivityMainBinding((ConstraintLayout) rootView, appName, bluetoothIv, enableData);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

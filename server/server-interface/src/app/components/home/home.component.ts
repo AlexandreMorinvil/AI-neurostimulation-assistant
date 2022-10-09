@@ -45,6 +45,25 @@ export class HomeComponent implements OnInit {
     this.ctx.canvas.height = window.innerHeight * 0.8;
     this.chartService.setCanvas(this.ctx);
     this.chartService.generateHeatMap([], 20);
+
+    this.ctx.canvas.addEventListener("mousemove", (event) => {
+      const bounds = this.ctx.canvas.getBoundingClientRect();
+      let x = event.clientX - bounds.left;
+      let y = event.clientY - bounds.top;
+      let transformPos = this.chartService.get_value_from_mouse_position(x,y);
+      if(transformPos){
+        this.A = transformPos[0];
+        this.B = transformPos[1];
+      }
+    });
+
+    this.ctx.canvas.addEventListener("click", (event) => {
+      if(this.current_algorithm){
+        this.send_querry();
+      }
+    });
+
+
   }
 
   start_session() {

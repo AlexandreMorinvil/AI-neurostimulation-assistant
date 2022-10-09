@@ -4,6 +4,7 @@ import { Algorithm } from 'src/app/interfaces/algorithm';
 import { ChartType } from 'chart.js';
 import { HttpService } from './http.service';
 import { Action, Command } from '../interfaces/command';
+import { stringify } from 'querystring';
 
 
 let COLOR_MAP = [
@@ -36,6 +37,7 @@ export class ChartService {
   current_label = 0;
   chart_data = [];
   chart_label = [];
+  current_algorithm: Algorithm = null;
 
   constructor(private httpService: HttpService) {
     Chart.register(...registerables);
@@ -114,6 +116,7 @@ export class ChartService {
   }
 
   draw_heat_map(algorithm: Algorithm) {
+    this.current_algorithm = algorithm;
     console.log("draw");
     this.clear_canvas();
     let dx = this.ctx.canvas.width / algorithm.dimention;
@@ -130,6 +133,29 @@ export class ChartService {
         index_y++;
       }
     }
+  }
+
+  draw_text(posX, posY, A, B) {
+    if(this.current_algorithm){
+    this.draw_heat_map(this.current_algorithm);
+    this.ctx.font = '12px serif';
+    const text = "A = " + A + "; B = " + B;
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText(text, posX, posY);
+  }
+  }
+
+  get_value_from_mouse_position(posX, posY){
+    if(this.current_algorithm){
+    const dx = this.ctx.canvas.width / this.current_algorithm.dimention;
+    const dy = this.ctx.canvas.height / this.current_algorithm.dimention;
+
+    const x = Math.floor(posX / dx);
+    const y = Math.floor(posY / dy);
+    console.log(x);
+    return [x, y];
+   }
+   return null;
   }
 
   clear_canvas() {

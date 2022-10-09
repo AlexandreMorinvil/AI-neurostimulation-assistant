@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-35:/values-sw180dp-notround-v23/values-sw180dp-notround-v23.xml",
+            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-36:/values-sw180dp-notround-v23/values-sw180dp-notround-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Noe Berguin\\.gradle\\caches\\transforms-3\\37b14a5523b4984131fc6eca972d3d4b\\transformed\\wear-1.1.0\\res\\values-sw180dp-notround-v23\\values-sw180dp-notround-v23.xml",
+                    "source": "C:\\Users\\bergu\\.gradle\\caches\\transforms-3\\37b14a5523b4984131fc6eca972d3d4b\\transformed\\wear-1.1.0\\res\\values-sw180dp-notround-v23\\values-sw180dp-notround-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",

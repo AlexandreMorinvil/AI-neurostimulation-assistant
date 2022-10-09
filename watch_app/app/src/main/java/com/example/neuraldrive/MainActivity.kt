@@ -18,13 +18,18 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import okio.IOException
+
 
 
 class MainActivity : Activity(), SensorEventListener {
 
     private lateinit var binding: ActivityMainBinding
 
-//    private val client = OkHttpClient()
+    private val client = OkHttpClient()
 
     lateinit var bluetoothAdapter: BluetoothAdapter
 
@@ -124,6 +129,35 @@ class MainActivity : Activity(), SensorEventListener {
             }
         }
     }
+    companion object {
+        val MEDIA_TYPE_MARKDOWN = "text/x-markdown; charset=utf-8".toMediaType()
+    }
+
+    fun sendData(acc_x : Float, acc_y : Float, acc_z : Float, gir_x : Float, gir_y : Float,gir_z : Float){
+        val postBody = "1".trimMargin()
+
+        val request = Request.Builder()
+            .url("http://10.0.2.2:5000/packet/")
+            .post(postBody.toRequestBody(MEDIA_TYPE_MARKDOWN))
+            .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+                    for ((name, value) in response.headers) {
+                        println("$name: $value")
+                    }
+
+                    println(response.body!!.string())
+                }
+            }
+        })
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when(requestCode){
@@ -154,12 +188,9 @@ class MainActivity : Activity(), SensorEventListener {
             Log.d("Accelerometer:", "$accelX,$accelY,$accelZ")
         }
 
-        if (event.sensor.type == Sensor.TYPE_GYROSCOPE){
-            gyroX = event.values[0]
-            gyroY = event.values[1]
-            gyroZ = event.values[2]
-            Log.d("Gyroscope:", "$gyroX,$gyroY,$gyroZ")
-        }
+
+
+        sendData(accelX,accelY,accelZ, gyroX,gyroY,gyroZ)
     }
 
     override fun onAccuracyChanged(event: Sensor?, p1: Int) = Unit

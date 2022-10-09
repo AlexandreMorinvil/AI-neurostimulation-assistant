@@ -13,6 +13,12 @@ let COLOR_MAP = [
   [3, "yellow"],
   [4, "orange"],
   [5, "red"],
+  [6, "red"],
+  [7, "red"],
+  [8, "red"],
+  [9, "red"],
+  [10, "red"],
+  [11, "red"],
 
 ]
 
@@ -34,11 +40,11 @@ export class ChartService {
   constructor(private httpService: HttpService) {
     Chart.register(...registerables);
 
-    setInterval(() => {
-      if (this.ctx) {
-        this.mock_watch_data();
-      }
-    }, 500);
+    // setInterval(() => {
+    //   if (this.ctx) {
+    //     this.mock_watch_data();
+    //   }
+    // }, 500);
   }
 
   public mock_watch_data() {
@@ -116,9 +122,9 @@ export class ChartService {
     for (let i = 0; i < Math.pow(algorithm.dimention, algorithm.n_param); i++) {
       let x = index_x * dx;
       let y = index_y * dy;
-      this.createRectangle(dx, dy, x, y, this.getHeatColor(algorithm.data[i][1] * 10));
+      this.createRectangle(dx, dy, x, y, this.getHeatColor(algorithm.data[i][1]));
       index_x++;
-      if (index_x === algorithm.dimention) {
+      if (index_x >= algorithm.dimention) {
         index_x = 0;
         index_y++;
       }

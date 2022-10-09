@@ -6,6 +6,7 @@ import sys
 from typing import Callable, Union
 from command import Command
 from algorithm.NeuroAlgorithmPrediction import NeuroAlgorithmPrediction
+from interface.session import Session
 
 
 class Mode(Enum):
@@ -18,28 +19,32 @@ class CommandHandler:
         self.current_handler = None
         self.socketIO = socketIO
         self.ssid = None
+        self.current_session = None
 
 
     def handle_command(self, command: int, arg: Union[int, dict, str]) -> Union[None, list, int]:
-        if command == Command.START_ALGORITHM.value:
-            Algo = NeuroAlgorithmPrediction()
-            Algo.generate_space(int(arg["dimention"]),int(arg["n_param"]))
-            response = Algo.run()
+        if command == Command.START_SESSION.value:
+            self.current_session = Session(1, NeuroAlgorithmPrediction())
+            self.current_session.algorithm.generate_space(int(arg["dimention"]),int(arg["n_param"]))
             data = { 
-                "data" : json.dumps(response[0]), 
-                "position" : json.dumps(response[1]), 
-                "n_param" :  Algo.n_param,
-                "dimention" : Algo.dimention}
+                "data" : "start new session"}
             return data
-            
+
+        
+        elif command == Command.EXECUTE_QUERY.value:
+            output = self.current_session.algorithm.execute_query(int(arg["x_chanel"]),float(arg["y_value"]))
+            print("EXECUTE_QUERY")
+            data = { 
+                "predict_heat_map" : json.dumps(output[0]),
+                "position": json.dumps(output[1])
+                }
+            return data
 
         elif command == Command.RECEIVE_DATA_WATCH.value:
-            #print(arg["value"])
             print(arg["value"])
             if(self.ssid):
                 print(arg["value"])
                 self.socketIO.emit('message', arg["value"], room=self.ssid)
-           #return arg["value"]
 
 
     def release(self, *_) -> None:

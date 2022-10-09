@@ -7,7 +7,7 @@ from itertools import chain, combinations
 if __name__ == '__main__':  
     Algo = NeuroAlgorithmPrediction()
     Algo.generate_space(4,2)
-    Algo.run()
+    Algo.execute_query(6,2.3)
 
     
    

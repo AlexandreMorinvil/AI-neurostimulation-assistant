@@ -18,6 +18,10 @@ const FlexContainer = styled.View`
     padding: ${props => props.pad || '10px'};
     width: ${props => props.width || '100%'};
     height: ${props => props.height || '100%'};
+
+    shadowColor: ${props => props.shadowColor || '#000'};
+    elevation: ${props => props.elevation || '0'};
+    border: ${props => props.border || '0px solid black'};
 `;
 
 // justify-content: vertical content position
@@ -31,20 +35,25 @@ const Box = styled.View`
     border-radius: ${props => props.borderRadius || '25px'};
     justify-content: ${props => props.jc || 'center'};
     align-items: center;
-    margin: ${props => props.marg || '0 1% 0 1%'};
+    margin: ${props => props.marg || '0'};
+    padding: ${props => props.pad || '0'};
+
+    shadowColor: ${props => props.shadowColor || '#000'};
+    elevation: ${props => props.elevation || '0'};
+    border: ${props => props.border || '0px solid black'};
 `;
 
 const CustomText = styled.Text`
     color: ${props => props.color || 'white'};
     font-size: ${props => props.fontsize || '12px'};
-    margin: ${props => props.marg || '0 0 0 0'};
+    margin: ${props => props.marg || '0px'};
 `;
 
 // TODO: Clean
 // MODULES
 
 const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
-      <FlexContainer bgColor={'#555'} borderRadius='25px'>
+      <FlexContainer bgColor={'#222'} borderRadius='25px' elevation={'10'} border={'2px solid #333'}>
         <Swiper>
           <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
             <CustomText fontsize={'56px'} > {screen1} </CustomText>
@@ -55,11 +64,18 @@ const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
         </Swiper>
       </FlexContainer>
 
+
+
 const Input = ({dimension, unitType, titleSpacing}) =>
-      <FlexContainer jc={'flex-start'} pad={'0px 0px 0px 10px'}>
+      <FlexContainer jc={'flex-start'}
+                     marg={'5px'}
+                     pad={'0px 0px 0px 8px'}
+                     bgColor={'#7BB094'}
+                     borderRadius={'15px'}>
+
         <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText>
-        <Box height={'40px'} width={'40px'} bgColor={'#444'} borderRadius={'5px'} >
-          <CustomText color={'yellow'} fontsize={'16px'}> XY </CustomText>
+        <Box height={'40px'} width={'40px'} bgColor={'#eee'} borderRadius={'5px'} border={'3px solid ' + ColorTheme.Custom.Second }>
+          <CustomText color={'#374F42'} fontsize={'16px'}> XY </CustomText>
         </Box>
         <Inputs.Round width={'80px'}/>
         <CustomText fontsize={'16px'}> {unitType} </CustomText>
@@ -67,18 +83,19 @@ const Input = ({dimension, unitType, titleSpacing}) =>
 
       // titleSpacing is used to align each row
 const InputModule = ({flex, bgColor}) =>
-      <Box height={'400px'} width={'100%'} bgColor={bgColor}>
-        <FlexContainer flex={flex} flexDirection={'column'} alignItems={'flex-start'} borderRadius={'20px'}>
-          <Input dimension={'Frequency'} unitType={'Hz'} titleSpacing={'0 5px 0 0'}/>
-          <Input dimension={'Voltage'} unitType={'Volts'} titleSpacing={'0 25px 0 0'}/>
-          <Input dimension={'Dimension'} unitType={'units'} titleSpacing={'0 3px 0 0'}/>
-          <Input dimension={'Dimension'} unitType={'units'} titleSpacing={'0 3px 0 0'}/>
+      <Box height={'25%'} width={'100%'} bgColor={bgColor}>
+        <FlexContainer flex={flex} flexDirection={'column'} alignItems={'flex-start'} borderRadius={'20px'} elevation={'10'} border={'1px solid #333'} pad={'10px 15px 10px 5px'}>
+          <Input dimension={'Parameter #1'} unitType={'units'} titleSpacing={'0 5px 0 0'}/>
+          <Input dimension={'Parameter #2'} unitType={'units'} titleSpacing={'0 6px 0 0'}/>
+          {/* <Input dimension={'Dimension'} unitType={'units'} titleSpacing={'0 3px 0 0'}/> */}
+          {/* <Input dimension={'Dimension'} unitType={'units'} titleSpacing={'0 3px 0 0'}/> */}
         </FlexContainer>
       </Box>
 
+// Used inside SideTabModule
 const WatchModule = ({height, width, bgColor}) =>
-      <Box height={height} width={width} bgColor={bgColor} marg={'30px 0 0 0'}>
-        <CustomText color={'#fff'} fontsize={'30px'}> Watch Info </CustomText>
+      <Box height={height} width={width} bgColor={'#222'} marg={'30px 0 0 0'} border={'2px solid #333'} elevation={'10'}>
+          <CustomText color={'#fff'} fontsize={'30px'}> Watch Info </CustomText>
       </Box>
 
 const SideTabModule = ({ResetPress, QueryPress}) =>
@@ -88,7 +105,7 @@ const SideTabModule = ({ResetPress, QueryPress}) =>
                 <Buttons.RoundedButton
                   title="Reset"
                   onPress={ResetPress}
-                  bgColor={ColorTheme.Fruity.First}/>
+                  bgColor={'#CC958F'}/>
                 <InputModule
                   flex={1}
                   alignItems={'flex-start'}
@@ -97,7 +114,8 @@ const SideTabModule = ({ResetPress, QueryPress}) =>
                 <Buttons.RoundedButton
                   title="Query"
                   onPress={QueryPress}
-                  bgColor={ColorTheme.Fruity.First}/>
+                  bgColor={'#CC958F'}
+                  color={'#fff'}/>
                 <WatchModule height={'250px'} width={'100%'} bgColor={'#555'}/>
               </Box>
             </FlexContainer>
@@ -108,7 +126,7 @@ const TopTabModule = ({StartSessionPress}) =>
           <Buttons.RoundedButton
             title="Start Session"
             onPress={StartSessionPress}
-            bgColor={ColorTheme.Fruity.First}></Buttons.RoundedButton>
+            bgColor={'#CC958F'}></Buttons.RoundedButton>
           <MainModules.Box height="100%" width="10%" bgColor="#555">
             <Text> Server Connection Status </Text>
           </MainModules.Box>

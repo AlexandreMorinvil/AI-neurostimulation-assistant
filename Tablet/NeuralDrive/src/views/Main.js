@@ -24,7 +24,7 @@ const Main = () => {
 
         <MainModules.FlexContainer>
           <MainModules.SideTabModule ResetPress={()=>blank()} QueryPress={()=>blank()}/>
-          <MainModules.GraphModule height="100%" width="100%" bgColor='#555' screen1={height} screen2={width}/>
+          <MainModules.GraphModule height="100%" width="100%" bgColor='#222' screen1={height} screen2={width}/>
         </MainModules.FlexContainer>
 
       </MainModules.FlexContainer>

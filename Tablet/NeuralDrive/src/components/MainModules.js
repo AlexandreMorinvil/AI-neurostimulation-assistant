@@ -83,7 +83,7 @@ const Input = ({dimension, unitType, titleSpacing}) =>
 
       // titleSpacing is used to align each row
 const InputModule = ({flex, bgColor}) =>
-      <Box height={'25%'} width={'100%'} bgColor={bgColor}>
+      <Box height={'100%'} width={'100%'} bgColor={bgColor}>
         <FlexContainer flex={flex} flexDirection={'column'} alignItems={'flex-start'} borderRadius={'20px'} elevation={'10'} border={'1px solid #333'} pad={'10px 15px 10px 5px'}>
           <Input dimension={'Parameter #1'} unitType={'units'} titleSpacing={'0 5px 0 0'}/>
           <Input dimension={'Parameter #2'} unitType={'units'} titleSpacing={'0 6px 0 0'}/>
@@ -94,30 +94,36 @@ const InputModule = ({flex, bgColor}) =>
 
 // Used inside SideTabModule
 const WatchModule = ({height, width, bgColor}) =>
-      <Box height={height} width={width} bgColor={'#222'} marg={'30px 0 0 0'} border={'2px solid #333'} elevation={'10'}>
+      <Box height={height} width={width} bgColor={'#222'} border={'2px solid #333'} elevation={'10'}>
           <CustomText color={'#fff'} fontsize={'30px'}> Watch Info </CustomText>
       </Box>
 
-const SideTabModule = ({ResetPress, QueryPress}) =>
-          <FlexContainer flex={0.3}>
-            <FlexContainer flexDirection="column">
-              <Box height='100%' width='100%' bgColor='#222' jc='flex-start'>
+const SideTabModule = ({flex, ResetPress, QueryPress}) =>
+          <FlexContainer flex={flex} pad='0px'>
+            <FlexContainer flexDirection="column" jc='flex-start' pad='10px'>
+              <FlexContainer flex={0.08} bgColor='#222' jc='center'>
                 <Buttons.RoundedButton
                   title="Reset"
                   onPress={ResetPress}
                   bgColor={'#CC958F'}/>
+              </FlexContainer>
+              <FlexContainer flex={0.3} bgColor='#222' jc='center' pad='10px 0 10px 0'>
                 <InputModule
                   flex={1}
                   alignItems={'flex-start'}
                   bgColor={'#222'}
                 />
+              </FlexContainer>
+              <FlexContainer flex={0.08} bgColor='#222' jc='center'>
                 <Buttons.RoundedButton
                   title="Query"
                   onPress={QueryPress}
                   bgColor={'#CC958F'}
                   color={'#fff'}/>
-                <WatchModule height={'250px'} width={'100%'} bgColor={'#555'}/>
-              </Box>
+              </FlexContainer>
+              <FlexContainer flex={0.54} bgColor='#222' jc='center' pad='10px 0 0 0'>
+                <WatchModule height={'100%'} width={'100%'} bgColor={'#555'}/>
+              </FlexContainer>
             </FlexContainer>
           </FlexContainer>
 

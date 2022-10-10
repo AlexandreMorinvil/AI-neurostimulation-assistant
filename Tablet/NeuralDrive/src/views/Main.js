@@ -23,7 +23,7 @@ const Main = () => {
         <MainModules.TopTabModule StartSessionPress={()=>blank()}/>
 
         <MainModules.FlexContainer>
-          <MainModules.SideTabModule ResetPress={()=>blank()} QueryPress={()=>blank()}/>
+          <MainModules.SideTabModule flex={0.3} ResetPress={()=>blank()} QueryPress={()=>blank()}/>
           <MainModules.GraphModule height="100%" width="100%" bgColor='#222' screen1={height} screen2={width}/>
         </MainModules.FlexContainer>
 

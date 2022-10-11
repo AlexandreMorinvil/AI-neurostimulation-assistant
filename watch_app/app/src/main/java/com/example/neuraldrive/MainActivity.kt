@@ -18,19 +18,13 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent
-<<<<<<< HEAD
-=======
 import android.os.Handler
 import android.os.Looper
->>>>>>> tablet
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
-<<<<<<< HEAD
 
-=======
->>>>>>> tablet
 
 
 class MainActivity : Activity(), SensorEventListener {
@@ -115,15 +109,24 @@ class MainActivity : Activity(), SensorEventListener {
             }
         }
     }
+
     companion object {
         val MEDIA_TYPE_MARKDOWN = "text/x-markdown; charset=utf-8".toMediaType()
     }
 
     fun sendData(acc_x : Float, acc_y : Float, acc_z : Float, gir_x : Float, gir_y : Float,gir_z : Float){
-        val postBody = "1".trimMargin()
+
+        val postBody = "["+ "{"+
+                "\"acc_x\"" + ":" + "\""+acc_x.toString() +"\""+ ","+
+                "\"acc_y\"" + ":" + "\""+acc_y.toString() +"\""+ ","+
+                "\"acc_z\"" + ":" + "\""+acc_z.toString() +"\""+ ","+
+                "\"gir_x\"" + ":" + "\""+gir_x.toString() +"\""+ ","+
+                "\"gir_y\"" + ":" + "\""+gir_y.toString() +"\""+ ","+
+                "\"gir_z\"" + ":" + "\""+gir_z.toString() +"\""+
+                "}"+"]".trimMargin()
 
         val request = Request.Builder()
-            .url("http://10.0.2.2:5000/packet/")
+            .url("http://10.0.2.2:5000/watch_packet/")
             .post(postBody.toRequestBody(MEDIA_TYPE_MARKDOWN))
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -145,36 +148,7 @@ class MainActivity : Activity(), SensorEventListener {
         })
     }
 
-    companion object {
-        val MEDIA_TYPE_MARKDOWN = "text/x-markdown; charset=utf-8".toMediaType()
-    }
 
-    fun sendData(aX : Float, aY:Float, aZ:Float){
-
-        val postBody = aX.toString() + "," + aY.toString() + ","+ aZ.toString()
-        val requestBody = postBody.toRequestBody()
-        val request = Request.Builder()
-            .method("POST", requestBody)
-            .url("http://10.0.2.2:5000/packet")
-            .build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-           }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-
-                   for ((name, value) in response.headers) {
-                        println("$name: $value")
-                    }
-
-                    println(response.body!!.string())
-               }
-            }
-        })
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when(requestCode){
@@ -205,19 +179,13 @@ class MainActivity : Activity(), SensorEventListener {
             Log.d("Accelerometer:", "$accelX,$accelY,$accelZ")
         }
 
-<<<<<<< HEAD
-
-
-        sendData(accelX,accelY,accelZ, gyroX,gyroY,gyroZ)
-=======
         if (event.sensor.type == Sensor.TYPE_GYROSCOPE){
             gyroX = event.values[0]
             gyroY = event.values[1]
             gyroZ = event.values[2]
             Log.d("Gyroscope:", "$gyroX,$gyroY,$gyroZ")
         }
-        //sendData(accelX, accelY, accelZ)
->>>>>>> tablet
+        sendData(accelX, accelY, accelZ, gyroX, gyroY, gyroZ)
     }
 
     override fun onAccuracyChanged(event: Sensor?, p1: Int) = Unit

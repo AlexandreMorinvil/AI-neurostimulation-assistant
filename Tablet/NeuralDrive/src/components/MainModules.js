@@ -5,6 +5,8 @@ import * as Inputs from '../components/Inputs.js';
 import Buttons from '../components/Buttons.js';
 import Swiper from 'react-native-swiper';
 import * as ColorTheme from '../styles/Colors';
+import Canva from '../components/Canvas.js';
+import Chart from '../components/Chart.js';
 
 // VIEWS AND CONTAINERS
 const FlexContainer = styled.View`
@@ -56,10 +58,13 @@ const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
       <FlexContainer bgColor={'#222'} borderRadius='25px' elevation={'10'} border={'2px solid #333'}>
         <Swiper>
           <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
-            <CustomText fontsize={'56px'} > {screen1} </CustomText>
+            {/* <CustomText fontsize={'56px'} > {screen1} </CustomText> */}
+            <Canva/>
           </Box>
           <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
-            <CustomText fontsize={'56px'} > {screen2} </CustomText>
+            {/* <CustomText fontsize={'56px'} > {screen2} </CustomText> */}
+            <Chart/>
+            {/* {screen2} */}
           </Box>
         </Swiper>
       </FlexContainer>

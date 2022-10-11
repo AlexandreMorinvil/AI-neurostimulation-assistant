@@ -20,14 +20,12 @@ class Canva extends React.Component {
 
   render() {
     return (
-      <View>
         <Canvas
           ref={this.ref}
           style={this.styles.box}
           width={Dimensions.get('window').width}
-          height={Dimensions.get('window').width}
+          height={Dimensions.get('window').height}
         />
-      </View>
     );
   }
 
@@ -35,8 +33,9 @@ class Canva extends React.Component {
     box: {
       width: '100%',
       height: '100%',
-      backgroundColor: 'white',
-      padding: 5,
+      backgroundColor: '#d9d9d9',
+      padding: 20,
+      borderRadius: 15,
     },
   });
 }

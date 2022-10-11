@@ -6,33 +6,28 @@ import { HttpService } from './http.service';
 import { Action, Command } from '../interfaces/command';
 import { stringify } from 'querystring';
 
-
 let COLOR_MAP = [
-  [0, "blue"],
-  [1, "purple"],
-  [2, "cyan"],
-  [3, "yellow"],
-  [4, "orange"],
-  [5, "red"],
-  [6, "red"],
-  [7, "red"],
-  [8, "red"],
-  [9, "red"],
-  [10, "red"],
-  [11, "red"],
-
-]
-
-
+  [0, 'blue'],
+  [1, 'purple'],
+  [2, 'cyan'],
+  [3, 'yellow'],
+  [4, 'orange'],
+  [5, 'red'],
+  [6, 'red'],
+  [7, 'red'],
+  [8, 'red'],
+  [9, 'red'],
+  [10, 'red'],
+  [11, 'red'],
+];
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChartService {
-
   public ctx: CanvasRenderingContext2D;
   myChart: Chart = null;
-  public color: string = "white";
+  public color: string = 'white';
   CLOCK_TICK = 0.5;
   current_label = 0;
   chart_data = [];
@@ -51,25 +46,32 @@ export class ChartService {
 
   public mock_watch_data() {
     const random_value = this.getRandomInt(-100, 100);
-    const command: Command = { action: Action.RECEIVE_DATA_WATCH, arg: { value: random_value } };
+    const command: Command = {
+      action: Action.RECEIVE_DATA_WATCH,
+      arg: { value: random_value },
+    };
     this.httpService.postCommand(command).subscribe(
       (data) => {
         //this.receive_watch_data(data.content);
       },
       (error) => {
-        console.log("+++ error send command +++")
+        console.log('+++ error send command +++');
       }
     );
   }
 
-  receive_watch_data(data: number) {
-    if (this.chart_label.length > 25) {
-      this.chart_label.shift();
-      this.chart_data.shift();
+  receive_watch_data(data: number[]) {
+    if (this.chart_label.length > 500) {
+      for (let i = 0; i < data.length; i++) {
+        this.chart_label.shift();
+        this.chart_data.shift();
+      }
     }
-    this.current_label += 0.5;
-    this.chart_label.push(this.current_label);
-    this.chart_data.push(data);
+    for (let i = 0; i < data.length; i++) {
+      this.current_label = 1;
+      this.chart_label.push(this.current_label);
+      this.chart_data.push(data[i] + this.getRandomInt(-10, 10));
+    }
     if (this.myChart) {
       this.myChart.update();
     }
@@ -80,8 +82,6 @@ export class ChartService {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
   }
-
-
 
   public setCanvas(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -102,10 +102,15 @@ export class ChartService {
         index_y++;
       }
     }
-
   }
 
-  createRectangle(dx: number, dy: number, posX: number, posY: number, color: string) {
+  createRectangle(
+    dx: number,
+    dy: number,
+    posX: number,
+    posY: number,
+    color: string
+  ) {
     this.ctx.beginPath();
     this.ctx.fillStyle = color;
     this.ctx.fillRect(posX, posY, dx, dy);
@@ -117,7 +122,7 @@ export class ChartService {
 
   draw_heat_map(algorithm: Algorithm) {
     this.current_algorithm = algorithm;
-    console.log("draw");
+    console.log('draw');
     this.clear_canvas();
     let dx = this.ctx.canvas.width / algorithm.dimention;
     let dy = this.ctx.canvas.height / algorithm.dimention;
@@ -126,7 +131,13 @@ export class ChartService {
     for (let i = 0; i < Math.pow(algorithm.dimention, algorithm.n_param); i++) {
       let x = index_x * dx;
       let y = index_y * dy;
-      this.createRectangle(dx, dy, x, y, this.getHeatColor(algorithm.data[i][1]));
+      this.createRectangle(
+        dx,
+        dy,
+        x,
+        y,
+        this.getHeatColor(algorithm.data[i][1])
+      );
       index_x++;
       if (index_x >= algorithm.dimention) {
         index_x = 0;
@@ -136,38 +147,36 @@ export class ChartService {
   }
 
   draw_text(posX, posY, A, B) {
-    if(this.current_algorithm){
-    this.draw_heat_map(this.current_algorithm);
-    this.ctx.font = '12px serif';
-    const text = "A = " + A + "; B = " + B;
-    this.ctx.fillStyle = "black";
-    this.ctx.fillText(text, posX, posY);
-  }
+    if (this.current_algorithm) {
+      this.draw_heat_map(this.current_algorithm);
+      this.ctx.font = '12px serif';
+      const text = 'A = ' + A + '; B = ' + B;
+      this.ctx.fillStyle = 'black';
+      this.ctx.fillText(text, posX, posY);
+    }
   }
 
-  get_value_from_mouse_position(posX, posY){
-    if(this.current_algorithm){
-    const dx = this.ctx.canvas.width / this.current_algorithm.dimention;
-    const dy = this.ctx.canvas.height / this.current_algorithm.dimention;
+  get_value_from_mouse_position(posX, posY) {
+    if (this.current_algorithm) {
+      const dx = this.ctx.canvas.width / this.current_algorithm.dimention;
+      const dy = this.ctx.canvas.height / this.current_algorithm.dimention;
 
-    const x = Math.floor(posX / dx);
-    const y = Math.floor(posY / dy);
-    console.log(x);
-    return [x, y];
-   }
-   return null;
+      const x = Math.floor(posX / dx);
+      const y = Math.floor(posY / dy);
+      console.log(x);
+      return [x, y];
+    }
+    return null;
   }
 
   clear_canvas() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
-
   getHeatColor(data: number): any {
     if (data <= 0) {
       return COLOR_MAP[0][1];
-    }
-    else {
+    } else {
       for (let i = 1; i < COLOR_MAP.length - 1; i++) {
         if (data >= COLOR_MAP[i][0] && data <= COLOR_MAP[i + 1][0]) {
           return COLOR_MAP[i][1];
@@ -177,22 +186,22 @@ export class ChartService {
     return COLOR_MAP[0][1];
   }
 
-
   draw_watch_data(data_watch: number[]) {
     this.myChart = new Chart(this.ctx, {
       type: 'line',
       data: {
         labels: this.chart_label,
-        datasets: [{
-          label: 'My First Dataset',
-          data: this.chart_data,
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
-        }]
-      }
+        datasets: [
+          {
+            label: 'My First Dataset',
+            data: this.chart_data,
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+          },
+        ],
+      },
     });
-
   }
 
   addData(chart, label, data) {
@@ -210,6 +219,4 @@ export class ChartService {
     });
     chart.update();
   }
-
-
 }

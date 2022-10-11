@@ -112,7 +112,11 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+<<<<<<< HEAD
     <property name="memory.settings.postsync.last.time.stamp" value="1665431825457" />
+=======
+    <property name="memory.settings.postsync.last.time.stamp" value="1664677959478" />
+>>>>>>> tablet
   </component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">

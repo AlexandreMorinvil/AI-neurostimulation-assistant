@@ -33,11 +33,17 @@ def messaging(message, methods=['GET', 'POST']):
     command_handler.ssid = ssid
     socketio.emit('message', 'reponseVersNoe', room=request.sid)
 
+<<<<<<< HEAD
 ####################################################################################################
 #### Only for debug
 ####################################################################################################
 @app.route("/packet/", methods=["POST", "GET"])
+=======
+@app.route("/packet", methods=["POST", "GET"])
+>>>>>>> tablet
 def packet() -> Response:
+    data = request.data.decode('UTF-8')
+    print(data)
     response = "packet accepted"
     socketio.emit('message', '1', room=ssid)
     return jsonify({"content": response})

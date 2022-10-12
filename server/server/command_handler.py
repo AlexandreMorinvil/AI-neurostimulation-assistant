@@ -49,7 +49,8 @@ class CommandHandler:
             print("EXECUTE_QUERY")
             data = { 
                 "predict_heat_map" : json.dumps(output[0]),
-                "position": json.dumps(output[1])
+                "position": json.dumps(output[1]),
+                "next_query": output[2]
                 }
             return data
 

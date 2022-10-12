@@ -76,7 +76,8 @@ export class HomeComponent implements OnInit {
           n_param: this.n_param,
           position: [],
           data: [],
-          dimention: this.dimention
+          dimention: this.dimention,
+          next_query : null
         }
         this.querry_display = "flex";
         this.session_display = "none";
@@ -93,8 +94,10 @@ export class HomeComponent implements OnInit {
     this.httpService.postCommand(command).subscribe(
       (data) => {     
         console.log(data.content)
-        this.current_algorithm.position = JSON.parse(data.content.position),
-        this.current_algorithm.data = JSON.parse(data.content.predict_heat_map),    
+        this.current_algorithm.position = JSON.parse(data.content.position);
+        this.current_algorithm.data = JSON.parse(data.content.predict_heat_map);
+        this.current_algorithm.next_query = data.content.next_query;  
+        console.log(this.current_algorithm.next_query)  
         this.chartService.draw_heat_map(this.current_algorithm);
       },
       (error) => {

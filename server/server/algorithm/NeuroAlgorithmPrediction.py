@@ -61,13 +61,16 @@ class NeuroAlgorithmPrediction:
             if self.q>=self.nrnd:
                 # Find next point (max of acquisition function)
                 self.AcquisitionMap = self.ymu + self.kappa*np.nan_to_num(np.sqrt(self.ys2)) # UCB acquisition function
-                self.NextQuery= np.where(self.AcquisitionMap.reshape(len(self.AcquisitionMap))==np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap))))
+                #self.NextQuery= np.where(self.AcquisitionMap.reshape(len(self.AcquisitionMap))==np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap))))
+                #print("next querry" + str(self.NextQuery))
+                
                 # select next query 
                 self.NextQuery = x_chan    
                 self.P_test[self.q][0]= self.NextQuery
             else:
                 self.P_test[self.q][0]= int(self.order_this[self.q]) #
                 self.query_elec = self.P_test[self.q][0]
+                #print("next querry " + str(self.q))
             
         #SEND THIS TO CLINICIAN
         #RECEIVE RESPONSE
@@ -130,7 +133,11 @@ class NeuroAlgorithmPrediction:
         #print(position)
         solution = self.transform_ymu(self.ymu)
         #print(solution)
-        return solution, position
+        if(self.NextQuery):
+            self.NextQuery= np.where(self.AcquisitionMap.reshape(len(self.AcquisitionMap))==np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap))))
+            print("next querry = " + str(self.NextQuery[0][0]))
+            return solution, position, str(self.NextQuery[0][0])
+        return solution, position, "0"
     
     ####################################################################################################
     #### generate new array in 2 dimentions

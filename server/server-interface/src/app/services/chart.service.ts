@@ -82,6 +82,22 @@ export class ChartService {
   }
 
 
+  blink_next_querry(){
+    if(this.current_algorithm){
+      if(this.current_algorithm.next_query){
+        let dx = this.ctx.canvas.width / this.current_algorithm.dimention;
+        let dy = this.ctx.canvas.height / this.current_algorithm.dimention; 
+
+        const y = Math.floor(this.current_algorithm.next_query / this.current_algorithm.dimention);
+        const x = this.current_algorithm.next_query - y*this.current_algorithm.dimention
+
+        const posX = dx * x;
+        const posY = dy * y;
+        this.createRectangle(dx, dy, posX, posY, "pink");
+      }
+    }
+  }
+
 
   public setCanvas(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -133,6 +149,7 @@ export class ChartService {
         index_y++;
       }
     }
+    this.blink_next_querry();
   }
 
   draw_text(posX, posY, A, B) {

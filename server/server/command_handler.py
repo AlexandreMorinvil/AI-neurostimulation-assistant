@@ -4,7 +4,7 @@ import json
 from lib2to3.pgen2.token import STAR
 import sys
 from typing import Callable, Union
-from command import Command
+from command import Action
 from algorithm.NeuroAlgorithmPrediction import NeuroAlgorithmPrediction
 from interface.session import Session
 import numpy as np
@@ -33,16 +33,15 @@ class CommandHandler:
 #### EXECUTE_QUERY : Execute one iteration of the algorithme
 #### RECEIVE_DATA_WATCH : debug canal to recive watch data
 ####################################################################################################
-    def handle_command(self, command: int, arg: Union[int, dict, str]) -> Union[None, list, int]:
-        if command == Command.START_SESSION.value:
+    def handle_command(self, action: int, arg: Union[int, dict, str]) -> Union[None, list, int]:
+        if action == Action.START_SESSION.value:
             self.current_session = Session(1, NeuroAlgorithmPrediction())
             self.current_session.algorithm.generate_space(int(arg["dimention"]),int(arg["n_param"]))
-            data = { 
-                "data" : "start new session"}
+            data = { "data" : "start new session"}
             return data
 
         
-        elif command == Command.EXECUTE_QUERY.value:
+        elif action == Action.EXECUTE_QUERY.value:
             x_chanel = int(arg["A"]) + int(arg["B"])*self.current_session.algorithm.dimention
             print("x_chanel = ", x_chanel)
             output = self.current_session.algorithm.execute_query(x_chanel,float(arg["y_value"]))
@@ -54,7 +53,7 @@ class CommandHandler:
                 }
             return data
 
-        elif command == Command.RECEIVE_DATA_WATCH.value:
+        elif action == Action.RECEIVE_DATA_WATCH.value:
             print(arg["value"])
             if(self.ssid):
                 print(arg["value"])

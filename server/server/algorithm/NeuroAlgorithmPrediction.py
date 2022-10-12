@@ -130,14 +130,8 @@ class NeuroAlgorithmPrediction:
             self.q+=1
         
         position = self.generateOutput(self.positions)
-        #print(position)
         solution = self.transform_ymu(self.ymu)
-        #print(solution)
-        if(self.NextQuery):
-            self.NextQuery= np.where(self.AcquisitionMap.reshape(len(self.AcquisitionMap))==np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap))))
-            print("next querry = " + str(self.NextQuery[0][0]))
-            return solution, position, str(self.NextQuery[0][0])
-        return solution, position, "0"
+        return solution, position, self.NextQuery
     
     ####################################################################################################
     #### generate new array in 2 dimentions

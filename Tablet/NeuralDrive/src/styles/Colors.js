@@ -32,4 +32,58 @@ const Sailing = {
   Fourth: '#E65C4F'
 };
 
-export {Periwinkle, CalmCoastal, Fruity, Sailing};
+// Reef
+const Reef = {
+  First: '#0B759D',
+  Second: '#1FBABF',
+  Third: '#60D3AA',
+  Fourth: '#9CEE8C'
+};
+
+// Reef
+const Custom = {
+  First: '#49E676',
+  Second: '#8FCCAB',
+  Third: '#C9C6AD',
+  Fourth: '#B3756F'
+};
+
+export {Periwinkle, CalmCoastal, Fruity, Sailing, Reef, Custom};
+
+
+
+// #1D0F0F
+// #453C41
+// #7B7C81
+// #D4DBE2
+// #7B586B
+//
+//
+// #8689AC
+// #587099
+// #3F5576
+// #2F3148
+// #101116
+//
+//
+//
+// #6D9EA3
+// #A2C1C3
+// #C4D3D3
+// #D3D2CD
+// #79785C
+//
+//
+// Browns
+// #E6E3E1
+// #D1C8B8
+// #BAA388
+// #95775A
+// #B37840
+
+// reds and blues patel
+//
+// #8FCCAB (Main)
+// #B3756F
+// #CC958F
+// #CCFFE4

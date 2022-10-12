@@ -1,3 +1,4 @@
+import json
 import signal
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
@@ -5,6 +6,8 @@ from flask_socketio import SocketIO
 from flask import jsonify
 from flask.wrappers import Response
 from command_handler import CommandHandler
+import numpy as np
+
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
@@ -38,9 +41,24 @@ def messaging(message, methods=['GET', 'POST']):
 ####################################################################################################
 @app.route("/packet/", methods=["POST", "GET"])
 def packet() -> Response:
+    data = request.data.decode('UTF-8')
+    print(data)
     response = "packet accepted"
     socketio.emit('message', '1', room=ssid)
     return jsonify({"content": response})
+
+
+####################################################################################################
+#### Only for debug
+####################################################################################################
+@app.route("/watch_packet/", methods=["POST", "GET"])
+def watch_packet() -> Response:
+    data = request.data.decode('UTF-8')
+    print(data)
+    response = "packet accepted"
+    socketio.emit('message', data, room=ssid)
+    return jsonify({"content": response})
+
 
 ####################################################################################################
 #### Recive command form client
@@ -49,6 +67,7 @@ def packet() -> Response:
 @app.route("/command", methods=["POST", "GET"])
 def command() -> Response:
     data = request.get_json()
+    print(data)
     response = None
     if data != None:
         response = command_handler.handle_command(data["action"], data["arg"])
@@ -56,4 +75,4 @@ def command() -> Response:
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app, host='0.0.0.0')

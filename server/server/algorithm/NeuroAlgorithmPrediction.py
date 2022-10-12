@@ -127,10 +127,8 @@ class NeuroAlgorithmPrediction:
             self.q+=1
         
         position = self.generateOutput(self.positions)
-        #print(position)
         solution = self.transform_ymu(self.ymu)
-        #print(solution)
-        return solution, position
+        return solution, position, self.NextQuery
     
     ####################################################################################################
     #### generate new array in 2 dimentions

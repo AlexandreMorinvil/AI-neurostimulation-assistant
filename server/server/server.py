@@ -67,6 +67,7 @@ def watch_packet() -> Response:
 @app.route("/command", methods=["POST", "GET"])
 def command() -> Response:
     data = request.get_json()
+    print(data)
     response = None
     if data != None:
         response = command_handler.handle_command(data["action"], data["arg"])
@@ -74,4 +75,4 @@ def command() -> Response:
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app, host='0.0.0.0')

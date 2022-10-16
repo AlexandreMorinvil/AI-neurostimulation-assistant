@@ -13,13 +13,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
+        android:textSize="25dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="@id/ipAddress"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+<<<<<<< HEAD
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.172" />
+=======
+        app:layout_constraintBottom_toBottomOf="@id/enable_data"
+        app:layout_constraintTop_toTopOf="parent" />
+>>>>>>> algo
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/enable_data"
@@ -32,6 +38,7 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+<<<<<<< HEAD
         app:layout_constraintTop_toBottomOf="@id/app_name"
         app:layout_constraintTop_toTopOf="@id/app_name"
         app:layout_constraintVertical_bias="0.651"
@@ -75,4 +82,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.37" />
 
+=======
+        app:layout_constraintTop_toTopOf="@id/app_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_name"
+        tools:checked="false"
+        tools:visibility="visible" />
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/bluetoothIv"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:src="@drawable/ic_bluetooth_on"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@id/enable_data"-->
+<!--        app:layout_constraintVertical_bias="1.1" />-->
+>>>>>>> algo
 </androidx.constraintlayout.widget.ConstraintLayout>

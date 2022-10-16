@@ -1,5 +1,5 @@
 <div id="mainDiv">
-    <div class="tools">
+    <div class="tools" [ngStyle]="{'display': session_display}">
         <div class="input">
             <div class="title">Dimention</div>
             <td>
@@ -19,7 +19,39 @@
             </td>
         </div>
         <div class="input">
-            <button mat-raised-button color="primary" (click)="sendMessage()">Start simulation </button>
+            <button mat-raised-button color="primary" (click)="start_session()">Start simulation </button>
+        </div>
+    </div>
+    <div class="tools" [ngStyle]="{'display': querry_display}">
+        <div class="input">
+            <div class="title">A</div>
+            <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>A</mat-label>
+                    <input matInput [(ngModel)]="A">
+                </mat-form-field>
+            </td>
+        </div>
+        <div class="input">
+            <div class="title">B </div>
+            <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>B</mat-label>
+                    <input matInput [(ngModel)]="B">
+                </mat-form-field>
+            </td>
+        </div>
+        <div class="input">
+            <div class="title">Y value </div>
+            <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Y value</mat-label>
+                    <input matInput [(ngModel)]="y_value">
+                </mat-form-field>
+            </td>
+        </div>
+        <div class="input">
+            <button mat-raised-button color="primary" (click)="send_querry()">Send querry</button>
         </div>
     </div>
     <div class="chart_box">

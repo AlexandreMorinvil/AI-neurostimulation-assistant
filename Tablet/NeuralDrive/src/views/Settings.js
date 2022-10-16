@@ -12,11 +12,11 @@ import * as Inputs from '../components/Inputs.js';
 const SettingsScreen = () => {
   return (
     <ScrollView style={styles.viewContainer}>
-    <Text style={{color: "#fff"}}> Settings </Text>
+      <Text style={{color: '#fff'}}> Settings </Text>
     </ScrollView>
   );
 };
-
+//
 
 const styles = StyleSheet.create({
   viewContainer: {

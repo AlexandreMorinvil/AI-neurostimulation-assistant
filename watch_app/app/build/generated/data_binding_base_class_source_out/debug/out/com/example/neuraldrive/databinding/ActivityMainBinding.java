@@ -4,9 +4,12 @@ package com.example.neuraldrive.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< HEAD
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+=======
+>>>>>>> algo
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +30,7 @@ public final class ActivityMainBinding implements ViewBinding {
   public final TextView appName;
 
   @NonNull
+<<<<<<< HEAD
   public final ImageButton bluetoothIv;
 
   @NonNull
@@ -47,6 +51,15 @@ public final class ActivityMainBinding implements ViewBinding {
     this.connectServer = connectServer;
     this.enableData = enableData;
     this.ipAddress = ipAddress;
+=======
+  public final SwitchMaterial enableData;
+
+  private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull TextView appName,
+      @NonNull SwitchMaterial enableData) {
+    this.rootView = rootView;
+    this.appName = appName;
+    this.enableData = enableData;
+>>>>>>> algo
   }
 
   @Override
@@ -82,6 +95,7 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+<<<<<<< HEAD
       id = R.id.bluetoothIv;
       ImageButton bluetoothIv = ViewBindings.findChildViewById(rootView, id);
       if (bluetoothIv == null) {
@@ -108,6 +122,15 @@ public final class ActivityMainBinding implements ViewBinding {
 
       return new ActivityMainBinding((ConstraintLayout) rootView, appName, bluetoothIv,
           connectServer, enableData, ipAddress);
+=======
+      id = R.id.enable_data;
+      SwitchMaterial enableData = ViewBindings.findChildViewById(rootView, id);
+      if (enableData == null) {
+        break missingId;
+      }
+
+      return new ActivityMainBinding((ConstraintLayout) rootView, appName, enableData);
+>>>>>>> algo
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

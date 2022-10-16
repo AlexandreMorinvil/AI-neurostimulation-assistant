@@ -10,10 +10,14 @@ drawable ic_launcher_foreground
 drawable ic_start
 drawable ic_stop
 id app_name
+<<<<<<< HEAD
 id bluetoothIv
 id connectServer
 id enable_data
 id ipAddress
+=======
+id enable_data
+>>>>>>> algo
 layout activity_main
 mipmap ic_launcher
 mipmap ic_launcher_round

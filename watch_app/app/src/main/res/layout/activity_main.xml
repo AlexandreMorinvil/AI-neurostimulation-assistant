@@ -38,19 +38,6 @@
         tools:checked="false"
         tools:visibility="visible" />
 
-    <ImageButton
-        android:id="@+id/bluetoothIv"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_bluetooth_on"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/enable_data"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="SpeakableTextPresentCheck" />
-
     <EditText
         android:id="@+id/ipAddress"
         android:layout_width="120sp"

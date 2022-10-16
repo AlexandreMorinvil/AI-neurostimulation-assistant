@@ -4,7 +4,6 @@ package com.example.neuraldrive.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,16 +24,12 @@ public final class ActivityMainBinding implements ViewBinding {
   public final TextView appName;
 
   @NonNull
-  public final ImageButton bluetoothIv;
-
-  @NonNull
   public final SwitchMaterial enableData;
 
   private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull TextView appName,
-      @NonNull ImageButton bluetoothIv, @NonNull SwitchMaterial enableData) {
+      @NonNull SwitchMaterial enableData) {
     this.rootView = rootView;
     this.appName = appName;
-    this.bluetoothIv = bluetoothIv;
     this.enableData = enableData;
   }
 
@@ -71,19 +66,13 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.bluetoothIv;
-      ImageButton bluetoothIv = ViewBindings.findChildViewById(rootView, id);
-      if (bluetoothIv == null) {
-        break missingId;
-      }
-
       id = R.id.enable_data;
       SwitchMaterial enableData = ViewBindings.findChildViewById(rootView, id);
       if (enableData == null) {
         break missingId;
       }
 
-      return new ActivityMainBinding((ConstraintLayout) rootView, appName, bluetoothIv, enableData);
+      return new ActivityMainBinding((ConstraintLayout) rootView, appName, enableData);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

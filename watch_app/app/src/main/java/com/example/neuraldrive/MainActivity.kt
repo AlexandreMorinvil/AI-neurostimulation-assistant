@@ -13,10 +13,6 @@ import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
@@ -32,8 +28,6 @@ class MainActivity : Activity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
 
     private val client = OkHttpClient()
-
-    lateinit var bluetoothAdapter: BluetoothAdapter
 
     private val sensorAccelFeature: String = PackageManager.FEATURE_SENSOR_ACCELEROMETER
     private val sensorGyroFeature: String = PackageManager.FEATURE_SENSOR_GYROSCOPE
@@ -55,35 +49,6 @@ class MainActivity : Activity(), SensorEventListener {
         binding.enableData.isVisible = true
         Log.d("alllllooooooooo", doesSensorsExist.toString())
 
-        //init bluetooth adapter
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-//        Log.d("osooksowksokwsow:",bluetoothAdapter.isEnabled.toString())
-
-        if(bluetoothAdapter.isEnabled){
-            //bluetooth is on
-            binding.bluetoothIv.setImageResource(R.drawable.ic_bluetooth_on)
-        }else{
-            //bluetooth is off
-            binding.bluetoothIv.setImageResource(R.drawable.ic_bluetooth_off)
-        }
-
-        // turn on/off bluetooth
-        binding.bluetoothIv.setOnClickListener{
-            if(bluetoothAdapter.isEnabled){
-                bluetoothAdapter.disable()
-                binding.bluetoothIv.setImageResource(R.drawable.ic_bluetooth_off)
-//                bluetoothAdapter.cancelDiscovery()
-                Log.d("osooksowksokwsow:",bluetoothAdapter.isEnabled.toString())
-            }else{
-                var enable = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(enable,1)
-//                var discoverable =Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE)
-//                startActivityForResult(enable,2)
-                Log.d("osooksowksokwsow:",bluetoothAdapter.isEnabled.toString())
-            }
-        }
-//
-
         if (checkSelfPermission(Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.BODY_SENSORS), 1)
         } else {
@@ -96,9 +61,9 @@ class MainActivity : Activity(), SensorEventListener {
             if (isChecked) {
                 if((sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)  != null)and(sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)  != null)) {
                     accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-                    sensorManager.registerListener(this,accelSensor,SensorManager.SENSOR_DELAY_FASTEST)
+                    sensorManager.registerListener(this,accelSensor,SensorManager.SENSOR_DELAY_GAME)
                     gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-                    sensorManager.registerListener(this,gyroSensor,SensorManager.SENSOR_DELAY_FASTEST)
+                    sensorManager.registerListener(this,gyroSensor,SensorManager.SENSOR_DELAY_GAME)
                 }else{
                     //Fail to get
                     Log.d("Fail:", doesSensorsExist.toString())
@@ -115,7 +80,6 @@ class MainActivity : Activity(), SensorEventListener {
     }
 
     fun sendData(acc_x : Float, acc_y : Float, acc_z : Float, gir_x : Float, gir_y : Float,gir_z : Float){
-
         val postBody = "["+ "{"+
                 "\"acc_x\"" + ":" + "\""+acc_x.toString() +"\""+ ","+
                 "\"acc_y\"" + ":" + "\""+acc_y.toString() +"\""+ ","+
@@ -126,7 +90,7 @@ class MainActivity : Activity(), SensorEventListener {
                 "}"+"]".trimMargin()
 
         val request = Request.Builder()
-            .url("http://10.0.2.2:5000/watch_packet/")
+            .url("http://192.168.137.91:5000/watch_packet/")
             .post(postBody.toRequestBody(MEDIA_TYPE_MARKDOWN))
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -146,18 +110,6 @@ class MainActivity : Activity(), SensorEventListener {
                 }
             }
         })
-    }
-
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when(requestCode){
-            1->
-                if(requestCode == Activity.RESULT_OK){
-                    binding.bluetoothIv.setImageResource(R.drawable.ic_bluetooth_on)
-                }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onResume() {

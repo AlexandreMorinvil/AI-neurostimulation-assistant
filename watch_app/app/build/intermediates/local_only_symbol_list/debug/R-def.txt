@@ -10,7 +10,6 @@ drawable ic_launcher_foreground
 drawable ic_start
 drawable ic_stop
 id app_name
-id bluetoothIv
 id enable_data
 layout activity_main
 mipmap ic_launcher

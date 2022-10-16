@@ -4,36 +4,7 @@
             "outputFile": "com.example.neuraldrive.app-mergeDebugResources-36:/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "/home/noe/.gradle/caches/transforms-3/c6903dd6272cae557936af2db3c041ad/transformed/cardview-1.0.0/res/values-v23/values-v23.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endLines": "4",
-                        "endColumns": "12",
-                        "endOffsets": "200"
-                    },
-                    "to": {
-                        "startLines": "52",
-                        "startColumns": "4",
-                        "startOffsets": "3361",
-                        "endLines": "54",
-                        "endColumns": "12",
-                        "endOffsets": "3506"
-                    }
-                },
-                {
-                    "source": "/home/noe/.gradle/caches/transforms-3/06ea701b207182e1dfde75c70f4a190c/transformed/work-runtime-2.6.0/res/values-v23/values-v23.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,121",
-                        "endColumns": "65,62",
-                        "endOffsets": "116,179"
-                    }
-                },
-                {
-                    "source": "/home/noe/.gradle/caches/transforms-3/4d5b64de3dda425222805ae36898dcb6/transformed/appcompat-1.2.0/res/values-v23/values-v23.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/4d5b64de3dda425222805ae36898dcb6/transformed/appcompat-1.2.0/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,39,43,44,45,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -52,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/home/noe/.gradle/caches/transforms-3/1935078e930ce7d6b8f03f2abcf3d718/transformed/material-1.4.0/res/values-v23/values-v23.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/1935078e930ce7d6b8f03f2abcf3d718/transformed/material-1.4.0/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2,6",
                         "startColumns": "4,4",
@@ -68,6 +39,35 @@
                         "endLines": "58,62",
                         "endColumns": "10,10",
                         "endOffsets": "3771,4044"
+                    }
+                },
+                {
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/06ea701b207182e1dfde75c70f4a190c/transformed/work-runtime-2.6.0/res/values-v23/values-v23.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,121",
+                        "endColumns": "65,62",
+                        "endOffsets": "116,179"
+                    }
+                },
+                {
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/c6903dd6272cae557936af2db3c041ad/transformed/cardview-1.0.0/res/values-v23/values-v23.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "4",
+                        "endColumns": "12",
+                        "endOffsets": "200"
+                    },
+                    "to": {
+                        "startLines": "52",
+                        "startColumns": "4",
+                        "startOffsets": "3361",
+                        "endLines": "54",
+                        "endColumns": "12",
+                        "endOffsets": "3506"
                     }
                 }
             ]

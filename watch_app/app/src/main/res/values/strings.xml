@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NeuralDrive</string>
 
-    <string name="enable">Start</string>
-    <string name="disable">Stop</string>
+    <string name="enable">On</string>
+    <string name="disable">Off</string>
 
 </resources>

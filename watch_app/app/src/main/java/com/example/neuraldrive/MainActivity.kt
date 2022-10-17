@@ -13,10 +13,9 @@ import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
-import android.content.Intent
 import android.widget.EditText
 import android.os.Handler
-import android.os.Looper
+import android.widget.Toast
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -28,6 +27,10 @@ class MainActivity : Activity(), SensorEventListener{
     private lateinit var binding: ActivityMainBinding
 
     private val client = OkHttpClient()
+    private var ipAddressServer: String = ""
+    private var handler: Handler = Handler()
+    var runnable: Runnable? = null
+    private var delay = 5000
 
     private val sensorAccelFeature: String = PackageManager.FEATURE_SENSOR_ACCELEROMETER
     private val sensorGyroFeature: String = PackageManager.FEATURE_SENSOR_GYROSCOPE
@@ -47,13 +50,6 @@ class MainActivity : Activity(), SensorEventListener{
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.enableData.isVisible = true
-        Log.d("alllllooooooooo", doesSensorsExist.toString())
-
-        binding.ipAddress.findViewById<EditText>(R.id.ipAddress)
-        val addressIP = binding.ipAddress.text.toString()
-        binding.connectServer.setOnClickListener{
-
-        }
 
         if (checkSelfPermission(Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.BODY_SENSORS), 1)
@@ -61,8 +57,14 @@ class MainActivity : Activity(), SensorEventListener{
             Log.d(TAG, "ALREADY GRANTED")
         }
 
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        binding.ipAddress.findViewById<EditText>(R.id.ipAddress)
+        binding.connectServer.setOnClickListener{
+            ipAddressServer = binding.ipAddress.text.toString()
+            //Send something to server to verify connection
 
+        }
+
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         binding.enableData.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 binding.enableData.setText(R.string.enable)
@@ -72,12 +74,12 @@ class MainActivity : Activity(), SensorEventListener{
                     gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
                     sensorManager.registerListener(this,gyroSensor,SensorManager.SENSOR_DELAY_GAME)
                 }else{
-                    binding.enableData.setText(R.string.disable)
                     //Fail to get
                     Log.d("Fail:", doesSensorsExist.toString())
                 }
                 onResume()
             } else {
+                binding.enableData.setText(R.string.disable)
                 onPause()
             }
         }
@@ -98,7 +100,7 @@ class MainActivity : Activity(), SensorEventListener{
                 "}"+"]".trimMargin()
 
         val request = Request.Builder()
-            .url("http://192.168.137.91:5000/watch_packet/")
+            .url("http://$ipAddressServer:5000/watch_packet")
             .post(postBody.toRequestBody(MEDIA_TYPE_MARKDOWN))
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -122,12 +124,17 @@ class MainActivity : Activity(), SensorEventListener{
 
     override fun onResume() {
         super.onResume()
+        handler.postDelayed(Runnable {
+            handler.postDelayed(runnable!!, delay.toLong())
+//            Toast.makeText(this@MainActivity, "This method will run every 5 seconds", Toast.LENGTH_SHORT).show()
+        }.also { runnable = it }, delay.toLong())
         sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_NORMAL)
         sensorManager.registerListener(this, gyroSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     override fun onPause() {
         super.onPause()
+        handler.removeCallbacks(runnable!!)
         sensorManager.unregisterListener(this)
     }
 

@@ -8,6 +8,7 @@ import {
   StackedBarChart,
 } from 'react-native-chart-kit';
 import {Text, Dimensions, Button, View} from 'react-native';
+import MainModules from '../components/MainModules.js';
 
 class Chart extends Component {
   dataSet = [
@@ -40,7 +41,7 @@ class Chart extends Component {
 
   render() {
     return (
-      <View>
+      <MainModules.FlexContainer>
         <LineChart
           data={{
             labels: this.labelsSet,
@@ -50,8 +51,10 @@ class Chart extends Component {
               },
             ],
           }}
-          width={Dimensions.get('window').width * 0.49} // from react-native
+          width={Dimensions.get('window').width * 0.49} from react-native
           height={Dimensions.get('window').height * 0.9}
+          // width='100%'
+          // height='100%'
           yAxisLabel="$"
           yAxisSuffix="k"
           yAxisInterval={1} // optional, defaults to 1
@@ -82,7 +85,7 @@ class Chart extends Component {
             this.add_point();
           }}
         />
-      </View>
+      </MainModules.FlexContainer>
     );
   }
 }

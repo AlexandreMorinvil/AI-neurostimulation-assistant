@@ -5,6 +5,8 @@ import Swiper from 'react-native-swiper';
 
 // Component Imports
 import MainModules from '../components/MainModules.js';
+import Chart from '../components/Chart.js';
+import Canva from '../components/Canvas.js';
 
 // Style Imports
 import * as ColorTheme from '../styles/Colors';
@@ -30,8 +32,8 @@ const Main = () => {
             height="100%"
             width="100%"
             bgColor="#222"
-            screen1={height}
-            screen2={width}
+            screen1={Chart}
+            screen2={Canva}
           />
         </MainModules.FlexContainer>
       </MainModules.FlexContainer>

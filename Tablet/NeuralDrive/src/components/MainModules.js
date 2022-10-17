@@ -5,6 +5,8 @@ import * as Inputs from '../components/Inputs.js';
 import Buttons from '../components/Buttons.js';
 import Swiper from 'react-native-swiper';
 import * as ColorTheme from '../styles/Colors';
+import Canva from '../components/Canvas.js';
+import Chart from '../components/Chart.js';
 
 // VIEWS AND CONTAINERS
 const FlexContainer = styled.View`
@@ -52,18 +54,53 @@ const CustomText = styled.Text`
 // TODO: Clean
 // MODULES
 
-const GraphModule = ({height, width, bgColor, screen1, screen2}) => (
-  <FlexContainer
-    bgColor={'#222'}
-    borderRadius="25px"
-    elevation={'10'}
-    border={'2px solid #333'}>
-    <Swiper>
-      <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
-        <CustomText fontsize={'56px'}> {screen1} </CustomText>
+const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
+      <FlexContainer bgColor={'#222'} borderRadius='25px' elevation={'10'} border={'2px solid #333'}>
+        <Swiper>
+          <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
+            {/* <CustomText fontsize={'56px'} > {screen1} </CustomText> */}
+            <Canva/>
+          </Box>
+          <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
+            {/* <CustomText fontsize={'56px'} > {screen2} </CustomText> */}
+            <Chart/>
+            {/* {screen2} */}
+          </Box>
+        </Swiper>
+      </FlexContainer>
+
+
+
+const Input = ({dimension, unitType, titleSpacing}) =>
+      <FlexContainer jc={'flex-start'}
+                     marg={'5px'}
+                     pad={'0px 0px 0px 8px'}
+                     bgColor={'#7BB094'}
+                     borderRadius={'15px'}>
+
+        <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText>
+        <Box height={'40px'} width={'40px'} bgColor={'#eee'} borderRadius={'5px'} border={'3px solid ' + ColorTheme.Custom.Second }>
+          <CustomText color={'#374F42'} fontsize={'16px'}> XY </CustomText>
+        </Box>
+        <Inputs.Round width={'80px'}/>
+        <CustomText fontsize={'16px'}> {unitType} </CustomText>
+      </FlexContainer>
+
+      // titleSpacing is used to align each row
+const InputModule = ({flex, bgColor}) =>
+      <Box height={'100%'} width={'100%'} bgColor={bgColor}>
+        <FlexContainer flex={flex} flexDirection={'column'} alignItems={'flex-start'} borderRadius={'20px'} elevation={'10'} border={'1px solid #333'} pad={'10px 15px 10px 5px'}>
+          <Input dimension={'Parameter #1'} unitType={'units'} titleSpacing={'0 5px 0 0'}/>
+          <Input dimension={'Parameter #2'} unitType={'units'} titleSpacing={'0 6px 0 0'}/>
+          {/* <Input dimension={'Dimension'} unitType={'units'} titleSpacing={'0 3px 0 0'}/> */}
+          {/* <Input dimension={'Dimension'} unitType={'units'} titleSpacing={'0 3px 0 0'}/> */}
+        </FlexContainer>
       </Box>
-      <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
-        <CustomText fontsize={'56px'}> {screen2} </CustomText>
+
+// Used inside SideTabModule
+const WatchModule = ({height, width, bgColor}) =>
+      <Box height={height} width={width} bgColor={'#222'} border={'2px solid #333'} elevation={'10'}>
+          <CustomText color={'#fff'} fontsize={'30px'}> Watch Info </CustomText>
       </Box>
     </Swiper>
   </FlexContainer>
@@ -123,6 +160,7 @@ const InputModule = ({flex, bgColor}) => (
   </Box>
 );
 
+<<<<<<< HEAD
 // Used inside SideTabModule
 const WatchModule = ({height, width, bgColor}) => (
   <Box
@@ -180,6 +218,50 @@ const TopTabModule = ({StartSessionPress}) => (
     </MainModules.Box>
   </MainModules.FlexContainer>
 );
+=======
+const SideTabModule = ({flex, ResetPress, QueryPress}) =>
+          <FlexContainer flex={flex} pad='0px'>
+            <FlexContainer flexDirection="column" jc='flex-start' pad='10px'>
+              <FlexContainer flex={0.08} bgColor='#222' jc='center'>
+                <Buttons.RoundedButton
+                  title="Reset"
+                  onPress={ResetPress}
+                  bgColor={'#CC958F'}/>
+              </FlexContainer>
+              <FlexContainer flex={0.3} bgColor='#222' jc='center' pad='10px 0 10px 0'>
+                <InputModule
+                  flex={1}
+                  alignItems={'flex-start'}
+                  bgColor={'#222'}
+                />
+              </FlexContainer>
+              <FlexContainer flex={0.08} bgColor='#222' jc='center'>
+                <Buttons.RoundedButton
+                  title="Query"
+                  onPress={QueryPress}
+                  bgColor={'#CC958F'}
+                  color={'#fff'}/>
+              </FlexContainer>
+              <FlexContainer flex={0.54} bgColor='#222' jc='center' pad='10px 0 0 0'>
+                <WatchModule height={'100%'} width={'100%'} bgColor={'#555'}/>
+              </FlexContainer>
+            </FlexContainer>
+          </FlexContainer>
+
+const TopTabModule = ({StartSessionPress}) =>
+        <MainModules.FlexContainer flex={0.05} jc="space-evenly">
+          <Buttons.RoundedButton
+            title="Start Session"
+            onPress={StartSessionPress}
+            bgColor={'#CC958F'}></Buttons.RoundedButton>
+          <MainModules.Box height="100%" width="10%" bgColor="#555">
+            <Text> Server Connection Status </Text>
+          </MainModules.Box>
+          <MainModules.Box height="100%" width="10%" bgColor="#555">
+            <Text> Try Connect to server</Text>
+          </MainModules.Box>
+        </MainModules.FlexContainer>
+>>>>>>> tablet
 
 export default MainModules = {
   Box: Box, // You can put Text components directly inside

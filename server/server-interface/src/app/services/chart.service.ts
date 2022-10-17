@@ -33,7 +33,7 @@ export class ChartService {
   chart_data = [];
   chart_label = [];
   current_algorithm: Algorithm = null;
-  next_query_color = ["black", "white"]
+  next_query_color = ['black', 'white'];
   index_next_query_color = 0;
 
   constructor(private httpService: HttpService) {
@@ -62,7 +62,7 @@ export class ChartService {
     );
   }
 
-  receive_watch_data(data: number[]) {
+  receive_watch_data(data: any[]) {
     if (this.chart_label.length > 500) {
       for (let i = 0; i < data.length; i++) {
         this.chart_label.shift();
@@ -72,7 +72,7 @@ export class ChartService {
     for (let i = 0; i < data.length; i++) {
       this.current_label = 1;
       this.chart_label.push(this.current_label);
-      this.chart_data.push(data[i]);
+      this.chart_data.push(data[i].acc_y);
     }
     if (this.myChart) {
       this.myChart.update();
@@ -85,25 +85,35 @@ export class ChartService {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-
-  blink_next_querry(){
-    if(this.current_algorithm){
-      console.log("NQ")
-      this.index_next_query_color === 0 ? this.index_next_query_color =1 : this.index_next_query_color = 0;
-      if(this.current_algorithm.next_query){
+  blink_next_querry() {
+    if (this.current_algorithm) {
+      console.log('NQ');
+      this.index_next_query_color === 0
+        ? (this.index_next_query_color = 1)
+        : (this.index_next_query_color = 0);
+      if (this.current_algorithm.next_query) {
         let dx = this.ctx.canvas.width / this.current_algorithm.dimention;
-        let dy = this.ctx.canvas.height / this.current_algorithm.dimention; 
+        let dy = this.ctx.canvas.height / this.current_algorithm.dimention;
 
-        const y = Math.floor(this.current_algorithm.next_query / this.current_algorithm.dimention);
-        const x = this.current_algorithm.next_query - y*this.current_algorithm.dimention
+        const y = Math.floor(
+          this.current_algorithm.next_query / this.current_algorithm.dimention
+        );
+        const x =
+          this.current_algorithm.next_query -
+          y * this.current_algorithm.dimention;
 
         const posX = dx * x;
         const posY = dy * y;
-        this.createRectangle(dx, dy, posX, posY, this.next_query_color[this.index_next_query_color]);
+        this.createRectangle(
+          dx,
+          dy,
+          posX,
+          posY,
+          this.next_query_color[this.index_next_query_color]
+        );
       }
     }
   }
-
 
   public setCanvas(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;

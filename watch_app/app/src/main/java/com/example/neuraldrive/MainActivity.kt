@@ -27,10 +27,11 @@ class MainActivity : Activity(), SensorEventListener{
     private lateinit var binding: ActivityMainBinding
 
     private val client = OkHttpClient()
-    private var ipAddressServer: String = ""
+    private var ipAddressServer: String = "192.168.0.53"
     private var handler: Handler = Handler()
     var runnable: Runnable? = null
-    private var delay = 5000
+    private var delay = 200
+    private var stack = "["
 
     private val sensorAccelFeature: String = PackageManager.FEATURE_SENSOR_ACCELEROMETER
     private val sensorGyroFeature: String = PackageManager.FEATURE_SENSOR_GYROSCOPE
@@ -76,6 +77,7 @@ class MainActivity : Activity(), SensorEventListener{
                 }else{
                     //Fail to get
                     Log.d("Fail:", doesSensorsExist.toString())
+
                 }
                 onResume()
             } else {
@@ -88,19 +90,25 @@ class MainActivity : Activity(), SensorEventListener{
     companion object {
         val MEDIA_TYPE_MARKDOWN = "text/x-markdown; charset=utf-8".toMediaType()
     }
-
-    fun sendData(acc_x : Float, acc_y : Float, acc_z : Float, gir_x : Float, gir_y : Float,gir_z : Float){
-        val postBody = "["+ "{"+
+    fun add_data_to_stack(acc_x : Float, acc_y : Float, acc_z : Float, gir_x : Float, gir_y : Float,gir_z : Float){
+        val data = "{"+
                 "\"acc_x\"" + ":" + "\""+acc_x.toString() +"\""+ ","+
                 "\"acc_y\"" + ":" + "\""+acc_y.toString() +"\""+ ","+
                 "\"acc_z\"" + ":" + "\""+acc_z.toString() +"\""+ ","+
                 "\"gir_x\"" + ":" + "\""+gir_x.toString() +"\""+ ","+
                 "\"gir_y\"" + ":" + "\""+gir_y.toString() +"\""+ ","+
                 "\"gir_z\"" + ":" + "\""+gir_z.toString() +"\""+
-                "}"+"]".trimMargin()
+                "},"
+        this.stack += data
+    }
+
+    fun sendData(){
+        this.stack = this.stack.dropLast(1)
+        this.stack += "]"
+        val postBody = this.stack.trimMargin()
 
         val request = Request.Builder()
-            .url("http://$ipAddressServer:5000/watch_packet")
+            .url("http://$ipAddressServer:5000/watch_packet/")
             .post(postBody.toRequestBody(MEDIA_TYPE_MARKDOWN))
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -120,6 +128,7 @@ class MainActivity : Activity(), SensorEventListener{
                 }
             }
         })
+        this.stack = "["
     }
 
     override fun onResume() {
@@ -127,6 +136,8 @@ class MainActivity : Activity(), SensorEventListener{
         handler.postDelayed(Runnable {
             handler.postDelayed(runnable!!, delay.toLong())
 //            Toast.makeText(this@MainActivity, "This method will run every 5 seconds", Toast.LENGTH_SHORT).show()
+            println(this.stack)
+            this.sendData()
         }.also { runnable = it }, delay.toLong())
         sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_NORMAL)
         sensorManager.registerListener(this, gyroSensor, SensorManager.SENSOR_DELAY_NORMAL)
@@ -143,16 +154,16 @@ class MainActivity : Activity(), SensorEventListener{
             accelX = event.values[0]
             accelY = event.values[1]
             accelZ = event.values[2]
-            Log.d("Accelerometer:", "$accelX,$accelY,$accelZ")
+            //Log.d("Accelerometer:", "$accelX,$accelY,$accelZ")
         }
 
         if (event.sensor.type == Sensor.TYPE_GYROSCOPE){
             gyroX = event.values[0]
             gyroY = event.values[1]
             gyroZ = event.values[2]
-            Log.d("Gyroscope:", "$gyroX,$gyroY,$gyroZ")
+            //Log.d("Gyroscope:", "$gyroX,$gyroY,$gyroZ")
         }
-        sendData(accelX, accelY, accelZ, gyroX, gyroY, gyroZ)
+        add_data_to_stack(accelX, accelY, accelZ, gyroX, gyroY, gyroZ)
     }
 
     override fun onAccuracyChanged(event: Sensor?, p1: Int) = Unit

@@ -39,13 +39,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.socketioService.getMessage().subscribe((message: string) => {
+      //console.log('newData', message);
       let data = JSON.parse(message);
-      this.stack.push(data[0].acc_y);
-      if (this.stack.length >= 25) {
-        this.chartService.receive_watch_data(this.stack);
-        this.stack = [];
-      }
-      console.log(data[0].acc_y);
+      // this.stack.push(data[0].acc_y);
+      // if (this.stack.length >= 25) {
+      this.chartService.receive_watch_data(data);
+      //   this.stack = [];
+      // }
+      console.log(data[0]);
     });
   }
 
@@ -88,10 +89,10 @@ export class HomeComponent implements OnInit {
           position: [],
           data: [],
           dimention: this.dimention,
-          next_query : null
-        }
-        this.querry_display = "flex";
-        this.session_display = "none";
+          next_query: null,
+        };
+        this.querry_display = 'flex';
+        this.session_display = 'none';
       },
       (error) => {
         console.log('+++ error send command +++');
@@ -106,12 +107,12 @@ export class HomeComponent implements OnInit {
       arg: { A: this.A, B: this.B, y_value: this.y_value },
     };
     this.httpService.postCommand(command).subscribe(
-      (data) => {     
-        console.log(data.content)
+      (data) => {
+        console.log(data.content);
         this.current_algorithm.position = JSON.parse(data.content.position);
         this.current_algorithm.data = JSON.parse(data.content.predict_heat_map);
-        this.current_algorithm.next_query = data.content.next_query;  
-        console.log(this.current_algorithm.next_query)  
+        this.current_algorithm.next_query = data.content.next_query;
+        console.log(this.current_algorithm.next_query);
         this.chartService.draw_heat_map(this.current_algorithm);
       },
       (error) => {

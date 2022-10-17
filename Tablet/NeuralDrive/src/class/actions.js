@@ -3,4 +3,5 @@ export const Action = {
   CONNECT_WATCH: 1,
   RECEIVE_DATA_WATCH: 2,
   EXECUTE_QUERY: 3,
+  GET_WATCH_DATA: 4,
 };

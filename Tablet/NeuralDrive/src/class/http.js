@@ -1,3 +1,5 @@
+import {Action} from '../class/actions';
+
 server_url = 'http://10.0.2.2:5000';
 
 export const send_request = async data => {
@@ -32,6 +34,36 @@ export const send_command = async (command, canvas) => {
     canvas.current_algorithm.data = JSON.parse(json.content.predict_heat_map);
     canvas.current_algorithm.position = JSON.parse(json.content.position);
     canvas.draw_heat_map(canvas.current_algorithm);
+    // console.log(canvas.current_algorithm);
+    return json;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const get_watch_data = async chart => {
+  command = {
+    action: Action.GET_WATCH_DATA,
+    arg: {},
+  };
+  try {
+    //console.log(command);
+    const response = await fetch(server_url + '/command', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: command.action,
+        arg: command.arg,
+      }),
+    });
+    const json = await response.json();
+    // console.log('PARSE', JSON.parse(json.content.predict_heat_map)[0][0]);
+    // canvas.current_algorithm.data = JSON.parse(json.content.predict_heat_map);
+    // canvas.current_algorithm.position = JSON.parse(json.content.position);
+    // canvas.draw_heat_map(canvas.current_algorithm);
     // console.log(canvas.current_algorithm);
     return json;
   } catch (error) {

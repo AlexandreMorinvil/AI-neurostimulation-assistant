@@ -60,12 +60,12 @@ export const get_watch_data = async chart => {
       }),
     });
     const json = await response.json();
-    // console.log('PARSE', JSON.parse(json.content.predict_heat_map)[0][0]);
+    //console.log('PARSE', JSON.parse(json.content));
     // canvas.current_algorithm.data = JSON.parse(json.content.predict_heat_map);
     // canvas.current_algorithm.position = JSON.parse(json.content.position);
     // canvas.draw_heat_map(canvas.current_algorithm);
     // console.log(canvas.current_algorithm);
-    return json;
+    return JSON.parse(json.content);
   } catch (error) {
     console.error(error);
   }

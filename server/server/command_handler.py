@@ -23,6 +23,7 @@ class Mode(Enum):
 ####################################################################################################
 class CommandHandler:
     def __init__(self, socketIO):
+        self.stack_watch_data = []
         self.current_handler = None
         self.socketIO = socketIO
         self.ssid = None
@@ -60,9 +61,25 @@ class CommandHandler:
                 self.socketIO.emit('message', arg["value"], room=self.ssid)
 
 
+        elif action == Action.GET_WATCH_DATA.value:
+            if(len(self.stack_watch_data) > 0):
+                data = self.stack_watch_data.copy()
+                self.free_stack_watch_data()
+                print(data)
+                return json.dumps(data)
+
+
     def release(self, *_) -> None:
         if self.current_handler != None:
             self.current_handler.release()
         sys.exit(0)
 
+    def push_watch_data_in_stack(self, data):
+        self.stack_watch_data += data
+        #print(self.stack_watch_data)
+        print("push in stack")
 
+
+    def free_stack_watch_data(self):
+        self.stack_watch_data = []
+        print("free stack")

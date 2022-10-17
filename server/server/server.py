@@ -54,7 +54,8 @@ def packet() -> Response:
 @app.route("/watch_packet/", methods=["POST", "GET"])
 def watch_packet() -> Response:
     data = request.data.decode('UTF-8')
-    print(data)
+    # print(json.loads(data)[0])
+    command_handler.push_watch_data_in_stack(json.loads(data))
     response = "packet accepted"
     socketio.emit('message', data, room=ssid)
     return jsonify({"content": response})

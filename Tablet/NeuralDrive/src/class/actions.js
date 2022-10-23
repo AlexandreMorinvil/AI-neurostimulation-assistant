@@ -5,3 +5,13 @@ export const Action = {
   EXECUTE_QUERY: 3,
   GET_WATCH_DATA: 4,
 };
+
+export const Status = {
+  IDLE: 3,
+  STOP: 0,
+  START: 1,
+};
+
+export const ERROR_CODE = {
+  FAIL_CONNECT_TO_SERVER: -1,
+};

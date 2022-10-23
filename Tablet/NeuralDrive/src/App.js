@@ -46,38 +46,48 @@ const App = () => {
         drawerContent={props => <CustomDrawer {...props} />}
         screenOptions={{
           headerShown: false,
-          drawerBackgroundColor: ColorTheme.Fruity.Third,
-          drawerActiveBackgroundColor: ColorTheme.Fruity.Second,
+          drawerBackgroundColor: '#2596be',
+          drawerActiveBackgroundColor: '#2596be',
           drawerActiveTintColor: '#fff',
-          drawerInactiveTintColor: ColorTheme.Fruity.Second,
-          drawerLabelStyle:{
+          drawerInactiveTintColor: '#222',
+          drawerLabelStyle: {
             marginLeft: -20,
             fontSize: 14,
             fontFamily: 'Roboto',
             fontWeight: 'bold',
-          }
+          },
         }}>
-        <Drawer.Screen name="Main" component={Main} options={{
-          drawerIcon: () =>(
-          <Ionicons name="grid-outline" size={20} color={"#000"}/>
-          )}}/>
-        <Drawer.Screen name="Component Testing" component={HomeScreen} options={{
-          drawerIcon: () =>(
-          <FontAwesome name="puzzle-piece" size={20} color={"#000"}/>
-          )}}/>
-        <Drawer.Screen name="Server Testing" component={ServerTesting} options={{
-          drawerIcon: () =>(
-          <MaterialCommunityIcons name="test-tube" size={20} color={"#000"}/>
-          )}}/>
-        <Drawer.Screen name="Watch Testing" component={WatchTesting} options={{
-          drawerIcon: () =>(
-          <Feather name="watch" size={20} color={"#000"}/>
-          )}}/>
-
-        <Drawer.Screen name="Settings" component={SettingsScreen} options={{
-          drawerIcon: () =>(
-          <Ionicons name="settings-outline" size={20} color={"#000"}/>
-          )}}/>
+        <Drawer.Screen
+          name="DASH BOARD"
+          component={Main}
+          options={{
+            drawerIcon: () => (
+              <Ionicons name="grid-outline" size={20} color={'#000'} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="SERVER"
+          component={ServerTesting}
+          options={{
+            drawerIcon: () => (
+              <MaterialCommunityIcons
+                name="test-tube"
+                size={20}
+                color={'#000'}
+              />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="SETTINGS"
+          component={SettingsScreen}
+          options={{
+            drawerIcon: () => (
+              <Ionicons name="settings-outline" size={20} color={'#000'} />
+            ),
+          }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

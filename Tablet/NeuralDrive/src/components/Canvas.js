@@ -13,7 +13,7 @@ class Canva extends React.Component {
   ctx;
   current_algorithm = {
     n_param: 2,
-    dimention: 3,
+    dimention: 100,
     data: [],
     position: [],
   };
@@ -40,8 +40,8 @@ class Canva extends React.Component {
 
   componentDidMount() {
     this.ctx = this.ref.current.getContext('2d');
-    this.ctx.canvas.width = Dimensions.get('window').width * 0.49;
-    this.ctx.canvas.height = Dimensions.get('window').height * 0.475;
+    this.ctx.canvas.width = Dimensions.get('window').width * 0.78;
+    this.ctx.canvas.height = Dimensions.get('window').height;
     console.log('width', this.ctx.canvas.width);
     this.createRectangle(this.getRandomInt(10, 50), 50, 50, 50, 'white');
     this.forceUpdate();
@@ -55,9 +55,11 @@ class Canva extends React.Component {
     dy = this.ctx.canvas.height / algorithm.dimention;
     index_x = 0;
     index_y = 0;
+
     for (var i = 0; i < Math.pow(algorithm.dimention, algorithm.n_param); i++) {
       x = index_x * dx;
       y = index_y * dy;
+
       this.createRectangle(
         dx,
         dy,
@@ -65,6 +67,7 @@ class Canva extends React.Component {
         y,
         this.getHeatColor(this.current_algorithm.data[i][1]),
       );
+
       index_x++;
       if (index_x >= algorithm.dimention) {
         index_x = 0;
@@ -98,13 +101,8 @@ class Canva extends React.Component {
   }
 
   createRectangle(dx, dy, posX, posY, color) {
-    this.ctx.beginPath();
     this.ctx.fillStyle = color;
     this.ctx.fillRect(posX, posY, dx, dy);
-    this.ctx.strokeStyle = color;
-    this.ctx.lineWidth = 1;
-    this.ctx.rect(posX, posY, dx, dy);
-    this.ctx.stroke();
   }
 
   render() {
@@ -117,17 +115,14 @@ class Canva extends React.Component {
 
   styles = StyleSheet.create({
     box: {
-      //width: '100%',
-      //height: '100%',
-      backgroundColor: 'black',
-    },
-    canvas_box: {
-      backgroundColor: 'white',
       width: '100%',
       height: '100%',
-      backgroundColor: '#d9d9d9',
-      padding: 20,
-      borderRadius: 15,
+      backgroundColor: 'white',
+    },
+    canvas_box: {
+      backgroundColor: 'pink',
+      width: '100%',
+      height: '100%',
     },
   });
 }

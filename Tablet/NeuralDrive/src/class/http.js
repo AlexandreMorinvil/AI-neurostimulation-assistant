@@ -1,4 +1,4 @@
-import {Action} from '../class/actions';
+import {Action, ERROR_CODE, Status} from '../class/actions';
 
 server_url = 'http://10.0.2.2:5000';
 
@@ -15,9 +15,9 @@ export const send_request = async data => {
   }
 };
 
-export const send_command = async (command, canvas) => {
+export const send_command = async command => {
   try {
-    //console.log(command);
+    console.log(command);
     const response = await fetch(server_url + '/command', {
       method: 'POST',
       headers: {
@@ -30,14 +30,39 @@ export const send_command = async (command, canvas) => {
       }),
     });
     const json = await response.json();
-    // console.log('PARSE', JSON.parse(json.content.predict_heat_map)[0][0]);
-    canvas.current_algorithm.data = JSON.parse(json.content.predict_heat_map);
-    canvas.current_algorithm.position = JSON.parse(json.content.position);
-    canvas.draw_heat_map(canvas.current_algorithm);
-    // console.log(canvas.current_algorithm);
     return json;
   } catch (error) {
-    console.error(error);
+    console.error('server connection fail');
+    return ERROR_CODE.FAIL_CONNECT_TO_SERVER;
+  }
+};
+
+export const post_start_new_session = async () => {
+  const command = {
+    action: Action.START_SESSION,
+    arg: {
+      n_param: this.n_param,
+      dimention: this.dimension,
+    },
+  };
+  response = await send_command(command);
+  if (response === ERROR_CODE.FAIL_CONNECT_TO_SERVER) {
+    return Status.STOP;
+  } else {
+    return response.content.status;
+  }
+};
+
+export const post_execute_query = async (A, B, y_value) => {
+  const command = {
+    action: Action.EXECUTE_QUERY,
+    arg: {A: A, B: B, y_value: y_value},
+  };
+  response = await send_command(command);
+  if (response === ERROR_CODE.FAIL_CONNECT_TO_SERVER) {
+    return Status.STOP;
+  } else {
+    return response.content;
   }
 };
 
@@ -47,7 +72,6 @@ export const get_watch_data = async chart => {
     arg: {},
   };
   try {
-    //console.log(command);
     const response = await fetch(server_url + '/command', {
       method: 'POST',
       headers: {
@@ -60,11 +84,6 @@ export const get_watch_data = async chart => {
       }),
     });
     const json = await response.json();
-    //console.log('PARSE', JSON.parse(json.content));
-    // canvas.current_algorithm.data = JSON.parse(json.content.predict_heat_map);
-    // canvas.current_algorithm.position = JSON.parse(json.content.position);
-    // canvas.draw_heat_map(canvas.current_algorithm);
-    // console.log(canvas.current_algorithm);
     return JSON.parse(json.content);
   } catch (error) {
     console.error(error);

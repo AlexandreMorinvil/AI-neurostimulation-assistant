@@ -133,13 +133,11 @@ const ServerTesting = () => {
             }}
           />
         </View>
-        <View style={styles.box}>
-          <Canva ref={this.ref}></Canva>
-        </View>
+        <View style={styles.box}>{/* <Canva ref={this.ref}></Canva> */}</View>
       </View>
       <View style={styles.boxChart}>
         <Text style={styles.boxTitle}>Patient data</Text>
-        <Chart></Chart>
+        {/* <Chart></Chart> */}
       </View>
     </View>
   );
@@ -172,7 +170,7 @@ const styles = StyleSheet.create({
   boxChart: {
     width: '50%',
     height: '100%',
-    backgroundColor: 'grey',
+    backgroundColor: 'white',
     padding: 5,
   },
   boxTitle: {

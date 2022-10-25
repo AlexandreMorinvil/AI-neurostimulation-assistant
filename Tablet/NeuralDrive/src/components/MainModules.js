@@ -82,7 +82,7 @@ const Input = ({dimension, unitType, titleSpacing}) =>
         <Box height={'40px'} width={'40px'} bgColor={'#eee'} borderRadius={'5px'} border={'3px solid ' + ColorTheme.Custom.Second }>
           <CustomText color={'#374F42'} fontsize={'16px'}> XY </CustomText>
         </Box>
-        <Inputs.Round width={'80px'}/>
+        <Inputs.Round width={'20%'}/>
         <CustomText fontsize={'16px'}> {unitType} </CustomText>
       </FlexContainer>
 
@@ -141,7 +141,10 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) =>
                 <Buttons.RoundedButton
                   title="Reset"
                   onPress={ResetPress}
-                  bgColor={'#CC958F'}/>
+                  bgColor={'#CC958F'}
+                  color={'#000'}
+                  width={'100%'}
+                />
               </FlexContainer>
               <FlexContainer flex={0.3} bgColor='#222' jc='center' pad='10px 0 10px 0'>
                 <InputModule
@@ -155,7 +158,9 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) =>
                   title="Query"
                   onPress={QueryPress}
                   bgColor={'#CC958F'}
-                  color={'#fff'}/>
+                  color={'#000'}
+                  width={'100%'}
+                />
               </FlexContainer>
               <FlexContainer flex={0.54} bgColor='#222' jc='center' pad='10px 0 0 0'>
                 <WatchModule height={'100%'} width={'100%'} bgColor={'#555'}/>

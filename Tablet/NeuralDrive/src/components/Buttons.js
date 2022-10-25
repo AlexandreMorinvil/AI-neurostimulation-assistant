@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import React from 'react';
 
 const RoundedTouchableOpacity = styled.TouchableOpacity`
-    height: 60px;
-    border-radius: 30px;
-    width: 180px;
+    height: ${props => props.height || '100%'};
+    border-radius: ${props => props.borderRadius || '30px'};
+    width: ${props => props.width || '180px'};
     justify-content: center;
     align-items: center;
     background-color: ${props => props.bgColor || 'palevioletred'};
@@ -24,19 +24,14 @@ const ButtonText = styled.Text`
     font-size: 16px;
 `;
 
-const RoundedButton = ({onPress, title, bgColor, color}) =>
-      <RoundedTouchableOpacity onPress={onPress()} activeOpacity={0.2} bgColor={bgColor}>
+const RoundedButton = ({onPress, title, bgColor, color, height, width}) =>
+      <RoundedTouchableOpacity onPress={onPress()} activeOpacity={0.2} bgColor={bgColor} height={height} width={width}>
         <ButtonText color={color}> {title} </ButtonText>
       </RoundedTouchableOpacity>
 
-const Test = ({onPress, title, bgColor}) =>
-      <TOA onPress={onPress()} activeOpacity={0.2} bgColor={bgColor}>
-        <ButtonText> {title} </ButtonText>
-      </TOA>
-
 export default Buttons = {
   RoundedButton: RoundedButton,
-  Test: Test,
+  //Test: Test,
 };
 
 // export default RoundedButton;

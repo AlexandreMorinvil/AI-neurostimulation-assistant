@@ -41,7 +41,7 @@ class Chart extends Component {
 
   render() {
     return (
-      <MainModules.FlexContainer>
+      <MainModules.FlexContainer borderRadius={'25px'}>
         <LineChart
           data={{
             labels: this.labelsSet,

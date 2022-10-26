@@ -153,8 +153,10 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) =>
           </FlexContainer>
 
 const TopTabModule = ({StartSessionPress}) =>
-        <MainModules.FlexContainer bgColor='white' flex={0.05} jc="space-evenly">
-          <Button icon='play' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={()=>StartSessionPress}> START SESSION </Button>
+        <MainModules.FlexContainer bgColor='white' flex={0.08} jc="space-evenly">
+          <Button icon='play' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={()=>StartSessionPress} uppercase={true}>
+            <Text variant="labelSmall" adjustsFontSizeToFit={true}>start session</Text>
+          </Button>
           <MainModules.Box height="100%" width="10%" bgColor="#555">
             <PulseIndicator color='#CC958F' size={20}/>
             <Text> Server Connection Status </Text>

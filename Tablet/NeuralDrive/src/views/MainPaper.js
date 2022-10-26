@@ -1,16 +1,9 @@
 // React Native Imports
 import React, {useState} from 'react';
 
-
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
   View,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 
 // Component Imports
@@ -21,25 +14,60 @@ import Canva from '../components/Canvas.js';
 // Style Imports
 import * as ColorTheme from '../styles/Colors';
 
-const{width, height} = Dimensions.get('window');
+class MainPaper extends React.Component {
 
-const MainPaper = () => {
-  return (
-    // <ScrollView style={styles.viewContainer}>
-    <ScrollView>
-      <MainModulesPaper.FlexContainer flexDirection={'column'} height={height-30+'px'} width={width+'px'}>
+  state = {
+    screenWidth: null,
+    screenHeight: null
+  }
 
-        <MainModulesPaper.TopTabModule StartSessionPress={()=>blank()}/>
+  _onLayout(e) {
+    // console.log((Dimensions.get('window')));
+    this.setState({
+      screenWidth: Dimensions.get('window').width,
+      screenHeight: Dimensions.get('window').height
+    })
+  }
+
+  render(){
+    const {screenHeight, screenWidth} = this.state
+    return (
+      <View onLayout={this._onLayout.bind(this)} style={{ height: '100%', width: '100%' }}>
+        {screenWidth > screenHeight ? <MainPaperHorizontal/> : <MainPaperVertical/> }
+      </View>
+    );
+    }
+}
+
+class MainPaperHorizontal extends React.Component {
+
+  render(){
+    return (
+      <MainModulesPaper.FlexContainer flexDirection={'column'}>
+
+        <MainModulesPaper.TopTabModule StartSessionPress={() => blank()} />
 
         <MainModulesPaper.FlexContainer>
-          <MainModulesPaper.SideTabModule flex={0.3} ResetPress={()=>blank()} QueryPress={()=>blank()}/>
-          <MainModulesPaper.GraphModule height="100%" width="100%" screen1={Chart} screen2={Canva}/>
+          <MainModulesPaper.SideTabModule flex={0.3} ResetPress={() => blank()} QueryPress={() => blank()} />
+          <MainModulesPaper.GraphModule height="100%" width="100%" screen1={Chart} screen2={Canva} />
         </MainModulesPaper.FlexContainer>
 
       </MainModulesPaper.FlexContainer>
-    </ScrollView>
-  );
-};
+    );
+  }
+}
+
+class MainPaperVertical extends React.Component {
+
+  render(){
+    return (
+      <MainModulesPaper.FlexContainer flexDirection={'column'}>
+        <MainModulesPaper.TopTabModule StartSessionPress={() => blank()} />
+
+      </MainModulesPaper.FlexContainer>
+    );
+  }
+}
 
 function blank() {
   // To be completed

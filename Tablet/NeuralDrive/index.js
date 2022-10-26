@@ -10,8 +10,12 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { material } from 'react-native-typography'
 
 export default function Main() {
+  const theme = {
+    dark: true,
+    mode: 'exact',
+  };
   return (
-    <PaperProvider>
+    <PaperProvider theme={theme}>
       <App />
     </PaperProvider>
   );

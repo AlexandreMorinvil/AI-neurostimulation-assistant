@@ -2,6 +2,7 @@
 import React from 'react';
 import type {Node} from 'react';
 import {
+    Dimensions,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -40,14 +41,8 @@ import * as ColorTheme from './styles/Colors';
 
 const Drawer = createDrawerNavigator();
 
-const theme = {
-  dark: true,
-  mode: 'exact',
-};
-
 const App = () => {
   return (
-    <PaperProvider theme={theme}>
       <NavigationContainer>
         <Drawer.Navigator
           drawerContent={props => <CustomDrawer {...props} />}
@@ -97,7 +92,6 @@ const App = () => {
           }} />
         </Drawer.Navigator>
       </NavigationContainer>
-    </PaperProvider>
   );
 };
 

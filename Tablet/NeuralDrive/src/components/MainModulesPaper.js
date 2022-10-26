@@ -152,6 +152,28 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) =>
             </FlexContainer>
           </FlexContainer>
 
+const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) =>
+  <FlexContainer flex={flex} pad='0px'>
+    <FlexContainer flexDirection="column" flex={0.8} jc='flex-start' pad='10px'>
+      <FlexContainer flex={0.3} jc='center'>
+        <Button icon='sync' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => ResetPress}> RESET </Button>
+      </FlexContainer>
+      <FlexContainer flex={1} jc='center' pad='10px 0 10px 0'>
+        <InputModule
+          flex={1}
+          alignItems={'flex-start'}
+        />
+      </FlexContainer>
+      <FlexContainer flex={0.3} jc='center'>
+        <Button icon='tab-search' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => QueryPress} accessibilityHint={'Next Query'}> QUERY </Button>
+      </FlexContainer>
+    </FlexContainer>
+    <FlexContainer flex={0.54} jc='center' pad='10px 0 0 0'>
+      <WatchModule height={'100%'} width={'100%'} bgColor={'#555'} />
+    </FlexContainer>
+  </FlexContainer>
+
+
 const TopTabModule = ({StartSessionPress}) =>
         <MainModules.FlexContainer bgColor='white' flex={0.08} jc="space-evenly">
           <Button icon='play' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={()=>StartSessionPress} uppercase={true}>
@@ -174,6 +196,7 @@ export default MainModulesPaper = {
         InputModule: InputModule,
         WatchModule: WatchModule,
         SideTabModule: SideTabModule,
+        SideTabModuleVertical: SideTabModuleVertical,
         TopTabModule: TopTabModule,
         ServerURLInputModule: ServerURLInputModule,
         WatchIPInputModule: WatchIPInputModule,

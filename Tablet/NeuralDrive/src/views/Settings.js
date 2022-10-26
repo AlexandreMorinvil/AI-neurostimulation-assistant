@@ -1,10 +1,6 @@
 import React, {Component, useEffect, useState} from 'react';
 import {
   Text,
-  TextInput,
-  ScrollView,
-  Button,
-  ToastAndroid,
   StyleSheet,
   View,
   Switch,
@@ -12,6 +8,7 @@ import {
 import * as Inputs from '../components/Inputs.js';
 import Buttons from '../components/Buttons.js';
 import MainModules from '../components/MainModules.js';
+import SettingsModules from '../components/SettingsModules.js';
 import {Picker} from '@react-native-picker/picker';
 import NetInfo, { NetInfoStateType } from '@react-native-community/netinfo';
 // Style Imports
@@ -55,7 +52,7 @@ const SettingsScreen = () => {
           <Text style={{ color: "#fff" }}> Neurodrive data app </Text>
           <MainModules.Box height={'250px'} width={'100%'} bgColor={'#555'} flexDirection="row">
             <MainModules.FlexContainer bgColor={'#555'} flexDirection="column">
-              <MainModules.WatchIPInputModule
+              <SettingsModules.WatchIPInputModule
                 flex={1}
                 alignItems={'center'}
                 bgColor={'#555'}

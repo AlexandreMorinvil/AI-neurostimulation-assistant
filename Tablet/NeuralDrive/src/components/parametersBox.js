@@ -16,6 +16,8 @@ import {
 import {Action, Status, ERROR_CODE} from '../class/actions';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Slider} from 'react-native-elements';
+import {Animated} from 'react-native';
 
 //session_status = Status.STOP;
 
@@ -28,10 +30,10 @@ const start_new_session = () => {
   return post_start_new_session();
 };
 
-const set_dimension = dimension => {
-  this.dimension = +dimension;
-  this.canvas_ref.current.current_algorithm.dimention = this.dimension;
-};
+// const set_dimension = dimension => {
+//   this.dimension = +dimension;
+//   this.canvas_ref.current.current_algorithm.dimention = this.dimension;
+// };
 const set_n_param = n_param => {
   this.n_param = +n_param;
   this.canvas_ref.current.current_algorithm.n_param = this.n_param;
@@ -58,7 +60,7 @@ const set_old_Y_value = old_y_value => {
 
 session_status = Status.IDLE;
 n_param = 2;
-dimension = 3;
+dimension = 10;
 A = 2;
 B = 0;
 y_value = 0;
@@ -70,6 +72,7 @@ old_y_value = y_value;
 export function Parameters({canvas_ref}) {
   //const [session_status, set_session_status] = useState(Status.STOP);
   const [value, setValue] = useState(0);
+  const [dimension, set_dimension] = useState(10);
   return (
     <View style={styles.mainBoxParameters}>
       <LinearGradient colors={['#A1C4FD', '#C2E9FB']} style={styles.title2}>
@@ -103,12 +106,17 @@ export function Parameters({canvas_ref}) {
             <View>
               <View style={styles.inputBox}>
                 <Text style={styles.inputName}>DIMENSIONS</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="4"
-                  onChangeText={text => set_dimension(text)}
-                  defaultValue={dimension}
+                <Slider
+                  style={{width: '80%'}}
+                  value={dimension}
+                  maximumValue={50}
+                  minimumValue={5}
+                  thumbTintColor={'black'}
+                  thumbTouchSize={20}
+                  step={5}
+                  onValueChange={value => set_dimension(value)}
                 />
+                <Text style={styles.input}>{dimension}</Text>
               </View>
               <View style={styles.inputBox}>
                 <Text style={styles.inputName}>NUMBER OF PARAMETERS</Text>
@@ -195,6 +203,20 @@ export function Parameters({canvas_ref}) {
                   }}>
                   <Text style={styles.text}>SEND QUERY</Text>
                 </Pressable>
+
+                <Pressable
+                  style={styles.button_back}
+                  onPress={() => {
+                    session_status = Status.STOP;
+                    setValue(value => value + 1);
+                  }}>
+                  <Ionicons
+                    name="arrow-back"
+                    size={30}
+                    color={'grey'}
+                    width={'100%'}
+                  />
+                </Pressable>
               </View>
             </View>
           ) : null}
@@ -250,6 +272,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     //flexDirection: 'row',
   },
+  button_back: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    //borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#C2E9FB',
+    width: '30%',
+    alignContent: 'center',
+    textAlign: 'center',
+    //flexDirection: 'row',
+  },
   buttonView: {
     height: '30%',
     width: '100%',
@@ -257,6 +292,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     textAlign: 'center',
+    flexDirection: 'row',
     //backgroundColor: 'grey',
   },
   text: {

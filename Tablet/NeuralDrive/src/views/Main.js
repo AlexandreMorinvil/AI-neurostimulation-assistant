@@ -22,6 +22,7 @@ import {get_patient_level, get_smartwatch_connected} from '../class/const';
 
 // Style Imports
 import * as ColorTheme from '../styles/Colors';
+import {InfoBox} from '../components/infoBox';
 
 const {width, height} = Dimensions.get('window');
 canvas_ref = React.createRef();
@@ -67,20 +68,7 @@ const Main = () => {
     <View style={styles.mainView}>
       <View style={styles.verticalBox_Input}>
         <Parameters canvas_ref={canvas_ref} />
-        <View style={styles.patient_data_level_box}>
-          <Text
-            style={{fontSize: 16, fontFamily: 'Roboto', fontWeight: 'bold'}}>
-            PATIENT LEVEL
-          </Text>
-          <Text
-            style={{fontSize: 60, fontFamily: 'Roboto', fontWeight: 'bold'}}>
-            {patient_level}
-          </Text>
-          <Text
-            style={{fontSize: 14, fontFamily: 'Roboto', fontWeight: 'bold'}}>
-            SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}
-          </Text>
-        </View>
+        <InfoBox></InfoBox>
       </View>
 
       {/*  ---------------------------------------------------------------------------- */}

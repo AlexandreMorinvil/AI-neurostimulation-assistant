@@ -54,7 +54,7 @@ def packet() -> Response:
 @app.route("/watch_packet/", methods=["POST", "GET"])
 def watch_packet() -> Response:
     data = request.data.decode('UTF-8')
-    # print(json.loads(data)[0])
+    print(len(command_handler.stack_watch_data))
     if(len(command_handler.stack_watch_data)<50):
         command_handler.push_watch_data_in_stack(json.loads(data))
     response = "packet accepted"

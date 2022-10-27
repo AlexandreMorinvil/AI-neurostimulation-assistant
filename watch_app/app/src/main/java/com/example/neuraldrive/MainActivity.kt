@@ -2,27 +2,32 @@ package com.example.neuraldrive
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Bundle
-import android.util.Log
-import androidx.core.view.isVisible
-import com.example.neuraldrive.databinding.ActivityMainBinding
 import android.hardware.Sensor
-import android.hardware.SensorManager
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
-import android.widget.EditText
+import android.hardware.SensorManager
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
+import android.os.Bundle
 import android.os.Handler
-import android.widget.Toast
+import android.util.Log
+import android.widget.EditText
+import androidx.core.view.isVisible
+import com.example.neuraldrive.databinding.ActivityMainBinding
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
+import android.text.format.Formatter
+import java.net.NetworkInterface
 
 
 class MainActivity : Activity(), SensorEventListener{
+
+
 
     private lateinit var binding: ActivityMainBinding
 
@@ -30,8 +35,10 @@ class MainActivity : Activity(), SensorEventListener{
     private var ipAddressServer: String = "192.168.0.53"
     private var handler: Handler = Handler()
     var runnable: Runnable? = null
-    private var delay = 200
+    private var delay = 500
     private var stack = "["
+    private var index = 0
+    //private var stack_int = mutableListOf<Float>()
 
     private val sensorAccelFeature: String = PackageManager.FEATURE_SENSOR_ACCELEROMETER
     private val sensorGyroFeature: String = PackageManager.FEATURE_SENSOR_GYROSCOPE
@@ -46,8 +53,20 @@ class MainActivity : Activity(), SensorEventListener{
     private var gyroX: Float = 0.0f; private var gyroY: Float = 0.0f ; private var gyroZ: Float = 0.0f
     private var accelX: Float = 0.0f; private var accelY: Float = 0.0f; private var accelZ: Float = 0.0f
 
+
+
+    lateinit var wifiManager: WifiManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val interfaces = NetworkInterface.getNetworkInterfaces()
+        val list = interfaces.toList()
+        //look into the interface's ipaddresses (ipv4,ipv6)
+        val ip = list[1].inetAddresses.toList().get(1).hostAddress
+
+        println(ip)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.enableData.isVisible = true
@@ -137,6 +156,7 @@ class MainActivity : Activity(), SensorEventListener{
             handler.postDelayed(runnable!!, delay.toLong())
 //            Toast.makeText(this@MainActivity, "This method will run every 5 seconds", Toast.LENGTH_SHORT).show()
             println(this.stack)
+            index = 0
             this.sendData()
         }.also { runnable = it }, delay.toLong())
         sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_NORMAL)
@@ -163,7 +183,10 @@ class MainActivity : Activity(), SensorEventListener{
             gyroZ = event.values[2]
             //Log.d("Gyroscope:", "$gyroX,$gyroY,$gyroZ")
         }
-        add_data_to_stack(accelX, accelY, accelZ, gyroX, gyroY, gyroZ)
+        if(index < 50) {
+            add_data_to_stack(accelX, accelY, accelZ, gyroX, gyroY, gyroZ)
+            index+=1
+        }
     }
 
     override fun onAccuracyChanged(event: Sensor?, p1: Int) = Unit

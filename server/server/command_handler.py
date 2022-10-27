@@ -8,7 +8,9 @@ from command import Action
 from command import Session_status
 from algorithm.NeuroAlgorithmPrediction import NeuroAlgorithmPrediction
 from interface.session import Session
+from interface.watchData import WatchData
 import numpy as np
+import random
 
 ####################################################################################################
 #### Represent the different mode available to tranfer data
@@ -64,6 +66,14 @@ class CommandHandler:
 
 
         elif action == Action.GET_WATCH_DATA.value:
+
+            ### SIMULATION SANS MONTRE ##############################
+            for i in range(10):
+                n = str(random.randint(0, 9))
+                data = WatchData(n,n,n,n,n,n).__dict__
+                self.stack_watch_data.append(data)
+            #########################################################
+
             if(len(self.stack_watch_data) > 0):
                 data = self.stack_watch_data.copy()
                 self.free_stack_watch_data()

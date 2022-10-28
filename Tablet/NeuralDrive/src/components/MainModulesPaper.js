@@ -15,6 +15,15 @@ import {
 
 
 const styles = StyleSheet.create({
+  surface: {
+    margin: 8,
+    padding: 10,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderRadius: 20,
+    // backgroundColor: '',
+  },
+
   graphSurface: {
     margin: 8,
     padding: 8,
@@ -169,33 +178,39 @@ const WatchModule = ({ height, width, bgColor }) =>
 const SideTabModule = ({ flex, StartSessionPress, ResetPress, QueryPress }) =>
   <FlexContainer flex={flex} pad='0px'>
     <FlexContainer flexDirection="column" jc='flex-start' pad='10px'>
-      <FlexContainer flex={0.1} jc='space-around'>
-        <FlexContainer flex={0.01} marg='0' pad='0'>
-          <PulseIndicator color='#CC958F' size={20} style={{height: 30, width: 30, margin: 0, padding: 0, backgroundColor: 'red'}} />
+
+      <FlexContainer flex={0.05} jc='flex-start'>
+        <FlexContainer flex={0.1} pad='0 10px 0 0%' jc='flex-end'>
+          <BarIndicator count={4} color={'#CC958F'} size={20} />
         </FlexContainer>
-        <FlexContainer flex={1} marg='0' pad='0'>
-          <Button icon='play' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => StartSessionPress} uppercase={true}>
+        <FlexContainer flex={1} jc='flex-start'>
+          <Text> Try Connect to server</Text>
+        </FlexContainer>
+      </FlexContainer>
+
+      <FlexContainer flex={0.1}>
+        {/* <Surface style={styles.surface} flexWrap='nowrap'> */}
+        <FlexContainer flex={0.1} pad='0 10px 0 15%' jc='flex-end'>
+          <PulseIndicator color='red' size={30} />
+        </FlexContainer>
+        <FlexContainer flex={1} pad='0' jc='flex-start'>
+          <Button icon='play' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => StartSessionPress} uppercase={true} style={{ display: 'flex' }}>
             <Text variant="labelLarge" adjustsFontSizeToFit={true}>start session</Text>
           </Button>
         </FlexContainer>
-      </FlexContainer>
-      <FlexContainer flex={0.1}>
-        <BarIndicator count={4} color={'#CC958F'} size={20} />
-        <Text> Try Connect to server</Text>
+        {/* </Surface> */}
       </FlexContainer>
 
-      <FlexContainer flex={0.08} jc='center'>
-        <Button icon='sync' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => ResetPress} uppercase={true}>
-          <Text variant="labelLarge" adjustsFontSizeToFit={true}>reset</Text>
-        </Button>
-      </FlexContainer>
       <FlexContainer flex={0.3} jc='center' pad='10px 0 10px 0'>
         <InputModule
           flex={1}
           alignItems={'flex-start'}
         />
       </FlexContainer>
-      <FlexContainer flex={0.08} jc='center'>
+      <FlexContainer flex={0.08} jc='space-around'>
+        <Button icon='sync' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => ResetPress} uppercase={true}>
+          <Text variant="labelLarge" adjustsFontSizeToFit={true}>reset</Text>
+        </Button>
         <Button icon='tab-search' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => QueryPress} uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>query</Text>
         </Button>
@@ -209,7 +224,7 @@ const SideTabModule = ({ flex, StartSessionPress, ResetPress, QueryPress }) =>
 const SideTabModuleVertical = ({ flex, ResetPress, QueryPress }) =>
   <FlexContainer flex={flex} pad='0px'>
     <FlexContainer flexDirection="column" flex={0.4} jc='flex-start' pad='10px'>
-       <FlexContainer flex={0.2}>
+      <FlexContainer flex={0.2}>
         <PulseIndicator color='#CC958F' size={20} />
         <Button icon='play' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => StartSessionPress} uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>start session</Text>

@@ -33,7 +33,7 @@ class Canva extends React.Component {
     box: {
       width: '100%',
       height: '100%',
-      backgroundColor: '#d9d9d9',
+      backgroundColor: 'white',
       padding: 20,
       borderRadius: 25,
     },

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { TextInput } from 'react-native-paper';
+
 
 const RegInput = styled.TextInput`
   font-size: 16px;

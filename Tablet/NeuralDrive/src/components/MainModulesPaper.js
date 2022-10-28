@@ -1,27 +1,51 @@
 
 import styled from 'styled-components';
 import React from 'react';
-import { Surface, Text, Button } from 'react-native-paper';
-import {View, ScrollView, StyleSheet} from 'react-native';
-import * as Inputs from '../components/Inputs.js';
-import Buttons from '../components/Buttons.js';
+import { Badge, Surface, Text, TextInput, Button, Modal, Portal, Provider } from 'react-native-paper';
+import { StyleSheet, Alert } from 'react-native';
 import Swiper from 'react-native-swiper';
 import * as ColorTheme from '../styles/Colors';
 import Canva from '../components/Canvas.js';
 import Chart from '../components/Chart.js';
 
 import {
-  BallIndicator,
   BarIndicator,
-  DotIndicator,
-  MaterialIndicator,
-  PacmanIndicator,
   PulseIndicator,
-  SkypeIndicator,
-  UIActivityIndicator,
-  WaveIndicator,
 } from 'react-native-indicators';
 
+
+const styles = StyleSheet.create({
+  graphSurface: {
+    margin: 8,
+    padding: 8,
+    height: 80,
+    width: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    // backgroundColor: '',
+  },
+  watchSurface: {
+    margin: 8,
+    padding: 8,
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    // backgroundColor: '',
+  },
+  inputSurface: {
+    margin: 8,
+    padding: 8,
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    // backgroundColor: '',
+  },
+});
 
 // VIEWS AND CONTAINERS
 const FlexContainer = styled.View`
@@ -66,28 +90,7 @@ const CustomText = styled.Text`
     margin: ${props => props.marg || '0px'};
 `;
 
-// TODO: Clean
-// MODULES
-
-const MyComponent = () => (
-  <View>
-    <Surface style={styles.surface} elevation={4}>
-      <Text>Surface</Text>
-    </Surface>
-    <Surface style={styles.surface} elevation={4}>
-      <Text>Surface</Text>
-    </Surface>
-    <Surface style={styles.surface} elevation={1}>
-      <Text>Surface</Text>
-    </Surface>
-    <Button icon='camera' mode='contained'>
-      Press Me
-    </Button>
-  </View>
-);
-
-const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
-
+const GraphModule = ({ height, width, bgColor, screen1, screen2 }) =>
   <FlexContainer>
     <Surface style={{ display: 'flex', borderRadius: 25 }}>
       <Swiper>
@@ -101,60 +104,121 @@ const GraphModule = ({height, width, bgColor, screen1, screen2}) =>
     </Surface>
   </FlexContainer>
 
-const Input = ({dimension, unitType, titleSpacing}) =>
-      <FlexContainer jc={'flex-start'}
-                     marg={'5px'}
-                     pad={'0px 0px 0px 8px'}
-                     bgColor={'#7BB094'}
-                     borderRadius={'15px'}>
+const InputModal = () => {
+  const [visible, setVisible] = React.useState(false);
 
-        <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText>
-        <Box height={'40px'} width={'40px'} bgColor={'#eee'} borderRadius={'5px'} border={'3px solid ' + ColorTheme.Custom.Second }>
-          <CustomText color={'#374F42'} fontsize={'16px'}> XY </CustomText>
-        </Box>
-        <Inputs.Round width={'20%'}/>
-        <CustomText fontsize={'16px'}> {unitType} </CustomText>
-      </FlexContainer>
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = { backgroundColor: 'white', padding: 20 };
 
-      // titleSpacing is used to align each row
-const InputModule = ({flex}) =>
-    <Surface style={styles.inputSurface} elevation={1}>
-      <FlexContainer flex={flex} flexDirection={'column'} alignItems={'flex-start'} pad={'10px 15px 10px 5px'} bgColor={'#00000000'}>
-        <Input dimension={'Parameter #1'} unitType={'units'} titleSpacing={'0 5px 0 0'} />
-        <Input dimension={'Parameter #2'} unitType={'units'} titleSpacing={'0 6px 0 0'} />
-      </FlexContainer>
-    </Surface>
+  return (
+    <Provider>
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+          <Text>Example Modal.  Click outside this area to dismiss.</Text>
+        </Modal>
+      </Portal>
+      <Button style={{ marginTop: 30 }} onPress={showModal}>
+        Show
+      </Button>
+    </Provider>
+  );
+};
+
+const Input = ({ dimension, unitType, titleSpacing }) =>
+  <FlexContainer jc={'flex-start'}
+    marg={'5px'}
+    pad={'0px 0px 0px 8px'}
+    bgColor={'#4a4a4a'}
+    borderRadius={'15px'}
+    onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}>
+
+    {/* <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText> */}
+    <Box height={'35px'} width={'40px'} bgColor={'#eee'} borderRadius={'5px'} border={'2px solid black'}>
+      <Text variant='labelLarge' style={{ color: '#374F42' }}> XY </Text>
+    </Box>
+
+    <TextInput mode='outlined'
+      activeOutlineColor='black'
+      outlineColor='white'
+      selectionColor='#6f6f6f'
+      multiline={false}
+      textColor='black'
+      label={dimension}
+      dense={true}
+      style={{ paddingVertical: 8, marginHorizontal: 10, width: '60%', textAlign: 'center' }} />
+    {/* <Inputs.Round width={'20%'}/> */}
+    <Text variant='labelLarge' style={{ color: 'white' }}> {unitType} </Text>
+  </FlexContainer>
+
+// titleSpacing is used to align each row
+const InputModule = ({ flex }) =>
+  <Surface style={styles.inputSurface} elevation={1}>
+    <FlexContainer flex={flex} flexDirection={'column'} alignItems={'flex-start'} pad={'10px 15px 10px 5px'} bgColor={'#00000000'}>
+      <Input dimension={'Parameter #1'} unitType={'units'} titleSpacing={'0 5px 0 0'} />
+      <Input dimension={'Parameter #2'} unitType={'units'} titleSpacing={'0 6px 0 0'} />
+    </FlexContainer>
+  </Surface>
 
 // Used inside SideTabModule
-const WatchModule = ({height, width, bgColor}) =>
-    <Surface style={styles.watchSurface} elevation={1}>
-      <Text variant='headlineLarge'>Watch Module</Text>
-    </Surface>
+const WatchModule = ({ height, width, bgColor }) =>
+  <Surface style={styles.watchSurface} elevation={1}>
+    <Text variant='headlineLarge'>Watch Module</Text>
+  </Surface>
 
-const SideTabModule = ({flex, ResetPress, QueryPress}) =>
-          <FlexContainer flex={flex} pad='0px'>
-            <FlexContainer flexDirection="column" jc='flex-start' pad='10px'>
-              <FlexContainer flex={0.08} jc='center'>
-                <Button icon='sync' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={()=>ResetPress}> RESET </Button>
-              </FlexContainer>
-              <FlexContainer flex={0.3} jc='center' pad='10px 0 10px 0'>
-                <InputModule
-                  flex={1}
-                  alignItems={'flex-start'}
-                />
-              </FlexContainer>
-              <FlexContainer flex={0.08} jc='center'>
-                <Button icon='tab-search' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={()=>QueryPress}accessibilityHint={'Next Query'}> QUERY </Button>
-              </FlexContainer>
-              <FlexContainer flex={0.54} jc='center' pad='10px 0 0 0'>
-                <WatchModule height={'100%'} width={'100%'} bgColor={'#555'}/>
-              </FlexContainer>
-            </FlexContainer>
-          </FlexContainer>
-
-const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) =>
+const SideTabModule = ({ flex, StartSessionPress, ResetPress, QueryPress }) =>
   <FlexContainer flex={flex} pad='0px'>
-    <FlexContainer flexDirection="column" flex={0.8} jc='flex-start' pad='10px'>
+    <FlexContainer flexDirection="column" jc='flex-start' pad='10px'>
+      <FlexContainer flex={0.1} jc='space-around'>
+        <FlexContainer flex={0.01} marg='0' pad='0'>
+          <PulseIndicator color='#CC958F' size={20} style={{height: 30, width: 30, margin: 0, padding: 0, backgroundColor: 'red'}} />
+        </FlexContainer>
+        <FlexContainer flex={1} marg='0' pad='0'>
+          <Button icon='play' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => StartSessionPress} uppercase={true}>
+            <Text variant="labelLarge" adjustsFontSizeToFit={true}>start session</Text>
+          </Button>
+        </FlexContainer>
+      </FlexContainer>
+      <FlexContainer flex={0.1}>
+        <BarIndicator count={4} color={'#CC958F'} size={20} />
+        <Text> Try Connect to server</Text>
+      </FlexContainer>
+
+      <FlexContainer flex={0.08} jc='center'>
+        <Button icon='sync' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => ResetPress} uppercase={true}>
+          <Text variant="labelLarge" adjustsFontSizeToFit={true}>reset</Text>
+        </Button>
+      </FlexContainer>
+      <FlexContainer flex={0.3} jc='center' pad='10px 0 10px 0'>
+        <InputModule
+          flex={1}
+          alignItems={'flex-start'}
+        />
+      </FlexContainer>
+      <FlexContainer flex={0.08} jc='center'>
+        <Button icon='tab-search' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => QueryPress} uppercase={true}>
+          <Text variant="labelLarge" adjustsFontSizeToFit={true}>query</Text>
+        </Button>
+      </FlexContainer>
+      <FlexContainer flex={0.54} jc='center' pad='10px 0 0 0'>
+        <WatchModule height={'100%'} width={'100%'} bgColor={'#555'} />
+      </FlexContainer>
+    </FlexContainer>
+  </FlexContainer>
+
+const SideTabModuleVertical = ({ flex, ResetPress, QueryPress }) =>
+  <FlexContainer flex={flex} pad='0px'>
+    <FlexContainer flexDirection="column" flex={0.4} jc='flex-start' pad='10px'>
+       <FlexContainer flex={0.2}>
+        <PulseIndicator color='#CC958F' size={20} />
+        <Button icon='play' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => StartSessionPress} uppercase={true}>
+          <Text variant="labelLarge" adjustsFontSizeToFit={true}>start session</Text>
+        </Button>
+      </FlexContainer>
+      <FlexContainer flex={0.1}>
+        <BarIndicator count={4} color={'#CC958F'} size={20} />
+        <Text> Try Connect to server</Text>
+      </FlexContainer>
       <FlexContainer flex={0.3} jc='center'>
         <Button icon='sync' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => ResetPress}> RESET </Button>
       </FlexContainer>
@@ -173,63 +237,12 @@ const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) =>
     </FlexContainer>
   </FlexContainer>
 
-
-const TopTabModule = ({StartSessionPress}) =>
-        <MainModules.FlexContainer bgColor='white' flex={0.08} jc="space-evenly">
-          <Button icon='play' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={()=>StartSessionPress} uppercase={true}>
-            <Text variant="labelSmall" adjustsFontSizeToFit={true}>start session</Text>
-          </Button>
-          <MainModules.Box height="100%" width="10%" bgColor="#555">
-            <PulseIndicator color='#CC958F' size={20}/>
-            <Text> Server Connection Status </Text>
-          </MainModules.Box>
-          <MainModules.Box height="100%" width="10%" bgColor="#555">
-            <BarIndicator count={4} color={'#CC958F'} size={20}/>
-            <Text> Try Connect to server</Text>
-          </MainModules.Box>
-        </MainModules.FlexContainer>
-
 export default MainModulesPaper = {
-        Box: Box, // You can put Text components directly inside
-        GraphModule: GraphModule, // You need to put them here
-        FlexContainer: FlexContainer,
-        InputModule: InputModule,
-        WatchModule: WatchModule,
-        SideTabModule: SideTabModule,
-        SideTabModuleVertical: SideTabModuleVertical,
-        TopTabModule: TopTabModule,
-        MyComponent: MyComponent,
-      };
-
-const styles = StyleSheet.create({
-  surface: {
-    margin: 8,
-    padding: 8,
-    height: 80,
-    width: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
-  },
-    watchSurface: {
-    margin: 8,
-    padding: 8,
-    height: '100%',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
-  },
-  inputSurface: {
-    margin: 8,
-    padding: 8,
-    height: '100%',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
-  },
-});
+  Box: Box, // You can put Text components directly inside
+  GraphModule: GraphModule, // You need to put them here
+  FlexContainer: FlexContainer,
+  InputModule: InputModule,
+  WatchModule: WatchModule,
+  SideTabModule: SideTabModule,
+  SideTabModuleVertical: SideTabModuleVertical,
+};

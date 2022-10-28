@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "server-interface"
+  "defaultProject": "server-interface",
+  "cli": {
+    "analytics": false
+  }
 }

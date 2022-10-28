@@ -1,114 +1,239 @@
 // React Native Imports
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
+  View,
   Text,
   TextInput,
-  ScrollView,
   Button,
-  ToastAndroid,
   StyleSheet,
-  View,
+  Dimensions,
 } from 'react-native';
+import Swiper from 'react-native-swiper';
+import {send_command} from '../class/http';
+import LinearGradient from 'react-native-linear-gradient';
 
 // Component Imports
-// import RoundedButton from '../components/RoundedButton.js';
-// import Test from '../components/RoundedButton.js';
-import Buttons from '../components/Buttons.js';
 import MainModules from '../components/MainModules.js';
-import * as OtherButtons from '../components/OtherButtons.js';
-import * as Inputs from '../components/Inputs.js';
+import Chart from '../components/Chart.js';
+import Canva from '../components/Canvas';
+import Parameters from '../components/parametersBox';
+import {Action} from '../class/actions';
+import {get_patient_level, get_smartwatch_connected} from '../class/const';
 
 // Style Imports
 import * as ColorTheme from '../styles/Colors';
+import {InfoBox} from '../components/infoBox';
+
+const {width, height} = Dimensions.get('window');
+canvas_ref = React.createRef();
+patient_level = 10;
+smartwatch_connected = false;
 
 const Main = () => {
+  const [value2, setValue2] = useState(0);
+  useEffect(() => {
+    const interval2 = setInterval(() => {
+      setValue2(value2 => value2 + 1);
+      console.log(get_smartwatch_connected());
+      smartwatch_connected = get_smartwatch_connected();
+    }, 1000);
+
+    return () => clearInterval(interval2);
+  }, [value2]);
   return (
-    <View style={styles.viewContainer}>
-      <MainModules.FlexContainer flex={0.1} jc="space-evenly">
-        <Buttons.RoundedButton
-          title="Record"
-          onPress={() => blank()}
-          bgColor={ColorTheme.Fruity.First}></Buttons.RoundedButton>
-        <MainModules.Box height="100%" width="10%" bgColor="#555">
-          <Text> Server Connection Status </Text>
-        </MainModules.Box>
-        <MainModules.Box height="100%" width="10%" bgColor="#555">
-          <Text> Try Connect to server</Text>
-        </MainModules.Box>
-      </MainModules.FlexContainer>
+    // <ScrollView style={styles.viewContainer}>
+    //   <MainModules.FlexContainer
+    //     flexDirection={'column'}
+    //     height={height - 30 + 'px'}
+    //     width={width + 'px'}>
+    //     <MainModules.TopTabModule StartSessionPress={() => blank()} />
 
-      <MainModules.FlexContainer>
-        <MainModules.FlexContainer flex={0.3}>
-          <MainModules.FlexContainer flexDirection="column">
-            <Buttons.RoundedButton
-              title="Old Data"
-              onPress={() => blank()}
-              bgColor={ColorTheme.Fruity.First}></Buttons.RoundedButton>
-            <MainModules.InputModule
-              height="80%"
-              width="100%"
-              bgColor="#555"
-              title="test"
-            />
-            <Buttons.RoundedButton
-              title=""
-              onPress={() => blank()}
-              bgColor={ColorTheme.Fruity.First}></Buttons.RoundedButton>
-          </MainModules.FlexContainer>
-        </MainModules.FlexContainer>
+    //     <MainModules.FlexContainer>
+    //       <MainModules.SideTabModule
+    //         flex={0.3}
+    //         ResetPress={() => blank()}
+    //         QueryPress={() => blank()}
+    //       />
+    //       <MainModules.GraphModule
+    //         height="100%"
+    //         width="100%"
+    //         bgColor="#222"
+    //         //screen1={Chart}
+    //         screen2={Canva}
+    //       />
+    //     </MainModules.FlexContainer>
+    //   </MainModules.FlexContainer>
+    // </ScrollView>
 
-        <MainModules.FlexContainer flexDirection="column">
-          <MainModules.GraphModule
-            height="95%"
-            width="100%"
-            bgColor="#555"
-            title="Graph"
-          />
-          <MainModules.FlexContainer>
-            <MainModules.Box height="100%" width="80%" bgColor="#555">
-              <Text> View Button </Text>
-            </MainModules.Box>
-          </MainModules.FlexContainer>
-        </MainModules.FlexContainer>
-      </MainModules.FlexContainer>
+    <View style={styles.mainView}>
+      <View style={styles.verticalBox_Input}>
+        <Parameters canvas_ref={canvas_ref} />
+        <InfoBox></InfoBox>
+      </View>
+
+      {/*  ---------------------------------------------------------------------------- */}
+      <View style={styles.verticalBox_Graph}>
+        <Swiper>
+          <View style={styles.slideView}>
+            <LinearGradient
+              colors={['#A1C4FD', '#C2E9FB']}
+              style={styles.title2}>
+              <Text style={styles.titleText}>PATIENT WATCH DATA</Text>
+            </LinearGradient>
+            <View style={styles.slideViewChart}>
+              <Chart></Chart>
+            </View>
+          </View>
+          <View style={styles.slideView}>
+            <LinearGradient
+              colors={['#A1C4FD', '#C2E9FB']}
+              style={styles.title2}>
+              <Text style={styles.titleText}>GAUSSIAN PROCESS</Text>
+            </LinearGradient>
+            <View style={styles.slideViewChart}>
+              <Canva ref={canvas_ref}></Canva>
+            </View>
+          </View>
+          <View style={styles.slideView}>
+            <LinearGradient
+              colors={['#A1C4FD', '#C2E9FB']}
+              style={styles.title2}>
+              <Text style={styles.titleText}>OTHER</Text>
+            </LinearGradient>
+          </View>
+        </Swiper>
+      </View>
     </View>
   );
 };
-
-// <MainModules.FlexContainer>
-
-//   <MainModules.FlexContainer jc='flex-start'>
-//     <MainModules.InputModule height='100%' width='45%' bgColor='#555' title='test'>
-//     </MainModules.InputModule>
-//     <MainModules.Box height='100%' width="50%" bgColor='#555'/>
-//   </MainModules.FlexContainer>
-
-//   <MainModules.FlexContainer flexDirection='column'>
-
-//     <MainModules.FlexContainer flex={0.05}>
-//       <MainModules.Box height='100%' width="50%" bgColor='#555'/>
-//       <MainModules.Box height='100%' width="50%" bgColor='#555'>
-//         <Text> Next Suggestion? </Text>
-//       </MainModules.Box>
-//     </MainModules.FlexContainer>
-
-//     <MainModules.FlexContainer>
-//       <MainModules.GraphModule height='100%' width='100%' bgColor='#555' title='Graph'/>
-//     </MainModules.FlexContainer>
-
-//   </MainModules.FlexContainer>
-
-// </MainModules.FlexContainer>
 
 function blank() {
   // To be completed
 }
 
 const styles = StyleSheet.create({
-  viewContainer: {
-    backgroundColor: '#222',
-    height: '100%',
+  mainView: {
+    backgroundColor: 'white',
     width: '100%',
+    height: '100%',
+    flexDirection: 'row',
+    padding: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  verticalBox_Input: {
+    backgroundColor: '#9DD6EB',
+    borderColor: 'white',
+    //borderWidth: 10,
+    width: '19%',
+    height: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: 40,
+    // borderRadius: 20,
+    // borderBottomLeftRadius: 20,
+    // borderBottomRightRadius: 20,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 10.32,
+
+    elevation: 16,
+  },
+  verticalBox_Graph: {
+    //borderWidth: 1,
+    width: '79%',
+    height: '100%',
+    borderColor: 'white',
+    borderRadius: 20,
+    //borderBottomLeftRadius: 20,
+    //borderBottomRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 10.32,
+
+    elevation: 16,
+  },
+  slideTitle: {
+    color: 'grey',
+    fontSize: 35,
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
+    height: '10%',
+    backgroundColor: '#9DD6EB',
+    //borderColor: '#9DD6EB',
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    // borderWidth: 10,
+    // borderRadius: 20,
+    width: '100%',
+  },
+  title2: {
+    height: '10%',
+    width: '100%',
+  },
+
+  titleText: {
+    height: '100%',
+    fontSize: 35,
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
+    textAlignVertical: 'center',
+    color: 'grey',
+    width: '100%',
+    textAlign: 'center',
+  },
+  slideView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderColor: '#EEE',
+    borderLeftColor: '#EEE',
+    //borderColor: 'black',
+    borderWidth: 1,
+  },
+  slideViewChart: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    height: '89%',
+    width: '100%',
+    // borderWidth: 1,
+    // borderColor: 'black',
+    // borderRadius: 20,
+  },
+  viewContainer: {
+    width: '100%',
+    height: '100%',
+    padding: 5,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  upperbox: {
+    width: '50%',
+    height: '100%',
+    flexDirection: 'column',
+  },
+  patient_data_level_box: {
+    width: '80%',
+    height: '20%',
+    borderWidth: 1,
+    borderColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
   },
 });
 

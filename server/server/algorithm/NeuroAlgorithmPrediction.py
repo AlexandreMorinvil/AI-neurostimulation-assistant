@@ -8,6 +8,7 @@ class NeuroAlgorithmPrediction:
 
     positions = None
     n_Chan = 0
+    NextQuery = None
 
     def __init__(self) -> None:
         self.mKernel=5 #Matern kernel order
@@ -32,7 +33,6 @@ class NeuroAlgorithmPrediction:
             space.append(tab)  
 
         positions= list(itertools.product(*space))
-        print(positions)
     
         self.positions= np.array(positions)
         self.n_Chan= len(self.positions)
@@ -55,44 +55,38 @@ class NeuroAlgorithmPrediction:
         self.mean_function.update_gradients = lambda a, b: None 
 
 
-    def run(self):
-        while self.q < self.MaxQueries:
+    def execute_query(self, x_chan, BO_reward):
+        if self.q < 100:
             # We will sample the search space randomly for exactly nrnd queries
             if self.q>=self.nrnd:
                 # Find next point (max of acquisition function)
-                AcquisitionMap = ymu + self.kappa*np.nan_to_num(np.sqrt(ys2)) # UCB acquisition function
-                NextQuery= np.where(AcquisitionMap.reshape(len(AcquisitionMap))==np.max(AcquisitionMap.reshape(len(AcquisitionMap))))
-
-                #print(len(NextQuery))
-
-                # select next query
-                if len(NextQuery) > 1:
-                    NextQuery = NextQuery[np.random.randint(len(NextQuery))]    
-                else:   
-                    NextQuery = NextQuery[0]
-
-                #print(NextQuery[0])
+                self.AcquisitionMap = self.ymu + self.kappa*np.nan_to_num(np.sqrt(self.ys2)) # UCB acquisition function
+                #self.NextQuery= np.where(self.AcquisitionMap.reshape(len(self.AcquisitionMap))==np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap))))
+                #print("next querry" + str(self.NextQuery))
                 
-                self.P_test[self.q][0]= NextQuery[0]
+                # select next query 
+                self.NextQuery = x_chan    
+                self.P_test[self.q][0]= self.NextQuery
             else:
                 self.P_test[self.q][0]= int(self.order_this[self.q]) #
-            query_elec = self.P_test[self.q][0]
+                self.query_elec = self.P_test[self.q][0]
+                #print("next querry " + str(self.q))
             
         #SEND THIS TO CLINICIAN
         #RECEIVE RESPONSE
 
             #noisy response
-            BO_reward= np.random.normal(0,0.2)
+            self.BO_reward= BO_reward
             # done reading response
 
-            self.P_test[self.q][1]= BO_reward
+            self.P_test[self.q][1]= self.BO_reward
             # The first element of P_test is the selected search
             # space point, the second the resulting value
                                         
                 
-            x= self.positions[self.P_test[:self.q+1,0].astype(int),:] # search space position
-            y= self.P_test[:self.q+1,1] # test result 
-            y= y.reshape((len(y),1))
+            self.x= self.positions[self.P_test[:self.q+1,0].astype(int),:] # search space position
+            self.y= self.P_test[:self.q+1,1] # test result 
+            self.y= self.y.reshape((len(self.y),1))
 
             
             # Update the initial value of the parameters  
@@ -103,42 +97,50 @@ class NeuroAlgorithmPrediction:
             # Initialization of the model and the constraint of the Gaussian noise 
             if self.q==0:
                 #m=GPy.models.GPRegression(x,y, kernel= matk, normalizer=None, noise_var=hyp[3])
-                m = GPy.models.GPRegression(x,
-                                                                y,
+                self.m = GPy.models.GPRegression(self.x,
+                                                                self.y,
                                                                 kernel=self.matk,
                                                                 normalizer=None,
                                                                 noise_var=self.hyp[3])
-                m.Gaussian_noise.constrain_bounded(self.noise_min**2,self.noise_max**2, warning=False)
+                self.m.Gaussian_noise.constrain_bounded(self.noise_min**2,self.noise_max**2, warning=False)
             else:
-                m.set_XY(x,y)
-                m.Gaussian_noise.variance[0]=self.hyp[3]
+                self.m.set_XY(self.x,self.y)
+                self.m.Gaussian_noise.variance[0]=self.hyp[3]
             
             # GP-BO optimization
-            m.optimize(optimizer='scg', start= None, messages=False, max_iters=10, ipython_notebook=True,
+            self.m.optimize(optimizer='scg', start= None, messages=False, max_iters=10, ipython_notebook=True,
                         clear_after_finish=True)
 
-            X_test= self.positions
-            ymu, ys2= m.predict(X_test, full_cov=False, Y_metadata=None, include_likelihood=True)
+            self.X_test= self.positions
+            self.ymu, self.ys2= self.m.predict(self.X_test, full_cov=False, Y_metadata=None, include_likelihood=True)
+            
             
             # We only test for gp predictions at electrodes that
             # we had queried (presumable we only want to return an
             # electrode that we have already queried). 
-            Tested= np.unique(self.P_test[:self.q+1,0].astype(int))
-            MapPredictionTested=ymu[Tested]
-            BestQuery= Tested[(MapPredictionTested==np.max(MapPredictionTested)).reshape(len(MapPredictionTested))]
+            self.Tested= np.unique(self.P_test[:self.q+1,0].astype(int))
+            self.MapPredictionTested=self.ymu[self.Tested]
             
-            if len(BestQuery) > 1:
-                BestQuery = np.array([BestQuery[np.random.randint(len(BestQuery))]])
+            self.BestQuery= self.Tested[(self.MapPredictionTested==np.max(self.MapPredictionTested)).reshape(len(self.MapPredictionTested))]
+
+            if len(self.BestQuery) > 1:
+                self.BestQuery = np.array([self.BestQuery[np.random.randint(len(self.BestQuery))]])
             # Maximum response at time q           
-            self.P_max.append(BestQuery[0])
+            self.P_max.append(self.BestQuery[0])
             self.q+=1
         
-        solution = self.generateOutput(self.P_test)
-        print(solution)
         position = self.generateOutput(self.positions)
-        print(position)
-        return solution, position
-
+        solution = self.transform_ymu(self.ymu)
+        #print(solution)
+        if(self.NextQuery):
+            self.NextQuery= np.where(self.AcquisitionMap.reshape(len(self.AcquisitionMap))==np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap))))
+            print("next querry = " + str(self.NextQuery[0][0]))
+            return solution, position, str(self.NextQuery[0][0])
+        return solution, position, "0"
+    
+    ####################################################################################################
+    #### generate new array in 2 dimentions
+    ####################################################################################################
     def generateOutput(self, solution):
         output = []
         for rep in solution:
@@ -148,9 +150,14 @@ class NeuroAlgorithmPrediction:
             output.append(tab)
         return output
 
-
-
-        
+    ####################################################################################################
+    #### transform predict heat-map(ymu) form 1D to 2D array
+    ####################################################################################################
+    def transform_ymu(self, ymu):
+        output = []
+        for i in range(len(self.positions)):
+            output.append([i, ymu[i][0]])
+        return output
 
     def sendQueryResult(self):
         pass

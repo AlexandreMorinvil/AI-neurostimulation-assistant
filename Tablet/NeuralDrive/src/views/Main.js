@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
     color: 'grey',
     width: '100%',
     textAlign: 'center',
+    color: 'black',
   },
   slideView: {
     flex: 1,
@@ -203,6 +204,7 @@ const styles = StyleSheet.create({
     borderLeftColor: '#EEE',
     //borderColor: 'black',
     borderWidth: 1,
+    color: 'black',
   },
   slideViewChart: {
     flex: 1,

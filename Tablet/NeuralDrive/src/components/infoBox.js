@@ -43,13 +43,31 @@ export function InfoBox() {
         <Text style={styles.titleText}>INFO</Text>
       </LinearGradient>
       <View style={styles.patient_data_level_box}>
-        <Text style={{fontSize: 16, fontFamily: 'Roboto', fontWeight: 'bold'}}>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 16,
+            fontFamily: 'Roboto',
+            fontWeight: 'bold',
+          }}>
           PATIENT LEVEL
         </Text>
-        <Text style={{fontSize: 60, fontFamily: 'Roboto', fontWeight: 'bold'}}>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 60,
+            fontFamily: 'Roboto',
+            fontWeight: 'bold',
+          }}>
           {patient_level}
         </Text>
-        <Text style={{fontSize: 14, fontFamily: 'Roboto', fontWeight: 'bold'}}>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 14,
+            fontFamily: 'Roboto',
+            fontWeight: 'bold',
+          }}>
           SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}
         </Text>
       </View>
@@ -66,6 +84,7 @@ const styles = StyleSheet.create({
     //backgroundColor: 'grey',
 
     //flex: 1,
+    color: 'black',
   },
   patient_data_level_box: {
     width: '80%',
@@ -75,10 +94,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
+    color: 'black',
   },
   title2: {
     height: '30%',
     width: '100%',
+    color: 'black',
   },
 
   titleText: {
@@ -90,6 +111,7 @@ const styles = StyleSheet.create({
     color: 'grey',
     width: '100%',
     textAlign: 'center',
+    color: 'black',
   },
 });
 

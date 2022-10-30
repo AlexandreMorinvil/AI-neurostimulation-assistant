@@ -258,6 +258,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: 'Roboto',
     fontWeight: 'bold',
+    color: 'black',
   },
   button: {
     alignItems: 'center',
@@ -300,9 +301,10 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: 'grey',
+    color: 'black',
     fontSize: 17,
     fontWeight: 'bold',
+    color: 'black',
   },
   box: {
     width: '100%',
@@ -321,7 +323,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 20,
     fontWeight: 'bold',
-
+    color: 'black',
     padding: 5,
   },
   input: {
@@ -333,6 +335,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     fontSize: 35,
     fontWeight: 'bold',
+    color: 'black',
   },
 
   startButton: {
@@ -357,7 +360,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontWeight: 'bold',
     textAlignVertical: 'center',
-    color: 'grey',
+    color: 'black',
     width: '100%',
     textAlign: 'center',
   },

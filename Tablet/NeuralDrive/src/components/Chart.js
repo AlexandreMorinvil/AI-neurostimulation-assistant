@@ -83,7 +83,7 @@ export function Chart() {
           data={data}
           //contentInset={contentInset}
           svg={{
-            fill: 'grey',
+            fill: 'black',
             fontSize: 18,
           }}
           numberOfTicks={10}
@@ -116,7 +116,7 @@ export function Chart() {
           return '';
         }}
         contentInset={{left: 10, right: 10}}
-        svg={{fontSize: 18, fill: 'grey'}}
+        svg={{fontSize: 18, fill: 'black'}}
       />
     </View>
   );

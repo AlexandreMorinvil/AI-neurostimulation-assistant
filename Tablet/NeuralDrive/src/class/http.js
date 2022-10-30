@@ -1,12 +1,11 @@
 import {Action, ERROR_CODE, Status} from '../class/actions';
-
-server_url = 'http://10.0.2.2:5000';
+import {set_server_ip, get_server_ip} from '../class/const';
 
 export const send_request = async data => {
   try {
-    console.log(server_url);
+    console.log(get_server_ip());
     console.log(data);
-    const response = await fetch(server_url);
+    const response = await fetch(get_server_ip());
     const json = await response.json();
     console.log(json);
     return json.movies;
@@ -18,7 +17,7 @@ export const send_request = async data => {
 export const send_command = async command => {
   try {
     console.log(command);
-    const response = await fetch(server_url + '/command', {
+    const response = await fetch(get_server_ip() + '/command', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -72,7 +71,7 @@ export const get_watch_data = async chart => {
     arg: {},
   };
   try {
-    const response = await fetch(server_url + '/command', {
+    const response = await fetch(get_server_ip() + '/command', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

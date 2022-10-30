@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
     padding: 5,
     alignItems: 'center',
     justifyContent: 'center',
+    color: 'black',
   },
   verticalBox_Input: {
     backgroundColor: '#9DD6EB',

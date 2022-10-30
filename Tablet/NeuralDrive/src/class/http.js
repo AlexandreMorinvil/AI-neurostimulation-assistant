@@ -36,12 +36,12 @@ export const send_command = async command => {
   }
 };
 
-export const post_start_new_session = async () => {
+export const post_start_new_session = async (n_param, dimension) => {
   const command = {
     action: Action.START_SESSION,
     arg: {
-      n_param: this.n_param,
-      dimention: this.dimension,
+      n_param: n_param,
+      dimention: dimension,
     },
   };
   response = await send_command(command);

@@ -25,9 +25,9 @@ const set_session_status = status => {
   mission_status = status;
 };
 
-const start_new_session = () => {
+const start_new_session = (dimension, n_param) => {
   console.log('START SESSION');
-  return post_start_new_session();
+  return post_start_new_session(dimension, n_param);
 };
 
 // const set_dimension = dimension => {
@@ -60,7 +60,6 @@ const set_old_Y_value = old_y_value => {
 
 session_status = Status.IDLE;
 n_param = 2;
-dimension = 10;
 A = 2;
 B = 0;
 y_value = 0;
@@ -131,7 +130,10 @@ export function Parameters({canvas_ref}) {
                 <Pressable
                   style={styles.button}
                   onPress={async () => {
-                    let status = await start_new_session();
+                    canvas_ref.current.current_algorithm.n_param = n_param;
+                    canvas_ref.current.current_algorithm.dimention = dimension;
+
+                    let status = await start_new_session(n_param, dimension);
                     console.log('status = ', status);
                     session_status = status;
                     setValue(value => value + 1);

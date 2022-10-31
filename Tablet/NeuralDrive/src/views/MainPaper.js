@@ -45,22 +45,11 @@ class MainPaperHorizontal extends React.Component {
     return (
         <MainModulesPaper.FlexContainer>
           <MainModulesPaper.SideTabModule flex={0.3} StartSessionPress={() => blank()} ResetPress={() => blank()} QueryPress={() => blank()} />
-          <MainModulesPaper.GraphModule height="100%" width="100%" screen1={Chart} screen2={Canva} />
+          <MainModulesPaper.GraphModule/>
         </MainModulesPaper.FlexContainer>
     );
   }
 }
-
-/* <MainModulesPaper.FlexContainer flexDirection={'column'}> */
-
-/*         <MainModulesPaper.TopTabModule StartSessionPress={() => blank()} /> */
-
-/*         <MainModulesPaper.FlexContainer> */
-/*           <MainModulesPaper.SideTabModule flex={0.3} StartSessionPress={() => blank()} ResetPress={() => blank()} QueryPress={() => blank()} /> */
-/*           <MainModulesPaper.GraphModule height="100%" width="100%" screen1={Chart} screen2={Canva} /> */
-/*         </MainModulesPaper.FlexContainer> */
-
-/*       </MainModulesPaper.FlexContainer> */
 
 class MainPaperVertical extends React.Component {
 
@@ -71,7 +60,7 @@ class MainPaperVertical extends React.Component {
           <MainModulesPaper.SideTabModuleVertical flex={1} ResetPress={() => blank()} QueryPress={() => blank()} />
         </MainModulesPaper.FlexContainer>
         <MainModulesPaper.FlexContainer>
-          <MainModulesPaper.GraphModule height="100%" width="100%" screen1={Chart} screen2={Canva} />
+          <MainModulesPaper.GraphModule/>
         </MainModulesPaper.FlexContainer>
       </MainModulesPaper.FlexContainer>
     );

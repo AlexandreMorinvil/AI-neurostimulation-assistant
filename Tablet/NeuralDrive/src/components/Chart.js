@@ -41,7 +41,7 @@ class Chart extends Component {
 
   render() {
     return (
-      <MainModules.FlexContainer borderRadius={'25px'}>
+      <MainModules.FlexContainer alignItems='flex-start' flexDirection={'column'} borderRadius={'25px'} width='100%'>
         <LineChart
           data={{
             labels: this.labelsSet,
@@ -51,10 +51,10 @@ class Chart extends Component {
               },
             ],
           }}
-          width={Dimensions.get('window').width * 0.49} from react-native
-          height={Dimensions.get('window').height * 0.9}
-          // width='100%'
-          // height='100%'
+          width={200}
+          height={220}
+          /* width={Dimensions.get('window').width *0.74} */
+          /* height={Dimensions.get('window').height * 0.85} */
           yAxisLabel="$"
           yAxisSuffix="k"
           yAxisInterval={1} // optional, defaults to 1

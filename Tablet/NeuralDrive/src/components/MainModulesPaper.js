@@ -16,7 +16,6 @@ import {
 
 const styles = StyleSheet.create({
   surface: {
-    margin: 8,
     padding: 10,
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -25,7 +24,6 @@ const styles = StyleSheet.create({
   },
 
   graphSurface: {
-    margin: 8,
     padding: 8,
     height: 80,
     width: 80,
@@ -35,7 +33,6 @@ const styles = StyleSheet.create({
     // backgroundColor: '',
   },
   watchSurface: {
-    margin: 8,
     padding: 8,
     height: '100%',
     width: '100%',
@@ -45,7 +42,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '',
   },
   inputSurface: {
-    margin: 8,
+    margin: 0,
     padding: 8,
     height: '100%',
     width: '100%',
@@ -93,22 +90,12 @@ const Box = styled.View`
     border: ${props => props.border || '0px solid black'};
 `;
 
-const CustomText = styled.Text`
-    color: ${props => props.color || 'white'};
-    font-size: ${props => props.fontsize || '12px'};
-    margin: ${props => props.marg || '0px'};
-`;
-
-const GraphModule = ({ height, width, bgColor, screen1, screen2 }) =>
+const GraphModule = () =>
   <FlexContainer>
-    <Surface style={{ display: 'flex', borderRadius: 25 }}>
+      <Surface color='red' style={{ display: 'flex', borderRadius: 25}}>
       <Swiper>
-        <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
-          <Canva />
-        </Box>
-        <Box height={height} width={width} bgColor={bgColor} marg={'0'}>
-          <Chart />
-        </Box>
+        <Canva />
+        <Chart />
       </Swiper>
     </Surface>
   </FlexContainer>
@@ -134,8 +121,9 @@ const InputModal = () => {
   );
 };
 
-const Input = ({ dimension, unitType, titleSpacing }) =>
+const Input = ({ dimension, unitType, flexInput}) =>
   <FlexContainer jc={'flex-start'}
+    flex={flexInput}
     marg={'5px'}
     pad={'0px 0px 0px 8px'}
     bgColor={'#4a4a4a'}
@@ -147,7 +135,8 @@ const Input = ({ dimension, unitType, titleSpacing }) =>
       <Text variant='labelLarge' style={{ color: '#374F42' }}> XY </Text>
     </Box>
 
-    <TextInput mode='outlined'
+    <TextInput
+      mode='outlined'
       activeOutlineColor='black'
       outlineColor='white'
       selectionColor='#6f6f6f'
@@ -160,12 +149,20 @@ const Input = ({ dimension, unitType, titleSpacing }) =>
     <Text variant='labelLarge' style={{ color: 'white' }}> {unitType} </Text>
   </FlexContainer>
 
-// titleSpacing is used to align each row
-const InputModule = ({ flex }) =>
+// flexInput to adjust each input size
+const InputModule = ({QueryPress, ResetPress}) =>
   <Surface style={styles.inputSurface} elevation={1}>
-    <FlexContainer flex={flex} flexDirection={'column'} alignItems={'flex-start'} pad={'10px 15px 10px 5px'} bgColor={'#00000000'}>
-      <Input dimension={'Parameter #1'} unitType={'units'} titleSpacing={'0 5px 0 0'} />
-      <Input dimension={'Parameter #2'} unitType={'units'} titleSpacing={'0 6px 0 0'} />
+    <FlexContainer flex={0.8} flexDirection={'column'} jc={'flex-start'} alignItems='center' pad='0' bgColor={'#00000000'}>
+      <Input flexInput={0.35} dimension={'Parameter #1'} unitType={'units'} titleSpacing={'0 5px 0 0'} />
+      <Input flexInput={0.35} dimension={'Parameter #2'} unitType={'units'} titleSpacing={'0 6px 0 0'} />
+    </FlexContainer>
+    <FlexContainer flex={0.2} jc='space-around' bgColor='00000000'>
+          <Button icon='sync' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => ResetPress} uppercase={true}>
+            <Text variant="labelLarge" adjustsFontSizeToFit={true}>reset</Text>
+          </Button>
+          <Button icon='tab-search' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => QueryPress} uppercase={true}>
+            <Text variant="labelLarge" adjustsFontSizeToFit={true}>query</Text>
+          </Button>
     </FlexContainer>
   </Surface>
 
@@ -179,44 +176,43 @@ const SideTabModule = ({ flex, StartSessionPress, ResetPress, QueryPress }) =>
   <FlexContainer flex={flex} pad='0px'>
     <FlexContainer flexDirection="column" jc='flex-start' pad='10px'>
 
-      <FlexContainer flex={0.05} jc='flex-start'>
-        <FlexContainer flex={0.1} pad='0 10px 0 0%' jc='flex-end'>
-          <BarIndicator count={4} color={'#CC958F'} size={20} />
-        </FlexContainer>
-        <FlexContainer flex={1} jc='flex-start'>
-          <Text> Try Connect to server</Text>
-        </FlexContainer>
+      <FlexContainer flex={0.05} jc={'flex-start'}>
+        <BarIndicator count={4} color={'#CC958F'} size={20} style={{flex: 0.1, paddingRight: 20 }} />
+        <Text> Try Connect to server</Text>
       </FlexContainer>
 
-      <FlexContainer flex={0.1}>
-        {/* <Surface style={styles.surface} flexWrap='nowrap'> */}
-        <FlexContainer flex={0.1} pad='0 10px 0 15%' jc='flex-end'>
-          <PulseIndicator color='red' size={30} />
-        </FlexContainer>
-        <FlexContainer flex={1} pad='0' jc='flex-start'>
-          <Button icon='play' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => StartSessionPress} uppercase={true} style={{ display: 'flex' }}>
-            <Text variant="labelLarge" adjustsFontSizeToFit={true}>start session</Text>
+      <FlexContainer flex={0.15} jc='center'>
+        <Surface style={{flexDirection: 'row', borderRadius: 15, padding: 15}}>
+          <PulseIndicator color='red' size={30} style={{flex: 0.1, paddingRight: 25 }} />
+          <Button
+            icon='play'
+            mode='elevated'
+            buttonColor={'#CC958F'}
+            dark={false} loading={false}
+            onPress={() => StartSessionPress}
+            uppercase={true}
+            style={{height: 40}}>
+            <Text
+              variant="labelLarge"
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}>
+
+              start session</Text>
           </Button>
-        </FlexContainer>
-        {/* </Surface> */}
+        </Surface>
       </FlexContainer>
 
-      <FlexContainer flex={0.3} jc='center' pad='10px 0 10px 0'>
+      {/* adjust  */}
+      <FlexContainer flex={0.5} flexDirection='column' jc='center' alignItems='flex-start' pad='10px 0 10px 0'>
         <InputModule
-          flex={1}
           alignItems={'flex-start'}
+          ResetPress={ResetPress}
+          QueryPress={QueryPress}
         />
       </FlexContainer>
-      <FlexContainer flex={0.08} jc='space-around'>
-        <Button icon='sync' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => ResetPress} uppercase={true}>
-          <Text variant="labelLarge" adjustsFontSizeToFit={true}>reset</Text>
-        </Button>
-        <Button icon='tab-search' mode='elevated' buttonColor={'#CC958F'} dark={false} loading={false} onPress={() => QueryPress} uppercase={true}>
-          <Text variant="labelLarge" adjustsFontSizeToFit={true}>query</Text>
-        </Button>
-      </FlexContainer>
-      <FlexContainer flex={0.54} jc='center' pad='10px 0 0 0'>
-        <WatchModule height={'100%'} width={'100%'} bgColor={'#555'} />
+
+      <FlexContainer flex={0.5} jc='center' pad='10px 0 0 0'>
+        <WatchModule/>
       </FlexContainer>
     </FlexContainer>
   </FlexContainer>

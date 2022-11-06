@@ -232,8 +232,10 @@ old_A = A;
 old_B = B;
 old_y_value = y_value;
 
-value = 0;
 // adding setValue function
+
+value = 0;
+
 const setValue = value => {
   this.value = value;
 };
@@ -246,6 +248,8 @@ const set_dimension = dimension => {
 
 // flexInput to adjust each input size
 const InputModule = ({QueryPress, ResetPress}) => {
+  const [localDimension, local_set_dimension] = React.useState(10);
+
   return (
     <Surface style={styles.inputSurface} elevation={1}>
       <FlexContainer flex={0.2} flexDirection={'column'}>
@@ -258,10 +262,13 @@ const InputModule = ({QueryPress, ResetPress}) => {
           thumbTintColor={'black'}
           thumbTouchSize={{width: 30, height: 30}}
           thumbStyle={{height: 20, width: 20}}
-          step={5}
-          onValueChange={value => set_dimension(value)}
+          step={1}
+          onValueChange={value => {
+            set_dimension(value);
+            local_set_dimension(value);
+          }}
         />
-        <Text variant="headlineSmall">{dimension}</Text>
+        <Text variant="headlineSmall">{localDimension}</Text>
       </FlexContainer>
       <FlexContainer
         flex={0.8}
@@ -282,6 +289,14 @@ const InputModule = ({QueryPress, ResetPress}) => {
           flexInput={0.35}
           setFunction={text => set_B(text)}
           dimension={'Parameter #2'}
+          value={2}
+          unitType={'units'}
+          titleSpacing={'0 6px 0 0'}
+        />
+        <Input
+          flexInput={0.35}
+          setFunction={text => set_Y_value(text)}
+          dimension={'tremor'}
           value={2}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}

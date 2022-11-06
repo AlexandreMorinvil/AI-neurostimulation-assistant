@@ -10,10 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="719d0f4c-1d47-41e8-9bc3-907330ad02ad" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Tablet/NeuralDrive/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Tablet/NeuralDrive/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Tablet/NeuralDrive/src/components/Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Tablet/NeuralDrive/src/components/Chart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tablet/NeuralDrive/src/components/Canvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Tablet/NeuralDrive/src/components/Canvas.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Tablet/NeuralDrive/src/components/MainModulesPaper.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Tablet/NeuralDrive/src/components/MainModulesPaper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Tablet/NeuralDrive/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Tablet/NeuralDrive/yarn.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

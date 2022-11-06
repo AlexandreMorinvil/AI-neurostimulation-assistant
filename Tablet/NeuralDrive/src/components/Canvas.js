@@ -49,7 +49,7 @@ class Canva extends React.Component {
 
   draw_heat_map(algorithm) {
     this.current_algorithm = algorithm;
-    //console.log('draw ++++++++++++++++++++++', this.current_algorithm.data[0]);
+    console.log('draw ++++++++++++++++++++++', this.current_algorithm.data[0]);
     this.clear_canvas();
     dx = this.ctx.canvas.width / algorithm.dimention;
     dy = this.ctx.canvas.height / algorithm.dimention;

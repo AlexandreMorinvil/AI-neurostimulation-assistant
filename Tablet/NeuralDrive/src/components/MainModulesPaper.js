@@ -1,4 +1,5 @@
 import React from 'react';
+import {Slider} from 'react-native-elements';
 import {Alert, ScrollView, StyleSheet} from 'react-native';
 import {BarIndicator, PulseIndicator} from 'react-native-indicators';
 import {
@@ -177,6 +178,20 @@ const Input = ({dimension, unitType, flexInput}) => (
 // flexInput to adjust each input size
 const InputModule = ({QueryPress, ResetPress}) => (
   <Surface style={styles.inputSurface} elevation={1}>
+    <FlexContainer flex={0.2} flexDirection={'column'}>
+      <Text variant="headlineSmall">DIMENSIONS</Text>
+      <Slider
+        style={{width: '80%'}}
+        /* value={dimension} */
+        maximumValue={50}
+        minimumValue={5}
+        thumbTintColor={'black'}
+        thumbTouchSize={20}
+        step={5}
+        /* onValueChange={value => set_dimension(value)} */
+      />
+      <Text variant="headlineSmall">3</Text>
+    </FlexContainer>
     <FlexContainer
       flex={0.8}
       flexDirection={'column'}

@@ -9,13 +9,19 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="719d0f4c-1d47-41e8-9bc3-907330ad02ad" name="Changes" comment="" />
+    <list default="true" id="719d0f4c-1d47-41e8-9bc3-907330ad02ad" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Tablet/NeuralDrive/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Tablet/NeuralDrive/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tablet/NeuralDrive/src/components/Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Tablet/NeuralDrive/src/components/Chart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tablet/NeuralDrive/src/components/MainModulesPaper.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Tablet/NeuralDrive/src/components/MainModulesPaper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tablet/NeuralDrive/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Tablet/NeuralDrive/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/noe/.android/avd/Wear_OS_Large_Round_API_30.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/bndo/.android/avd/10.1_WXGA_Tablet_API_30.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -80,7 +86,6 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
-      <option name="CLEAR_APP_STORAGE" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
@@ -120,7 +125,6 @@
         <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
         <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
         <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
-        <option name="PROFILING_MODE" value="NOT_SET" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -152,5 +156,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

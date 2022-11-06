@@ -70,21 +70,29 @@ export const get_watch_data = async chart => {
     action: Action.GET_WATCH_DATA,
     arg: {},
   };
-  try {
-    const response = await fetch(get_server_ip() + '/command', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        action: command.action,
-        arg: command.arg,
-      }),
+  fetch(get_server_ip() + '/command', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      action: command.action,
+      arg: command.arg,
+    }),
+  })
+    .then(response => {
+      response
+        .json()
+        .then(json => {
+          console.log(json);
+          return JSON.parse(json.content);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    })
+    .catch(error => {
+      console.log(error);
     });
-    const json = await response.json();
-    return JSON.parse(json.content);
-  } catch (error) {
-    console.error(error);
-  }
 };

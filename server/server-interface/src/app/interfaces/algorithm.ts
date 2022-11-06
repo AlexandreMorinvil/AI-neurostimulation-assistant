@@ -3,4 +3,5 @@ export interface Algorithm {
     dimention: number;
     data: number[];
     position: number[];
+    next_query : number;
 }

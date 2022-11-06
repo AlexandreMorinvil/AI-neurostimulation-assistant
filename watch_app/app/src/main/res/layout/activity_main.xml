@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,36 +13,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textSize="25dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="@id/ipAddress"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/enable_data"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.343" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/enable_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/enable"
+        android:text="@string/disable"
         android:textSize="18dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/app_name"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_name"
+        app:layout_constraintTop_toTopOf="@id/app_name"
+        app:layout_constraintVertical_bias="0.855"
         tools:checked="false"
         tools:visibility="visible" />
 
-    <ImageButton
-        android:id="@+id/bluetoothIv"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_bluetooth_on"
+    <EditText
+        android:id="@+id/ipAddress"
+        android:layout_width="120sp"
+        android:layout_height="40sp"
+        android:layout_marginStart="4dp"
+        android:hint="255.255.255.255"
+        android:inputType="phone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/enable_data"
-        app:layout_constraintVertical_bias="1.1" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.497" />
+
+    <Button
+        android:id="@+id/connectServer"
+        android:layout_width="63dp"
+        android:layout_height="30dp"
+        android:text="Connect"
+        android:textSize="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ipAddress"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.472" />
 </androidx.constraintlayout.widget.ConstraintLayout>

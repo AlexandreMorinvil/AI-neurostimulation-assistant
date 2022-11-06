@@ -50,13 +50,16 @@ class CommandHandler:
             print("x_chanel = ", x_chanel)
             output = self.current_session.algorithm.execute_query(x_chanel,float(arg["y_value"]))
             print("EXECUTE_QUERY")
-            # print(output[0])
+            print(output[0])
             data = { 
                 "predict_heat_map" : json.dumps(output[0]),
                 "position": json.dumps(output[1]),
                 "next_query": output[2]
                 }
+<<<<<<< HEAD
             print(data)
+=======
+>>>>>>> dev
             return data
 
         elif action == Action.RECEIVE_DATA_WATCH.value:
@@ -78,7 +81,11 @@ class CommandHandler:
             if(len(self.stack_watch_data) > 0):
                 data = self.stack_watch_data.copy()
                 self.free_stack_watch_data()
+<<<<<<< HEAD
                 # print(data)
+=======
+                print(data)
+>>>>>>> dev
                 return json.dumps(data)
 
 
@@ -95,4 +102,8 @@ class CommandHandler:
 
     def free_stack_watch_data(self):
         self.stack_watch_data = []
+<<<<<<< HEAD
         print("free stack")
+=======
+        print("free stack")
+>>>>>>> dev

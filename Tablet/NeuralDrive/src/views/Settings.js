@@ -90,6 +90,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#111',
     padding: 10,
   },
+  inputBox: {
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  inputName: {
+    fontSize: 17,
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  input: {
+    //height: '25%',
+    width: '80%',
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 4,
+    fontSize: 35,
+    fontWeight: 'bold',
+    color: 'black',
+  },
 });
 
 function blank() {

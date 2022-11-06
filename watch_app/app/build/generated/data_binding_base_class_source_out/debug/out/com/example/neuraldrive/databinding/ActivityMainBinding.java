@@ -4,7 +4,8 @@ package com.example.neuraldrive.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,17 +26,22 @@ public final class ActivityMainBinding implements ViewBinding {
   public final TextView appName;
 
   @NonNull
-  public final ImageButton bluetoothIv;
+  public final Button connectServer;
 
   @NonNull
   public final SwitchMaterial enableData;
 
+  @NonNull
+  public final EditText ipAddress;
+
   private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull TextView appName,
-      @NonNull ImageButton bluetoothIv, @NonNull SwitchMaterial enableData) {
+      @NonNull Button connectServer, @NonNull SwitchMaterial enableData,
+      @NonNull EditText ipAddress) {
     this.rootView = rootView;
     this.appName = appName;
-    this.bluetoothIv = bluetoothIv;
+    this.connectServer = connectServer;
     this.enableData = enableData;
+    this.ipAddress = ipAddress;
   }
 
   @Override
@@ -71,9 +77,9 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.bluetoothIv;
-      ImageButton bluetoothIv = ViewBindings.findChildViewById(rootView, id);
-      if (bluetoothIv == null) {
+      id = R.id.connectServer;
+      Button connectServer = ViewBindings.findChildViewById(rootView, id);
+      if (connectServer == null) {
         break missingId;
       }
 
@@ -83,7 +89,14 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((ConstraintLayout) rootView, appName, bluetoothIv, enableData);
+      id = R.id.ipAddress;
+      EditText ipAddress = ViewBindings.findChildViewById(rootView, id);
+      if (ipAddress == null) {
+        break missingId;
+      }
+
+      return new ActivityMainBinding((ConstraintLayout) rootView, appName, connectServer,
+          enableData, ipAddress);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

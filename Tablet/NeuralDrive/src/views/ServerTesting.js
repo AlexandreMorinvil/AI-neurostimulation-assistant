@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import Chart from '../components/Chart';
 import Canva from '../components/Canvas';
-import {send_request} from '../class/http';
+import {send_request, send_command} from '../class/http';
 import styled from 'styled-components';
+import {Action} from '../class/actions';
 import {
   Text,
   TextInput,
@@ -22,9 +23,32 @@ import {
   StackedBarChart,
 } from 'react-native-chart-kit';
 
-server_url = 'http://10.0.2.2:5000/packet';
+//server_url = 'http://10.0.2.2:5000/packet';
+
+const set_dimension = dimension => {
+  this.dimension = +dimension;
+};
+const set_n_param = n_param => {
+  this.n_param = +n_param;
+};
+const set_A = A => {
+  this.A = +A;
+};
+const set_B = B => {
+  this.B = +B;
+};
+const set_Y_value = y_value => {
+  this.y_value = +y_value;
+};
+
+this.ref = React.createRef();
 
 const ServerTesting = () => {
+  n_param = 2;
+  dimension = 3;
+  A = 0;
+  B = 0;
+  y_value = 0;
   const [text, setText, serverResponse] = useState('');
 
   return (
@@ -38,8 +62,8 @@ const ServerTesting = () => {
             <TextInput
               style={styles.input}
               placeholder="4"
-              onChangeText={text => setText(text)}
-              defaultValue={text}
+              onChangeText={text => set_dimension(text)}
+              defaultValue={this.dimension}
             />
           </View>
           <View style={styles.inputBox}>
@@ -47,25 +71,73 @@ const ServerTesting = () => {
             <TextInput
               style={styles.input}
               placeholder="2"
-              onChangeText={text => setText(text)}
-              defaultValue={text}
+              onChangeText={text => set_n_param(text)}
+              defaultValue={this.n_param}
             />
           </View>
           <Button
             title="send to server"
             onPress={() => {
               // Call Server Request Here @Noe
-              send_request(server_url);
+              send_command(
+                {
+                  action: Action.START_SESSION,
+                  arg: {
+                    n_param: this.n_param,
+                    dimention: this.dimension,
+                  },
+                },
+                this.ref.current,
+              );
+            }}
+          />
+          <View style={styles.inputBox}>
+            <Text>A</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="4"
+              onChangeText={text => set_A(text)}
+              defaultValue={this.A}
+            />
+          </View>
+          <View style={styles.inputBox}>
+            <Text>B</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="2"
+              onChangeText={text => set_B(text)}
+              defaultValue={this.B}
+            />
+          </View>
+          <View style={styles.inputBox}>
+            <Text>Y_value</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="2"
+              onChangeText={text => set_Y_value(text)}
+              defaultValue={this.y_value}
+            />
+          </View>
+          <Button
+            title="send querry"
+            onPress={() => {
+              // Call Server Request Here @Noe
+              response = send_command(
+                {
+                  action: Action.EXECUTE_QUERY,
+                  arg: {A: this.A, B: this.B, y_value: this.y_value},
+                },
+                this.ref.current,
+              );
+              console.log(response);
             }}
           />
         </View>
-        <View style={styles.box}>
-          <Canva></Canva>
-        </View>
+        <View style={styles.box}>{/* <Canva ref={this.ref}></Canva> */}</View>
       </View>
       <View style={styles.boxChart}>
         <Text style={styles.boxTitle}>Patient data</Text>
-        <Chart></Chart>
+        {/* <Chart></Chart> */}
       </View>
     </View>
   );
@@ -98,7 +170,7 @@ const styles = StyleSheet.create({
   boxChart: {
     width: '50%',
     height: '100%',
-    backgroundColor: 'grey',
+    backgroundColor: 'white',
     padding: 5,
   },
   boxTitle: {

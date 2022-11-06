@@ -1,4 +1,10 @@
 import React from 'react';
+import {
+  send_command,
+  post_start_new_session,
+  post_execute_query,
+} from '../class/http';
+import {Action, Status, ERROR_CODE} from '../class/actions';
 import {Slider} from 'react-native-elements';
 import {Alert, ScrollView, StyleSheet} from 'react-native';
 import {BarIndicator, PulseIndicator} from 'react-native-indicators';
@@ -94,11 +100,12 @@ const Box = styled.View`
   border: ${props => props.border || '0px solid black'};
 `;
 
+CanvasRef = React.createRef();
 const GraphModule = () => (
   <FlexContainer>
     <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
       <Swiper>
-        <Canva />
+        <Canva ref={CanvasRef}></Canva>
         <Chart />
       </Swiper>
     </Surface>
@@ -129,7 +136,7 @@ const InputModal = () => {
   );
 };
 
-const Input = ({dimension, unitType, flexInput}) => (
+const Input = ({dimension, unitType, flexInput, setFunction, value}) => (
   <FlexContainer
     jc={'flex-start'}
     flex={flexInput}
@@ -137,7 +144,8 @@ const Input = ({dimension, unitType, flexInput}) => (
     pad={'0px 0px 0px 8px'}
     bgColor={'#4a4a4a'}
     borderRadius={'15px'}
-    onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}>
+    /* onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}> */
+  >
     {/* <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText> */}
     <Box
       height={'35px'}
@@ -157,6 +165,8 @@ const Input = ({dimension, unitType, flexInput}) => (
       outlineColor="white"
       selectionColor="#6f6f6f"
       multiline={false}
+      value={value}
+      onChangeText={setFunction}
       textColor="black"
       label={dimension}
       dense={true}
@@ -175,71 +185,159 @@ const Input = ({dimension, unitType, flexInput}) => (
   </FlexContainer>
 );
 
+const set_session_status = status => {
+  mission_status = status;
+};
+
+const start_new_session = (dimension, n_param) => {
+  console.log('START SESSION');
+  return post_start_new_session(dimension, n_param);
+};
+
+// const set_dimension = dimension => {
+//   this.dimension = +dimension;
+//   this.CanvasRef.current.current_algorithm.dimention = this.dimension;
+// };
+const set_n_param = n_param => {
+  this.n_param = +n_param;
+  this.CanvasRef.current.current_algorithm.n_param = this.n_param;
+};
+const set_A = A => {
+  this.A = +A;
+};
+const set_B = B => {
+  this.B = +B;
+};
+const set_Y_value = y_value => {
+  this.y_value = +y_value;
+};
+
+const set_old_A = old_A => {
+  this.old_A = +old_A;
+};
+const set_old_B = old_B => {
+  this.old_B = +old_B;
+};
+const set_old_Y_value = old_y_value => {
+  this.old_y_value = +old_y_value;
+};
+
+session_status = Status.IDLE;
+n_param = 2;
+A = 2;
+B = 0;
+y_value = 0;
+
+old_A = A;
+old_B = B;
+old_y_value = y_value;
+
+value = 0;
+// adding setValue function
+const setValue = value => {
+  this.value = value;
+};
+
+dimension = 10;
+
+const set_dimension = dimension => {
+  this.dimension = dimension;
+};
+
 // flexInput to adjust each input size
-const InputModule = ({QueryPress, ResetPress}) => (
-  <Surface style={styles.inputSurface} elevation={1}>
-    <FlexContainer flex={0.2} flexDirection={'column'}>
-      <Text variant="headlineSmall">DIMENSIONS</Text>
-      <Slider
-        style={{width: '80%'}}
-        /* value={dimension} */
-        maximumValue={50}
-        minimumValue={5}
-        thumbTintColor={'black'}
-        thumbTouchSize={20}
-        step={5}
-        /* onValueChange={value => set_dimension(value)} */
-      />
-      <Text variant="headlineSmall">3</Text>
-    </FlexContainer>
-    <FlexContainer
-      flex={0.8}
-      flexDirection={'column'}
-      jc={'flex-start'}
-      alignItems="center"
-      pad="0"
-      bgColor={'#00000000'}>
-      <Input
-        flexInput={0.35}
-        dimension={'Parameter #1'}
-        unitType={'units'}
-        titleSpacing={'0 5px 0 0'}
-      />
-      <Input
-        flexInput={0.35}
-        dimension={'Parameter #2'}
-        unitType={'units'}
-        titleSpacing={'0 6px 0 0'}
-      />
-    </FlexContainer>
-    <FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
-      <Button
-        icon="sync"
-        mode="elevated"
-        buttonColor={'#CC958F'}
-        dark={false}
-        loading={false}
-        onPress={() => ResetPress}
-        uppercase={true}>
-        <Text variant="labelLarge" adjustsFontSizeToFit={true}>
-          reset
-        </Text>
-      </Button>
-      <Button
-        icon="tab-search"
-        mode="elevated"
-        buttonColor={'#CC958F'}
-        dark={false}
-        loading={false}
-        onPress={() => QueryPress}
-        uppercase={true}>
-        <Text variant="labelLarge" adjustsFontSizeToFit={true}>
-          query
-        </Text>
-      </Button>
-    </FlexContainer>
-  </Surface>
-);
+const InputModule = ({QueryPress, ResetPress}) => {
+  return (
+    <Surface style={styles.inputSurface} elevation={1}>
+      <FlexContainer flex={0.2} flexDirection={'column'}>
+        <Text variant="headlineSmall">DIMENSIONS</Text>
+        <Slider
+          style={{width: '80%'}}
+          value={dimension}
+          maximumValue={50}
+          minimumValue={5}
+          thumbTintColor={'black'}
+          thumbTouchSize={{width: 30, height: 30}}
+          thumbStyle={{height: 20, width: 20}}
+          step={5}
+          onValueChange={value => set_dimension(value)}
+        />
+        <Text variant="headlineSmall">{dimension}</Text>
+      </FlexContainer>
+      <FlexContainer
+        flex={0.8}
+        flexDirection={'column'}
+        jc={'flex-start'}
+        alignItems="center"
+        pad="0"
+        bgColor={'#00000000'}>
+        <Input
+          flexInput={0.35}
+          dimension={'Parameter #1'}
+          value={2}
+          setFunction={text => set_A(text)}
+          unitType={'units'}
+          titleSpacing={'0 5px 0 0'}
+        />
+        <Input
+          flexInput={0.35}
+          setFunction={text => set_B(text)}
+          dimension={'Parameter #2'}
+          value={2}
+          unitType={'units'}
+          titleSpacing={'0 6px 0 0'}
+        />
+      </FlexContainer>
+      <FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
+        <Button
+          icon="sync"
+          mode="elevated"
+          buttonColor={'#CC958F'}
+          dark={false}
+          loading={false}
+          onPress={() => ResetPress}
+          uppercase={true}>
+          <Text variant="labelLarge" adjustsFontSizeToFit={true}>
+            reset
+          </Text>
+        </Button>
+        <Button
+          icon="tab-search"
+          mode="elevated"
+          buttonColor={'#CC958F'}
+          dark={false}
+          loading={false}
+          onPress={async () => {
+            response = await post_execute_query(A, B, y_value);
+            CanvasRef.current.current_algorithm.data = JSON.parse(
+              response.predict_heat_map,
+            );
+            CanvasRef.current.current_algorithm.position = JSON.parse(
+              response.position,
+            );
+            CanvasRef.current.draw_heat_map(
+              CanvasRef.current.current_algorithm,
+            );
+            set_old_A(
+              CanvasRef.current.current_algorithm.position[
+                Number(response.next_query)
+              ][0],
+            );
+            set_old_B(
+              CanvasRef.current.current_algorithm.position[
+                Number(response.next_query)
+              ][1],
+            );
+            setValue(value => value + 1);
+          }}
+          uppercase={true}>
+          <Text variant="labelLarge" adjustsFontSizeToFit={true}>
+            query
+          </Text>
+        </Button>
+      </FlexContainer>
+    </Surface>
+  );
+};
 
 patient_level = 10;
 smartwatch_connected = false;
@@ -343,7 +441,15 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => (
               buttonColor={'#CC958F'}
               dark={false}
               loading={false}
-              onPress={() => StartSessionPress}
+              onPress={async () => {
+                CanvasRef.current.current_algorithm.n_param = n_param;
+                CanvasRef.current.current_algorithm.dimention = dimension;
+
+                let status = await start_new_session(n_param, dimension);
+                console.log('status = ', status);
+                session_status = status;
+                setValue(value => value + 1);
+              }}
               uppercase={true}
               style={{height: 40}}>
               <Text

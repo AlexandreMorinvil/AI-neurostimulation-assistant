@@ -32,7 +32,7 @@ class MainPaper extends React.Component {
   render(){
     const {screenHeight, screenWidth} = this.state
     return (
-      <View onLayout={this._onLayout.bind(this)} style={{ height: '100%', width: '100%' }}>
+      <View onLayout={this._onLayout.bind(this)} style={{ height: '100%', width: '100%', flex: 1}}>
         {screenWidth > screenHeight ? <MainPaperHorizontal/> : <MainPaperVertical/> }
       </View>
     );

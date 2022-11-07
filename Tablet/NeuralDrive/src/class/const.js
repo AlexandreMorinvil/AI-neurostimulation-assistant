@@ -1,6 +1,6 @@
 patient_level = 10;
 smartwatch_connected = false;
-server_ip = 'http://10.0.2.2:5000';
+server_ip = 'http://localhost:5000';
 
 export function set_patient_level(lvl) {
   patient_level = lvl;

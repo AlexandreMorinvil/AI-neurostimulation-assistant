@@ -24,6 +24,11 @@ import {get_smartwatch_connected} from '../class/const';
 import Canva from '../components/Canvas.js';
 import Chart from '../components/Chart.js';
 
+import {NativeModules} from 'react-native';
+const {CalendarModule} = NativeModules;
+console.log(CalendarModule);
+console.log(CalendarModule.createCalendarEvent());
+
 const styles = StyleSheet.create({
   surface: {
     padding: 10,

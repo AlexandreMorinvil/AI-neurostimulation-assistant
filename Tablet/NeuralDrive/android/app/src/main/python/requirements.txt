@@ -1,0 +1,8 @@
+cflib==0.1.16
+Flask==2.0.1
+Flask_cors==3.0.10
+matplotlib
+numpy
+gpy
+flask_socketio
+

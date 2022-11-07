@@ -9,7 +9,7 @@ import Canvas from 'react-native-canvas';
 //   position: number[];
 // }
 
-class Canva extends React.Component {
+class HeatMap extends React.Component {
   ctx;
   current_algorithm = {
     n_param: 2,
@@ -120,7 +120,7 @@ class Canva extends React.Component {
     box: {
       width: '100%',
       height: '100%',
-      backgroundColor: 'black',
+      backgroundColor: 'white',
     },
     canvas_box: {
       backgroundColor: 'pink',
@@ -130,4 +130,4 @@ class Canva extends React.Component {
   });
 }
 
-export default Canva;
+export default HeatMap;

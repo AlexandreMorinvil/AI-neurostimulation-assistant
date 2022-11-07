@@ -9,7 +9,7 @@ import {
 // Component Imports
 import MainModules from '../components/MainModules.js';
 import Chart from '../components/Chart.js';
-import Canva from '../components/Canvas.js';
+import HeatMap from '../components/HeatMap.js';
 
 // Style Imports
 import * as ColorTheme from '../styles/Colors';
@@ -25,7 +25,7 @@ const Main = () => {
 
         <MainModules.FlexContainer>
           <MainModules.SideTabModule flex={0.3} ResetPress={()=>blank()} QueryPress={()=>blank()}/>
-          <MainModules.GraphModule height="100%" width="100%" bgColor='#222' screen1={Chart} screen2={Canva}/>
+          <MainModules.GraphModule height="100%" width="100%" bgColor='#222' screen1={Chart} screen2={Chart}/>
         </MainModules.FlexContainer>
 
       </MainModules.FlexContainer>

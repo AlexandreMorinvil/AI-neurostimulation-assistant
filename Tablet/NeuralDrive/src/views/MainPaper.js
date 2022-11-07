@@ -9,7 +9,7 @@ import {
 // Component Imports
 import MainModulesPaper from '../components/MainModulesPaper.js';
 import Chart from '../components/Chart.js';
-import Canva from '../components/Canvas.js';
+import HeatMap from '../components/HeatMap.js';
 
 // Style Imports
 import * as ColorTheme from '../styles/Colors';

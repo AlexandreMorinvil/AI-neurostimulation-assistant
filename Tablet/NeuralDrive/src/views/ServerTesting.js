@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Chart from '../components/Chart';
-import Canva from '../components/Canvas';
+import HeatMap from '../components/HeatMap';
 import {send_request} from '../class/http';
 import styled from 'styled-components';
 import {
@@ -60,7 +60,7 @@ const ServerTesting = () => {
           />
         </View>
         <View style={styles.box}>
-          <Canva></Canva>
+          <HeatMap></HeatMap>
         </View>
       </View>
       <View style={styles.boxChart}>

@@ -5,7 +5,7 @@ import * as Inputs from '../components/Inputs.js';
 import Buttons from '../components/Buttons.js';
 import Swiper from 'react-native-swiper';
 import * as ColorTheme from '../styles/Colors';
-import Canva from '../components/Canvas.js';
+import HeatMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
 
 // VIEWS AND CONTAINERS

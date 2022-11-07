@@ -21,7 +21,7 @@ import {
 import Swiper from 'react-native-swiper';
 import styled from 'styled-components';
 import {get_smartwatch_connected} from '../class/const';
-import Canva from '../components/Canvas.js';
+import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
 
 const styles = StyleSheet.create({
@@ -105,7 +105,7 @@ CanvasRef = React.createRef();
 
 class CanvaModule extends React.Component {
   render() {
-    return <Canva ref={CanvasRef}></Canva>;
+    return <HeapMap ref={CanvasRef}/>;
   }
 }
 

@@ -103,7 +103,7 @@ const Box = styled.View`
 
 CanvasRef = React.createRef();
 
-class CanvaModule extends React.Component {
+class HeatMapModule extends React.Component {
   render() {
     return <HeapMap ref={CanvasRef}/>;
   }
@@ -114,7 +114,7 @@ const GraphModule = () => (
     <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
       <Swiper>
         <Chart />
-        <CanvaModule />
+        <HeatMapModule/>
       </Swiper>
     </Surface>
   </FlexContainer>

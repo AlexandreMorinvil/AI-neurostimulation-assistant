@@ -4,6 +4,7 @@ import {
   post_start_new_session,
   post_execute_query,
 } from '../class/http';
+import Canvas from 'react-native-canvas';
 import {Action, Status, ERROR_CODE} from '../class/actions';
 import {Slider} from 'react-native-elements';
 import {Alert, ScrollView, StyleSheet} from 'react-native';
@@ -101,12 +102,19 @@ const Box = styled.View`
 `;
 
 CanvasRef = React.createRef();
+
+class CanvaModule extends React.Component {
+  render() {
+    return <Canva ref={CanvasRef}></Canva>;
+  }
+}
+
 const GraphModule = () => (
   <FlexContainer>
     <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
       <Swiper>
-        <Canva ref={CanvasRef}></Canva>
         <Chart />
+        <CanvaModule />
       </Swiper>
     </Surface>
   </FlexContainer>
@@ -234,11 +242,9 @@ old_y_value = y_value;
 
 // adding setValue function
 
-value = 0;
-
-const setValue = value => {
-  this.value = value;
-};
+// const setValue = value => {
+//   this.value = value;
+// };
 
 dimension = 10;
 
@@ -249,6 +255,7 @@ const set_dimension = dimension => {
 // flexInput to adjust each input size
 const InputModule = ({QueryPress, ResetPress}) => {
   const [localDimension, local_set_dimension] = React.useState(10);
+  const [value, setValue] = React.useState(0);
 
   return (
     <Surface style={styles.inputSurface} elevation={1}>
@@ -425,79 +432,82 @@ const WatchModule = ({height, width, bgColor}) => {
 //     {/* </ScrollView> */}
 // </FlexContainer>
 
-const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => (
-  <FlexContainer flex={flex} pad="0px">
-    <ScrollView>
-      <FlexContainer
-        height={'1500px'}
-        flexDirection="column"
-        jc="flex-start"
-        pad="10px">
-        <FlexContainer flex={0.05} jc={'flex-start'}>
-          <BarIndicator
-            count={4}
-            color={'#CC958F'}
-            size={20}
-            style={{flex: 0.1, paddingRight: 20}}
-          />
-          <Text> Try Connect to server</Text>
-        </FlexContainer>
-
-        <FlexContainer flex={0.15} jc="center">
-          <Surface
-            style={{flexDirection: 'row', borderRadius: 15, padding: 15}}>
-            <PulseIndicator
-              color="red"
-              size={30}
-              style={{flex: 0.1, paddingRight: 25}}
-            />
-            <Button
-              icon="play"
-              mode="elevated"
-              buttonColor={'#CC958F'}
-              dark={false}
-              loading={false}
-              onPress={async () => {
-                CanvasRef.current.current_algorithm.n_param = n_param;
-                CanvasRef.current.current_algorithm.dimention = dimension;
-
-                let status = await start_new_session(n_param, dimension);
-                console.log('status = ', status);
-                session_status = status;
-                setValue(value => value + 1);
-              }}
-              uppercase={true}
-              style={{height: 40}}>
-              <Text
-                variant="labelLarge"
-                adjustsFontSizeToFit={true}
-                numberOfLines={1}>
-                start session
-              </Text>
-            </Button>
-          </Surface>
-        </FlexContainer>
-
+const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
+  const [value, setValue] = React.useState(0);
+  return (
+    <FlexContainer flex={flex} pad="0px">
+      <ScrollView>
         <FlexContainer
-          flex={0.5}
+          height={'1500px'}
           flexDirection="column"
-          jc="center"
-          alignItems="flex-start"
-          pad="10px 0 10px 0">
-          <InputModule
-            alignItems={'flex-start'}
-            ResetPress={ResetPress}
-            QueryPress={QueryPress}
-          />
-        </FlexContainer>
+          jc="flex-start"
+          pad="10px">
+          <FlexContainer flex={0.05} jc={'flex-start'}>
+            <BarIndicator
+              count={4}
+              color={'#CC958F'}
+              size={20}
+              style={{flex: 0.1, paddingRight: 20}}
+            />
+            <Text> Try Connect to server</Text>
+          </FlexContainer>
 
-        <FlexContainer flex={0.5} jc="center" pad="10px 0 0 0">
-          <WatchModule />
+          <FlexContainer flex={0.15} jc="center">
+            <Surface
+              style={{flexDirection: 'row', borderRadius: 15, padding: 15}}>
+              <PulseIndicator
+                color="red"
+                size={30}
+                style={{flex: 0.1, paddingRight: 25}}
+              />
+              <Button
+                icon="play"
+                mode="elevated"
+                buttonColor={'#CC958F'}
+                dark={false}
+                loading={false}
+                onPress={async () => {
+                  CanvasRef.current.current_algorithm.n_param = n_param;
+                  CanvasRef.current.current_algorithm.dimention = dimension;
+
+                  let status = await start_new_session(n_param, dimension);
+                  console.log('status = ', status);
+                  session_status = status;
+                  setValue(value => value + 1);
+                }}
+                uppercase={true}
+                style={{height: 40}}>
+                <Text
+                  variant="labelLarge"
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}>
+                  start session
+                </Text>
+              </Button>
+            </Surface>
+          </FlexContainer>
+
+          <FlexContainer
+            flex={0.5}
+            flexDirection="column"
+            jc="center"
+            alignItems="flex-start"
+            pad="10px 0 10px 0">
+            <InputModule
+              alignItems={'flex-start'}
+              ResetPress={ResetPress}
+              QueryPress={QueryPress}
+            />
+          </FlexContainer>
+
+          <FlexContainer flex={0.5} jc="center" pad="10px 0 0 0">
+            <WatchModule />
+          </FlexContainer>
         </FlexContainer>
-      </FlexContainer>
-    </ScrollView>
-  </FlexContainer>
-);
+      </ScrollView>
+    </FlexContainer>
+  );
+};
 
 const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
   <ScrollView>

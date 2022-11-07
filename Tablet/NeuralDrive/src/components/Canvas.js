@@ -48,8 +48,35 @@ class Canva extends React.Component {
   }
 
   draw_heat_map(algorithm) {
-    this.createRectangle(this.getRandomInt(10, 50), 50, 50, 50, 'red');
-    //this.forceUpdate();
+    this.createRectangle(this.getRandomInt(50, 50), 50, 100, 50, 'white');
+    this.current_algorithm = algorithm;
+    console.log('draw ++++++++++++++++++++++', this.current_algorithm.data);
+    this.clear_canvas();
+    dx = this.ctx.canvas.width / algorithm.dimention;
+    dy = this.ctx.canvas.height / algorithm.dimention;
+    index_x = 0;
+    index_y = 0;
+
+    for (var i = 0; i < Math.pow(algorithm.dimention, algorithm.n_param); i++) {
+      x = index_x * dx;
+      y = index_y * dy;
+
+      this.createRectangle(
+        dx,
+        dy,
+        x,
+        y,
+        this.getHeatColor(this.current_algorithm.data[i][1]),
+      );
+
+      index_x++;
+      if (index_x >= algorithm.dimention) {
+        index_x = 0;
+        index_y++;
+      }
+    }
+
+    this.forceUpdate();
   }
 
   clear_canvas() {

@@ -106,33 +106,30 @@ CanvasRef = React.createRef();
 
 class HeatMapModule extends React.Component {
   render() {
-    return <HeapMap ref={CanvasRef}/>;
+    return <HeapMap ref={CanvasRef} />;
   }
 }
 
-class ServerConnection extends React.Component {
+const ServerConnection = () => {
+  const [ip, setIp] = React.useState(get_server_ip());
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      ip: get_server_ip(),
-    }
-  }
-  render(){
-    return(
-      <TextInput>
-        Connected to: {get_server_ip()}
-      </TextInput>
-    )
-  }
-}
+  // setIp every second
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setIp(get_server_ip());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return <TextInput>Connected to: {ip}</TextInput>;
+};
 
 const GraphModule = () => (
   <FlexContainer>
     <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
       <Swiper>
         <Chart />
-        <HeatMapModule/>
+        <HeatMapModule />
       </Swiper>
     </Surface>
   </FlexContainer>
@@ -472,7 +469,7 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
             {/*   value={'Connected to: ' + get_server_ip()} */}
             {/* > */}
             {/* </TextInput> */}
-            <ServerConnection/>
+            <ServerConnection />
           </FlexContainer>
 
           <FlexContainer flex={0.15} jc="center">

@@ -5,6 +5,7 @@ import {
   post_execute_query,
 } from '../class/http';
 import Canvas from 'react-native-canvas';
+import {get_watch_data} from '../class/http';
 import {Action, Status, ERROR_CODE} from '../class/actions';
 import {Slider} from 'react-native-elements';
 import {Alert, ScrollView, StyleSheet} from 'react-native';
@@ -111,17 +112,23 @@ class HeatMapModule extends React.Component {
 }
 
 const ServerConnection = () => {
-  const [ip, setIp] = React.useState(get_server_ip());
+  const [connectionStatus, setConnectionStatus] =
+    React.useState('No connection');
 
   // setIp every second
   React.useEffect(() => {
-    const interval = setInterval(() => {
-      setIp(get_server_ip());
+    const interval = setInterval(async () => {
+      const watch_data = await get_watch_data();
+      if (watch_data) {
+        setConnectionStatus('Connected to ' + get_server_ip());
+      } else {
+        setConnectionStatus('No Connection');
+      }
     }, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  return <TextInput>Connected to: {ip}</TextInput>;
+  return <TextInput>{connectionStatus}</TextInput>;
 };
 
 const GraphModule = () => (

@@ -23,6 +23,7 @@ import styled from 'styled-components';
 import {get_smartwatch_connected} from '../class/const';
 import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
+import {get_server_ip} from '../class/const';
 
 const styles = StyleSheet.create({
   surface: {
@@ -106,6 +107,23 @@ CanvasRef = React.createRef();
 class HeatMapModule extends React.Component {
   render() {
     return <HeapMap ref={CanvasRef}/>;
+  }
+}
+
+class ServerConnection extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      ip: get_server_ip(),
+    }
+  }
+  render(){
+    return(
+      <TextInput>
+        Connected to: {get_server_ip()}
+      </TextInput>
+    )
   }
 }
 
@@ -448,7 +466,13 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
               size={20}
               style={{flex: 0.1, paddingRight: 20}}
             />
-            <Text> Try Connect to server</Text>
+            {/* <TextInput */}
+            {/*   mode='outlined' */}
+            {/*   disabled='true' */}
+            {/*   value={'Connected to: ' + get_server_ip()} */}
+            {/* > */}
+            {/* </TextInput> */}
+            <ServerConnection/>
           </FlexContainer>
 
           <FlexContainer flex={0.15} jc="center">
@@ -533,7 +557,6 @@ const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
         </FlexContainer>
         <FlexContainer flex={0.1}>
           <BarIndicator count={4} color={'#CC958F'} size={20} />
-          <Text> Try Connect to server</Text>
         </FlexContainer>
         <FlexContainer flex={0.3} jc="center">
           <Button

@@ -85,6 +85,6 @@ export const get_watch_data = async chart => {
     const json = await response.json();
     return JSON.parse(json.content);
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };

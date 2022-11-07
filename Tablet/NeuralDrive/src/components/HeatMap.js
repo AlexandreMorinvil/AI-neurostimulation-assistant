@@ -75,8 +75,6 @@ class HeatMap extends React.Component {
         index_y++;
       }
     }
-
-    this.forceUpdate();
   }
 
   clear_canvas() {

@@ -1,12 +1,7 @@
 import React, {useState} from 'react';
 import Chart from '../components/Chart';
-<<<<<<< HEAD
-import Canva from '../components/Canvas';
-import {send_request, send_command} from '../class/http';
-=======
 import HeatMap from '../components/HeatMap';
 import {send_request} from '../class/http';
->>>>>>> 058275b3fd69a9c1dd1ff03977acfbd416c2d877
 import styled from 'styled-components';
 import {Action} from '../class/actions';
 import {
@@ -138,13 +133,9 @@ const ServerTesting = () => {
             }}
           />
         </View>
-<<<<<<< HEAD
-        <View style={styles.box}>{/* <Canva ref={this.ref}></Canva> */}</View>
-=======
         <View style={styles.box}>
           <HeatMap></HeatMap>
         </View>
->>>>>>> 058275b3fd69a9c1dd1ff03977acfbd416c2d877
       </View>
       <View style={styles.boxChart}>
         <Text style={styles.boxTitle}>Patient data</Text>

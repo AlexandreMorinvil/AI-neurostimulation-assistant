@@ -33,14 +33,13 @@ export function get_server_ip() {
 }
 
 class ServerConnection extends React.Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       patient_level: 10,
       smartwatch_connected: false,
       server_ip: 'http://10.0.2.2:5000',
-    }
+    };
   }
 
   set_patient_level(lvl) {
@@ -73,11 +72,7 @@ class ServerConnection extends React.Component {
   }
 
   render() {
-    return (
-      <TextInput>
-        Connected to: {get_server_ip()}
-      </TextInput>
-    )
+    return <Text>Connected to: {get_server_ip()}</Text>;
   }
 }
 

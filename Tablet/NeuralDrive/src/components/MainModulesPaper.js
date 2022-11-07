@@ -133,7 +133,7 @@ const ServerConnection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return <TextInput>{connectionStatus}</TextInput>;
+  return <Text>{connectionStatus}</Text>;
 };
 
 const GraphModule = () => (
@@ -366,7 +366,7 @@ const InputModule = ({QueryPress, ResetPress}) => {
             CanvasRef.current.draw_heat_map(
               CanvasRef.current.current_algorithm,
             );
-            CanvasRef.current.clear_canvas();
+
             set_old_A(
               CanvasRef.current.current_algorithm.position[
                 Number(response.next_query)

@@ -15,10 +15,14 @@ import LinearGradient from 'react-native-linear-gradient';
 // Component Imports
 import MainModules from '../components/MainModules.js';
 import Chart from '../components/Chart.js';
+<<<<<<< HEAD
 import Canva from '../components/Canvas';
 import Parameters from '../components/parametersBox';
 import {Action} from '../class/actions';
 import {get_patient_level, get_smartwatch_connected} from '../class/const';
+=======
+import HeatMap from '../components/HeatMap.js';
+>>>>>>> 058275b3fd69a9c1dd1ff03977acfbd416c2d877
 
 // Style Imports
 import * as ColorTheme from '../styles/Colors';
@@ -65,11 +69,18 @@ const Main = () => {
     //   </MainModules.FlexContainer>
     // </ScrollView>
 
+<<<<<<< HEAD
     <View style={styles.mainView}>
       <View style={styles.verticalBox_Input}>
         <Parameters canvas_ref={canvas_ref} />
         <InfoBox></InfoBox>
       </View>
+=======
+        <MainModules.FlexContainer>
+          <MainModules.SideTabModule flex={0.3} ResetPress={()=>blank()} QueryPress={()=>blank()}/>
+          <MainModules.GraphModule height="100%" width="100%" bgColor='#222' screen1={Chart} screen2={Chart}/>
+        </MainModules.FlexContainer>
+>>>>>>> 058275b3fd69a9c1dd1ff03977acfbd416c2d877
 
       {/*  ---------------------------------------------------------------------------- */}
       <View style={styles.verticalBox_Graph}>

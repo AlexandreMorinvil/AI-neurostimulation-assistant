@@ -5,6 +5,7 @@ import {
   post_execute_query,
 } from '../class/http';
 import Canvas from 'react-native-canvas';
+import {get_watch_data} from '../class/http';
 import {Action, Status, ERROR_CODE} from '../class/actions';
 import {Slider} from 'react-native-elements';
 import {Alert, ScrollView, StyleSheet} from 'react-native';
@@ -21,8 +22,9 @@ import {
 import Swiper from 'react-native-swiper';
 import styled from 'styled-components';
 import {get_smartwatch_connected} from '../class/const';
-import Canva from '../components/Canvas.js';
+import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
+import {get_server_ip} from '../class/const';
 
 const styles = StyleSheet.create({
   surface: {
@@ -103,18 +105,38 @@ const Box = styled.View`
 
 CanvasRef = React.createRef();
 
-class CanvaModule extends React.Component {
+class HeatMapModule extends React.Component {
   render() {
-    return <Canva ref={CanvasRef}></Canva>;
+    return <HeapMap ref={CanvasRef} />;
   }
 }
+
+const ServerConnection = () => {
+  const [connectionStatus, setConnectionStatus] =
+    React.useState('No connection');
+
+  // setIp every second
+  React.useEffect(() => {
+    const interval = setInterval(async () => {
+      const watch_data = await get_watch_data();
+      if (watch_data) {
+        setConnectionStatus('Connected to ' + get_server_ip());
+      } else {
+        setConnectionStatus('No Connection');
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return <TextInput>{connectionStatus}</TextInput>;
+};
 
 const GraphModule = () => (
   <FlexContainer>
     <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
       <Swiper>
         <Chart />
-        <CanvaModule />
+        <HeatMapModule />
       </Swiper>
     </Surface>
   </FlexContainer>
@@ -449,7 +471,13 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
               size={20}
               style={{flex: 0.1, paddingRight: 20}}
             />
-            <Text> Try Connect to server</Text>
+            {/* <TextInput */}
+            {/*   mode='outlined' */}
+            {/*   disabled='true' */}
+            {/*   value={'Connected to: ' + get_server_ip()} */}
+            {/* > */}
+            {/* </TextInput> */}
+            <ServerConnection />
           </FlexContainer>
 
           <FlexContainer flex={0.15} jc="center">
@@ -534,7 +562,6 @@ const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
         </FlexContainer>
         <FlexContainer flex={0.1}>
           <BarIndicator count={4} color={'#CC958F'} size={20} />
-          <Text> Try Connect to server</Text>
         </FlexContainer>
         <FlexContainer flex={0.3} jc="center">
           <Button

@@ -332,6 +332,7 @@ const InputModule = ({QueryPress, ResetPress}) => {
             CanvasRef.current.draw_heat_map(
               CanvasRef.current.current_algorithm,
             );
+            CanvasRef.current.clear_canvas();
             set_old_A(
               CanvasRef.current.current_algorithm.position[
                 Number(response.next_query)
@@ -342,7 +343,7 @@ const InputModule = ({QueryPress, ResetPress}) => {
                 Number(response.next_query)
               ][1],
             );
-            setValue(value => value + 1);
+            //setValue(value => value + 1);
           }}
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>

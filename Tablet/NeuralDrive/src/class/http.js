@@ -3,11 +3,8 @@ import {set_server_ip, get_server_ip} from '../class/const';
 
 export const send_request = async data => {
   try {
-    console.log(get_server_ip());
-    console.log(data);
     const response = await fetch(get_server_ip());
     const json = await response.json();
-    console.log(json);
     return json.movies;
   } catch (error) {
     console.error(error);
@@ -49,6 +46,23 @@ export const post_start_new_session = async (n_param, dimension) => {
     return Status.STOP;
   } else {
     return response.content.status;
+  }
+};
+
+export const test_connection = async () => {
+  try {
+    const response = await fetch(get_server_ip() + '/packet', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    console.error('server connection fail');
+    return ERROR_CODE.FAIL_CONNECT_TO_SERVER;
   }
 };
 

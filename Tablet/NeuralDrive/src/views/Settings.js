@@ -25,7 +25,6 @@ const SettingsScreen = () => {
             set_ip(() => {
               ip = text;
               set_server_ip(ip);
-              console.log(ip);
             })
           }
           defaultValue={get_server_ip()}

@@ -5,7 +5,7 @@ import {
   post_execute_query,
 } from '../class/http';
 import Canvas from 'react-native-canvas';
-import {get_watch_data} from '../class/http';
+import {test_connection} from '../class/http';
 import {Action, Status, ERROR_CODE} from '../class/actions';
 import {Slider} from 'react-native-elements';
 import {Alert, ScrollView, StyleSheet} from 'react-native';
@@ -24,12 +24,11 @@ import styled from 'styled-components';
 import {get_smartwatch_connected} from '../class/const';
 import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
-import {get_server_ip} from '../class/const';
+import {get_server_ip, set_allow_get_watch_data} from '../class/const';
 
 import {NativeModules} from 'react-native';
 const {CalendarModule} = NativeModules;
-console.log(CalendarModule);
-console.log(CalendarModule.createCalendarEvent());
+CalendarModule.createCalendarEvent();
 
 const styles = StyleSheet.create({
   surface: {
@@ -122,24 +121,35 @@ const ServerConnection = () => {
 
   // setIp every second
   React.useEffect(() => {
-    const interval = setInterval(async () => {
-      const watch_data = await get_watch_data();
-      if (watch_data) {
+    const interval3 = setInterval(async () => {
+      const server_is_connected = await test_connection();
+      if (server_is_connected) {
         setConnectionStatus('Connected to ' + get_server_ip());
       } else {
         setConnectionStatus('No Connection');
       }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    }, 10000);
+    return () => clearInterval(interval3);
+  });
 
   return <Text>{connectionStatus}</Text>;
+};
+
+const on_swiper_index_change = index => {
+  if (index == 0) {
+    set_allow_get_watch_data(true);
+  } else {
+    set_allow_get_watch_data(false);
+  }
 };
 
 const GraphModule = () => (
   <FlexContainer>
     <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
-      <Swiper>
+      <Swiper
+        onIndexChanged={index => {
+          on_swiper_index_change(index);
+        }}>
         <Chart />
         <HeatMapModule />
       </Swiper>
@@ -225,7 +235,6 @@ const set_session_status = status => {
 };
 
 const start_new_session = (dimension, n_param) => {
-  console.log('START SESSION');
   return post_start_new_session(dimension, n_param);
 };
 
@@ -393,16 +402,16 @@ patient_level = 10;
 smartwatch_connected = false;
 // Used inside SideTabModule
 const WatchModule = ({height, width, bgColor}) => {
-  const [value2, setValue2] = React.useState(0);
+  const [value3, setValue3] = React.useState(0);
   React.useEffect(() => {
     const interval2 = setInterval(() => {
-      setValue2(value2 => value2 + 1);
-      console.log(get_smartwatch_connected());
+      setValue3(value3 => value3 + 1);
+      console.log('smartwatch state = ', get_smartwatch_connected());
       smartwatch_connected = get_smartwatch_connected();
-    }, 1000);
+    }, 10000);
 
     return () => clearInterval(interval2);
-  }, [value2]);
+  }, [value3]);
 
   return (
     <Surface style={styles.watchSurface} elevation={1}>
@@ -502,9 +511,7 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
                 onPress={async () => {
                   CanvasRef.current.current_algorithm.n_param = n_param;
                   CanvasRef.current.current_algorithm.dimention = dimension;
-
                   let status = await start_new_session(n_param, dimension);
-                  console.log('status = ', status);
                   session_status = status;
                   setValue(value => value + 1);
                 }}

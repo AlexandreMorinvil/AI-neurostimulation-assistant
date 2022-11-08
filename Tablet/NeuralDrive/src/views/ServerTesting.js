@@ -129,7 +129,6 @@ const ServerTesting = () => {
                 },
                 this.ref.current,
               );
-              console.log(response);
             }}
           />
         </View>

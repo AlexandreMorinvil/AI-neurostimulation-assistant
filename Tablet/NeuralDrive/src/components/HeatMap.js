@@ -42,7 +42,6 @@ class HeatMap extends React.Component {
     this.ctx = this.ref.current.getContext('2d');
     this.ctx.canvas.width = Dimensions.get('window').width * 0.78;
     this.ctx.canvas.height = Dimensions.get('window').height;
-    console.log('width', this.ctx.canvas.width);
     this.createRectangle(this.getRandomInt(10, 50), 50, 50, 50, 'white');
     this.forceUpdate();
   }

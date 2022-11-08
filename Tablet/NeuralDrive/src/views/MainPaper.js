@@ -18,7 +18,6 @@ class MainPaper extends React.Component {
   };
 
   _onLayout(e) {
-    // console.log((Dimensions.get('window')));
     this.setState({
       screenWidth: Dimensions.get('window').width,
       screenHeight: Dimensions.get('window').height,

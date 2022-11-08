@@ -1,8 +1,10 @@
 cflib==0.1.16
 Flask==2.0.1
-Flask_cors==3.0.10
+Flask-Cors==3.0.10
+psycopg2-binary==2.9.1
+Controller == 0.1.0
 matplotlib
-numpy
 gpy
 flask_socketio
 
+# numpy matplotlib gpy flask_socketio

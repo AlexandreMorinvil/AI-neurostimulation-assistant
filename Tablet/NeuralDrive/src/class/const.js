@@ -3,6 +3,26 @@ import React from 'react';
 patient_level = 10;
 smartwatch_connected = false;
 server_ip = 'http://localhost:5000';
+const SERVER_DELAY = 1000;
+allow_get_watch_data = true;
+
+mutex = false;
+
+export function get_mutex() {
+  return mutex;
+}
+
+export function set_mutex(state) {
+  mutex = state;
+}
+
+export function set_allow_get_watch_data(state) {
+  allow_get_watch_data = state;
+}
+
+export function get_allow_get_watch_data() {
+  return allow_get_watch_data;
+}
 
 export function set_patient_level(lvl) {
   patient_level = lvl;

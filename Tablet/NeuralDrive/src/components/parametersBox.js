@@ -26,7 +26,6 @@ const set_session_status = status => {
 };
 
 const start_new_session = (dimension, n_param) => {
-  console.log('START SESSION');
   return post_start_new_session(dimension, n_param);
 };
 
@@ -134,7 +133,6 @@ export function Parameters({canvas_ref}) {
                     canvas_ref.current.current_algorithm.dimention = dimension;
 
                     let status = await start_new_session(n_param, dimension);
-                    console.log('status = ', status);
                     session_status = status;
                     setValue(value => value + 1);
                   }}>

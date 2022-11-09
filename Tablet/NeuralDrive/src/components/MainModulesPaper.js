@@ -29,6 +29,7 @@ import {get_server_ip, set_allow_get_watch_data} from '../class/const';
 import {NativeModules} from 'react-native';
 const {CalendarModule} = NativeModules;
 CalendarModule.createCalendarEvent();
+import HeatMapGraph from '../components/HeatMapGraph';
 
 const styles = StyleSheet.create({
   surface: {
@@ -152,6 +153,7 @@ const GraphModule = () => (
         }}>
         <Chart />
         <HeatMapModule />
+        <HeatMapGraph />
       </Swiper>
     </Surface>
   </FlexContainer>

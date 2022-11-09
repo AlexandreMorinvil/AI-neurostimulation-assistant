@@ -4,6 +4,26 @@ patient_level = 10;
 smartwatch_connected = false;
 server_ip = 'http://10.0.2.2:5000';
 
+heat_map_data = [];
+dimension_of_chart = 0;
+
+
+export function set_heat_map_data(data){
+  heat_map_data = data;
+}
+
+export function get_heat_map_data(){
+  return heat_map_data;
+}
+
+export function set_dimension_of_chart(dimension){
+  dimension_of_chart = dimension;
+}
+
+export function get_dimension_of_chart(){
+  return dimension_of_chart;
+}
+
 export function set_patient_level(lvl) {
   patient_level = lvl;
 }

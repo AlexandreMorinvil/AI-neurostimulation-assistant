@@ -24,6 +24,7 @@ import styled from 'styled-components';
 import {get_smartwatch_connected} from '../class/const';
 import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
+import HeatMapGraph from '../components/HeatMapGraph';
 import {get_server_ip} from '../class/const';
 
 const styles = StyleSheet.create({
@@ -137,6 +138,7 @@ const GraphModule = () => (
       <Swiper>
         <Chart />
         <HeatMapModule />
+        <HeatMapGraph/>
       </Swiper>
     </Surface>
   </FlexContainer>

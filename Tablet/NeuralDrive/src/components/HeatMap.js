@@ -1,6 +1,7 @@
 import React, {Component, useRef} from 'react';
 import {Text, View, Dimensions, StyleSheet} from 'react-native';
 import Canvas from 'react-native-canvas';
+import {set_dimension_of_chart, set_heat_map_data} from '../class/const';
 
 // export interface Algorithm {
 //   n_param: number;
@@ -50,6 +51,8 @@ class HeatMap extends React.Component {
   draw_heat_map(algorithm) {
     this.createRectangle(this.getRandomInt(50, 50), 50, 100, 50, 'white');
     this.current_algorithm = algorithm;
+    set_heat_map_data(this.current_algorithm.data);
+    set_dimension_of_chart(this.current_algorithm.dimention);
     console.log('draw ++++++++++++++++++++++', this.current_algorithm.data);
     this.clear_canvas();
     dx = this.ctx.canvas.width / algorithm.dimention;

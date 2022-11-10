@@ -159,9 +159,10 @@ class NeuroAlgorithmPrediction:
             self.q += 1
 
         position = self.generateOutput(self.positions)
-        solution = self.transform_ymu(self.ymu)
+        # solution = self.transform_ymu(self.ymu)
         # print(solution)
-        print(self.ymu_image(self.ymu))
+        solution = self.ymu_image(self.ymu)
+
         if self.NextQuery:
             self.NextQuery = np.where(
                 self.AcquisitionMap.reshape(len(self.AcquisitionMap))
@@ -200,7 +201,7 @@ class NeuroAlgorithmPrediction:
         plt.imsave(pic_iobytes, ymu_r)
         pic_iobytes.seek(0)
         pic_hash = base64.b64encode(pic_iobytes.read())
-        return pic_hash
+        return pic_hash.decode("utf-8")
 
     def sendQueryResult(self):
         pass

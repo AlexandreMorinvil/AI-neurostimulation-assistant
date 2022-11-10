@@ -115,21 +115,37 @@ class HeatMapModule extends React.Component {
 const ServerConnection = () => {
   const [connectionStatus, setConnectionStatus] =
     React.useState('No connection');
+  const [indicatorColor, setIndicadorColor] = React.useState('#CC958F');
 
   // setIp every second
   React.useEffect(() => {
     const interval = setInterval(async () => {
       const watch_data = await get_watch_data();
       if (watch_data) {
-        setConnectionStatus('Connected to ' + get_server_ip());
+        setConnectionStatus('Connected to server');
+        setIndicadorColor('#A3D9A3');
       } else {
         setConnectionStatus('No Connection');
+        setIndicadorColor('#CC958F');
       }
     }, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  return <TextInput>{connectionStatus}</TextInput>;
+  return (
+    <>
+      <BarIndicator
+        count={4}
+        color={indicatorColor}
+        size={20}
+        style={{flex: 0.1, paddingRight: 20}}
+      />
+
+      <Text variant="labelLarge" adjustsFontSizeToFit={true}>
+        {connectionStatus}
+      </Text>
+    </>
+  );
 };
 
 const GraphModule = () => (
@@ -138,7 +154,7 @@ const GraphModule = () => (
       <Swiper>
         <Chart />
         <HeatMapModule />
-        <HeatMapGraph/>
+        <HeatMapGraph />
       </Swiper>
     </Surface>
   </FlexContainer>
@@ -466,12 +482,6 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
           jc="flex-start"
           pad="10px">
           <FlexContainer flex={0.05} jc={'flex-start'}>
-            <BarIndicator
-              count={4}
-              color={'#CC958F'}
-              size={20}
-              style={{flex: 0.1, paddingRight: 20}}
-            />
             {/* <TextInput */}
             {/*   mode='outlined' */}
             {/*   disabled='true' */}
@@ -483,7 +493,7 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
 
           <FlexContainer flex={0.15} jc="center">
             <Surface
-              style={{flexDirection: 'row', borderRadius: 15, padding: 15}}>
+              style={{flexDirection: 'row', borderRadius: 15, padding: 35}}>
               <PulseIndicator
                 color="red"
                 size={30}

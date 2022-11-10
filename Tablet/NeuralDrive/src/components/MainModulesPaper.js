@@ -493,7 +493,7 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
 
           <FlexContainer flex={0.15} jc="center">
             <Surface
-              style={{flexDirection: 'row', borderRadius: 15, padding: 15}}>
+              style={{flexDirection: 'row', borderRadius: 15, padding: 35}}>
               <PulseIndicator
                 color="red"
                 size={30}

@@ -81,6 +81,7 @@ const AccordionItem = (props) => {
    */
   return (
     <View style={styles.container}>
+      <View style={styles.shadow}>
       <View style={[styles.headerContainer, { backgroundColor: stateBackgroundColor }]}>
 
         <TouchableOpacity
@@ -114,6 +115,7 @@ const AccordionItem = (props) => {
           {children}
         </View>
       }
+      </View>
     </View>
   );
 };
@@ -124,6 +126,14 @@ const AccordionItem = (props) => {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+  },
+  shadow: {
+    backgroundColor: "#000000",
+    shadowOffset: { width: 10, height: 10 },
+    shadowColor: '#171717',
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
   },
   headerContainer: {
     backgroundColor: BACKGROUND_COLOR_GREY,

@@ -21,6 +21,7 @@ const SettingsMenuItemPatient = () => {
   const [stateIsPatientIdValid, setStateIsPatientIdValid] = useState(false);
   const [stateHeaderSummary, setstateHeaderSummary] = useState("");
   const [stateSettingStatus, setStateSettingStatus] = useState(SettingsStatus.UNSET);
+  const [stateIsConfirmButtonActive, setStateIsConfirmButtonActive] = useState(false);
 
   /**
    * Functions
@@ -34,16 +35,22 @@ const SettingsMenuItemPatient = () => {
   const setPatientId = () => {
     patientService.setPatientId(stateInputPatientId);
     getHeaderSummary();
+    updateIsConfirmButtonActive();
   }
 
   const updateSettingStatus = () => {
-    console.log("Begin", stateSettingStatus)
     if (!patientService.hasPatientId())
       setStateSettingStatus(SettingsStatus.UNSET);
     
     else
       setStateSettingStatus(SettingsStatus.SET);
-    console.log("This function was called at the beggining", stateSettingStatus)
+  }
+
+  const updateIsConfirmButtonActive = () => {
+    const isEmptyPatientId = stateInputPatientId === "";
+    const isPatienIdValid = stateIsPatientIdValid;
+    const isNewPatientId = stateInputPatientId !== patientService.getPatientId();
+    setStateIsConfirmButtonActive(isNewPatientId && (isEmptyPatientId || isPatienIdValid));
   }
 
   /**
@@ -53,6 +60,10 @@ const SettingsMenuItemPatient = () => {
     getHeaderSummary();
     updateSettingStatus();
   }, [patientService.patientId]);
+
+  useEffect(() => {
+    updateIsConfirmButtonActive();
+  }, [stateInputPatientId]);
 
   /**
    * Render
@@ -70,7 +81,7 @@ const SettingsMenuItemPatient = () => {
       />
       <View style={styles.spacing}>
         <ConfirmButton
-          isActive={stateIsPatientIdValid}
+          isActive={stateIsConfirmButtonActive}
           text={CONFIRM_BUTTON_TEXT}
           handleButtonPressedParentFunction={setPatientId}
         />

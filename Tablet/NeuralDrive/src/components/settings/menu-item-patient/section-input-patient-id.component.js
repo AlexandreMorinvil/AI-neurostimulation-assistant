@@ -15,7 +15,7 @@ Containing only numbers and/or letters;\n\
 Containing a minimum of ${patientService.MIN_CHARACTERS_COUNT} characters;\n\
 Containing a maximum of ${patientService.MAX_CHARACTERS_COUNT} characters`
 
-const InputPatientId = ({ setParentIsValidPatientIdFunction, setParentInputPatientId }) => {
+const SectionInputPatientId = ({ setParentIsValidPatientIdFunction, setParentInputPatientId }) => {
 
   /**
    * States
@@ -83,9 +83,9 @@ const InputPatientId = ({ setParentIsValidPatientIdFunction, setParentInputPatie
    */
   return (
     <View style={settingsStyles.sectionContent}>
-      <View style={styles.titleArea}>
+      <View style={settingsStyles.sectionTitleArea}>
         <InformationButton setParentIsActiveFunction={setIsInstructionsDisplayed} />
-        <Text style={styles.title}> {sectionTitle} </Text>
+        <Text style={settingsStyles.sectionTitle}> {sectionTitle} </Text>
       </View>
       {
         isInstructionsDisplayed &&
@@ -119,14 +119,6 @@ const InputPatientId = ({ setParentIsValidPatientIdFunction, setParentInputPatie
  * Style Sheet
  */
 const styles = StyleSheet.create({
-  titleArea: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  title: {
-    fontWeight: "bold",
-  },
 });
 
-export default InputPatientId;
+export default SectionInputPatientId;

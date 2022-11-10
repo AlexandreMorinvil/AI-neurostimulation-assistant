@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
+import { settingsStyles } from "../../../styles/settings-styles";
 import { SettingsStatus } from "../../../const/settings";
 
 import AccodionItem from "../accordion-item.component";
-import SectionBackendConnection from "./section-connection-backend.component";
+import SectionChoiceBackend from "./section-choice-backend.component";
 import ConfirmButton from "../confirm-button.component";
+import * as backendChoiceService from "../../../services/backend-choice.service";
 
 const CONFIRM_BUTTON_TEXT = "Confirm Choice";
 
@@ -30,7 +32,9 @@ const SettingsMenuItemConnectionBackend = () => {
       summaryText={stateHeaderSummary}
       settingStatus={stateSettingStatus}
     >
-      <SectionBackendConnection />
+      <SectionChoiceBackend
+        style={settingsStyles.sectionSpacing}
+      />
       <View style={styles.spacing}>
         <ConfirmButton
           isActive={false}

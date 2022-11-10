@@ -7,11 +7,11 @@ import * as backendChoice from "../../../services/backend-choice.service";
 import InformationButton from "../information-button.component";
 import MessageBubble from "../message-bubble.component";
 
-const sectionTitle = "Connection topology :"
+const sectionTitle = "Backend Type :"
 const instructions =
   `Details... TODO.`
 
-const ChoiceBackend = () => {
+const SectionChoiceBackend = () => {
 
   /**
    * States
@@ -27,9 +27,9 @@ const ChoiceBackend = () => {
    */
   return (
     <View style={settingsStyles.sectionContent}>
-      <View style={styles.titleArea}>
+      <View style={settingsStyles.sectionTitleArea}>
         <InformationButton setParentIsActiveFunction={setIsInstructionsDisplayed} />
-        <Text style={styles.title}> {sectionTitle} </Text>
+        <Text style={settingsStyles.sectionTitle}> {sectionTitle} </Text>
       </View>
       {
         isInstructionsDisplayed &&
@@ -38,6 +38,9 @@ const ChoiceBackend = () => {
           message={instructions}
         />
       }
+      <View>
+
+      </View>
     </View>
   );
 };
@@ -46,14 +49,7 @@ const ChoiceBackend = () => {
  * Style Sheet
  */
 const styles = StyleSheet.create({
-  titleArea: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  title: {
-    fontWeight: "bold",
-  },
+
 });
 
-export default ChoiceBackend;
+export default SectionChoiceBackend;

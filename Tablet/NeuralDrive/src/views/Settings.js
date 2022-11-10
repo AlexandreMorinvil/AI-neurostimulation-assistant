@@ -2,23 +2,13 @@ import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   ScrollView,
-  Text,
-  TextInput,
-  View,
 } from 'react-native';
 import SettingsMenuItemPatient from '../components/settings/menu-item-patient/menu-item-patient.component';
-import Buttons from '../components/Buttons.js';
 import SettingsModules from '../components/SettingsModules.js';
 import NetInfo from '@react-native-community/netinfo';
 
-// Style Imports
-import * as ColorTheme from '../styles/Colors';
-import edit_url from '../class/http.js';
-import SettingsMenuItemBackend from '../components/settings/menu-item-backend/menu-item-backend.component';
 import SettingsMenuItemConnectionBackend from '../components/settings/menu-item-connection-backend/menu-item-connection-backend.component';
 import SettingsMenuItemConnectionWatch from '../components/settings/menu-item-connection-watch/menu-item-connection-watch.component';
-
-
 
 const SettingsScreen = () => {
   const [netInfo, setNetinfo] = useState('');
@@ -36,15 +26,10 @@ const SettingsScreen = () => {
     };
   }, []);
 
-  function changeServerIpAddress() {
-    console.log('here');
-  }
-
   return (
     <ScrollView style={styles1.viewContainer}>
 
       <SettingsMenuItemPatient />
-      <SettingsMenuItemBackend />
       <SettingsMenuItemConnectionBackend />
       <SettingsMenuItemConnectionWatch />
       <SettingsModules.SettingsScreenTemporary />

@@ -16,5 +16,13 @@ export const settingsStyles = StyleSheet.create({
   sectionSpacing: {
     marginBottom: 20,
     backgroundColor: "blue"
-  }
+  },
+  sectionTitleArea: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontWeight: "bold",
+  },
 });

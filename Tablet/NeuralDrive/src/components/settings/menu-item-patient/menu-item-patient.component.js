@@ -6,7 +6,7 @@ import { SettingsStatus } from "../../../const/settings";
 
 import AccodionItem from "../accordion-item.component";
 import ConfirmButton from "../confirm-button.component";
-import InputPatientId from "./input-patient-id.component";
+import SectionInputPatientId from "./section-input-patient-id.component";
 import * as patientService from "../../../services/patient.service";
 
 const CONFIRM_BUTTON_TEXT = "Set Patient ID";
@@ -74,7 +74,7 @@ const SettingsMenuItemPatient = () => {
       summaryText={stateHeaderSummary}
       settingStatus={stateSettingStatus}
     >
-      <InputPatientId
+      <SectionInputPatientId
         style={settingsStyles.sectionSpacing}
         setParentIsValidPatientIdFunction={setStateIsPatientIdValid}
         setParentInputPatientId={setStateInputPatientId}

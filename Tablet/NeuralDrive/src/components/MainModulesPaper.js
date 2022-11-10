@@ -25,7 +25,7 @@ import {get_smartwatch_connected} from '../class/const';
 import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
 import HeatMapGraph from '../components/HeatMapGraph';
-import {get_server_ip} from '../class/const';
+import {get_server_ip, set_heat_map_data, set_dimension_of_chart} from '../class/const';
 
 const styles = StyleSheet.create({
   surface: {
@@ -389,6 +389,8 @@ const InputModule = ({QueryPress, ResetPress}) => {
                 Number(response.next_query)
               ][1],
             );
+            set_heat_map_data(JSON.parse(response.values));
+            set_dimension_of_chart(this.dimension);
             setValue(value => value + 1);
           }}
           uppercase={true}>

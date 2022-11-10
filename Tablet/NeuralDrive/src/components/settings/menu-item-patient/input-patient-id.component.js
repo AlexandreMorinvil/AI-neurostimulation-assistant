@@ -74,6 +74,9 @@ const InputPatientId = ({ setParentIsValidPatientIdFunction, setParentInputPatie
       setStateShouldDisplayInvalidityReason(true);
   }, [stateIsIdValid, statePatientId, stateInputIsInFocus]);
 
+  useEffect(() => {
+    validateId();
+  }, [statePatientId]);
 
   /**
    * Render

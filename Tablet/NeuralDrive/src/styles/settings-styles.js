@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const settingsStyles = StyleSheet.create({
   sectionContent: {
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#F0F0F0",
     borderRadius: 10,
     padding: 30,
   },

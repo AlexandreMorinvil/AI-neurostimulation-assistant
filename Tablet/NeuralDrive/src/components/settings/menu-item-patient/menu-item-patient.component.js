@@ -63,7 +63,7 @@ const SettingsMenuItemPatient = () => {
 
   useEffect(() => {
     updateIsConfirmButtonActive();
-  }, [stateInputPatientId]);
+  }, [stateInputPatientId, stateIsPatientIdValid]);
 
   /**
    * Render

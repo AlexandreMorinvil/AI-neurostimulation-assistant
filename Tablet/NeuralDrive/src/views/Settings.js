@@ -1,70 +1,113 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  StyleSheet,
+  ScrollView,
   Text,
   TextInput,
-  ScrollView,
-  Button,
-  ToastAndroid,
-  StyleSheet,
   View,
 } from 'react-native';
-import * as Inputs from '../components/Inputs.js';
-import {set_server_ip, get_server_ip} from '../class/const';
+import SettingsMenuItemPatient from '../components/settings/menu-item-patient/menu-item-patient.component';
+import Buttons from '../components/Buttons.js';
+import SettingsModules from '../components/SettingsModules.js';
+import NetInfo from '@react-native-community/netinfo';
+
+// Style Imports
+import * as ColorTheme from '../styles/Colors';
+import edit_url from '../class/http.js';
+import SettingsMenuItemBackend from '../components/settings/menu-item-backend/menu-item-backend.component';
+import SettingsMenuItemConnectionBackend from '../components/settings/menu-item-connection-backend/menu-item-connection-backend.component';
+import SettingsMenuItemConnectionWatch from '../components/settings/menu-item-connection-watch/menu-item-connection-watch.component';
+
+
 
 const SettingsScreen = () => {
-  [ip, set_ip] = useState(get_server_ip());
+  const [netInfo, setNetinfo] = useState('');
+  const [text, setText] = useState('');
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setNetinfo(
+        `Connection type: ${state.type}
+        Is connected?: ${state.isConnected}
+        IP Address: ${state.details.ipAddress}`,
+      );
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  function changeServerIpAddress() {
+    console.log('here');
+  }
+
   return (
-    <ScrollView style={styles.viewContainer}>
-      <Text style={{color: '#fff'}}> Settings </Text>
-      <View style={styles.inputBox}>
-        <Text style={styles.inputName}>SERVER IP</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="2"
-          onChangeText={text =>
-            set_ip(() => {
-              ip = text;
-              set_server_ip(ip);
-              console.log(ip);
-            })
-          }
-          defaultValue={get_server_ip()}
-        />
-      </View>
-    </ScrollView>
+    <ScrollView style={styles1.viewContainer}>
+
+      <SettingsMenuItemPatient />
+      <SettingsMenuItemBackend />
+      <SettingsMenuItemConnectionBackend />
+      <SettingsMenuItemConnectionWatch />
+      <SettingsModules.SettingsScreenTemporary />
+
+
+      {/* <SettingsModules.Box
+        height='100%'
+        width='100%'
+        bgColor='#222'
+        jc='flex-start'
+        alignItems='center'
+      >
+        <SettingsModules.Box
+          height={'250px'}
+          width={'100%'}
+          bgColor={'#555'}
+          flexDirection="row"
+        >
+
+          <SettingsModules.FlexContainer bgColor={'#555'} flexDirection="column">
+            <SettingsModules.WatchIPInputModule
+              flex={1}
+              alignItems={'center'}
+              ipAddress={netInfo}
+            />
+          </SettingsModules.FlexContainer>
+
+          <SettingsModules.FlexContainer
+            bgColor={'#555'}
+            flexDirection="column"
+          >
+            <SettingsModules.ServerURLInputModule
+              flex={1}
+              alignItems={'flex-start'}
+              textChange={newText => setText(newText)}
+              functionToUse={changeServerIpAddress()}
+            />
+          </SettingsModules.FlexContainer>
+
+        </SettingsModules.Box>
+
+        <Buttons.RoundedButton
+          title="Main page"
+          onPress={() => blank()}
+          bgColor={ColorTheme.Fruity.First}
+          container={bottom = 10} />
+      </SettingsModules.Box> */}
+
+    </ScrollView >
   );
 };
-//
 
-const styles = StyleSheet.create({
+
+const styles1 = StyleSheet.create({
   viewContainer: {
     flex: 1,
-    backgroundColor: '#111',
     padding: 10,
-  },
-  inputBox: {
-    width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  inputName: {
-    fontSize: 17,
-    fontFamily: 'Roboto',
-    fontWeight: 'bold',
-    color: 'black',
-  },
-  input: {
-    //height: '25%',
-    width: '80%',
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 4,
-    fontSize: 35,
-    fontWeight: 'bold',
-    color: 'black',
   },
 });
+
+
+function blank() {
+  server_url = '1.1.1.1'
+}
 
 export default SettingsScreen;

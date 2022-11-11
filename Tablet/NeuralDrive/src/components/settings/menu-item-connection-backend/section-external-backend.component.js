@@ -1,36 +1,71 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
 import { settingsStyles } from "../../../styles/settings-styles";
 import { SettingsMessageType } from '../../../const/settings';
 import InformationButton from "../information-button.component";
 import MessageBubble from "../message-bubble.component";
-import ButtonBackendType from "./button-backend-type.component";
 
-const SECTION_TITLE = "Backend Type :";
+const SECTION_TITLE = "External Backend :";
+const SECTION_DETAILS = "Insert the IP address indicated by the NeuralDrive desktop application."
 const INSTRUCTIONS =
   `Details... TODO.`;
 
-const BUTTON_RADIUS = 50;
+const INVALID_IP_ADDRESS_MESSAGE = "The IP address entered is not valid";
+
+const STATUS_NOT_CONNECTED = "Not connected";
 
 const SectionExternalBackend = () => {
 
   /**
    * States
    */
+  const [stateInputIpAddress, setStateInputIpAddress] = useState("");
+  const [statIsInputIpAddressValid, setStatIsInputIpAddressValid] = useState(true);
+  const [stateInputIsInFocus, setStateInputIsInFocus] = useState(false);
+
   const [stateIsInstructionsDisplayed, setStateIsInstructionsDisplayed] = useState(true);
-  const [stateIsLocalBackendTypeSelected, setStateIsLocalBackendTypeSelected] = useState(true);
+  const [stateShouldDisplayInvalidityReason, setStateShouldDisplayInvalidityReason] = useState(true);
 
   /**
    * Functions
    */
-  const setBackendTypeToLocal = () => {
-    setStateIsLocalBackendTypeSelected(true);
+  const indicateIsInFocus = () => {
+    setStateInputIsInFocus(true);
   }
 
-  const setBackendTypeToExternal = () => {
-    setStateIsLocalBackendTypeSelected(false);
+  const updateInputPatientId = (newPatientId) => {
+    // setStatePatientId(newPatientId);
+    // setParentInputPatientId(newPatientId);
+    // validateId();
   }
+
+  const updateToIsNotInFocus = () => {
+    setStateInputIsInFocus(false);
+    // validateId();
+  }
+
+  /**
+   * Effects
+   */
+  // Verify if we should display the invalidity message.
+  useEffect(() => {
+    if (statIsInputIpAddressValid)
+      setStateShouldDisplayInvalidityReason(false);
+
+    else if (stateInputIsInFocus)
+      setStateShouldDisplayInvalidityReason(false);
+
+    else if (stateInputIpAddress.length == 0)
+      setStateShouldDisplayInvalidityReason(false);
+
+    else
+      setStateShouldDisplayInvalidityReason(true);
+  }, [statIsInputIpAddressValid, stateInputIpAddress, stateInputIsInFocus]);
+
+  useEffect(() => {
+    // validateId();
+  }, [stateInputIpAddress]);
 
   /**
    * Render
@@ -41,6 +76,9 @@ const SectionExternalBackend = () => {
         <InformationButton setParentIsActiveFunction={setStateIsInstructionsDisplayed} />
         <Text style={settingsStyles.sectionTitle}> {SECTION_TITLE} </Text>
       </View>
+      <Text>
+        {SECTION_DETAILS}
+      </Text>
       {
         stateIsInstructionsDisplayed &&
         <MessageBubble
@@ -48,20 +86,27 @@ const SectionExternalBackend = () => {
           message={INSTRUCTIONS}
         />
       }
-      <View style={styles.buttonArea}>
-        <ButtonBackendType
-          style={[styles.button, styles.leftButton]}
-          onPress={setBackendTypeToLocal}
-          isActive={stateIsLocalBackendTypeSelected}
-          isLocalBackendButton={true}
+      {
+        stateShouldDisplayInvalidityReason &&
+        <MessageBubble
+          type={SettingsMessageType.WARNING}
+          message={INVALID_IP_ADDRESS_MESSAGE}
         />
-        <ButtonBackendType
-          style={[styles.button, styles.rightButton]}
-          onPress={setBackendTypeToExternal}
-          isActive={!stateIsLocalBackendTypeSelected}
-          isLocalBackendButton={false}
-        />
-      </View>
+      }
+      <TextInput
+        style={[settingsStyles.textInput, styles.spacing]}
+        onEndEditing={updateToIsNotInFocus}
+        onFocus={indicateIsInFocus}
+        value={stateInputIpAddress}
+        onChangeText={updateInputPatientId}
+        placeholder="Insert IP Adress"
+        keyboardType="numeric"
+      />
+      <MessageBubble
+        style={styles.spacing}
+        type={SettingsMessageType.NEUTRAL}
+        message={STATUS_NOT_CONNECTED}
+      />
     </View>
   );
 };
@@ -70,21 +115,8 @@ const SectionExternalBackend = () => {
  * Style Sheet
  */
 const styles = StyleSheet.create({
-  buttonArea: {
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  button: {
-    maxWidth: 350,
-    margin: 2.5,
-  },
-  leftButton: {
-    borderTopLeftRadius: BUTTON_RADIUS,
-    borderBottomLeftRadius: BUTTON_RADIUS,
-  },
-  rightButton: {
-    borderTopRightRadius: BUTTON_RADIUS,
-    borderBottomRightRadius: BUTTON_RADIUS,
+  spacing: {
+    marginTop: 20,
   }
 });
 

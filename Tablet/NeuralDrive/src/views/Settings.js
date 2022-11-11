@@ -8,7 +8,7 @@ import SettingsModules from '../components/SettingsModules.js';
 import NetInfo from '@react-native-community/netinfo';
 
 import SettingsMenuItemConnectionBackend from '../components/settings/menu-item-connection-backend/menu-item-connection-backend.component';
-import SettingsMenuItemConnectionWatch from '../components/settings/menu-item-connection-watch/menu-item-connection-watch.component';
+// import SettingsMenuItemConnectionWatch from '../components/settings/menu-item-connection-watch/menu-item-connection-watch.component';
 
 const SettingsScreen = () => {
   const [netInfo, setNetinfo] = useState('');
@@ -31,7 +31,7 @@ const SettingsScreen = () => {
 
       <SettingsMenuItemPatient />
       <SettingsMenuItemConnectionBackend />
-      <SettingsMenuItemConnectionWatch />
+      {/* <SettingsMenuItemConnectionWatch /> */}
       <SettingsModules.SettingsScreenTemporary />
 
 

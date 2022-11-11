@@ -5,11 +5,14 @@ import { settingsStyles } from "../../../styles/settings-styles";
 import { SettingsStatus } from "../../../const/settings";
 
 import AccodionItem from "../accordion-item.component";
-import SectionChoiceBackend from "./section-choice-backend.component";
 import ConfirmButton from "../confirm-button.component";
-import * as backendChoiceService from "../../../services/backend-choice.service";
+import SectionChoiceBackend from "./section-choice-backend.component";
+import SectionExternalBackend from "./section-external-backend.component";
+import SectionLocalBackend from "./section-local-backend.component";
 
-const CONFIRM_BUTTON_TEXT = "Confirm Choice";
+import * as connectionBackendService from "../../../services/connection-backend.service";
+
+const CONFIRM_BUTTON_TEXT = "Connect";
 
 const SettingsMenuItemConnectionBackend = () => {
 
@@ -18,6 +21,7 @@ const SettingsMenuItemConnectionBackend = () => {
    */
   const [stateHeaderSummary, setstateHeaderSummary] = useState("");
   const [stateSettingStatus, setStateSettingStatus] = useState(SettingsStatus.UNSET);
+  const [stateIsLocalBackendTypeSelected, setStateIsLocalBackendTypeSelected] = useState(false);
 
   /**
    * Functions
@@ -32,10 +36,19 @@ const SettingsMenuItemConnectionBackend = () => {
       summaryText={stateHeaderSummary}
       settingStatus={stateSettingStatus}
     >
-      <SectionChoiceBackend
-        style={settingsStyles.sectionSpacing}
-      />
-      <View style={styles.spacing}>
+      <View>
+        <SectionChoiceBackend
+          style={settingsStyles.sectionSpacing}
+          setParentIsLocalBackendTypeSelected={setStateIsLocalBackendTypeSelected}
+        />
+        <View style={styles.spacing}>
+          {stateIsLocalBackendTypeSelected ?
+            <SectionLocalBackend /> :
+            <SectionExternalBackend />
+          }
+        </View>
+      </View>
+      <View style={[styles.spacing, styles.alignRight]}>
         <ConfirmButton
           isActive={false}
           text={CONFIRM_BUTTON_TEXT}
@@ -51,10 +64,12 @@ const SettingsMenuItemConnectionBackend = () => {
  */
 const styles = StyleSheet.create({
   spacing: {
-    flexDirection: "column",
-    alignItems: "flex-end",
     marginTop: 20,
   },
+  alignRight : {
+    flexDirection: "column",
+    alignItems: "flex-end",
+  }
 });
 
 export default SettingsMenuItemConnectionBackend;

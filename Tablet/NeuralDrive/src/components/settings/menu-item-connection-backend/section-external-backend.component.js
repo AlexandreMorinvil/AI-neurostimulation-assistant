@@ -13,7 +13,7 @@ const INSTRUCTIONS =
 
 const BUTTON_RADIUS = 50;
 
-const SectionChoiceBackend = ({ setParentIsLocalBackendTypeSelected }) => {
+const SectionExternalBackend = () => {
 
   /**
    * States
@@ -24,8 +24,6 @@ const SectionChoiceBackend = ({ setParentIsLocalBackendTypeSelected }) => {
   /**
    * Functions
    */
-  setParentIsLocalBackendTypeSelected = setParentIsLocalBackendTypeSelected ? setParentIsLocalBackendTypeSelected : () => { };
-
   const setBackendTypeToLocal = () => {
     setStateIsLocalBackendTypeSelected(true);
   }
@@ -33,15 +31,6 @@ const SectionChoiceBackend = ({ setParentIsLocalBackendTypeSelected }) => {
   const setBackendTypeToExternal = () => {
     setStateIsLocalBackendTypeSelected(false);
   }
-
-  /**
-   * Effects
-   */
-  // Verify if we should display the invalidity message.
-  useEffect(() => {
-    setParentIsLocalBackendTypeSelected(stateIsLocalBackendTypeSelected);
-    console.log("Value : ", stateIsLocalBackendTypeSelected);
-  }, [stateIsLocalBackendTypeSelected]);
 
   /**
    * Render
@@ -99,4 +88,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SectionChoiceBackend;
+export default SectionExternalBackend;

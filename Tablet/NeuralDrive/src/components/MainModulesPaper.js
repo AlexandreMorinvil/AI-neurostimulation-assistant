@@ -5,11 +5,11 @@ import {
   post_execute_query,
 } from '../class/http';
 import Canvas from 'react-native-canvas';
-import {get_watch_data} from '../class/http';
-import {Action, Status, ERROR_CODE} from '../class/actions';
-import {Slider} from 'react-native-elements';
-import {Alert, ScrollView, StyleSheet} from 'react-native';
-import {BarIndicator, PulseIndicator} from 'react-native-indicators';
+import { get_watch_data } from '../class/http';
+import { Action, Status, ERROR_CODE } from '../class/actions';
+import { Slider } from 'react-native-elements';
+import { Alert, ScrollView, StyleSheet, View} from 'react-native';
+import { BarIndicator, PulseIndicator } from 'react-native-indicators';
 import {
   Button,
   Modal,
@@ -18,14 +18,15 @@ import {
   Surface,
   Text,
   TextInput,
+  SegmentedButtons,
 } from 'react-native-paper';
 import Swiper from 'react-native-swiper';
 import styled from 'styled-components';
-import {get_smartwatch_connected} from '../class/const';
+import { get_smartwatch_connected } from '../class/const';
 import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
 import HeatMapGraph from '../components/HeatMapGraph';
-import {get_server_ip, set_heat_map_data, set_dimension_of_chart} from '../class/const';
+import { get_server_ip, set_heat_map_data, set_dimension_of_chart } from '../class/const';
 
 const styles = StyleSheet.create({
   surface: {
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   },
   watchSurface: {
     padding: 8,
-    height: '100%',
+    height: 200,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -133,24 +134,24 @@ const ServerConnection = () => {
   }, []);
 
   return (
-    <>
+    <View style={{flexDirection: 'row'}}>
       <BarIndicator
         count={4}
         color={indicatorColor}
         size={20}
-        style={{flex: 0.1, paddingRight: 20}}
+        style={{ flex: 0.1, paddingRight: 20 }}
       />
 
       <Text variant="labelLarge" adjustsFontSizeToFit={true}>
         {connectionStatus}
       </Text>
-    </>
+    </View>
   );
 };
 
 const GraphModule = () => (
   <FlexContainer>
-    <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
+    <Surface color="red" style={{ display: 'flex', borderRadius: 25 }}>
       <Swiper>
         <Chart />
         <HeatMapModule />
@@ -165,7 +166,7 @@ const InputModal = () => {
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const containerStyle = {backgroundColor: 'white', padding: 20};
+  const containerStyle = { backgroundColor: 'white', padding: 20 };
 
   return (
     <Provider>
@@ -177,14 +178,14 @@ const InputModal = () => {
           <Text>Example Modal. Click outside this area to dismiss.</Text>
         </Modal>
       </Portal>
-      <Button style={{marginTop: 30}} onPress={showModal}>
+      <Button style={{ marginTop: 30 }} onPress={showModal}>
         Show
       </Button>
     </Provider>
   );
 };
 
-const Input = ({dimension, unitType, flexInput, setFunction, value}) => (
+const Input = ({ dimension, unitType, flexInput, setFunction, value }) => (
   <FlexContainer
     jc={'flex-start'}
     flex={flexInput}
@@ -192,7 +193,7 @@ const Input = ({dimension, unitType, flexInput, setFunction, value}) => (
     pad={'0px 0px 0px 8px'}
     bgColor={'#4a4a4a'}
     borderRadius={'15px'}
-    /* onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}> */
+  /* onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}> */
   >
     {/* <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText> */}
     <Box
@@ -201,7 +202,7 @@ const Input = ({dimension, unitType, flexInput, setFunction, value}) => (
       bgColor={'#eee'}
       borderRadius={'5px'}
       border={'2px solid black'}>
-      <Text variant="labelLarge" style={{color: '#374F42'}}>
+      <Text variant="labelLarge" style={{ color: '#374F42' }}>
         {' '}
         XY{' '}
       </Text>
@@ -226,7 +227,7 @@ const Input = ({dimension, unitType, flexInput, setFunction, value}) => (
       }}
     />
     {/* <Inputs.Round width={'20%'}/> */}
-    <Text variant="labelLarge" style={{color: 'white'}}>
+    <Text variant="labelLarge" style={{ color: 'white' }}>
       {' '}
       {unitType}{' '}
     </Text>
@@ -293,29 +294,50 @@ const set_dimension = dimension => {
 };
 
 // flexInput to adjust each input size
-const InputModule = ({QueryPress, ResetPress}) => {
+const InputModule = ({ QueryPress, ResetPress }) => {
   const [localDimension, local_set_dimension] = React.useState(10);
   const [value, setValue] = React.useState(0);
 
+
   return (
     <Surface style={styles.inputSurface} elevation={1}>
-      <FlexContainer flex={0.2} flexDirection={'column'}>
-        <Text variant="headlineSmall">DIMENSIONS</Text>
-        <Slider
-          style={{width: '80%'}}
-          value={dimension}
-          maximumValue={50}
-          minimumValue={5}
-          thumbTintColor={'black'}
-          thumbTouchSize={{width: 30, height: 30}}
-          thumbStyle={{height: 20, width: 20}}
-          step={1}
-          onValueChange={value => {
-            set_dimension(value);
-            local_set_dimension(value);
-          }}
+      <FlexContainer flex={0.2} flexDirection={'column'} bgColor='#00000000'>
+        {/* <Text variant="headlineSmall">DIMENSIONS</Text> */}
+        {/* <Slider */}
+        {/*   style={{width: '80%'}} */}
+        {/*   value={dimension} */}
+        {/*   maximumValue={50} */}
+        {/*   minimumValue={5} */}
+        {/*   thumbTintColor={'black'} */}
+        {/*   thumbTouchSize={{width: 30, height: 30}} */}
+        {/*   thumbStyle={{height: 20, width: 20}} */}
+        {/*   step={1} */}
+        {/*   onValueChange={value => { */}
+        {/*     set_dimension(value); */}
+        {/*     local_set_dimension(value); */}
+        {/*   }} */}
+        {/* /> */}
+        <SegmentedButtons
+          value={localDimension} onValueChange={local_set_dimension}
+          buttons={[
+          {
+            value: '10',
+            label: '10x10',
+            icon: 'grid'
+          },
+          {
+            value: '20',
+            icon: 'grid',
+            label: '20x20',
+          },
+          {
+            value: '50',
+            icon: 'grid',
+            label: '50x50',
+          },
+        ]}
         />
-        <Text variant="headlineSmall">{localDimension}</Text>
+        <Text variant="headlineSmall">{'dimension:' + localDimension}</Text>
       </FlexContainer>
       <FlexContainer
         flex={0.8}
@@ -381,12 +403,12 @@ const InputModule = ({QueryPress, ResetPress}) => {
             );
             set_old_A(
               CanvasRef.current.current_algorithm.position[
-                Number(response.next_query)
+              Number(response.next_query)
               ][0],
             );
             set_old_B(
               CanvasRef.current.current_algorithm.position[
-                Number(response.next_query)
+              Number(response.next_query)
               ][1],
             );
             set_heat_map_data(JSON.parse(response.values));
@@ -406,7 +428,7 @@ const InputModule = ({QueryPress, ResetPress}) => {
 patient_level = 10;
 smartwatch_connected = false;
 // Used inside SideTabModule
-const WatchModule = ({height, width, bgColor}) => {
+const WatchModule = ({ height, width, bgColor }) => {
   const [value2, setValue2] = React.useState(0);
   React.useEffect(() => {
     const interval2 = setInterval(() => {
@@ -420,6 +442,9 @@ const WatchModule = ({height, width, bgColor}) => {
 
   return (
     <Surface style={styles.watchSurface} elevation={1}>
+      <ServerConnection />
+      <ServerConnection />
+      <ServerConnection />
       <Text variant="headlineLarge">{patient_level}</Text>
       <Text>SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}</Text>
     </Surface>
@@ -473,7 +498,7 @@ const WatchModule = ({height, width, bgColor}) => {
 //     {/* </ScrollView> */}
 // </FlexContainer>
 
-const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
+const SideTabModule = ({ flex, StartSessionPress, ResetPress, QueryPress }) => {
   const [value, setValue] = React.useState(0);
   return (
     <FlexContainer flex={flex} pad="0px">
@@ -483,23 +508,14 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
           flexDirection="column"
           jc="flex-start"
           pad="10px">
-          <FlexContainer flex={0.05} jc={'flex-start'}>
-            {/* <TextInput */}
-            {/*   mode='outlined' */}
-            {/*   disabled='true' */}
-            {/*   value={'Connected to: ' + get_server_ip()} */}
-            {/* > */}
-            {/* </TextInput> */}
-            <ServerConnection />
-          </FlexContainer>
 
-          <FlexContainer flex={0.15} jc="center">
+          <FlexContainer flex={0.15} jc="center" pad='0'>
             <Surface
-              style={{flexDirection: 'row', borderRadius: 15, padding: 35}}>
+              style={{ flexDirection: 'row', borderRadius: 15, padding: 35, width: '100%', justifyContent:'flex-start', alignItems: 'center'}}>
               <PulseIndicator
                 color="red"
                 size={30}
-                style={{flex: 0.1, paddingRight: 25}}
+                style={{ flex: 0.1, paddingRight: 25 }}
               />
               <Button
                 icon="play"
@@ -517,7 +533,7 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
                   setValue(value => value + 1);
                 }}
                 uppercase={true}
-                style={{height: 40}}>
+                style={{ height: 40 }}>
                 <Text
                   variant="labelLarge"
                   adjustsFontSizeToFit={true}
@@ -541,16 +557,16 @@ const SideTabModule = ({flex, StartSessionPress, ResetPress, QueryPress}) => {
             />
           </FlexContainer>
 
-          <FlexContainer flex={0.5} jc="center" pad="10px 0 0 0">
+          {/* <FlexContainer flex={0.15} jc="center" pad="10px 0 0 0"> */}
             <WatchModule />
-          </FlexContainer>
+          {/* </FlexContainer> */}
         </FlexContainer>
       </ScrollView>
     </FlexContainer>
   );
 };
 
-const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
+const SideTabModuleVertical = ({ flex, ResetPress, QueryPress }) => (
   <ScrollView>
     <FlexContainer flex={flex} pad="0px">
       <FlexContainer

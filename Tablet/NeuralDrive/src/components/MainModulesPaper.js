@@ -186,21 +186,22 @@ const InputModule = ({ QueryPress, ResetPress }) => {
         {/*     local_set_dimension(value); */}
         {/*   }} */}
         {/* /> */}
+        <Text variant='titleMedium'> Dimension</Text>
         <SegmentedButtons
           value={localDimension} onValueChange={local_set_dimension}
           buttons={[
           {
-            value: '10',
+            value: 10,
             label: '10x10',
-            icon: 'grid'
+            icon: 'grid',
           },
           {
-            value: '20',
+            value: 20,
             icon: 'grid',
             label: '20x20',
           },
           {
-            value: '50',
+            value: 50,
             icon: 'grid',
             label: '50x50',
           },

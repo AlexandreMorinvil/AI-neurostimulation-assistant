@@ -22,7 +22,7 @@ import {
 } from 'react-native-paper';
 import Swiper from 'react-native-swiper';
 import styled from 'styled-components';
-import { get_smartwatch_connected } from '../class/const';
+import { get_smartwatch_connected, smartwatch_is_connected } from '../class/const';
 import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
 import HeatMapGraph from '../components/HeatMapGraph';
@@ -35,42 +35,6 @@ class HeatMapModule extends React.Component {
     return <HeapMap ref={CanvasRef} />;
   }
 }
-
-const ServerConnection = () => {
-  const [connectionStatus, setConnectionStatus] =
-    React.useState('No connection');
-  const [indicatorColor, setIndicadorColor] = React.useState('#CC958F');
-
-  // setIp every second
-  React.useEffect(() => {
-    const interval = setInterval(async () => {
-      const watch_data = await get_watch_data();
-      if (watch_data) {
-        setConnectionStatus('Connected to server');
-        setIndicadorColor('#A3D9A3');
-      } else {
-        setConnectionStatus('No Connection');
-        setIndicadorColor('#CC958F');
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <View style={{flexDirection: 'row'}}>
-      <BarIndicator
-        count={4}
-        color={indicatorColor}
-        size={20}
-        style={{ flex: 0.1, paddingRight: 20 }}
-      />
-
-      <Text variant="labelLarge" adjustsFontSizeToFit={true}>
-        {connectionStatus}
-      </Text>
-    </View>
-  );
-};
 
 const GraphModule = () => (
   <FlexContainer>
@@ -352,12 +316,89 @@ const ConnectionModule = ({ height, width, bgColor }) => {
       {/* Server  */}
       <ServerConnection />
       {/* Database */}
-      <ServerConnection />
+      {/* TODO */}
       {/* Watch */}
-      <ServerConnection />
-      <Text variant="headlineLarge">{patient_level}</Text>
-      <Text>SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}</Text>
+      {/* <Text>SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}</Text> */}
+      <WatchModule/>
+      <Text variant="headlineLarge" style={{marginTop: 30}}> <Text variant='headlineSmall'> Average Tremor: </Text> {patient_level}</Text>
     </Surface>
+  );
+};
+
+
+const ServerConnection = () => {
+  const [connectionStatus, setConnectionStatus] =
+    React.useState('Not Connected to Server');
+  const [indicatorColor, setIndicadorColor] = React.useState('#CC958F');
+
+  // setIp every second
+  React.useEffect(() => {
+    const interval = setInterval(async () => {
+      const watch_data = await get_watch_data();
+      if (watch_data) {
+        setConnectionStatus('Connected to Server');
+        setIndicadorColor('#A3D9A3');
+      } else {
+        setConnectionStatus('Not Connected to Server ');
+        setIndicadorColor('#CC958F');
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <View style={{flexDirection: 'row'}}>
+      <BarIndicator
+        count={4}
+        color={indicatorColor}
+        size={20}
+        style={{ flex: 0.1, paddingRight: 20 }}
+      />
+
+      <Text variant="titleLarge" adjustsFontSizeToFit={true}>
+        {connectionStatus}
+      </Text>
+    </View>
+  );
+};
+
+const WatchModule = () => {
+
+  const [connectionStatus, setConnectionStatus] = React.useState('Not Connected to Watch');
+  const [indicatorColor, setIndicadorColor] = React.useState('#CC958F');
+  // setIp every second
+  //
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setConnectionStatus(connectionStatus => connectionStatus + 1);
+      console.log(get_smartwatch_connected());
+      smartwatch_connected = get_smartwatch_connected();
+      // smartwatch_connected = false;
+      if (smartwatch_connected) {
+        setConnectionStatus('Connected to Watch');
+        setIndicadorColor('#A3D9A3');
+      } else {
+        setConnectionStatus('Not Connected to Watch');
+        setIndicadorColor('#CC958F');
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [connectionStatus]);
+
+  return (
+    <View style={{flexDirection: 'row'}}>
+      <BarIndicator
+        count={4}
+        color={indicatorColor}
+        size={20}
+        style={{ flex: 0.1, paddingRight: 20 }}
+      />
+
+      <Text variant="titleLarge" adjustsFontSizeToFit={true}>
+        {connectionStatus}
+      </Text>
+    </View>
   );
 };
 

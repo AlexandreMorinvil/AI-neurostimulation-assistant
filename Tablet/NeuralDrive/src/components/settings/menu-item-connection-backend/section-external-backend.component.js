@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import { settingsStyles } from "../../../styles/settings-styles";
 import { SettingsMessageType } from '../../../const/settings';
 import InformationButton from "../information-button.component";
+import InputIpAddress from "./input-ip-address.component";
 import MessageBubble from "../message-bubble.component";
 
 const SECTION_TITLE = "External Backend :";
 const SECTION_DETAILS = "Insert the IP address indicated by the NeuralDrive desktop application."
 const INSTRUCTIONS =
   `Details... TODO.`;
-
-const INVALID_IP_ADDRESS_MESSAGE = "The IP address entered is not valid";
 
 const STATUS_NOT_CONNECTED = "Not connected";
 
@@ -86,22 +85,7 @@ const SectionExternalBackend = () => {
           message={INSTRUCTIONS}
         />
       }
-      {
-        stateShouldDisplayInvalidityReason &&
-        <MessageBubble
-          type={SettingsMessageType.WARNING}
-          message={INVALID_IP_ADDRESS_MESSAGE}
-        />
-      }
-      <TextInput
-        style={[settingsStyles.textInput, styles.spacing]}
-        onEndEditing={updateToIsNotInFocus}
-        onFocus={indicateIsInFocus}
-        value={stateInputIpAddress}
-        onChangeText={updateInputPatientId}
-        placeholder="Insert IP Adress"
-        keyboardType="numeric"
-      />
+      <InputIpAddress />
       <MessageBubble
         style={styles.spacing}
         type={SettingsMessageType.NEUTRAL}

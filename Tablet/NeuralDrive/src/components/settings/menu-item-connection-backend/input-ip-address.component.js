@@ -1,0 +1,133 @@
+import React, { useState } from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
+
+import { settingsStyles } from "../../../styles/settings-styles";
+
+const IP_ADDREES_OCTET_PLACEHOLDER = "255";
+
+const InputIpAddress = (props) => {
+
+  /**
+   * Props
+   */
+  const { style } = props;
+
+  /**
+   * States
+   */
+  const [stateInputIpFirstOctet, setStateInputIpFirstOctet] = useState("");
+  const [stateInputIpSecondOctet, setStateInputIpSecondOctet] = useState("");
+  const [stateInputIpThirdOctet, setStateInputIpThirdOctet] = useState("");
+  const [stateInputIpFourthOctet, setStateInputIpFourthOctet] = useState("");
+
+  /**
+   * Functions
+   */
+  const getIpAddress = () => {
+    return `${stateInputIpFirstOctet}.${stateInputIpSecondOctet}.${stateInputIpSecondOctet}.${stateInputIpFourthOctet}`
+  }
+
+  const isIpAddressValid = () => {
+    const ipAddress = getIpAddress();
+    return (/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(ipAddress))
+  }
+
+  const isIpOctetValueValid = (octetNumber) => {
+    const isWithinAcceptableBounds = Number(octetNumber) > 0 && Number(octetNumber) <= 255;
+    const isEmpty = octetNumber === "";
+    return isWithinAcceptableBounds || isEmpty;
+  }
+
+  const updateFirstIpOctetValue = (octetNumber) => {
+    if (isIpOctetValueValid(octetNumber))
+      setStateInputIpFirstOctet(octetNumber);
+  }
+
+  const updateSecondIpOctetValue = (octetNumber) => {
+    if (isIpOctetValueValid(octetNumber))
+      setStateInputIpSecondOctet(octetNumber);
+  }
+
+  const updateThirdIpOctetValue = (octetNumber) => {
+    if (isIpOctetValueValid(octetNumber))
+      setStateInputIpThirdOctet(octetNumber);
+  }
+
+  const updateFourthIpOctetValue = (octetNumber) => {
+    if (isIpOctetValueValid(octetNumber))
+      setStateInputIpFourthOctet(octetNumber);
+  }
+
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    // validateId();
+  }, [stateInputIpAddress]);
+
+
+  /**
+   * Render
+   */
+  return (
+    <View style={[settingsStyles.sectionContent, styles.container, props.style]}>
+      <TextInput
+        style={[settingsStyles.textInput, styles.octetInput]}
+        value={stateInputIpFirstOctet}
+        onChangeText={updateFirstIpOctetValue}
+        placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
+        keyboardType="numeric"
+      />
+      <View style={styles.pointArea}>
+        <Text> {"."} </Text>
+      </View>
+      <TextInput
+        style={[settingsStyles.textInput, styles.octetInput]}
+        value={stateInputIpSecondOctet}
+        onChangeText={updateSecondIpOctetValue}
+        placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
+        keyboardType="numeric"
+      />
+      <View style={styles.pointArea}>
+        <Text> {"."} </Text>
+      </View>
+      <TextInput
+        style={[settingsStyles.textInput, styles.octetInput]}
+        value={stateInputIpThirdOctet}
+        onChangeText={updateThirdIpOctetValue}
+        placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
+        keyboardType="numeric"
+      />
+      <View style={styles.pointArea}>
+        <Text> {"."} </Text>
+      </View>
+      <TextInput
+        style={[settingsStyles.textInput, styles.octetInput]}
+        value={stateInputIpFourthOctet}
+        onChangeText={updateFourthIpOctetValue}
+        placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
+        keyboardType="numeric"
+      />
+    </View>
+  );
+};
+
+/**
+ * Style Sheet
+ */
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  pointArea: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  octetInput: {
+    width: 100,
+  }
+});
+
+export default InputIpAddress;

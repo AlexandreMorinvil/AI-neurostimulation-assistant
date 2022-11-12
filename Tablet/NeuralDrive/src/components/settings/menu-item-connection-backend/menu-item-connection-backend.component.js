@@ -23,9 +23,34 @@ const SettingsMenuItemConnectionBackend = () => {
   const [stateSettingStatus, setStateSettingStatus] = useState(SettingsStatus.UNSET);
   const [stateIsLocalBackendTypeSelected, setStateIsLocalBackendTypeSelected] = useState(false);
 
+  const [stateInputIpAddress, setStateInputIpAddress] = useState("");
+  const [statIsInputIpAddressValid, setStatIsInputIpAddressValid] = useState(true);
+
+  const [stateIsConnectButtonActive, setStateIsConnectButtonActive] = useState(false);
+
   /**
    * Functions
    */
+  const setConnectButtonActivation = () => {
+    // Local backend mode
+    if (stateIsLocalBackendTypeSelected) {
+      setStateIsConnectButtonActive(true);
+    }
+
+    // External backend mode
+    else {
+      const isInputIpValid = statIsInputIpAddressValid;
+      const isInputIpDifferentFromConnectedIp = true; // TODO
+      setStateIsConnectButtonActive(isInputIpValid && isInputIpDifferentFromConnectedIp);
+    }
+  }
+
+  /**
+   * Effects
+   */
+   useEffect(() => {
+    setConnectButtonActivation();
+  }, [stateInputIpAddress, statIsInputIpAddressValid, stateIsLocalBackendTypeSelected]);
 
   /**
    * Render
@@ -44,13 +69,16 @@ const SettingsMenuItemConnectionBackend = () => {
         <View style={styles.spacing}>
           {stateIsLocalBackendTypeSelected ?
             <SectionLocalBackend /> :
-            <SectionExternalBackend />
+            <SectionExternalBackend
+              setParentInputIpAddressFunction={setStateInputIpAddress}
+              setParentIsInputIpAddressValidFunction={setStatIsInputIpAddressValid}
+            />
           }
         </View>
       </View>
       <View style={[styles.spacing, styles.alignRight]}>
         <ConfirmButton
-          isActive={false}
+          isActive={stateIsConnectButtonActive}
           text={CONFIRM_BUTTON_TEXT}
           handleButtonPressedParentFunction={() => { }}
         />
@@ -66,7 +94,7 @@ const styles = StyleSheet.create({
   spacing: {
     marginTop: 20,
   },
-  alignRight : {
+  alignRight: {
     flexDirection: "column",
     alignItems: "flex-end",
   }

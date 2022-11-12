@@ -14,57 +14,34 @@ const INSTRUCTIONS =
 
 const STATUS_NOT_CONNECTED = "Not connected";
 
-const SectionExternalBackend = () => {
+const SectionExternalBackend = ({ setParentInputIpAddressFunction, setParentIsInputIpAddressValidFunction, ...props }) => {
+
+  /**
+   * Props
+   */
+  const { } = props;
 
   /**
    * States
    */
   const [stateInputIpAddress, setStateInputIpAddress] = useState("");
   const [statIsInputIpAddressValid, setStatIsInputIpAddressValid] = useState(true);
-  const [stateInputIsInFocus, setStateInputIsInFocus] = useState(false);
 
   const [stateIsInstructionsDisplayed, setStateIsInstructionsDisplayed] = useState(true);
-  const [stateShouldDisplayInvalidityReason, setStateShouldDisplayInvalidityReason] = useState(true);
 
   /**
    * Functions
    */
-  const indicateIsInFocus = () => {
-    setStateInputIsInFocus(true);
-  }
-
-  const updateInputPatientId = (newPatientId) => {
-    // setStatePatientId(newPatientId);
-    // setParentInputPatientId(newPatientId);
-    // validateId();
-  }
-
-  const updateToIsNotInFocus = () => {
-    setStateInputIsInFocus(false);
-    // validateId();
-  }
+  setParentInputIpAddressFunction = setParentInputIpAddressFunction ? setParentInputIpAddressFunction : () => { };
+  setParentIsInputIpAddressValidFunction = setParentIsInputIpAddressValidFunction ? setParentIsInputIpAddressValidFunction : () => { };
 
   /**
    * Effects
    */
-  // Verify if we should display the invalidity message.
   useEffect(() => {
-    if (statIsInputIpAddressValid)
-      setStateShouldDisplayInvalidityReason(false);
-
-    else if (stateInputIsInFocus)
-      setStateShouldDisplayInvalidityReason(false);
-
-    else if (stateInputIpAddress.length == 0)
-      setStateShouldDisplayInvalidityReason(false);
-
-    else
-      setStateShouldDisplayInvalidityReason(true);
-  }, [statIsInputIpAddressValid, stateInputIpAddress, stateInputIsInFocus]);
-
-  useEffect(() => {
-    // validateId();
-  }, [stateInputIpAddress]);
+    setParentInputIpAddressFunction(stateInputIpAddress);
+    setParentIsInputIpAddressValidFunction(statIsInputIpAddressValid);
+  }, [stateInputIpAddress, statIsInputIpAddressValid]);
 
   /**
    * Render
@@ -85,7 +62,10 @@ const SectionExternalBackend = () => {
           message={INSTRUCTIONS}
         />
       }
-      <InputIpAddress />
+      <InputIpAddress
+        setParentInputIpAddressFunction={setStateInputIpAddress}
+        setParentIsInputIpAddressValidFunction={setStatIsInputIpAddressValid}
+      />
       <MessageBubble
         style={styles.spacing}
         type={SettingsMessageType.NEUTRAL}

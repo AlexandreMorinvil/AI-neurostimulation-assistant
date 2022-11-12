@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
 import { settingsStyles } from "../../../styles/settings-styles";
 
 const IP_ADDREES_OCTET_PLACEHOLDER = "255";
 
-const InputIpAddress = (props) => {
+const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAddressValidFunction, ...props }) => {
 
   /**
    * Props
@@ -23,6 +23,9 @@ const InputIpAddress = (props) => {
   /**
    * Functions
    */
+  setParentInputIpAddressFunction = setParentInputIpAddressFunction ? setParentInputIpAddressFunction : () => { };
+  setParentIsInputIpAddressValidFunction = setParentIsInputIpAddressValidFunction ? setParentIsInputIpAddressValidFunction : () => { };
+
   const getIpAddress = () => {
     return `${stateInputIpFirstOctet}.${stateInputIpSecondOctet}.${stateInputIpSecondOctet}.${stateInputIpFourthOctet}`
   }
@@ -62,9 +65,9 @@ const InputIpAddress = (props) => {
    * Effects
    */
   useEffect(() => {
-    // validateId();
-  }, [stateInputIpAddress]);
-
+    setParentInputIpAddressFunction(getIpAddress());
+    setParentIsInputIpAddressValidFunction(isIpAddressValid());
+  }, [stateInputIpFirstOctet, stateInputIpSecondOctet, stateInputIpThirdOctet, stateInputIpFourthOctet]);
 
   /**
    * Render

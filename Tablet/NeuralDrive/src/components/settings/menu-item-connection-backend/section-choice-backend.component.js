@@ -37,10 +37,8 @@ const SectionChoiceBackend = ({ setParentIsLocalBackendTypeSelected }) => {
   /**
    * Effects
    */
-  // Verify if we should display the invalidity message.
   useEffect(() => {
     setParentIsLocalBackendTypeSelected(stateIsLocalBackendTypeSelected);
-    console.log("Value : ", stateIsLocalBackendTypeSelected);
   }, [stateIsLocalBackendTypeSelected]);
 
   /**

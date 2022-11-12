@@ -28,83 +28,6 @@ import Chart from '../components/Chart.js';
 import HeatMapGraph from '../components/HeatMapGraph';
 import { get_server_ip, set_heat_map_data, set_dimension_of_chart } from '../class/const';
 
-const styles = StyleSheet.create({
-  surface: {
-    padding: 10,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
-  },
-
-  graphSurface: {
-    padding: 8,
-    height: 80,
-    width: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
-  },
-  watchSurface: {
-    padding: 8,
-    height: 200,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
-  },
-  inputSurface: {
-    margin: 0,
-    padding: 8,
-    height: '100%',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
-  },
-});
-
-// VIEWS AND CONTAINERS
-// prettier-ignore
-const FlexContainer = styled.View`
-  flex: ${props => props.flex || '1'};
-  flexDirection: ${props => props.flexDirection || 'row'};
-  justify-content: ${props => props.jc || 'space-evenly'};
-  align-items: ${props => props.alignItems || 'center'};
-  background-color: ${props => props.bgColor || '#fff'};
-  border-radius: ${props => props.borderRadius || '0px'};
-  margin: ${props => props.marg || '0px'};
-  padding: ${props => props.pad || '10px'};
-  width: ${props => props.width || '100%'};
-  height: ${props => props.height || '100%'};
-
-  shadowColor: ${props => props.shadowColor || '#000'};
-  elevation: ${props => props.elevation || '0'};
-  border: ${props => props.border || '0px solid black'};
-`;
-
-// justify-content: vertical content position
-// align-items: horizontal content position
-// margin: space around boxes
-const Box = styled.View`
-  width: ${props => props.width || '100px'};
-  height: ${props => props.height || '100px'};
-  background-color: ${props => props.bgColor || '#fff'};
-
-  border-radius: ${props => props.borderRadius || '25px'};
-  justify-content: ${props => props.jc || 'center'};
-  align-items: center;
-  margin: ${props => props.marg || '0'};
-  padding: ${props => props.pad || '0'};
-
-  shadowcolor: ${props => props.shadowColor || '#000'};
-  elevation: ${props => props.elevation || '0'};
-  border: ${props => props.border || '0px solid black'};
-`;
-
 CanvasRef = React.createRef();
 
 class HeatMapModule extends React.Component {
@@ -161,30 +84,6 @@ const GraphModule = () => (
   </FlexContainer>
 );
 
-const InputModal = () => {
-  const [visible, setVisible] = React.useState(false);
-
-  const showModal = () => setVisible(true);
-  const hideModal = () => setVisible(false);
-  const containerStyle = { backgroundColor: 'white', padding: 20 };
-
-  return (
-    <Provider>
-      <Portal>
-        <Modal
-          visible={visible}
-          onDismiss={hideModal}
-          contentContainerStyle={containerStyle}>
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
-        </Modal>
-      </Portal>
-      <Button style={{ marginTop: 30 }} onPress={showModal}>
-        Show
-      </Button>
-    </Provider>
-  );
-};
-
 const Input = ({ dimension, unitType, flexInput, setFunction, value }) => (
   <FlexContainer
     jc={'flex-start'}
@@ -224,16 +123,18 @@ const Input = ({ dimension, unitType, flexInput, setFunction, value }) => (
         marginHorizontal: 10,
         width: '60%',
         textAlign: 'center',
+        fontSize: 24,
       }}
     />
     {/* <Inputs.Round width={'20%'}/> */}
     <Text variant="labelLarge" style={{ color: 'white' }}>
-      {' '}
-      {unitType}{' '}
+      {' ' + unitType + ' '}
     </Text>
   </FlexContainer>
 );
 
+
+// TODO: Cleaning
 const set_session_status = status => {
   mission_status = status;
 };
@@ -293,15 +194,19 @@ const set_dimension = dimension => {
   this.dimension = dimension;
 };
 
+// TODO : End cleaning
+
 // flexInput to adjust each input size
 const InputModule = ({ QueryPress, ResetPress }) => {
   const [localDimension, local_set_dimension] = React.useState(10);
   const [value, setValue] = React.useState(0);
 
-
   return (
+    /* InputModule */
     <Surface style={styles.inputSurface} elevation={1}>
+      {/* dimension */}
       <FlexContainer flex={0.2} flexDirection={'column'} bgColor='#00000000'>
+        {/* TODO: Remove when completed */}
         {/* <Text variant="headlineSmall">DIMENSIONS</Text> */}
         {/* <Slider */}
         {/*   style={{width: '80%'}} */}
@@ -339,6 +244,7 @@ const InputModule = ({ QueryPress, ResetPress }) => {
         />
         <Text variant="headlineSmall">{'dimension:' + localDimension}</Text>
       </FlexContainer>
+      {/* Inputs */}
       <FlexContainer
         flex={0.8}
         flexDirection={'column'}
@@ -371,6 +277,7 @@ const InputModule = ({ QueryPress, ResetPress }) => {
           titleSpacing={'0 6px 0 0'}
         />
       </FlexContainer>
+      {/* Reset & Query */}
       <FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
         <Button
           icon="sync"
@@ -428,7 +335,7 @@ const InputModule = ({ QueryPress, ResetPress }) => {
 patient_level = 10;
 smartwatch_connected = false;
 // Used inside SideTabModule
-const WatchModule = ({ height, width, bgColor }) => {
+const ConnectionModule = ({ height, width, bgColor }) => {
   const [value2, setValue2] = React.useState(0);
   React.useEffect(() => {
     const interval2 = setInterval(() => {
@@ -442,8 +349,11 @@ const WatchModule = ({ height, width, bgColor }) => {
 
   return (
     <Surface style={styles.watchSurface} elevation={1}>
+      {/* Server  */}
       <ServerConnection />
+      {/* Database */}
       <ServerConnection />
+      {/* Watch */}
       <ServerConnection />
       <Text variant="headlineLarge">{patient_level}</Text>
       <Text>SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}</Text>
@@ -451,54 +361,7 @@ const WatchModule = ({ height, width, bgColor }) => {
   );
 };
 
-// const SideTabModule = ({ flex, StartSessionPress, ResetPress, QueryPress}) =>
-//   <FlexContainer flex={flex} pad='0px'>
-//     {/* <ScrollView> */}
-//     {/* <FlexContainer height={'1500px'} flexDirection="column" jc='flex-start' pad='10px'> */}
-//     <FlexContainer flexDirection="column" jc='flex-start' pad='10px'>
-//         <FlexContainer flex={0.05} jc={'flex-start'}>
-//           <BarIndicator count={4} color={'#CC958F'} size={20} style={{ flex: 0.1, paddingRight: 20 }} />
-//           <Text> Try Connect to server</Text>
-//         </FlexContainer>
-
-//         <FlexContainer flex={0.15} jc='center'>
-//           <Surface style={{ flexDirection: 'row', borderRadius: 15, padding: 15 }}>
-//             <PulseIndicator color='red' size={30} style={{ flex: 0.1, paddingRight: 25 }} />
-//             <Button
-//               icon='play'
-//               mode='elevated'
-//               buttonColor={'#CC958F'}
-//               dark={false} loading={false}
-//               onPress={() => StartSessionPress}
-//               uppercase={true}
-//               style={{ height: 40 }}>
-//               <Text
-//                 variant="labelLarge"
-//                 adjustsFontSizeToFit={true}
-//                 numberOfLines={1}>
-
-//                 start session</Text>
-//             </Button>
-//           </Surface>
-//         </FlexContainer>
-
-//         {/* adjust  */}
-//         <FlexContainer flex={0.5} flexDirection='column' jc='center' alignItems='flex-start' pad='10px 0 10px 0'>
-//           <InputModule
-//             alignItems={'flex-start'}
-//             ResetPress={ResetPress}
-//             QueryPress={QueryPress}
-//           />
-//         </FlexContainer>
-
-//         <FlexContainer flex={0.5} jc='center' pad='10px 0 0 0'>
-//           <WatchModule />
-//         </FlexContainer>
-//     </FlexContainer>
-//     {/* </ScrollView> */}
-// </FlexContainer>
-
-const SideTabModule = ({ flex, StartSessionPress, ResetPress, QueryPress }) => {
+const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
   const [value, setValue] = React.useState(0);
   return (
     <FlexContainer flex={flex} pad="0px">
@@ -558,7 +421,7 @@ const SideTabModule = ({ flex, StartSessionPress, ResetPress, QueryPress }) => {
           </FlexContainer>
 
           {/* <FlexContainer flex={0.15} jc="center" pad="10px 0 0 0"> */}
-            <WatchModule />
+            <ConnectionModule />
           {/* </FlexContainer> */}
         </FlexContainer>
       </ScrollView>
@@ -622,18 +485,97 @@ const SideTabModuleVertical = ({ flex, ResetPress, QueryPress }) => (
         </FlexContainer>
       </FlexContainer>
       <FlexContainer flex={0.54} jc="center" pad="10px 0 0 0">
-        <WatchModule height={'100%'} width={'100%'} bgColor={'#555'} />
+        <ConnectionModule height={'100%'} width={'100%'} bgColor={'#555'} />
       </FlexContainer>
     </FlexContainer>
   </ScrollView>
 );
 
+// Styling
+const styles = StyleSheet.create({
+  surface: {
+    padding: 10,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderRadius: 20,
+    // backgroundColor: '',
+  },
+
+  graphSurface: {
+    padding: 8,
+    height: 80,
+    width: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    // backgroundColor: '',
+  },
+  watchSurface: {
+    padding: 8,
+    height: 200,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    // backgroundColor: '',
+  },
+  inputSurface: {
+    margin: 0,
+    padding: 8,
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    // backgroundColor: '',
+  },
+});
+
+// Utility components
+// prettier-ignore
+const FlexContainer = styled.View`
+  flex: ${props => props.flex || '1'};
+  flexDirection: ${props => props.flexDirection || 'row'};
+  justify-content: ${props => props.jc || 'space-evenly'};
+  align-items: ${props => props.alignItems || 'center'};
+  background-color: ${props => props.bgColor || '#fff'};
+  border-radius: ${props => props.borderRadius || '0px'};
+  margin: ${props => props.marg || '0px'};
+  padding: ${props => props.pad || '10px'};
+  width: ${props => props.width || '100%'};
+  height: ${props => props.height || '100%'};
+
+  shadowColor: ${props => props.shadowColor || '#000'};
+  elevation: ${props => props.elevation || '0'};
+  border: ${props => props.border || '0px solid black'};
+`;
+
+// justify-content: vertical content position
+// align-items: horizontal content position
+// margin: space around boxes
+const Box = styled.View`
+  width: ${props => props.width || '100px'};
+  height: ${props => props.height || '100px'};
+  background-color: ${props => props.bgColor || '#fff'};
+
+  border-radius: ${props => props.borderRadius || '25px'};
+  justify-content: ${props => props.jc || 'center'};
+  align-items: center;
+  margin: ${props => props.marg || '0'};
+  padding: ${props => props.pad || '0'};
+
+  shadowcolor: ${props => props.shadowColor || '#000'};
+  elevation: ${props => props.elevation || '0'};
+  border: ${props => props.border || '0px solid black'};
+`;
+
+// EXPORTS
 export default MainModulesPaper = {
   Box: Box, // You can put Text components directly inside
   GraphModule: GraphModule, // You need to put them here
   FlexContainer: FlexContainer,
   InputModule: InputModule,
-  WatchModule: WatchModule,
+  ConnectionModule: ConnectionModule,
   SideTabModule: SideTabModule,
   SideTabModuleVertical: SideTabModuleVertical,
 };

@@ -5,27 +5,37 @@ const PORT = "5000";
 
 // Variables
 export let backendIpAddress = '0.0.0.0';
+export let isConnected = false;
 export let isInLocalhostMode = false;
 
 // Methods
 export function activateLocalHostMode() {
-    isInLocalhostMode = true;
+  isInLocalhostMode = true;
 }
 
 export function deactivateLocalHostMode() {
-    isInLocalhostMode = false;
+  isInLocalhostMode = false;
 }
 
 export function getIsInLocalhostMode() {
-    return isInLocalhostMode;
+  return isInLocalhostMode;
+}
+
+export function getIsConnectedStatus() {
+  return isConnected;
 }
 
 export function getBackendIpAddress() {
-    if (isInLocalhostMode) return `${PROTOCOLE}${LOCALHOST}:${PORT}`;
-    else return `${PROTOCOLE}${backendIpAddress}:${PORT}`;
+  if (isInLocalhostMode) return LOCALHOST;
+  else return backendIpAddress;
+}
+
+export function getBackendUrl() {
+  if (isInLocalhostMode) return `${PROTOCOLE}${LOCALHOST}:${PORT}`;
+  else return `${PROTOCOLE}${backendIpAddress}:${PORT}`;
 }
 
 export function setBackendIpAddress(inputIpAddress) {
-    backendIpAddress = inputIpAddress;
+  backendIpAddress = inputIpAddress;
 }
 

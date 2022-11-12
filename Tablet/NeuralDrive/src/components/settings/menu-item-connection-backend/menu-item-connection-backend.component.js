@@ -13,13 +13,17 @@ import SectionLocalBackend from "./section-local-backend.component";
 import * as connectionBackendService from "../../../services/connection-backend.service";
 
 const CONFIRM_BUTTON_TEXT = "Connect";
+const NO_CONNECTION_HEADER_SUMMARY = "No Connection";
+const CONNECTED_LOCAL_BACKEND_HEADER_SUMMARY = "Connected Locally";
+const CONNECTED_EXTERNAL_BACKEND_HEADER_SUMMARY = (ipAddress) => `Connected to ${ipAddress}`
+
 
 const SettingsMenuItemConnectionBackend = () => {
 
   /**
    * States
    */
-  const [stateHeaderSummary, setstateHeaderSummary] = useState("");
+  const [stateHeaderSummary, setStateHeaderSummary] = useState("");
   const [stateSettingStatus, setStateSettingStatus] = useState(SettingsStatus.UNSET);
   const [stateIsLocalBackendTypeSelected, setStateIsLocalBackendTypeSelected] = useState(false);
 
@@ -34,23 +38,48 @@ const SettingsMenuItemConnectionBackend = () => {
   const setConnectButtonActivation = () => {
     // Local backend mode
     if (stateIsLocalBackendTypeSelected) {
-      setStateIsConnectButtonActive(true);
+      const isAlreadyConnectedLocally = false;
+      setStateIsConnectButtonActive(!isAlreadyConnectedLocally);
     }
 
     // External backend mode
     else {
       const isInputIpValid = statIsInputIpAddressValid;
-      const isInputIpDifferentFromConnectedIp = true; // TODO
-      setStateIsConnectButtonActive(isInputIpValid && isInputIpDifferentFromConnectedIp);
+      const isAlreadyToExternalBackend = false;
+      const isIpAddressDifferentFromRegisteredIpAddress = true;
+      setStateIsConnectButtonActive(
+        isInputIpValid &&
+        !isAlreadyToExternalBackend &&
+        isIpAddressDifferentFromRegisteredIpAddress
+      );
+    }
+  }
+
+  const updateSettingStatus = () => {
+    if (connectionBackendService.getIsConnectedStatus()) {
+      setStateSettingStatus(SettingsStatus.SET);
+      const ipAddressConnected = connectionBackendService.getBackendIpAddress();
+      connectionBackendService.getIsInLocalhostMode() ?
+        setStateHeaderSummary(CONNECTED_LOCAL_BACKEND_HEADER_SUMMARY) :
+        setStateHeaderSummary(CONNECTED_EXTERNAL_BACKEND_HEADER_SUMMARY(ipAddressConnected));
+    }
+
+    else {
+      setStateSettingStatus(SettingsStatus.NEEDED);
+      setStateHeaderSummary(NO_CONNECTION_HEADER_SUMMARY);
     }
   }
 
   /**
    * Effects
    */
-   useEffect(() => {
+  useEffect(() => {
     setConnectButtonActivation();
   }, [stateInputIpAddress, statIsInputIpAddressValid, stateIsLocalBackendTypeSelected]);
+
+  useEffect(() => {
+    updateSettingStatus();
+  }, [connectionBackendService.isConnected]);
 
   /**
    * Render

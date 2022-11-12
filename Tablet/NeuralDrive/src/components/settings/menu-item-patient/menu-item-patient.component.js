@@ -19,31 +19,29 @@ const SettingsMenuItemPatient = () => {
    */
   const [stateInputPatientId, setStateInputPatientId] = useState(patientService.getPatientId());
   const [stateIsPatientIdValid, setStateIsPatientIdValid] = useState(false);
-  const [stateHeaderSummary, setstateHeaderSummary] = useState("");
+  const [stateHeaderSummary, setStateHeaderSummary] = useState("");
   const [stateSettingStatus, setStateSettingStatus] = useState(SettingsStatus.UNSET);
   const [stateIsConfirmButtonActive, setStateIsConfirmButtonActive] = useState(false);
 
   /**
    * Functions
    */
-  const getHeaderSummary = () => {
-    const storedPatientId = patientService.getPatientId();
-    const headerSummary = storedPatientId === "" ? NO_PATIENT_HEADER_SUMMARY : storedPatientId;
-    setstateHeaderSummary(headerSummary);
-  }
-
   const setPatientId = () => {
     patientService.setPatientId(stateInputPatientId);
-    getHeaderSummary();
     updateIsConfirmButtonActive();
   }
 
   const updateSettingStatus = () => {
-    if (!patientService.hasPatientId())
-      setStateSettingStatus(SettingsStatus.UNSET);
-    
-    else
+    if (patientService.hasPatientId()) {
+      const storedPatientId = patientService.getPatientId();
       setStateSettingStatus(SettingsStatus.SET);
+      setStateHeaderSummary(storedPatientId);
+    }
+
+    else {
+      setStateSettingStatus(SettingsStatus.UNSET);
+      setStateHeaderSummary(NO_PATIENT_HEADER_SUMMARY);
+    }
   }
 
   const updateIsConfirmButtonActive = () => {
@@ -57,7 +55,6 @@ const SettingsMenuItemPatient = () => {
    * Effects
    */
   useEffect(() => {
-    getHeaderSummary();
     updateSettingStatus();
   }, [patientService.patientId]);
 

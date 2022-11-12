@@ -20,12 +20,13 @@ import {
   TextInput,
 } from 'react-native-paper';
 import Swiper from 'react-native-swiper';
+import { SelectList } from 'react-native-dropdown-select-list'
 import styled from 'styled-components';
 import {get_smartwatch_connected} from '../class/const';
 import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
 import HeatMapGraph from '../components/HeatMapGraph';
-import {get_server_ip, set_heat_map_data, set_dimension_of_chart} from '../class/const';
+import {get_server_ip, set_heat_map_data, set_dimension_of_chart, set_chosen_param_2D} from '../class/const';
 
 const styles = StyleSheet.create({
   surface: {
@@ -297,6 +298,16 @@ const InputModule = ({QueryPress, ResetPress}) => {
   const [localDimension, local_set_dimension] = React.useState(10);
   const [value, setValue] = React.useState(0);
 
+  const [selected, setSelected] = React.useState(0);
+  const gaussianGraphSelectionParam = [
+    {key: 0, value: 'A'},
+    {key: 1, value: 'B'},
+    {key: 2, value: 'C', disabled: true},
+    {key: 3, value: 'D', disabled: true},
+    {key: 4, value: 'E', disabled: true},
+    {key: 5, value: 'F', disabled: true},
+  ];
+
   return (
     <Surface style={styles.inputSurface} elevation={1}>
       <FlexContainer flex={0.2} flexDirection={'column'}>
@@ -399,6 +410,15 @@ const InputModule = ({QueryPress, ResetPress}) => {
           </Text>
         </Button>
       </FlexContainer>
+      <Text variant="labelLarge" adjustsFontSizeToFit={true}>
+            2D Gaussian parameter
+      </Text>
+      <SelectList 
+        setSelected={(val) => setSelected(val)} 
+        data={gaussianGraphSelectionParam} 
+        save="key"
+        onSelect={() => set_chosen_param_2D(selected)}
+      />
     </Surface>
   );
 };

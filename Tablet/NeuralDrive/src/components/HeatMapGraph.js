@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import MainModules from '../components/MainModules.js';
-import {get_heat_map_data, get_dimension_of_chart} from '../class/const';
+import {get_heat_map_data, get_dimension_of_chart, get_chosen_param_2D} from '../class/const';
 
 export function HeatMapGraph() {
   
@@ -17,30 +17,46 @@ export function HeatMapGraph() {
   const [initialData, setInitialData] = useState(array);
   const [dataMean, setDataMean] = useState(array);
   const [dimension, setDimension] = useState(10);
+  const [chosenParam, setChosenParam] = useState(1);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      updateData(get_heat_map_data(), get_dimension_of_chart());
+      updateData(get_heat_map_data(), get_dimension_of_chart(), get_chosen_param_2D());
     }, 1000);
     return () => clearInterval(interval);
-  }, [initialData, dimension]);
+  }, [initialData, dimension, chosenParam]);
 
-  function updateData(data, dimension){
+  function updateData(data, dimension, param){
     setInitialData(data);
     setDimension(dimension);
+    setChosenParam(param)
     calculate_mean();
   }
 
   function calculate_mean(){
     temp = [];
-    for(i=0; i < dimension; i++){
-      sum = 0;
+    if(chosenParam == 0){
+      for(i=0; i < dimension; i++){
+        sum = 0;
         for(j=0; j<initialData.length; j+=dimension){
-            position = i+j;
-            sum += initialData[position][1];
+          position = i+j;
+          sum += initialData[position][1];
         }
-      mean = sum / dimension;
-      temp[i] = mean;
+        mean = sum / dimension;
+        temp[i] = mean;
+      }
+    } else if(chosenParam == 1){
+      tempPos=0;
+      for(i=0; i < initialData.length; i+=dimension){
+        sum = 0;
+        for(j=0; j<dimension; j++){
+          position = i+j;
+          sum += initialData[position][1];
+        }
+        mean = sum / dimension;
+        temp[tempPos] = mean;
+        tempPos++;
+      }
     }
     setDataMean(temp);
   }

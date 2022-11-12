@@ -1,5 +1,6 @@
 import React, {Component, useRef} from 'react';
-import {Text, View, Dimensions, StyleSheet} from 'react-native';
+import {View, Dimensions, StyleSheet} from 'react-native';
+import {Text} from 'react-native-paper';
 import {Image} from 'react-native-elements';
 import Canvas from 'react-native-canvas';
 import {set_dimension_of_chart, set_heat_map_data} from '../class/const';
@@ -114,12 +115,19 @@ class HeatMap extends React.Component {
 
   render() {
     return (
-      <Image
-        source={{
-          uri: `data:image/jpeg;base64,${this.current_algorithm.data}`,
-        }}
-        style={this.styles.box}
-      />
+      <View>
+        <View>
+          <Text variant='titleLarge'> HeatMap </Text>
+        </View>
+        <View>
+          <Image
+            source={{
+              uri: `data:image/jpeg;base64,${this.current_algorithm.data}`,
+            }}
+            style={this.styles.box}
+          />
+        </View>
+      </View>
     );
   }
 

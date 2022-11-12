@@ -575,6 +575,7 @@ const styles = StyleSheet.create({
 
 // Utility components
 // prettier-ignore
+// styled-components
 const FlexContainer = styled.View`
   flex: ${props => props.flex || '1'};
   flexDirection: ${props => props.flexDirection || 'row'};

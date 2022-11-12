@@ -54,18 +54,18 @@ const Input = ({ dimension, unitType, flexInput, setFunction, value }) => (
     flex={flexInput}
     marg={'5px'}
     pad={'0px 0px 0px 8px'}
-    bgColor={'#4a4a4a'}
+    bgColor={'#8a8a8a'}
     borderRadius={'15px'}
   /* onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}> */
   >
     {/* <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText> */}
     <Box
-      height={'35px'}
-      width={'40px'}
+      height={'70px'}
+      width={'70px'}
       bgColor={'#eee'}
       borderRadius={'5px'}
       border={'2px solid black'}>
-      <Text variant="labelLarge" style={{ color: '#374F42' }}>
+      <Text variant="titleMedium" style={{ color: '#374F42' }}>
         {' '}
         XY{' '}
       </Text>
@@ -84,16 +84,14 @@ const Input = ({ dimension, unitType, flexInput, setFunction, value }) => (
       dense={true}
       style={{
         paddingVertical: 8,
+        paddingHorizontal: 0,
         marginHorizontal: 10,
         width: '60%',
+        height: 60,
         textAlign: 'center',
         fontSize: 24,
       }}
     />
-    {/* <Inputs.Round width={'20%'}/> */}
-    <Text variant="labelLarge" style={{ color: 'white' }}>
-      {' ' + unitType + ' '}
-    </Text>
   </FlexContainer>
 );
 
@@ -219,7 +217,7 @@ const InputModule = ({ QueryPress, ResetPress }) => {
         bgColor={'#00000000'}>
         <Input
           flexInput={0.35}
-          dimension={'Parameter #1'}
+          dimension={'Amplitude (V)'}
           value={2}
           setFunction={text => set_A(text)}
           unitType={'units'}

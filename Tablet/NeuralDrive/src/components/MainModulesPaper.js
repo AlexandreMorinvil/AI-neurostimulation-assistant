@@ -334,7 +334,7 @@ const ConnectionModule = ({height, width, bgColor}) => {
       setValue3(value3 => value3 + 1);
       console.log('smartwatch state = ', get_smartwatch_connected());
       smartwatch_connected = get_smartwatch_connected();
-    }, 10000);
+    }, 1000);
 
     return () => clearInterval(interval2);
   }, [value3]);

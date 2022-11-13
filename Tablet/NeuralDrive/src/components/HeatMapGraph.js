@@ -29,9 +29,9 @@ export function HeatMapGraph() {
         get_dimension_of_chart(),
         get_chosen_param_2D(),
       );
-    }, 10000);
+    }, 1000);
     return () => clearInterval(interval);
-  }, [initialData, dimension, chosenParam]);
+  });
 
   function updateData(data, dimension, param) {
     setInitialData(data);

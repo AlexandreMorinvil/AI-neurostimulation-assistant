@@ -8,7 +8,7 @@ class Session():
         self.id = id
         self.algorithm = algorithm
 
-    def __init__(self, id, watch_data, heat_map) -> None:
-        self.id = id
-        self.watch_data = watch_data
-        self.heat_map= heat_map
+    # def __init__(self, id, watch_data, heat_map) -> None:
+    #     self.id = id
+    #     self.watch_data = watch_data
+    #     self.heat_map= heat_map

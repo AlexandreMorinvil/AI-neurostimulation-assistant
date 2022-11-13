@@ -1,23 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 import { SettingsStatus } from "../../../const/settings";
-
 import AccodionItem from "../accordion-item.component";
 import SectionConnectionWatch from "./section-connection-watch.component";
-import ConfirmButton from "../confirm-button.component";
+
+import * as connectionWatchService from "../../../services/connection-watch.service";
+
+const CONNECTED_HEADER_SUMMARY = "Connected";
+const NO_CONNECTION_HEADER_SUMMARY = "No Connection";
 
 const SettingsMenuItemConnectionWatch = () => {
 
   /**
    * States
    */
-  const [stateHeaderSummary, setstateHeaderSummary] = useState("");
+  const [stateHeaderSummary, setStateHeaderSummary] = useState("");
   const [stateSettingStatus, setStateSettingStatus] = useState(SettingsStatus.UNSET);
 
   /**
    * Functions
    */
+   const updateSettingStatus = () => {
+    if (connectionWatchService.getIsConnectedStatus()) {
+      setStateSettingStatus(SettingsStatus.SET);
+      setStateHeaderSummary(CONNECTED_HEADER_SUMMARY);
+    }
+    else {
+      setStateSettingStatus(SettingsStatus.NEEDED);
+      setStateHeaderSummary(NO_CONNECTION_HEADER_SUMMARY);
+    }
+  }
+
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    updateSettingStatus();
+  }, [connectionWatchService.isConnected]);
 
   /**
    * Render

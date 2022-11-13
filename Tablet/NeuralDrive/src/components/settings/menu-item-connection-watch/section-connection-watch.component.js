@@ -80,9 +80,9 @@ const SectionConnectionWatch = () => {
    */
   return (
     <View style={settingsStyles.sectionContent}>
-      <View style={styles.titleArea}>
+      <View style={settingsStyles.sectionTitleArea}>
         <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
-        <Text style={styles.title}> {SECTION_TITLE} </Text>
+        <Text style={settingsStyles.sectionTitle}> {SECTION_TITLE} </Text>
       </View>
       {
         stateIsHelpInformationDisplayed &&
@@ -104,14 +104,7 @@ const SectionConnectionWatch = () => {
  * Style Sheet
  */
 const styles = StyleSheet.create({
-  titleArea: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  title: {
-    fontWeight: "bold",
-  },
+
 });
 
 export default SectionConnectionWatch;

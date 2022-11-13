@@ -6726,6 +6726,11 @@
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
 
+"react-native-dropdown-select-list@^2.0.2":
+  "integrity" "sha512-dxbhsO6DHxN5Ex5koVIAWO5E9R6ENNzbVjSoBVi8dcQkd1ubD31eCmdJXd4+VzEpXZ2em61kzILqyksRkLtS5w=="
+  "resolved" "https://registry.npmjs.org/react-native-dropdown-select-list/-/react-native-dropdown-select-list-2.0.2.tgz"
+  "version" "2.0.2"
+
 "react-native-elements@^3.4.2":
   "integrity" "sha512-m0eAWOn7JuR1wNTNY0WHuaqst4LI/gFE4N5Bbyfsc4DiryWsMST7aAg5w/Gos4IexWIzhLKCIkPxthND1m/8Xg=="
   "resolved" "https://registry.npmjs.org/react-native-elements/-/react-native-elements-3.4.2.tgz"

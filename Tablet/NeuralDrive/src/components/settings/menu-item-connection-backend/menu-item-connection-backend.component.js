@@ -26,10 +26,8 @@ const SettingsMenuItemConnectionBackend = () => {
   const [stateHeaderSummary, setStateHeaderSummary] = useState("");
   const [stateSettingStatus, setStateSettingStatus] = useState(SettingsStatus.UNSET);
   const [stateIsLocalBackendTypeSelected, setStateIsLocalBackendTypeSelected] = useState(false);
-
   const [stateInputIpAddress, setStateInputIpAddress] = useState("");
   const [statIsInputIpAddressValid, setStatIsInputIpAddressValid] = useState(true);
-
   const [stateIsConnectButtonActive, setStateIsConnectButtonActive] = useState(false);
 
   /**

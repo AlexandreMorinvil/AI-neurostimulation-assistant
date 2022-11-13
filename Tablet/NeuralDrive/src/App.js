@@ -27,8 +27,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 // View Imports
 import HomeScreen from './views/Home';
-import ServerTesting from './views/ServerTesting';
-import SettingsScreen from './views/Settings';
+import SettingsView from './views/settings.view';
 import MainPaper from './views/MainPaper';
 import WatchTesting from './views/WatchTesting';
 import DataBase from './views/Database';
@@ -103,7 +102,7 @@ const App = () => {
 
         <Drawer.Screen
           name="Settings"
-          component={SettingsScreen}
+          component={SettingsView}
           options={{
             drawerIcon: () => (
               <Ionicons name="settings-outline" size={20} color={'#000'} />

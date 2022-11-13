@@ -26,6 +26,7 @@ export function get_allow_get_watch_data() {
 
 heat_map_data = [];
 dimension_of_chart = 0;
+chosen_param_2D = 0;
 
 
 export function set_heat_map_data(data){
@@ -42,6 +43,14 @@ export function set_dimension_of_chart(dimension){
 
 export function get_dimension_of_chart(){
   return dimension_of_chart;
+}
+
+export function set_chosen_param_2D(param){
+  chosen_param_2D = param;
+}
+
+export function get_chosen_param_2D(){
+  return chosen_param_2D;
 }
 
 export function set_patient_level(lvl) {

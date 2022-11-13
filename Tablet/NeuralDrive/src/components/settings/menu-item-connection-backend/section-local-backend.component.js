@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { settingsStyles } from "../../../styles/settings-styles";
 import { SettingsMessageType } from '../../../const/settings';
@@ -7,7 +7,7 @@ import InformationButton from "../information-button.component";
 import MessageBubble from "../message-bubble.component";
 
 const SECTION_TITLE = "Local Backend :";
-const INSTRUCTIONS =
+const HELP_INFORMATION =
   `Details... TODO.`;
 
 const STATUS_NOT_CONNECTED = "Not connected";
@@ -17,11 +17,7 @@ const SectionLocalBackend = () => {
   /**
    * States
    */
-  const [stateIsInstructionsDisplayed, setStateIsInstructionsDisplayed] = useState(true);
-
-  /**
-   * Functions
-   */
+  const [stateIsHelpInformationDisplayed, setStateIsHelpInformationDisplayed] = useState(true);
 
   /**
    * Render
@@ -29,14 +25,14 @@ const SectionLocalBackend = () => {
   return (
     <View style={settingsStyles.sectionContent}>
       <View style={settingsStyles.sectionTitleArea}>
-        <InformationButton setParentIsActiveFunction={setStateIsInstructionsDisplayed} />
+        <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
         <Text style={settingsStyles.sectionTitle}> {SECTION_TITLE} </Text>
       </View>
       {
-        stateIsInstructionsDisplayed &&
+        stateIsHelpInformationDisplayed &&
         <MessageBubble
           type={SettingsMessageType.INFORMATION}
-          message={INSTRUCTIONS}
+          message={HELP_INFORMATION}
         />
       }
         <MessageBubble
@@ -46,11 +42,5 @@ const SectionLocalBackend = () => {
     </View>
   );
 };
-
-/**
- * Style Sheet
- */
-const styles = StyleSheet.create({
-});
 
 export default SectionLocalBackend;

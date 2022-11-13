@@ -18,7 +18,7 @@ const SectionChoiceBackend = ({ setParentIsLocalBackendTypeSelected }) => {
   /**
    * States
    */
-  const [stateIsInstructionsDisplayed, setStateIsInstructionsDisplayed] = useState(true);
+  const [stateIsHelpInformationDisplayed, setStateIsHelpInformationDisplayed] = useState(true);
   const [stateIsLocalBackendTypeSelected, setStateIsLocalBackendTypeSelected] = useState(true);
 
   /**
@@ -47,11 +47,11 @@ const SectionChoiceBackend = ({ setParentIsLocalBackendTypeSelected }) => {
   return (
     <View style={settingsStyles.sectionContent}>
       <View style={settingsStyles.sectionTitleArea}>
-        <InformationButton setParentIsActiveFunction={setStateIsInstructionsDisplayed} />
+        <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
         <Text style={settingsStyles.sectionTitle}> {SECTION_TITLE} </Text>
       </View>
       {
-        stateIsInstructionsDisplayed &&
+        stateIsHelpInformationDisplayed &&
         <MessageBubble
           type={SettingsMessageType.INFORMATION}
           message={INSTRUCTIONS}

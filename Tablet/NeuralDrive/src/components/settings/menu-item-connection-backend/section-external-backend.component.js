@@ -9,7 +9,7 @@ import MessageBubble from "../message-bubble.component";
 
 const SECTION_TITLE = "External Backend :";
 const SECTION_DETAILS = "Insert the IP address indicated by the NeuralDrive desktop application."
-const INSTRUCTIONS =
+const HELP_INFORMATION =
   `Details... TODO.`;
 
 const STATUS_NOT_CONNECTED = "Not connected";
@@ -27,7 +27,7 @@ const SectionExternalBackend = ({ setParentInputIpAddressFunction, setParentIsIn
   const [stateInputIpAddress, setStateInputIpAddress] = useState("");
   const [statIsInputIpAddressValid, setStatIsInputIpAddressValid] = useState(true);
 
-  const [stateIsInstructionsDisplayed, setStateIsInstructionsDisplayed] = useState(true);
+  const [stateIsHelpInformationDisplayed, setStateIsHelpInformationDisplayed] = useState(true);
 
   /**
    * Functions
@@ -49,17 +49,17 @@ const SectionExternalBackend = ({ setParentInputIpAddressFunction, setParentIsIn
   return (
     <View style={settingsStyles.sectionContent}>
       <View style={settingsStyles.sectionTitleArea}>
-        <InformationButton setParentIsActiveFunction={setStateIsInstructionsDisplayed} />
+        <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
         <Text style={settingsStyles.sectionTitle}> {SECTION_TITLE} </Text>
       </View>
       <Text>
         {SECTION_DETAILS}
       </Text>
       {
-        stateIsInstructionsDisplayed &&
+        stateIsHelpInformationDisplayed &&
         <MessageBubble
           type={SettingsMessageType.INFORMATION}
-          message={INSTRUCTIONS}
+          message={HELP_INFORMATION}
         />
       }
       <InputIpAddress

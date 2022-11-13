@@ -7,8 +7,6 @@ import AccodionItem from "../accordion-item.component";
 import SectionConnectionWatch from "./section-connection-watch.component";
 import ConfirmButton from "../confirm-button.component";
 
-const CONFIRM_BUTTON_TEXT = "Confirm Choice";
-
 const SettingsMenuItemConnectionWatch = () => {
 
   /**
@@ -26,18 +24,11 @@ const SettingsMenuItemConnectionWatch = () => {
    */
   return (
     <AccodionItem
-      title="Watch Connection"
+      title="Smart Watch Connection"
       summaryText={stateHeaderSummary}
       settingStatus={stateSettingStatus}
     >
       <SectionConnectionWatch />
-      <View style={styles.spacing}>
-        <ConfirmButton
-          isActive={false}
-          text={CONFIRM_BUTTON_TEXT}
-          handleButtonPressedParentFunction={() => { }}
-        />
-      </View>
     </AccodionItem>
   );
 };
@@ -45,12 +36,6 @@ const SettingsMenuItemConnectionWatch = () => {
 /**
  * Style Sheet
  */
-const styles = StyleSheet.create({
-  spacing: {
-    flexDirection: "column",
-    alignItems: "flex-end",
-    marginTop: 20,
-  },
-});
+const styles = StyleSheet.create({});
 
 export default SettingsMenuItemConnectionWatch;

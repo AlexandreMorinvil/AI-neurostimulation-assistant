@@ -8,7 +8,7 @@ import InformationButton from "../information-button.component";
 import MessageBubble from "../message-bubble.component";
 
 const sectionTitle = "Patient ID :"
-const instructions =
+const HELP_INFORMATION =
   `The patient ID is an unique identifier assigned to each patient to be able to distinguish each patient while preserving the anonymity of each patient.\n\n\
 The patient ID can be a random sequence of characters that respects these specifications :\n\n\
 Containing only numbers and/or letters;\n\
@@ -26,7 +26,7 @@ const SectionInputPatientId = ({ setParentIsValidPatientIdFunction, setParentInp
 
   const [stateInputIsInFocus, setStateInputIsInFocus] = useState(false);
   const [stateShouldDisplayInvalidityReason, setStateShouldDisplayInvalidityReason] = useState(true);
-  const [isInstructionsDisplayed, setIsInstructionsDisplayed] = useState(true);
+  const [stateIsHelpInformationDisplayed, setStateIsHelpInformationDisplayed] = useState(true);
 
   /**
    * Functions
@@ -84,14 +84,14 @@ const SectionInputPatientId = ({ setParentIsValidPatientIdFunction, setParentInp
   return (
     <View style={settingsStyles.sectionContent}>
       <View style={settingsStyles.sectionTitleArea}>
-        <InformationButton setParentIsActiveFunction={setIsInstructionsDisplayed} />
+        <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
         <Text style={settingsStyles.sectionTitle}> {sectionTitle} </Text>
       </View>
       {
-        isInstructionsDisplayed &&
+        stateIsHelpInformationDisplayed &&
         <MessageBubble
           type={SettingsMessageType.INFORMATION}
-          message={instructions}
+          message={HELP_INFORMATION}
         />
       }
       {

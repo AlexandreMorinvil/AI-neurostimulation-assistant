@@ -1,6 +1,5 @@
 // React Native Imports
 import React from 'react';
-import type {Node} from 'react';
 import {
   Dimensions,
   SafeAreaView,
@@ -32,6 +31,7 @@ import ServerTesting from './views/ServerTesting';
 import SettingsScreen from './views/Settings';
 import MainPaper from './views/MainPaper';
 import WatchTesting from './views/WatchTesting';
+import DataBase from './views/Database';
 
 // Component Imports
 import CustomDrawer from './components/CustomDrawer';
@@ -81,8 +81,8 @@ const App = () => {
           }}
         />
         <Drawer.Screen
-          name="Server Testing"
-          component={ServerTesting}
+          name="DataBase"
+          component={DataBase}
           options={{
             drawerIcon: () => (
               <MaterialCommunityIcons

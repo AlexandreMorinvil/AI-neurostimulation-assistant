@@ -11,10 +11,11 @@ import * as connectionBackendService from "../../../services/connection-backend.
 import * as connectionWatchService from "../../../services/connection-watch.service";
 import * as networkService from "../../../services/network.service";
 
-const sectionTitle = "Connection Smart Watch :"
+const SECTION_TITLE = "Connection Smart Watch :"
 const HELP_INFORMATION =
   `Details... TODO.`
 
+const MESSAGE_INSERT_IP_ADDREES_TO_WATCH = "Insert the following IP address in the NeuralDrive smart watch application :";
 const MESSAGE_BACKEND_NOT_CONNECTED = "Smart watch cannot be connected if the backend is not connected.";
 const MESSAGE_NO_WIFI = "Smart watch cannot be connected if the tablet is not connected to a wifi network.";
 const MESSAGE_CONNECTED = (ipAddress) => `${ipAddress}\nConnected`;
@@ -47,17 +48,17 @@ const SectionConnectionWatch = () => {
     // Connection to the smart watch
     else {
       const ipAddressToPutInSmartWatch = connectionWatchService.ipAddressToPutInSmartWatch();
-      
+
       // Handle lack of connection to the smart watch
       if (!connectionWatchService.getIsConnectedStatus()) {
         setStateInstructionMessageType(SettingsMessageType.NEUTRAL);
-        setStateWatchIpToPutMessage(connectionWatchService.ipAddressToPutInSmartWatch());
+        setStateWatchIpToPutMessage(ipAddressToPutInSmartWatch);
       }
-      
+
       // Handle successful connection to the smart watch
       else {
         setStateInstructionMessageType(SettingsMessageType.CLEARED);
-        setStateWatchIpToPutMessage(ipAddressToPutInSmartWatch);
+        setStateWatchIpToPutMessage(MESSAGE_CONNECTED(ipAddressToPutInSmartWatch));
       }
     }
   }
@@ -81,7 +82,7 @@ const SectionConnectionWatch = () => {
     <View style={settingsStyles.sectionContent}>
       <View style={styles.titleArea}>
         <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
-        <Text style={styles.title}> {sectionTitle} </Text>
+        <Text style={styles.title}> {SECTION_TITLE} </Text>
       </View>
       {
         stateIsHelpInformationDisplayed &&
@@ -90,6 +91,7 @@ const SectionConnectionWatch = () => {
           message={HELP_INFORMATION}
         />
       }
+      <Text> {MESSAGE_INSERT_IP_ADDREES_TO_WATCH} </Text>
       <MessageBubble
         type={stateInstructionMessageType}
         message={stateWatchIpToPutMessage}

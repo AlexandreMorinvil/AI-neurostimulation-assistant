@@ -13,3 +13,11 @@ class WatchData():
         self.gir_x = gir_x
         self.gir_y = gir_y
         self.gir_z = gir_z
+
+    def get_data(self):
+        return [self.acc_x,
+        self.acc_y,
+        self.acc_z,
+        self.gir_x,
+        self.gir_y,
+        self.gir_z]

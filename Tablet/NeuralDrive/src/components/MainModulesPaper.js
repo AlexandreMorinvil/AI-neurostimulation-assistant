@@ -24,9 +24,7 @@ import styled from 'styled-components';
 import {get_smartwatch_connected} from '../class/const';
 import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
-import {NativeModules} from 'react-native';
-const {CalendarModule} = NativeModules;
-CalendarModule.createCalendarEvent();
+
 import HeatMapGraph from '../components/HeatMapGraph';
 import {
   get_server_ip,
@@ -35,6 +33,10 @@ import {
   set_chosen_param_2D,
   set_allow_get_watch_data,
 } from '../class/const';
+
+import {NativeModules} from 'react-native';
+const {CalendarModule} = NativeModules;
+CalendarModule.createCalendarEvent();
 
 CanvasRef = React.createRef();
 
@@ -326,7 +328,7 @@ patient_level = 10;
 smartwatch_connected = false;
 // Used inside SideTabModule
 const ConnectionModule = ({height, width, bgColor}) => {
-  const [value2, setValue2] = React.useState(0);
+  const [value3, setValue3] = React.useState(0);
   React.useEffect(() => {
     const interval2 = setInterval(() => {
       setValue3(value3 => value3 + 1);
@@ -363,15 +365,15 @@ const ServerConnection = () => {
   // setIp every second
   React.useEffect(() => {
     const interval = setInterval(async () => {
-      const watch_data = await get_watch_data();
-      if (watch_data) {
+      const test_server_connection = await test_connection();
+      if (test_server_connection) {
         setConnectionStatus('Connected to Server');
         setIndicadorColor('#A3D9A3');
       } else {
         setConnectionStatus('Not Connected to Server ');
         setIndicadorColor('#CC958F');
       }
-    }, 1000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 

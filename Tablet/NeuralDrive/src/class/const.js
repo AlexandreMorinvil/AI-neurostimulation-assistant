@@ -2,7 +2,7 @@ import React from 'react';
 
 patient_level = 10;
 smartwatch_connected = false;
-server_ip = 'http://localhost:5000';
+server_ip = 'http://192.168.0.53:5000';
 const SERVER_DELAY = 1000;
 allow_get_watch_data = true;
 
@@ -28,28 +28,27 @@ heat_map_data = [];
 dimension_of_chart = 0;
 chosen_param_2D = 0;
 
-
-export function set_heat_map_data(data){
+export function set_heat_map_data(data) {
   heat_map_data = data;
 }
 
-export function get_heat_map_data(){
+export function get_heat_map_data() {
   return heat_map_data;
 }
 
-export function set_dimension_of_chart(dimension){
+export function set_dimension_of_chart(dimension) {
   dimension_of_chart = dimension;
 }
 
-export function get_dimension_of_chart(){
+export function get_dimension_of_chart() {
   return dimension_of_chart;
 }
 
-export function set_chosen_param_2D(param){
+export function set_chosen_param_2D(param) {
   chosen_param_2D = param;
 }
 
-export function get_chosen_param_2D(){
+export function get_chosen_param_2D() {
   return chosen_param_2D;
 }
 

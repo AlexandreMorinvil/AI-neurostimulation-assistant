@@ -98,4 +98,3 @@ class CommandHandler:
     def free_stack_watch_data(self):
         self.stack_watch_data = []
         print("free stack")
-        print("free stack")

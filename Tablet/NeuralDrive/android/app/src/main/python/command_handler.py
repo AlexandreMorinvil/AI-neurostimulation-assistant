@@ -54,7 +54,8 @@ class CommandHandler:
             data = { 
                 "predict_heat_map" : json.dumps(output[0]),
                 "position": json.dumps(output[1]),
-                "next_query": output[2]
+                "values": json.dumps(output[2]),
+                "next_query": output[3]
                 }
             print(data)
             return data
@@ -96,5 +97,4 @@ class CommandHandler:
 
     def free_stack_watch_data(self):
         self.stack_watch_data = []
-        print("free stack")
         print("free stack")

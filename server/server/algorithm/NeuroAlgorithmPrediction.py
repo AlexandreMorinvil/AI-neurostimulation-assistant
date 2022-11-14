@@ -199,6 +199,7 @@ class NeuroAlgorithmPrediction:
         ymu_r = np.reshape(ymu, (-1, self.dimention))
         pic_iobytes = io.BytesIO()
 
+        plt.clf()
         plt.imshow(ymu_r)
         # plt.imsave(pic_iobytes, ymu_r)
         plt.colorbar()

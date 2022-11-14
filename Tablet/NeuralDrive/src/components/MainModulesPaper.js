@@ -277,7 +277,8 @@ const InputModule = ({ QueryPress, ResetPress }) => {
               ][1],
             );
             set_heat_map_data(JSON.parse(response.values));
-            set_dimension_of_chart(this.dimension);
+            /* set_dimension_of_chart(this.dimension); */
+            set_dimension_of_chart(localDimension);
             setValue(value => value + 1);
           }}
           uppercase={true}>

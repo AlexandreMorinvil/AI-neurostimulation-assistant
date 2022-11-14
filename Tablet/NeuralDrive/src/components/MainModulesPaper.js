@@ -233,25 +233,24 @@ const InputModule = ({ QueryPress, ResetPress }) => {
         <Input
           flexInput={0.35}
           dimension={'Amplitude (V)'}
-          value={2}
-          setFunction={text => set_A(text)}
+          value={valueP1}
+          setFunction={(text) => {setP1(text)}}
           unitType={'units'}
           titleSpacing={'0 5px 0 0'}
-          onChangeText={text=> setP1(text)}
         />
         <Input
           flexInput={0.35}
-          setFunction={text => set_B(text)}
+          setFunction={(text) => {setP2(text)}}
           dimension={'Parameter #2'}
-          value={3}
+          value={valueP2}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
         />
         <Input
           flexInput={0.35}
-          setFunction={text => set_Y_value(text)}
+          setFunction={(text) => {setP3(text)}}
           dimension={'tremor'}
-          value={10}
+          value={valueP3}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
         />
@@ -277,7 +276,7 @@ const InputModule = ({ QueryPress, ResetPress }) => {
           dark={false}
           loading={false}
           onPress={async () => {
-            response = await post_execute_query(A, B, y_value);
+            response = await post_execute_query(valueP1, valueP2, valueP3);
             CanvasRef.current.current_algorithm.data = JSON.parse(
               response.predict_heat_map,
             );
@@ -287,16 +286,17 @@ const InputModule = ({ QueryPress, ResetPress }) => {
             CanvasRef.current.draw_heat_map(
               CanvasRef.current.current_algorithm,
             );
-            set_old_A(
-              CanvasRef.current.current_algorithm.position[
-              Number(response.next_query)
-              ][0],
-            );
-            set_old_B(
-              CanvasRef.current.current_algorithm.position[
-              Number(response.next_query)
-              ][1],
-            );
+            // TODO: Implement showing old values
+            /* set_old_A( */
+            /*   CanvasRef.current.current_algorithm.position[ */
+            /*   Number(response.next_query) */
+            /*   ][0], */
+            /* ); */
+            /* set_old_B( */
+            /*   CanvasRef.current.current_algorithm.position[ */
+            /*   Number(response.next_query) */
+            /*   ][1], */
+            /* ); */
             set_heat_map_data(JSON.parse(response.values));
             set_dimension_of_chart(this.dimension);
             setValue(value => value + 1);

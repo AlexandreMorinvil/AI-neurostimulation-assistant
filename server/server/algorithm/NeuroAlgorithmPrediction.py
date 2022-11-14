@@ -198,8 +198,14 @@ class NeuroAlgorithmPrediction:
 
         ymu_r = np.reshape(ymu, (-1, self.dimention))
         pic_iobytes = io.BytesIO()
-        plt.imsave(pic_iobytes, ymu_r)
+
+        plt.imshow(ymu_r)
+        # plt.imsave(pic_iobytes, ymu_r)
+        plt.colorbar()
+        plt.savefig(pic_iobytes, format="jpg")
+        plt.savefig("ymu.jpg")
         pic_iobytes.seek(0)
+
         pic_hash = base64.b64encode(pic_iobytes.read())
         return pic_hash.decode("utf-8")
 

@@ -203,7 +203,7 @@ class NeuroAlgorithmPrediction:
         plt.imshow(ymu_r)
         # plt.imsave(pic_iobytes, ymu_r)
         plt.colorbar()
-        plt.savefig(pic_iobytes, format="jpg")
+        plt.savefig(pic_iobytes, format="png", transparent=True)
         plt.savefig("ymu.jpg")
         pic_iobytes.seek(0)
 

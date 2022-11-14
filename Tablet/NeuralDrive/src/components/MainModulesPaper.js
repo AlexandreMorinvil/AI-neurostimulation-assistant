@@ -106,36 +106,10 @@ const start_new_session = (dimension, n_param) => {
   return post_start_new_session(dimension, n_param);
 };
 
-// const set_dimension = dimension => {
-//   this.dimension = +dimension;
-//   this.CanvasRef.current.current_algorithm.dimention = this.dimension;
-// };
-const set_n_param = n_param => {
-  this.n_param = +n_param;
-  this.CanvasRef.current.current_algorithm.n_param = this.n_param;
-};
-
 session_status = Status.IDLE;
-n_param = 2;
-
-// adding setValue function
-
-// const setValue = value => {
-//   this.value = value;
-// };
-
-dimension = 10;
-
-const set_dimension = dimension => {
-  this.dimension = dimension;
-};
-
-// TODO : End cleaning
 
 // flexInput to adjust each input size
-const InputModule = ({ QueryPress, ResetPress }) => {
-  const [localDimension, local_set_dimension] = React.useState(10);
-  const [value, setValue] = React.useState(0);
+const InputModule = ({ QueryPress, ResetPress, localDimension, setLocalDimension}) => {
 
   const [valueP1, setP1] = React.useState(0);
   const [valueP2, setP2] = React.useState(0);
@@ -160,25 +134,9 @@ const InputModule = ({ QueryPress, ResetPress }) => {
     <Surface style={styles.inputSurface} elevation={1}>
       {/* dimension */}
       <FlexContainer flex={0.2} flexDirection={'column'} bgColor='#00000000'>
-        {/* TODO: Remove when completed */}
-        {/* <Text variant="headlineSmall">DIMENSIONS</Text> */}
-        {/* <Slider */}
-        {/*   style={{width: '80%'}} */}
-        {/*   value={dimension} */}
-        {/*   maximumValue={50} */}
-        {/*   minimumValue={5} */}
-        {/*   thumbTintColor={'black'} */}
-        {/*   thumbTouchSize={{width: 30, height: 30}} */}
-        {/*   thumbStyle={{height: 20, width: 20}} */}
-        {/*   step={1} */}
-        {/*   onValueChange={value => { */}
-        {/*     set_dimension(value); */}
-        {/*     local_set_dimension(value); */}
-        {/*   }} */}
-        {/* /> */}
         <Text variant='titleMedium'> Dimension</Text>
         <SegmentedButtons
-          value={localDimension} onValueChange={local_set_dimension}
+          value={localDimension} onValueChange={setLocalDimension}
           buttons={[
           {
             value: 10,
@@ -279,7 +237,6 @@ const InputModule = ({ QueryPress, ResetPress }) => {
             set_heat_map_data(JSON.parse(response.values));
             /* set_dimension_of_chart(this.dimension); */
             set_dimension_of_chart(localDimension);
-            setValue(value => value + 1);
           }}
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
@@ -407,6 +364,8 @@ const WatchModule = () => {
 };
 
 const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
+  const [localDimension, setLocalDimension] = React.useState(10);
+  const n_param = 2;
   const [value, setValue] = React.useState(0);
   return (
     <FlexContainer flex={flex} pad="0px">
@@ -432,9 +391,9 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
                 loading={false}
                 onPress={async () => {
                   CanvasRef.current.current_algorithm.n_param = n_param;
-                  CanvasRef.current.current_algorithm.dimention = dimension;
+                  CanvasRef.current.current_algorithm.dimention = localDimension;
 
-                  let status = await start_new_session(n_param, dimension);
+                  let status = await start_new_session(n_param, localDimension);
                   console.log('status = ', status);
                   session_status = status;
                   setValue(value => value + 1);
@@ -461,6 +420,8 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
               alignItems={'flex-start'}
               ResetPress={ResetPress}
               QueryPress={QueryPress}
+              localDimension={localDimension}
+              setLocalDimension={setLocalDimension}
             />
           {/* </FlexContainer> */}
 

@@ -384,15 +384,11 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
 
           {/* <FlexContainer flex={0.1} jc="center" pad='0'> */}
           <Surface style={styles.startSurface}>
-              <PulseIndicator
-                color="red"
-                size={30}
-                style={{ flex: 0.1, paddingRight: 25 }}
-              />
+            <FlexContainer flexDirection='column' alignItems='center' height='125px' bgColor='#00000000'>
               <Button
-                icon="play"
+                icon={sessionStarted ? 'stop' : 'play'}
                 mode="elevated"
-                buttonColor={'#CC958F'}
+                buttonColor={sessionStarted ? '#CC958F': '#A3D9A3'}
                 dark={false}
                 loading={false}
                 onPress={async () => {
@@ -427,7 +423,8 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
                   {/* start session */}
                 </Text>
               </Button>
-            <Stopwatch start={sessionStarted} reset={stopwatchReset}/>
+              <Stopwatch start={sessionStarted} reset={stopwatchReset} options={styles.stopwatchOptions} />
+            </FlexContainer>
             </Surface>
           {/* </FlexContainer> */}
 
@@ -529,10 +526,10 @@ const styles = StyleSheet.create({
   },
   startSurface: {
     margin: 10,
-    padding: 35,
+    padding: 5,
     flexDirection: 'row',
     borderRadius: 15,
-    width: '100%',
+    width: '60%',
     justifyContent:'flex-start',
     alignItems: 'center'
   }
@@ -567,6 +564,20 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     // backgroundColor: '',
   },
+  stopwatchOptions: {
+    container: {
+    backgroundColor: '#00000000',
+    padding: 0,
+    borderRadius: 15,
+    width: 150,
+    alignItems: 'center',
+    },
+    text: {
+    fontSize: 30,
+    color: '#000',
+    }
+  },
+
 });
 
 // Utility components

@@ -28,6 +28,7 @@ import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
 import HeatMapGraph from '../components/HeatMapGraph';
 import {get_server_ip, set_heat_map_data, set_dimension_of_chart, set_chosen_param_2D} from '../class/const';
+import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
 
 CanvasRef = React.createRef();
 
@@ -364,9 +365,14 @@ const WatchModule = () => {
 };
 
 const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
-  const [localDimension, setLocalDimension] = React.useState(10);
   const n_param = 2;
+  const [localDimension, setLocalDimension] = React.useState(10);
   const [value, setValue] = React.useState(0);
+
+  // stopwatch
+  const [sessionStarted, setSessionStarted] = React.useState(false);
+  const [stopwatchReset, setStopwatchReset] = React.useState(false);
+
   return (
     <FlexContainer flex={flex} pad="0px">
       <ScrollView>
@@ -397,6 +403,19 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
                   console.log('status = ', status);
                   session_status = status;
                   setValue(value => value + 1);
+
+                  // stopwatch
+                  setSessionStarted(!sessionStarted);
+
+                  if(sessionStarted){
+                    // TODO: get start time
+                    // time = getTime()
+                  } else {
+                    // TODO: get end time
+                    // time = getTime()
+                    setStopwatchReset(true);
+                    setStopwatchReset(false);
+                  }
                 }}
                 uppercase={true}
                 style={{ height: 40 }}>
@@ -404,9 +423,11 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
                   variant="labelLarge"
                   adjustsFontSizeToFit={true}
                   numberOfLines={1}>
-                  start session
+                  {!sessionStarted ? 'start session' : 'stop session'}
+                  {/* start session */}
                 </Text>
               </Button>
+            <Stopwatch start={sessionStarted} reset={stopwatchReset}/>
             </Surface>
           {/* </FlexContainer> */}
 

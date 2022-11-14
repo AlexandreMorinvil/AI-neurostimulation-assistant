@@ -31,12 +31,8 @@ import {
   set_heat_map_data,
   set_dimension_of_chart,
   set_chosen_param_2D,
-  set_allow_get_watch_data,
 } from '../class/const';
-
-import {NativeModules} from 'react-native';
-const {CalendarModule} = NativeModules;
-CalendarModule.createCalendarEvent();
+import {Stopwatch, Timer} from 'react-native-stopwatch-timer';
 
 CanvasRef = React.createRef();
 
@@ -58,7 +54,14 @@ const GraphModule = () => (
   </FlexContainer>
 );
 
-const Input = ({dimension, unitType, flexInput, setFunction, value}) => (
+const Input = ({
+  dimension,
+  unitType,
+  flexInput,
+  setFunction,
+  value,
+  predictedValue,
+}) => (
   <FlexContainer
     jc={'flex-start'}
     flex={flexInput}
@@ -76,8 +79,7 @@ const Input = ({dimension, unitType, flexInput, setFunction, value}) => (
       borderRadius={'5px'}
       border={'2px solid black'}>
       <Text variant="titleMedium" style={{color: '#374F42'}}>
-        {' '}
-        XY{' '}
+        {predictedValue}
       </Text>
     </Box>
 
@@ -114,62 +116,22 @@ const start_new_session = (dimension, n_param) => {
   return post_start_new_session(dimension, n_param);
 };
 
-// const set_dimension = dimension => {
-//   this.dimension = +dimension;
-//   this.CanvasRef.current.current_algorithm.dimention = this.dimension;
-// };
-const set_n_param = n_param => {
-  this.n_param = +n_param;
-  this.CanvasRef.current.current_algorithm.n_param = this.n_param;
-};
-const set_A = A => {
-  this.A = +A;
-};
-const set_B = B => {
-  this.B = +B;
-};
-const set_Y_value = y_value => {
-  this.y_value = +y_value;
-};
-
-const set_old_A = old_A => {
-  this.old_A = +old_A;
-};
-const set_old_B = old_B => {
-  this.old_B = +old_B;
-};
-const set_old_Y_value = old_y_value => {
-  this.old_y_value = +old_y_value;
-};
-
 session_status = Status.IDLE;
-n_param = 2;
-A = 2;
-B = 0;
-y_value = 0;
-
-old_A = A;
-old_B = B;
-old_y_value = y_value;
-
-// adding setValue function
-
-// const setValue = value => {
-//   this.value = value;
-// };
-
-dimension = 10;
-
-const set_dimension = dimension => {
-  this.dimension = dimension;
-};
-
-// TODO : End cleaning
 
 // flexInput to adjust each input size
-const InputModule = ({QueryPress, ResetPress}) => {
-  const [localDimension, local_set_dimension] = React.useState(10);
-  const [value, setValue] = React.useState(0);
+const InputModule = ({
+  QueryPress,
+  ResetPress,
+  localDimension,
+  setLocalDimension,
+}) => {
+  const [valueP1, setP1] = React.useState(0);
+  const [valueP2, setP2] = React.useState(0);
+  const [valueY, setY] = React.useState(0);
+
+  const [predictedP1, setPredictedP1] = React.useState(0);
+  const [predictedP2, setPredictedP2] = React.useState(0);
+  const [predictedY, setPredictedY] = React.useState(0);
 
   const [selected, setSelected] = React.useState(0);
   const gaussianGraphSelectionParam = [
@@ -186,26 +148,10 @@ const InputModule = ({QueryPress, ResetPress}) => {
     <Surface style={styles.inputSurface} elevation={1}>
       {/* dimension */}
       <FlexContainer flex={0.2} flexDirection={'column'} bgColor="#00000000">
-        {/* TODO: Remove when completed */}
-        {/* <Text variant="headlineSmall">DIMENSIONS</Text> */}
-        {/* <Slider */}
-        {/*   style={{width: '80%'}} */}
-        {/*   value={dimension} */}
-        {/*   maximumValue={50} */}
-        {/*   minimumValue={5} */}
-        {/*   thumbTintColor={'black'} */}
-        {/*   thumbTouchSize={{width: 30, height: 30}} */}
-        {/*   thumbStyle={{height: 20, width: 20}} */}
-        {/*   step={1} */}
-        {/*   onValueChange={value => { */}
-        {/*     set_dimension(value); */}
-        {/*     local_set_dimension(value); */}
-        {/*   }} */}
-        {/* /> */}
         <Text variant="titleMedium"> Dimension</Text>
         <SegmentedButtons
           value={localDimension}
-          onValueChange={local_set_dimension}
+          onValueChange={setLocalDimension}
           buttons={[
             {
               value: 10,
@@ -237,24 +183,33 @@ const InputModule = ({QueryPress, ResetPress}) => {
         <Input
           flexInput={0.35}
           dimension={'Amplitude (V)'}
-          value={2}
-          setFunction={text => set_A(text)}
+          value={valueP1}
+          predictedValue={predictedP1}
+          setFunction={text => {
+            setP1(text);
+          }}
           unitType={'units'}
           titleSpacing={'0 5px 0 0'}
         />
         <Input
           flexInput={0.35}
-          setFunction={text => set_B(text)}
+          setFunction={text => {
+            setP2(text);
+          }}
           dimension={'Parameter #2'}
-          value={2}
+          value={valueP2}
+          predictedValue={predictedP2}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
         />
         <Input
           flexInput={0.35}
-          setFunction={text => set_Y_value(text)}
+          setFunction={text => {
+            setY(text);
+          }}
           dimension={'tremor'}
-          value={2}
+          value={valueY}
+          predictedValue={predictedY}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
         />
@@ -280,7 +235,7 @@ const InputModule = ({QueryPress, ResetPress}) => {
           dark={false}
           loading={false}
           onPress={async () => {
-            response = await post_execute_query(A, B, y_value);
+            response = await post_execute_query(valueP1, valueP2, valueY);
             CanvasRef.current.current_algorithm.data = JSON.parse(
               response.predict_heat_map,
             );
@@ -290,20 +245,19 @@ const InputModule = ({QueryPress, ResetPress}) => {
             CanvasRef.current.draw_heat_map(
               CanvasRef.current.current_algorithm,
             );
-
-            set_old_A(
+            setPredictedP1(
               CanvasRef.current.current_algorithm.position[
                 Number(response.next_query)
               ][0],
             );
-            set_old_B(
+            setPredictedP2(
               CanvasRef.current.current_algorithm.position[
                 Number(response.next_query)
               ][1],
             );
             set_heat_map_data(JSON.parse(response.values));
-            set_dimension_of_chart(this.dimension);
-            setValue(value => value + 1);
+            /* set_dimension_of_chart(this.dimension); */
+            set_dimension_of_chart(localDimension);
           }}
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
@@ -320,6 +274,28 @@ const InputModule = ({QueryPress, ResetPress}) => {
         save="key"
         onSelect={() => set_chosen_param_2D(selected)}
       />
+    </Surface>
+  );
+};
+
+const InfoModule = ({height, width, bgColor}) => {
+  const [value2, setValue2] = React.useState(0);
+  React.useEffect(() => {
+    const interval2 = setInterval(() => {
+      setValue2(value2 => value2 + 1);
+      console.log(get_smartwatch_connected());
+      smartwatch_connected = get_smartwatch_connected();
+    }, 1000);
+
+    return () => clearInterval(interval2);
+  }, [value2]);
+
+  return (
+    <Surface style={styles.watchSurface} elevation={1}>
+      <Text variant="headlineLarge" style={{marginTop: 30}}>
+        {' '}
+        <Text variant="headlineSmall"> Average Tremor: </Text> {patient_level}
+      </Text>
     </Surface>
   );
 };
@@ -348,10 +324,6 @@ const ConnectionModule = ({height, width, bgColor}) => {
       {/* Watch */}
       {/* <Text>SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}</Text> */}
       <WatchModule />
-      <Text variant="headlineLarge" style={{marginTop: 30}}>
-        {' '}
-        <Text variant="headlineSmall"> Average Tremor: </Text> {patient_level}
-      </Text>
     </Surface>
   );
 };
@@ -435,7 +407,14 @@ const WatchModule = () => {
 };
 
 const SideTabModule = ({flex, ResetPress, QueryPress}) => {
+  const n_param = 2;
+  const [localDimension, setLocalDimension] = React.useState(10);
   const [value, setValue] = React.useState(0);
+
+  // stopwatch
+  const [sessionStarted, setSessionStarted] = React.useState(false);
+  const [stopwatchReset, setStopwatchReset] = React.useState(false);
+
   return (
     <FlexContainer flex={flex} pad="0px">
       <ScrollView>
@@ -444,33 +423,42 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
           flexDirection="column"
           jc="flex-start"
           pad="10px">
-          <FlexContainer flex={0.15} jc="center" pad="0">
-            <Surface
-              style={{
-                flexDirection: 'row',
-                borderRadius: 15,
-                padding: 35,
-                width: '100%',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-              }}>
-              <PulseIndicator
-                color="red"
-                size={30}
-                style={{flex: 0.1, paddingRight: 25}}
-              />
+          {/* <FlexContainer flex={0.1} jc="center" pad='0'> */}
+          <ConnectionModule />
+          <Surface style={styles.startSurface}>
+            <FlexContainer
+              flexDirection="column"
+              alignItems="center"
+              height="125px"
+              bgColor="#00000000">
               <Button
-                icon="play"
+                icon={sessionStarted ? 'stop' : 'play'}
                 mode="elevated"
-                buttonColor={'#CC958F'}
+                buttonColor={sessionStarted ? '#CC958F' : '#A3D9A3'}
                 dark={false}
                 loading={false}
                 onPress={async () => {
                   CanvasRef.current.current_algorithm.n_param = n_param;
-                  CanvasRef.current.current_algorithm.dimention = dimension;
-                  let status = await start_new_session(n_param, dimension);
+                  CanvasRef.current.current_algorithm.dimention =
+                    localDimension;
+
+                  let status = await start_new_session(n_param, localDimension);
+                  console.log('status = ', status);
                   session_status = status;
                   setValue(value => value + 1);
+
+                  // stopwatch
+                  setSessionStarted(!sessionStarted);
+
+                  if (sessionStarted) {
+                    // TODO: get start time
+                    // time = getTime()
+                  } else {
+                    // TODO: get end time
+                    // time = getTime()
+                    setStopwatchReset(true);
+                    setStopwatchReset(false);
+                  }
                 }}
                 uppercase={true}
                 style={{height: 40}}>
@@ -478,28 +466,35 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
                   variant="labelLarge"
                   adjustsFontSizeToFit={true}
                   numberOfLines={1}>
-                  start session
+                  {!sessionStarted ? 'start session' : 'stop session'}
+                  {/* start session */}
                 </Text>
               </Button>
-            </Surface>
-          </FlexContainer>
-
-          <FlexContainer
-            flex={0.5}
-            flexDirection="column"
-            jc="center"
-            alignItems="flex-start"
-            pad="10px 0 10px 0">
-            <InputModule
-              alignItems={'flex-start'}
-              ResetPress={ResetPress}
-              QueryPress={QueryPress}
-            />
-          </FlexContainer>
-
-          {/* <FlexContainer flex={0.15} jc="center" pad="10px 0 0 0"> */}
-          <ConnectionModule />
+              <Stopwatch
+                start={sessionStarted}
+                reset={stopwatchReset}
+                options={styles.stopwatchOptions}
+              />
+            </FlexContainer>
+          </Surface>
           {/* </FlexContainer> */}
+
+          {/* <FlexContainer */}
+          {/*   flex={0.5} */}
+          {/*   flexDirection="column" */}
+          {/*   jc="center" */}
+          {/*   alignItems="flex-start" */}
+          {/*   pad="10px 0 10px 0"> */}
+          <InputModule
+            alignItems={'flex-start'}
+            ResetPress={ResetPress}
+            QueryPress={QueryPress}
+            localDimension={localDimension}
+            setLocalDimension={setLocalDimension}
+          />
+          {/* </FlexContainer> */}
+
+          <InfoModule />
         </FlexContainer>
       </ScrollView>
     </FlexContainer>
@@ -571,13 +566,22 @@ const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
 // Styling
 const styles = StyleSheet.create({
   surface: {
+    margin: 10,
     padding: 10,
     alignItems: 'flex-start',
     justifyContent: 'center',
     borderRadius: 20,
     // backgroundColor: '',
   },
-
+  startSurface: {
+    margin: 10,
+    padding: 5,
+    flexDirection: 'row',
+    borderRadius: 15,
+    width: '60%',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
   graphSurface: {
     padding: 8,
     height: 80,
@@ -588,8 +592,9 @@ const styles = StyleSheet.create({
     // backgroundColor: '',
   },
   watchSurface: {
+    margin: 10,
     padding: 8,
-    height: 200,
+    height: 100,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -597,14 +602,27 @@ const styles = StyleSheet.create({
     // backgroundColor: '',
   },
   inputSurface: {
-    margin: 0,
+    margin: 10,
     padding: 8,
-    height: '100%',
+    height: 800,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
     // backgroundColor: '',
+  },
+  stopwatchOptions: {
+    container: {
+      backgroundColor: '#00000000',
+      padding: 0,
+      borderRadius: 15,
+      width: 150,
+      alignItems: 'center',
+    },
+    text: {
+      fontSize: 30,
+      color: '#000',
+    },
   },
 });
 

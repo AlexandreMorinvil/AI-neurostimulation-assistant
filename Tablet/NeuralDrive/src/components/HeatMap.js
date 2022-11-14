@@ -133,8 +133,9 @@ class HeatMap extends React.Component {
 
   styles = StyleSheet.create({
     box: {
-      width: '100%',
-      height: '100%',
+      width: '95%',
+      height: '95%',
+      margin: 10,
     },
     canvas_box: {
       // backgroundColor: 'pink',

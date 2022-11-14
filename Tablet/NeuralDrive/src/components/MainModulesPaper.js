@@ -164,6 +164,10 @@ const InputModule = ({ QueryPress, ResetPress }) => {
   const [localDimension, local_set_dimension] = React.useState(10);
   const [value, setValue] = React.useState(0);
 
+  const [valueP1, setP1] = React.useState(0);
+  const [valueP2, setP2] = React.useState(0);
+  const [valueP3, setP3] = React.useState(0);
+
   const [selected, setSelected] = React.useState(0);
   const gaussianGraphSelectionParam = [
     {key: 0, value: 'A'},
@@ -233,12 +237,13 @@ const InputModule = ({ QueryPress, ResetPress }) => {
           setFunction={text => set_A(text)}
           unitType={'units'}
           titleSpacing={'0 5px 0 0'}
+          onChangeText={text=> setP1(text)}
         />
         <Input
           flexInput={0.35}
           setFunction={text => set_B(text)}
           dimension={'Parameter #2'}
-          value={2}
+          value={3}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
         />
@@ -246,7 +251,7 @@ const InputModule = ({ QueryPress, ResetPress }) => {
           flexInput={0.35}
           setFunction={text => set_Y_value(text)}
           dimension={'tremor'}
-          value={2}
+          value={10}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
         />
@@ -432,9 +437,8 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
           jc="flex-start"
           pad="10px">
 
-          <FlexContainer flex={0.15} jc="center" pad='0'>
-            <Surface
-              style={{ flexDirection: 'row', borderRadius: 15, padding: 35, width: '100%', justifyContent:'flex-start', alignItems: 'center'}}>
+          {/* <FlexContainer flex={0.1} jc="center" pad='0'> */}
+          <Surface style={styles.startSurface}>
               <PulseIndicator
                 color="red"
                 size={30}
@@ -465,20 +469,20 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
                 </Text>
               </Button>
             </Surface>
-          </FlexContainer>
+          {/* </FlexContainer> */}
 
-          <FlexContainer
-            flex={0.5}
-            flexDirection="column"
-            jc="center"
-            alignItems="flex-start"
-            pad="10px 0 10px 0">
+          {/* <FlexContainer */}
+          {/*   flex={0.5} */}
+          {/*   flexDirection="column" */}
+          {/*   jc="center" */}
+          {/*   alignItems="flex-start" */}
+          {/*   pad="10px 0 10px 0"> */}
             <InputModule
               alignItems={'flex-start'}
               ResetPress={ResetPress}
               QueryPress={QueryPress}
             />
-          </FlexContainer>
+          {/* </FlexContainer> */}
 
           {/* <FlexContainer flex={0.15} jc="center" pad="10px 0 0 0"> */}
             <ConnectionModule />
@@ -554,12 +558,23 @@ const SideTabModuleVertical = ({ flex, ResetPress, QueryPress }) => (
 // Styling
 const styles = StyleSheet.create({
   surface: {
+    margin: 10,
     padding: 10,
     alignItems: 'flex-start',
     justifyContent: 'center',
     borderRadius: 20,
     // backgroundColor: '',
   },
+  startSurface: {
+    margin: 10,
+    padding: 35,
+    flexDirection: 'row',
+    borderRadius: 15,
+    width: '100%',
+    justifyContent:'flex-start',
+    alignItems: 'center'
+  }
+  ,
 
   graphSurface: {
     padding: 8,
@@ -571,6 +586,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '',
   },
   watchSurface: {
+    margin: 10,
     padding: 8,
     height: 200,
     width: '100%',
@@ -580,9 +596,9 @@ const styles = StyleSheet.create({
     // backgroundColor: '',
   },
   inputSurface: {
-    margin: 0,
+    margin: 10,
     padding: 8,
-    height: '100%',
+    height: 800,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',

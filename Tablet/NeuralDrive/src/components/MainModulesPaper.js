@@ -49,7 +49,7 @@ const GraphModule = () => (
   </FlexContainer>
 );
 
-const Input = ({ dimension, unitType, flexInput, setFunction, value }) => (
+const Input = ({ dimension, unitType, flexInput, setFunction, value, predictedValue }) => (
   <FlexContainer
     jc={'flex-start'}
     flex={flexInput}
@@ -67,8 +67,7 @@ const Input = ({ dimension, unitType, flexInput, setFunction, value }) => (
       borderRadius={'5px'}
       border={'2px solid black'}>
       <Text variant="titleMedium" style={{ color: '#374F42' }}>
-        {' '}
-        XY{' '}
+        {predictedValue}
       </Text>
     </Box>
 
@@ -115,35 +114,9 @@ const set_n_param = n_param => {
   this.n_param = +n_param;
   this.CanvasRef.current.current_algorithm.n_param = this.n_param;
 };
-const set_A = A => {
-  this.A = +A;
-};
-const set_B = B => {
-  this.B = +B;
-};
-const set_Y_value = y_value => {
-  this.y_value = +y_value;
-};
-
-const set_old_A = old_A => {
-  this.old_A = +old_A;
-};
-const set_old_B = old_B => {
-  this.old_B = +old_B;
-};
-const set_old_Y_value = old_y_value => {
-  this.old_y_value = +old_y_value;
-};
 
 session_status = Status.IDLE;
 n_param = 2;
-A = 2;
-B = 0;
-y_value = 0;
-
-old_A = A;
-old_B = B;
-old_y_value = y_value;
 
 // adding setValue function
 
@@ -166,7 +139,11 @@ const InputModule = ({ QueryPress, ResetPress }) => {
 
   const [valueP1, setP1] = React.useState(0);
   const [valueP2, setP2] = React.useState(0);
-  const [valueP3, setP3] = React.useState(0);
+  const [valueY, setY] = React.useState(0);
+
+  const [predictedP1, setPredictedP1] = React.useState(0);
+  const [predictedP2, setPredictedP2] = React.useState(0);
+  const [predictedY, setPredictedY] = React.useState(0);
 
   const [selected, setSelected] = React.useState(0);
   const gaussianGraphSelectionParam = [
@@ -234,6 +211,7 @@ const InputModule = ({ QueryPress, ResetPress }) => {
           flexInput={0.35}
           dimension={'Amplitude (V)'}
           value={valueP1}
+          predictedValue={predictedP1}
           setFunction={(text) => {setP1(text)}}
           unitType={'units'}
           titleSpacing={'0 5px 0 0'}
@@ -243,14 +221,16 @@ const InputModule = ({ QueryPress, ResetPress }) => {
           setFunction={(text) => {setP2(text)}}
           dimension={'Parameter #2'}
           value={valueP2}
+          predictedValue={predictedP2}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
         />
         <Input
           flexInput={0.35}
-          setFunction={(text) => {setP3(text)}}
+          setFunction={(text) => {setY(text)}}
           dimension={'tremor'}
-          value={valueP3}
+          value={valueY}
+          predictedValue={predictedY}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
         />
@@ -276,7 +256,7 @@ const InputModule = ({ QueryPress, ResetPress }) => {
           dark={false}
           loading={false}
           onPress={async () => {
-            response = await post_execute_query(valueP1, valueP2, valueP3);
+            response = await post_execute_query(valueP1, valueP2, valueY);
             CanvasRef.current.current_algorithm.data = JSON.parse(
               response.predict_heat_map,
             );
@@ -286,17 +266,16 @@ const InputModule = ({ QueryPress, ResetPress }) => {
             CanvasRef.current.draw_heat_map(
               CanvasRef.current.current_algorithm,
             );
-            // TODO: Implement showing old values
-            /* set_old_A( */
-            /*   CanvasRef.current.current_algorithm.position[ */
-            /*   Number(response.next_query) */
-            /*   ][0], */
-            /* ); */
-            /* set_old_B( */
-            /*   CanvasRef.current.current_algorithm.position[ */
-            /*   Number(response.next_query) */
-            /*   ][1], */
-            /* ); */
+            setPredictedP1(
+              CanvasRef.current.current_algorithm.position[
+              Number(response.next_query)
+              ][0],
+            );
+            setPredictedP2(
+              CanvasRef.current.current_algorithm.position[
+              Number(response.next_query)
+              ][1],
+            );
             set_heat_map_data(JSON.parse(response.values));
             set_dimension_of_chart(this.dimension);
             setValue(value => value + 1);

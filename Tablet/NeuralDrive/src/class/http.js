@@ -33,6 +33,17 @@ export const send_command = async command => {
   }
 };
 
+export const post_save_session = async session => {
+  const command = {
+    action: Action.SAVE_SESSION,
+    arg: {
+      session: session,
+    },
+  };
+  response = await send_command(command);
+  return response.content;
+};
+
 export const post_start_new_session = async (n_param, dimension) => {
   const command = {
     action: Action.START_SESSION,

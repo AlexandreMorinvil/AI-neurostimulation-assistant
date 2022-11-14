@@ -11,6 +11,7 @@ from interface.session import Session
 from interface.watchData import WatchData
 import numpy as np
 import random
+from database import Database
 
 ####################################################################################################
 #### Represent the different mode available to tranfer data
@@ -31,6 +32,8 @@ class CommandHandler:
         self.socketIO = socketIO
         self.ssid = None
         self.current_session = None
+        self.db : Database = Database()
+        self.db.connect()
 
 ####################################################################################################
 #### START_SESSION : Create a new session.
@@ -82,6 +85,15 @@ class CommandHandler:
                 # print(data)
                 print(data)
                 return json.dumps(data)
+
+        elif action == Action.SAVE_SESSION.value:
+            print("save session")
+            self.db.add_session(arg["session"])
+            sessions = self.db.get_all_session()
+            print(sessions)
+            return sessions
+
+
 
 
     def release(self, *_) -> None:

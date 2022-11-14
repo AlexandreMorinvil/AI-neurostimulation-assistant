@@ -4,6 +4,7 @@ export const Action = {
   RECEIVE_DATA_WATCH: 2,
   EXECUTE_QUERY: 3,
   GET_WATCH_DATA: 4,
+  SAVE_SESSION: 5,
 };
 
 export const Status = {

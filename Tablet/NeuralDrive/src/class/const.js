@@ -8,6 +8,12 @@ allow_get_watch_data = true;
 
 mutex = false;
 
+export function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 export function get_mutex() {
   return mutex;
 }

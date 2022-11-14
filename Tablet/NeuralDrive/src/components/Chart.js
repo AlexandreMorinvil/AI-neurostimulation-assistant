@@ -8,7 +8,6 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import MainModules from '../components/MainModules.js';
 import {get_watch_data} from '../class/http';
 import {
   set_patient_level,

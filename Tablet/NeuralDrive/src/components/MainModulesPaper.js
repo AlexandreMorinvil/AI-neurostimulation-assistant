@@ -258,6 +258,25 @@ const InputModule = ({ QueryPress, ResetPress, localDimension, setLocalDimension
   );
 };
 
+const InfoModule = ({ height, width, bgColor }) => {
+  const [value2, setValue2] = React.useState(0);
+  React.useEffect(() => {
+    const interval2 = setInterval(() => {
+      setValue2(value2 => value2 + 1);
+      console.log(get_smartwatch_connected());
+      smartwatch_connected = get_smartwatch_connected();
+    }, 1000);
+
+    return () => clearInterval(interval2);
+  }, [value2]);
+
+  return (
+    <Surface style={styles.watchSurface} elevation={1}>
+      <Text variant="headlineLarge" style={{marginTop: 30}}> <Text variant='headlineSmall'> Average Tremor: </Text> {patient_level}</Text>
+    </Surface>
+  );
+};
+
 patient_level = 10;
 smartwatch_connected = false;
 // Used inside SideTabModule
@@ -282,11 +301,9 @@ const ConnectionModule = ({ height, width, bgColor }) => {
       {/* Watch */}
       {/* <Text>SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}</Text> */}
       <WatchModule/>
-      <Text variant="headlineLarge" style={{marginTop: 30}}> <Text variant='headlineSmall'> Average Tremor: </Text> {patient_level}</Text>
     </Surface>
   );
 };
-
 
 const ServerConnection = () => {
   const [connectionStatus, setConnectionStatus] =
@@ -383,6 +400,7 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
           pad="10px">
 
           {/* <FlexContainer flex={0.1} jc="center" pad='0'> */}
+          <ConnectionModule />
           <Surface style={styles.startSurface}>
             <FlexContainer flexDirection='column' alignItems='center' height='125px' bgColor='#00000000'>
               <Button
@@ -443,9 +461,7 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
             />
           {/* </FlexContainer> */}
 
-          {/* <FlexContainer flex={0.15} jc="center" pad="10px 0 0 0"> */}
-            <ConnectionModule />
-          {/* </FlexContainer> */}
+          <InfoModule/>
         </FlexContainer>
       </ScrollView>
     </FlexContainer>
@@ -547,7 +563,7 @@ const styles = StyleSheet.create({
   watchSurface: {
     margin: 10,
     padding: 8,
-    height: 200,
+    height: 100,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',

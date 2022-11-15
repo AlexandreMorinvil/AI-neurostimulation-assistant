@@ -5,11 +5,11 @@ import {
   post_execute_query,
 } from '../class/http';
 import Canvas from 'react-native-canvas';
-import { get_watch_data } from '../class/http';
-import { Action, Status, ERROR_CODE } from '../class/actions';
-import { Slider } from 'react-native-elements';
-import { Alert, ScrollView, StyleSheet, View} from 'react-native';
-import { BarIndicator, PulseIndicator } from 'react-native-indicators';
+import {get_watch_data} from '../class/http';
+import {Action, Status, ERROR_CODE} from '../class/actions';
+import {Slider} from 'react-native-elements';
+import {Alert, ScrollView, StyleSheet, View} from 'react-native';
+import {BarIndicator, PulseIndicator} from 'react-native-indicators';
 import {
   Button,
   Modal,
@@ -21,14 +21,22 @@ import {
   SegmentedButtons,
 } from 'react-native-paper';
 import Swiper from 'react-native-swiper';
-import { SelectList } from 'react-native-dropdown-select-list'
+import {SelectList} from 'react-native-dropdown-select-list';
 import styled from 'styled-components';
-import { get_smartwatch_connected, smartwatch_is_connected } from '../class/const';
+import {
+  get_smartwatch_connected,
+  smartwatch_is_connected,
+} from '../class/const';
 import HeapMap from '../components/HeatMap.js';
 import Chart from '../components/Chart.js';
 import HeatMapGraph from '../components/HeatMapGraph';
-import {get_server_ip, set_heat_map_data, set_dimension_of_chart, set_chosen_param_2D} from '../class/const';
-import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
+import {
+  get_server_ip,
+  set_heat_map_data,
+  set_dimension_of_chart,
+  set_chosen_param_2D,
+} from '../class/const';
+import {Stopwatch, Timer} from 'react-native-stopwatch-timer';
 
 CanvasRef = React.createRef();
 
@@ -40,7 +48,7 @@ class HeatMapModule extends React.Component {
 
 const GraphModule = () => (
   <FlexContainer>
-    <Surface color="red" style={{ display: 'flex', borderRadius: 25 }}>
+    <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
       <Swiper>
         <Chart />
         <HeatMapModule />
@@ -50,7 +58,14 @@ const GraphModule = () => (
   </FlexContainer>
 );
 
-const Input = ({ dimension, unitType, flexInput, setFunction, value, predictedValue }) => (
+const Input = ({
+  dimension,
+  unitType,
+  flexInput,
+  setFunction,
+  value,
+  predictedValue,
+}) => (
   <FlexContainer
     jc={'flex-start'}
     flex={flexInput}
@@ -58,7 +73,7 @@ const Input = ({ dimension, unitType, flexInput, setFunction, value, predictedVa
     pad={'0px 0px 0px 8px'}
     bgColor={'#8a8a8a'}
     borderRadius={'15px'}
-  /* onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}> */
+    /* onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}> */
   >
     {/* <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText> */}
     <Box
@@ -67,7 +82,7 @@ const Input = ({ dimension, unitType, flexInput, setFunction, value, predictedVa
       bgColor={'#eee'}
       borderRadius={'5px'}
       border={'2px solid black'}>
-      <Text variant="titleMedium" style={{ color: '#374F42' }}>
+      <Text variant="titleMedium" style={{color: '#374F42'}}>
         {predictedValue}
       </Text>
     </Box>
@@ -96,7 +111,6 @@ const Input = ({ dimension, unitType, flexInput, setFunction, value, predictedVa
   </FlexContainer>
 );
 
-
 // TODO: Cleaning
 const set_session_status = status => {
   mission_status = status;
@@ -110,8 +124,12 @@ const start_new_session = (dimension, n_param) => {
 session_status = Status.IDLE;
 
 // flexInput to adjust each input size
-const InputModule = ({ QueryPress, ResetPress, localDimension, setLocalDimension}) => {
-
+const InputModule = ({
+  QueryPress,
+  ResetPress,
+  localDimension,
+  setLocalDimension,
+}) => {
   const [valueP1, setP1] = React.useState(0);
   const [valueP2, setP2] = React.useState(0);
   const [valueY, setY] = React.useState(0);
@@ -134,27 +152,28 @@ const InputModule = ({ QueryPress, ResetPress, localDimension, setLocalDimension
     /* InputModule */
     <Surface style={styles.inputSurface} elevation={1}>
       {/* dimension */}
-      <FlexContainer flex={0.2} flexDirection={'column'} bgColor='#00000000'>
-        <Text variant='titleMedium'> Dimension</Text>
+      <FlexContainer flex={0.2} flexDirection={'column'} bgColor="#00000000">
+        <Text variant="titleMedium"> Dimension</Text>
         <SegmentedButtons
-          value={localDimension} onValueChange={setLocalDimension}
+          value={localDimension}
+          onValueChange={setLocalDimension}
           buttons={[
-          {
-            value: 10,
-            label: '10x10',
-            icon: 'grid',
-          },
-          {
-            value: 20,
-            icon: 'grid',
-            label: '20x20',
-          },
-          {
-            value: 50,
-            icon: 'grid',
-            label: '50x50',
-          },
-        ]}
+            {
+              value: 10,
+              label: '10x10',
+              icon: 'grid',
+            },
+            {
+              value: 20,
+              icon: 'grid',
+              label: '20x20',
+            },
+            {
+              value: 50,
+              icon: 'grid',
+              label: '50x50',
+            },
+          ]}
         />
         <Text variant="headlineSmall">{'dimension:' + localDimension}</Text>
       </FlexContainer>
@@ -171,13 +190,17 @@ const InputModule = ({ QueryPress, ResetPress, localDimension, setLocalDimension
           dimension={'Amplitude (V)'}
           value={valueP1}
           predictedValue={predictedP1}
-          setFunction={(text) => {setP1(text)}}
+          setFunction={text => {
+            setP1(text);
+          }}
           unitType={'units'}
           titleSpacing={'0 5px 0 0'}
         />
         <Input
           flexInput={0.35}
-          setFunction={(text) => {setP2(text)}}
+          setFunction={text => {
+            setP2(text);
+          }}
           dimension={'Parameter #2'}
           value={valueP2}
           predictedValue={predictedP2}
@@ -186,7 +209,9 @@ const InputModule = ({ QueryPress, ResetPress, localDimension, setLocalDimension
         />
         <Input
           flexInput={0.35}
-          setFunction={(text) => {setY(text)}}
+          setFunction={text => {
+            setY(text);
+          }}
           dimension={'tremor'}
           value={valueY}
           predictedValue={predictedY}
@@ -227,12 +252,12 @@ const InputModule = ({ QueryPress, ResetPress, localDimension, setLocalDimension
             );
             setPredictedP1(
               CanvasRef.current.current_algorithm.position[
-              Number(response.next_query)
+                Number(response.next_query)
               ][0],
             );
             setPredictedP2(
               CanvasRef.current.current_algorithm.position[
-              Number(response.next_query)
+                Number(response.next_query)
               ][1],
             );
             set_heat_map_data(JSON.parse(response.values));
@@ -246,11 +271,11 @@ const InputModule = ({ QueryPress, ResetPress, localDimension, setLocalDimension
         </Button>
       </FlexContainer>
       <Text variant="labelLarge" adjustsFontSizeToFit={true}>
-            2D Gaussian parameter
+        2D Gaussian parameter
       </Text>
-      <SelectList 
-        setSelected={(val) => setSelected(val)} 
-        data={gaussianGraphSelectionParam} 
+      <SelectList
+        setSelected={val => setSelected(val)}
+        data={gaussianGraphSelectionParam}
         save="key"
         onSelect={() => set_chosen_param_2D(selected)}
       />
@@ -258,13 +283,11 @@ const InputModule = ({ QueryPress, ResetPress, localDimension, setLocalDimension
   );
 };
 
-const InfoModule = ({ height, width, bgColor }) => {
+const InfoModule = ({height, width, bgColor}) => {
   const [value2, setValue2] = React.useState(0);
   React.useEffect(() => {
     const interval2 = setInterval(() => {
       setValue2(value2 => value2 + 1);
-      console.log(get_smartwatch_connected());
-      smartwatch_connected = get_smartwatch_connected();
     }, 1000);
 
     return () => clearInterval(interval2);
@@ -272,7 +295,10 @@ const InfoModule = ({ height, width, bgColor }) => {
 
   return (
     <Surface style={styles.watchSurface} elevation={1}>
-      <Text variant="headlineLarge" style={{marginTop: 30}}> <Text variant='headlineSmall'> Average Tremor: </Text> {patient_level}</Text>
+      <Text variant="headlineLarge" style={{marginTop: 30}}>
+        {' '}
+        <Text variant="headlineSmall"> Average Tremor: </Text> {patient_level}
+      </Text>
     </Surface>
   );
 };
@@ -280,7 +306,7 @@ const InfoModule = ({ height, width, bgColor }) => {
 patient_level = 10;
 smartwatch_connected = false;
 // Used inside SideTabModule
-const ConnectionModule = ({ height, width, bgColor }) => {
+const ConnectionModule = ({height, width, bgColor}) => {
   const [value2, setValue2] = React.useState(0);
   React.useEffect(() => {
     const interval2 = setInterval(() => {
@@ -295,33 +321,40 @@ const ConnectionModule = ({ height, width, bgColor }) => {
   return (
     <Surface style={styles.watchSurface} elevation={1}>
       {/* Server  */}
-      <ServerConnection />
       {/* Database */}
       {/* TODO */}
       {/* Watch */}
       {/* <Text>SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}</Text> */}
-      <WatchModule/>
+      <ConnectionIndicator
+        device={'server'}
+        checkConnectionFunction={get_watch_data}
+      />
+      <ConnectionIndicator
+        device={'watch'}
+        checkConnectionFunction={get_smartwatch_connected}
+      />
     </Surface>
   );
 };
 
-const ServerConnection = () => {
-  const [connectionStatus, setConnectionStatus] =
-    React.useState('Not Connected to Server');
+const ConnectionIndicator = ({device, checkConnectionFunction}) => {
+  const [connectionStatus, setConnectionStatus] = React.useState(
+    'Not Connected to ' + device,
+  );
   const [indicatorColor, setIndicadorColor] = React.useState('#CC958F');
 
-  // setIp every second
   React.useEffect(() => {
     const interval = setInterval(async () => {
-      const watch_data = await get_watch_data();
-      if (watch_data) {
-        setConnectionStatus('Connected to Server');
+      smartwatch_connected = await checkConnectionFunction();
+      if (smartwatch_connected) {
+        setConnectionStatus('Connected to ' + device);
         setIndicadorColor('#A3D9A3');
       } else {
-        setConnectionStatus('Not Connected to Server ');
+        setConnectionStatus('Not Connected to ' + device);
         setIndicadorColor('#CC958F');
       }
     }, 1000);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -331,7 +364,7 @@ const ServerConnection = () => {
         count={4}
         color={indicatorColor}
         size={20}
-        style={{ flex: 0.1, paddingRight: 20 }}
+        style={{flex: 0.1, paddingRight: 20}}
       />
 
       <Text variant="titleLarge" adjustsFontSizeToFit={true}>
@@ -341,47 +374,7 @@ const ServerConnection = () => {
   );
 };
 
-const WatchModule = () => {
-
-  const [connectionStatus, setConnectionStatus] = React.useState('Not Connected to Watch');
-  const [indicatorColor, setIndicadorColor] = React.useState('#CC958F');
-  // setIp every second
-  //
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setConnectionStatus(connectionStatus => connectionStatus + 1);
-      console.log(get_smartwatch_connected());
-      smartwatch_connected = get_smartwatch_connected();
-      // smartwatch_connected = false;
-      if (smartwatch_connected) {
-        setConnectionStatus('Connected to Watch');
-        setIndicadorColor('#A3D9A3');
-      } else {
-        setConnectionStatus('Not Connected to Watch');
-        setIndicadorColor('#CC958F');
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [connectionStatus]);
-
-  return (
-    <View style={{flexDirection: 'row'}}>
-      <BarIndicator
-        count={4}
-        color={indicatorColor}
-        size={20}
-        style={{ flex: 0.1, paddingRight: 20 }}
-      />
-
-      <Text variant="titleLarge" adjustsFontSizeToFit={true}>
-        {connectionStatus}
-      </Text>
-    </View>
-  );
-};
-
-const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
+const SideTabModule = ({flex, ResetPress, QueryPress}) => {
   const n_param = 2;
   const [localDimension, setLocalDimension] = React.useState(10);
   const [value, setValue] = React.useState(0);
@@ -398,20 +391,24 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
           flexDirection="column"
           jc="flex-start"
           pad="10px">
-
           {/* <FlexContainer flex={0.1} jc="center" pad='0'> */}
           <ConnectionModule />
           <Surface style={styles.startSurface}>
-            <FlexContainer flexDirection='column' alignItems='center' height='125px' bgColor='#00000000'>
+            <FlexContainer
+              flexDirection="column"
+              alignItems="center"
+              height="125px"
+              bgColor="#00000000">
               <Button
                 icon={sessionStarted ? 'stop' : 'play'}
                 mode="elevated"
-                buttonColor={sessionStarted ? '#CC958F': '#A3D9A3'}
+                buttonColor={sessionStarted ? '#CC958F' : '#A3D9A3'}
                 dark={false}
                 loading={false}
                 onPress={async () => {
                   CanvasRef.current.current_algorithm.n_param = n_param;
-                  CanvasRef.current.current_algorithm.dimention = localDimension;
+                  CanvasRef.current.current_algorithm.dimention =
+                    localDimension;
 
                   let status = await start_new_session(n_param, localDimension);
                   console.log('status = ', status);
@@ -421,7 +418,7 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
                   // stopwatch
                   setSessionStarted(!sessionStarted);
 
-                  if(sessionStarted){
+                  if (sessionStarted) {
                     // TODO: get start time
                     // time = getTime()
                   } else {
@@ -432,7 +429,7 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
                   }
                 }}
                 uppercase={true}
-                style={{ height: 40 }}>
+                style={{height: 40}}>
                 <Text
                   variant="labelLarge"
                   adjustsFontSizeToFit={true}
@@ -441,9 +438,13 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
                   {/* start session */}
                 </Text>
               </Button>
-              <Stopwatch start={sessionStarted} reset={stopwatchReset} options={styles.stopwatchOptions} />
+              <Stopwatch
+                start={sessionStarted}
+                reset={stopwatchReset}
+                options={styles.stopwatchOptions}
+              />
             </FlexContainer>
-            </Surface>
+          </Surface>
           {/* </FlexContainer> */}
 
           {/* <FlexContainer */}
@@ -452,23 +453,23 @@ const SideTabModule = ({ flex, ResetPress, QueryPress }) => {
           {/*   jc="center" */}
           {/*   alignItems="flex-start" */}
           {/*   pad="10px 0 10px 0"> */}
-            <InputModule
-              alignItems={'flex-start'}
-              ResetPress={ResetPress}
-              QueryPress={QueryPress}
-              localDimension={localDimension}
-              setLocalDimension={setLocalDimension}
-            />
+          <InputModule
+            alignItems={'flex-start'}
+            ResetPress={ResetPress}
+            QueryPress={QueryPress}
+            localDimension={localDimension}
+            setLocalDimension={setLocalDimension}
+          />
           {/* </FlexContainer> */}
 
-          <InfoModule/>
+          <InfoModule />
         </FlexContainer>
       </ScrollView>
     </FlexContainer>
   );
 };
 
-const SideTabModuleVertical = ({ flex, ResetPress, QueryPress }) => (
+const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
   <ScrollView>
     <FlexContainer flex={flex} pad="0px">
       <FlexContainer
@@ -546,11 +547,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: 15,
     width: '60%',
-    justifyContent:'flex-start',
-    alignItems: 'center'
-  }
-  ,
-
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
   graphSurface: {
     padding: 8,
     height: 80,
@@ -582,18 +581,17 @@ const styles = StyleSheet.create({
   },
   stopwatchOptions: {
     container: {
-    backgroundColor: '#00000000',
-    padding: 0,
-    borderRadius: 15,
-    width: 150,
-    alignItems: 'center',
+      backgroundColor: '#00000000',
+      padding: 0,
+      borderRadius: 15,
+      width: 150,
+      alignItems: 'center',
     },
     text: {
-    fontSize: 30,
-    color: '#000',
-    }
+      fontSize: 30,
+      color: '#000',
+    },
   },
-
 });
 
 // Utility components

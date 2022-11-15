@@ -1,42 +1,32 @@
 import React from 'react';
-import {
-  send_command,
-  post_start_new_session,
-  post_execute_query,
-} from '../class/http';
-import Canvas from 'react-native-canvas';
-import {get_watch_data} from '../class/http';
-import {Action, Status, ERROR_CODE} from '../class/actions';
-import {Slider} from 'react-native-elements';
-import {Alert, ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {SelectList} from 'react-native-dropdown-select-list';
 import {BarIndicator, PulseIndicator} from 'react-native-indicators';
 import {
   Button,
-  Modal,
-  Portal,
-  Provider,
+  SegmentedButtons,
   Surface,
   Text,
   TextInput,
-  SegmentedButtons,
 } from 'react-native-paper';
+import {Stopwatch} from 'react-native-stopwatch-timer';
 import Swiper from 'react-native-swiper';
-import {SelectList} from 'react-native-dropdown-select-list';
 import styled from 'styled-components';
+import {Status} from '../class/actions';
 import {
   get_smartwatch_connected,
-  smartwatch_is_connected,
-} from '../class/const';
-import HeapMap from '../components/HeatMap.js';
-import Chart from '../components/Chart.js';
-import HeatMapGraph from '../components/HeatMapGraph';
-import {
-  get_server_ip,
-  set_heat_map_data,
-  set_dimension_of_chart,
   set_chosen_param_2D,
+  set_dimension_of_chart,
+  set_heat_map_data,
 } from '../class/const';
-import {Stopwatch, Timer} from 'react-native-stopwatch-timer';
+import {
+  get_watch_data,
+  post_execute_query,
+  post_start_new_session,
+} from '../class/http';
+import Chart from '../components/Chart.js';
+import HeapMap from '../components/HeatMap.js';
+import HeatMapGraph from '../components/HeatMapGraph';
 
 CanvasRef = React.createRef();
 

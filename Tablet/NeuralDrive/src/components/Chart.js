@@ -53,8 +53,8 @@ export function Chart() {
   const [position, setPosition] = useState(graph_size);
   useEffect(() => {
     const interval = setInterval(async () => {
-      //if (false) {
-      if (get_allow_get_watch_data()) {
+      if (false) {
+        //if (get_allow_get_watch_data()) {
         const watch_data = await get_watch_data();
         let temp = watch_data;
         if (temp) {

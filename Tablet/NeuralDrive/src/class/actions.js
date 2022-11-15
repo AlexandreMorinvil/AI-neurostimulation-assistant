@@ -5,6 +5,8 @@ export const Action = {
   EXECUTE_QUERY: 3,
   GET_WATCH_DATA: 4,
   SAVE_SESSION: 5,
+  DELETE_SESSION: 6,
+  GET_ALL_SESSION: 7,
 };
 
 export const Status = {

@@ -93,6 +93,17 @@ class CommandHandler:
             print(sessions)
             return sessions
 
+        elif action == Action.DELETE_SESSION.value:
+            print("delete session")
+            self.db.delete_session(arg["id"])
+
+        elif action == Action.GET_ALL_SESSION.value:
+            sessions = self.db.get_all_session()
+            print(sessions)
+            return sessions
+
+
+
 
 
 

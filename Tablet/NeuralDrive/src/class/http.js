@@ -44,6 +44,26 @@ export const post_save_session = async session => {
   return response.content;
 };
 
+export const post_delete_session = async id => {
+  const command = {
+    action: Action.DELETE_SESSION,
+    arg: {
+      id: id,
+    },
+  };
+  response = await send_command(command);
+  return response.content;
+};
+
+export const post_get_all_session = async () => {
+  const command = {
+    action: Action.GET_ALL_SESSION,
+    arg: {},
+  };
+  response = await send_command(command);
+  return response.content;
+};
+
 export const post_start_new_session = async (n_param, dimension) => {
   const command = {
     action: Action.START_SESSION,

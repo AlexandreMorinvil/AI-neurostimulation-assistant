@@ -34,6 +34,10 @@ import {
 } from '../class/const';
 import {Stopwatch, Timer} from 'react-native-stopwatch-timer';
 
+// import {NativeModules} from 'react-native';
+// const {CalendarModule} = NativeModules;
+// CalendarModule.createCalendarEvent();
+
 CanvasRef = React.createRef();
 
 class HeatMapModule extends React.Component {
@@ -674,4 +678,5 @@ export default MainModulesPaper = {
   ConnectionModule: ConnectionModule,
   SideTabModule: SideTabModule,
   SideTabModuleVertical: SideTabModuleVertical,
+  HeatMapModule: HeatMapModule,
 };

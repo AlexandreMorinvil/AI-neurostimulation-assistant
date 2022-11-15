@@ -70,10 +70,10 @@ class CommandHandler:
         elif action == Action.GET_WATCH_DATA.value:
 
             ### SIMULATION SANS MONTRE ##############################
-            # for i in range(10):
-            #     n = str(random.randint(0, 9))
-            #     data = WatchData(n,n,n,n,n,n).__dict__
-            #     self.stack_watch_data.append(data)
+            for i in range(10):
+                n = str(random.randint(0, 9))
+                data = WatchData(n,n,n,n,n,n).__dict__
+                self.stack_watch_data.append(data)
             #########################################################
 
             if(len(self.stack_watch_data) > 0):

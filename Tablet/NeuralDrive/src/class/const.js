@@ -2,7 +2,7 @@ import React from 'react';
 
 patient_level = 10;
 smartwatch_connected = false;
-server_ip = 'http://localhost:5000';
+server_ip = 'http://192.168.0.53:5000';
 const SERVER_DELAY = 1000;
 allow_get_watch_data = true;
 

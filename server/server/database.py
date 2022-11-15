@@ -33,7 +33,7 @@ class Database:
             return False
 
     #############################################################################
-    #### Add mission into the database
+    #### Add session into the database
     #### @param {Mission} mission
     #############################################################################
     def add_session(self, session):
@@ -49,13 +49,16 @@ class Database:
         return 0
 
     #############################################################################
-    #### Get all the missions into the database and transform it to Json format
-    #### @Return {Json} lis of mission
+    #### Get all the session into the database and transform it to Json format
+    #### @Return {[Session]} list of session
     #############################################################################
     def get_all_session(self):
         query = "SELECT * FROM Session;"
         self.cur.execute(query)
-        return self.cur.fetchall()
+        print('execute querry get all session')
+        data = self.cur.fetchall()
+        if data :
+            return data
 
 
     #############################################################################
@@ -63,7 +66,8 @@ class Database:
     #### @param {String} id
     #############################################################################
     def delete_session(self, id) -> None:
-        query = "DELETE FROM mission WHERE id = '{0}';".format(id)
+        print(id)
+        query = "DELETE FROM Session WHERE id = '{0}';".format(id)
         self.cur.execute(query)
         self.conn.commit()
 

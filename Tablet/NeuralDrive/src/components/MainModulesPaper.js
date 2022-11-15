@@ -2,6 +2,7 @@ import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {BarIndicator, PulseIndicator} from 'react-native-indicators';
+import * as Structures from './Structures.js';
 import {
   Button,
   SegmentedButtons,
@@ -31,7 +32,7 @@ import HeatMapGraph from '../components/HeatMapGraph';
 ref = React.createRef();
 
 const GraphModule = () => (
-  <FlexContainer>
+  <Structures.FlexContainer>
     <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
       <Swiper>
         <Chart />
@@ -39,7 +40,7 @@ const GraphModule = () => (
         <HeatMapGraph />
       </Swiper>
     </Surface>
-  </FlexContainer>
+  </Structures.FlexContainer>
 );
 
 const Input = ({
@@ -50,7 +51,7 @@ const Input = ({
   value,
   predictedValue,
 }) => (
-  <FlexContainer
+  <Structures.FlexContainer
     jc={'flex-start'}
     flex={flexInput}
     marg={'5px'}
@@ -60,7 +61,7 @@ const Input = ({
     /* onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}> */
   >
     {/* <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText> */}
-    <Box
+    <Structures.Box
       height={'70px'}
       width={'70px'}
       bgColor={'#eee'}
@@ -69,7 +70,7 @@ const Input = ({
       <Text variant="titleMedium" style={{color: '#374F42'}}>
         {predictedValue}
       </Text>
-    </Box>
+    </Structures.Box>
 
     <TextInput
       mode="outlined"
@@ -92,7 +93,7 @@ const Input = ({
         fontSize: 24,
       }}
     />
-  </FlexContainer>
+  </Structures.FlexContainer>
 );
 
 // const start_new_session = (dimension, n_param) => {
@@ -129,7 +130,10 @@ const InputModule = ({
     /* InputModule */
     <Surface style={styles.inputSurface} elevation={1}>
       {/* dimension */}
-      <FlexContainer flex={0.2} flexDirection={'column'} bgColor="#00000000">
+      <Structures.FlexContainer
+        flex={0.2}
+        flexDirection={'column'}
+        bgColor="#00000000">
         <Text variant="titleMedium"> Dimension</Text>
         <SegmentedButtons
           value={localDimension}
@@ -153,9 +157,9 @@ const InputModule = ({
           ]}
         />
         <Text variant="headlineSmall">{'dimension:' + localDimension}</Text>
-      </FlexContainer>
+      </Structures.FlexContainer>
       {/* Inputs */}
-      <FlexContainer
+      <Structures.FlexContainer
         flex={0.8}
         flexDirection={'column'}
         jc={'flex-start'}
@@ -195,9 +199,9 @@ const InputModule = ({
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
         />
-      </FlexContainer>
+      </Structures.FlexContainer>
       {/* Reset & Query */}
-      <FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
+      <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
         <Button
           icon="sync"
           mode="elevated"
@@ -232,7 +236,7 @@ const InputModule = ({
             query
           </Text>
         </Button>
-      </FlexContainer>
+      </Structures.FlexContainer>
       <Text variant="labelLarge" adjustsFontSizeToFit={true}>
         2D Gaussian parameter
       </Text>
@@ -347,17 +351,17 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
   const [stopwatchReset, setStopwatchReset] = React.useState(false);
 
   return (
-    <FlexContainer flex={flex} pad="0px">
+    <Structures.FlexContainer flex={flex} pad="0px">
       <ScrollView>
-        <FlexContainer
+        <Structures.FlexContainer
           height={'1500px'}
           flexDirection="column"
           jc="flex-start"
           pad="10px">
-          {/* <FlexContainer flex={0.1} jc="center" pad='0'> */}
+          {/* <Structures.FlexContainer flex={0.1} jc="center" pad='0'> */}
           <ConnectionModule />
           <Surface style={styles.startSurface}>
-            <FlexContainer
+            <Structures.FlexContainer
               flexDirection="column"
               alignItems="center"
               height="125px"
@@ -405,11 +409,11 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
                 reset={stopwatchReset}
                 options={styles.stopwatchOptions}
               />
-            </FlexContainer>
+            </Structures.FlexContainer>
           </Surface>
-          {/* </FlexContainer> */}
+          {/* </Structures.FlexContainer> */}
 
-          {/* <FlexContainer */}
+          {/* <Structures.FlexContainer */}
           {/*   flex={0.5} */}
           {/*   flexDirection="column" */}
           {/*   jc="center" */}
@@ -422,24 +426,24 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
             localDimension={localDimension}
             setLocalDimension={setLocalDimension}
           />
-          {/* </FlexContainer> */}
+          {/* </Structures.FlexContainer> */}
 
           <InfoModule />
-        </FlexContainer>
+        </Structures.FlexContainer>
       </ScrollView>
-    </FlexContainer>
+    </Structures.FlexContainer>
   );
 };
 
 const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
   <ScrollView>
-    <FlexContainer flex={flex} pad="0px">
-      <FlexContainer
+    <Structures.FlexContainer flex={flex} pad="0px">
+      <Structures.FlexContainer
         flexDirection="column"
         flex={0.4}
         jc="flex-start"
         pad="10px">
-        <FlexContainer flex={0.2}>
+        <Structures.FlexContainer flex={0.2}>
           <PulseIndicator color="#CC958F" size={20} />
           <Button
             icon="play"
@@ -453,11 +457,11 @@ const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
               start session
             </Text>
           </Button>
-        </FlexContainer>
-        <FlexContainer flex={0.1}>
+        </Structures.FlexContainer>
+        <Structures.FlexContainer flex={0.1}>
           <BarIndicator count={4} color={'#CC958F'} size={20} />
-        </FlexContainer>
-        <FlexContainer flex={0.3} jc="center">
+        </Structures.FlexContainer>
+        <Structures.FlexContainer flex={0.3} jc="center">
           <Button
             icon="sync"
             mode="elevated"
@@ -468,11 +472,11 @@ const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
             {' '}
             RESET{' '}
           </Button>
-        </FlexContainer>
-        <FlexContainer flex={1} jc="center" pad="10px 0 10px 0">
+        </Structures.FlexContainer>
+        <Structures.FlexContainer flex={1} jc="center" pad="10px 0 10px 0">
           <InputModule flex={1} alignItems={'flex-start'} />
-        </FlexContainer>
-        <FlexContainer flex={0.3} jc="center">
+        </Structures.FlexContainer>
+        <Structures.FlexContainer flex={0.3} jc="center">
           <Button
             icon="tab-search"
             mode="elevated"
@@ -484,12 +488,12 @@ const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
             {' '}
             QUERY{' '}
           </Button>
-        </FlexContainer>
-      </FlexContainer>
-      <FlexContainer flex={0.54} jc="center" pad="10px 0 0 0">
+        </Structures.FlexContainer>
+      </Structures.FlexContainer>
+      <Structures.FlexContainer flex={0.54} jc="center" pad="10px 0 0 0">
         <ConnectionModule height={'100%'} width={'100%'} bgColor={'#555'} />
-      </FlexContainer>
-    </FlexContainer>
+      </Structures.FlexContainer>
+    </Structures.FlexContainer>
   </ScrollView>
 );
 
@@ -556,50 +560,9 @@ const styles = StyleSheet.create({
   },
 });
 
-// Utility components
-// prettier-ignore
-// styled-components
-const FlexContainer = styled.View`
-  flex: ${props => props.flex || '1'};
-  flexDirection: ${props => props.flexDirection || 'row'};
-  justify-content: ${props => props.jc || 'space-evenly'};
-  align-items: ${props => props.alignItems || 'center'};
-  background-color: ${props => props.bgColor || '#fff'};
-  border-radius: ${props => props.borderRadius || '0px'};
-  margin: ${props => props.marg || '0px'};
-  padding: ${props => props.pad || '10px'};
-  width: ${props => props.width || '100%'};
-  height: ${props => props.height || '100%'};
-
-  shadowColor: ${props => props.shadowColor || '#000'};
-  elevation: ${props => props.elevation || '0'};
-  border: ${props => props.border || '0px solid black'};
-`;
-
-// justify-content: vertical content position
-// align-items: horizontal content position
-// margin: space around boxes
-const Box = styled.View`
-  width: ${props => props.width || '100px'};
-  height: ${props => props.height || '100px'};
-  background-color: ${props => props.bgColor || '#fff'};
-
-  border-radius: ${props => props.borderRadius || '25px'};
-  justify-content: ${props => props.jc || 'center'};
-  align-items: center;
-  margin: ${props => props.marg || '0'};
-  padding: ${props => props.pad || '0'};
-
-  shadowcolor: ${props => props.shadowColor || '#000'};
-  elevation: ${props => props.elevation || '0'};
-  border: ${props => props.border || '0px solid black'};
-`;
-
 // EXPORTS
 export default MainModulesPaper = {
-  Box: Box, // You can put Text components directly inside
   GraphModule: GraphModule, // You need to put them here
-  FlexContainer: FlexContainer,
   InputModule: InputModule,
   ConnectionModule: ConnectionModule,
   SideTabModule: SideTabModule,

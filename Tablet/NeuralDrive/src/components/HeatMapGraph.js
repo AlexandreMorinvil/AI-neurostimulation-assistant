@@ -8,7 +8,6 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import MainModules from '../components/MainModules.js';
 import {get_heat_map_data, get_dimension_of_chart, get_chosen_param_2D} from '../class/const';
 
 export function HeatMapGraph() {

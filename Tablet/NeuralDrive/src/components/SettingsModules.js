@@ -6,7 +6,6 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import * as Inputs from './Inputs.js';
 
 // VIEWS AND CONTAINERS
 const FlexContainer = styled.View`

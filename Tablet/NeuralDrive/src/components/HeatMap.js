@@ -4,7 +4,7 @@ import {Image} from 'react-native-elements';
 import {Text} from 'react-native-paper';
 
 class HeatMap extends React.Component {
-  current_algorithm = {
+  state = {
     n_param: 2,
     dimention: 100,
     data: '',
@@ -13,6 +13,7 @@ class HeatMap extends React.Component {
 
   constructor(props) {
     super(props);
+    this.ref = React.createRef();
   }
 
   draw_heat_map() {
@@ -28,7 +29,7 @@ class HeatMap extends React.Component {
         <View>
           <Image
             source={{
-              uri: `data:image/jpeg;base64,${this.current_algorithm.data}`,
+              uri: `data:image/jpeg;base64,${this.state.data}`,
             }}
             style={this.styles.box}
           />

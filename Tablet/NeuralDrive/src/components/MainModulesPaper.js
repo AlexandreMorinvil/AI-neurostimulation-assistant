@@ -25,23 +25,17 @@ import {
   post_start_new_session,
 } from '../class/http';
 import Chart from '../components/Chart.js';
-import HeapMap from '../components/HeatMap.js';
+import HeatMap from '../components/HeatMap.js';
 import HeatMapGraph from '../components/HeatMapGraph';
 
-CanvasRef = React.createRef();
-
-class HeatMapModule extends React.Component {
-  render() {
-    return <HeapMap ref={CanvasRef} />;
-  }
-}
+ref = React.createRef();
 
 const GraphModule = () => (
   <FlexContainer>
     <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
       <Swiper>
         <Chart />
-        <HeatMapModule />
+        <HeatMap ref={ref} />
         <HeatMapGraph />
       </Swiper>
     </Surface>
@@ -229,24 +223,14 @@ const InputModule = ({
           loading={false}
           onPress={async () => {
             response = await post_execute_query(valueP1, valueP2, valueY);
-            CanvasRef.current.current_algorithm.data = JSON.parse(
-              response.predict_heat_map,
-            );
-            CanvasRef.current.current_algorithm.position = JSON.parse(
-              response.position,
-            );
-            CanvasRef.current.draw_heat_map(
-              CanvasRef.current.current_algorithm,
-            );
+            ref.current.state.data = JSON.parse(response.predict_heat_map);
+            ref.current.state.position = JSON.parse(response.position);
+            ref.current.draw_heat_map(ref.current.state);
             setPredictedP1(
-              CanvasRef.current.current_algorithm.position[
-                Number(response.next_query)
-              ][0],
+              ref.current.state.position[Number(response.next_query)][0],
             );
             setPredictedP2(
-              CanvasRef.current.current_algorithm.position[
-                Number(response.next_query)
-              ][1],
+              ref.current.state.position[Number(response.next_query)][1],
             );
             set_heat_map_data(JSON.parse(response.values));
             /* set_dimension_of_chart(this.dimension); */
@@ -394,9 +378,8 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
                 dark={false}
                 loading={false}
                 onPress={async () => {
-                  CanvasRef.current.current_algorithm.n_param = n_param;
-                  CanvasRef.current.current_algorithm.dimention =
-                    localDimension;
+                  ref.current.state.n_param = n_param;
+                  ref.current.state.dimention = localDimension;
 
                   /* let status = await start_new_session(n_param, localDimension); */
                   let status = await post_start_new_session(

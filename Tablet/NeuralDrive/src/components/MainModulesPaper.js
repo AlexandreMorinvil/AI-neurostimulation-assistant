@@ -125,11 +125,6 @@ const InputModule = ({
     {key: 5, value: 'F', disabled: true},
   ];
 
-  const [n_param, setNParam] = React.useState(2);
-  const [dimension, setDimension] = React.useState(100);
-  const [data, setData] = React.useState('');
-  const [position, setPosition] = React.useState([]);
-
   return (
     /* InputModule */
     <Surface style={styles.inputSurface} elevation={1}>
@@ -224,7 +219,10 @@ const InputModule = ({
           onPress={async () => {
             response = await post_execute_query(valueP1, valueP2, valueY);
             ref.current.state.data = JSON.parse(response.predict_heat_map);
+            newPosition = JSON.parse(response.position);
             ref.current.draw_heat_map();
+            setPredictedP1(newPosition[Number(response.next_query)][0]);
+            setPredictedP2(newPosition[Number(response.next_query)][1]);
             set_heat_map_data(JSON.parse(response.values));
             /* set_dimension_of_chart(this.dimension); */
             set_dimension_of_chart(localDimension);

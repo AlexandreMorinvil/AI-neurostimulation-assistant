@@ -5,10 +5,7 @@ import {Text} from 'react-native-paper';
 
 class HeatMap extends React.Component {
   state = {
-    n_param: 2,
-    dimention: 100,
     data: '',
-    position: [],
   };
 
   constructor(props) {

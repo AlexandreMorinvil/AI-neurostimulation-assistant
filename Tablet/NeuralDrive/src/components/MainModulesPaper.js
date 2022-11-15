@@ -224,14 +224,7 @@ const InputModule = ({
           onPress={async () => {
             response = await post_execute_query(valueP1, valueP2, valueY);
             ref.current.state.data = JSON.parse(response.predict_heat_map);
-            ref.current.state.position = JSON.parse(response.position);
-            ref.current.draw_heat_map(ref.current.state);
-            setPredictedP1(
-              ref.current.state.position[Number(response.next_query)][0],
-            );
-            setPredictedP2(
-              ref.current.state.position[Number(response.next_query)][1],
-            );
+            ref.current.draw_heat_map();
             set_heat_map_data(JSON.parse(response.values));
             /* set_dimension_of_chart(this.dimension); */
             set_dimension_of_chart(localDimension);
@@ -378,10 +371,6 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
                 dark={false}
                 loading={false}
                 onPress={async () => {
-                  ref.current.state.n_param = n_param;
-                  ref.current.state.dimention = localDimension;
-
-                  /* let status = await start_new_session(n_param, localDimension); */
                   let status = await post_start_new_session(
                     n_param,
                     localDimension,

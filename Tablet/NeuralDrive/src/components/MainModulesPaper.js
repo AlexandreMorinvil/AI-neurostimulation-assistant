@@ -101,17 +101,10 @@ const Input = ({
   </FlexContainer>
 );
 
-// TODO: Cleaning
-const set_session_status = status => {
-  mission_status = status;
-};
-
-const start_new_session = (dimension, n_param) => {
-  console.log('START SESSION');
-  return post_start_new_session(dimension, n_param);
-};
-
-session_status = Status.IDLE;
+// const start_new_session = (dimension, n_param) => {
+//   console.log('START SESSION');
+//   return post_start_new_session(dimension, n_param);
+// };
 
 // flexInput to adjust each input size
 const InputModule = ({
@@ -188,7 +181,7 @@ const InputModule = ({
         />
         <Input
           flexInput={0.35}
-          setFunction={text => {
+    setFunction={text => {
             setP2(text);
           }}
           dimension={'Parameter #2'}
@@ -400,7 +393,8 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
                   CanvasRef.current.current_algorithm.dimention =
                     localDimension;
 
-                  let status = await start_new_session(n_param, localDimension);
+                  /* let status = await start_new_session(n_param, localDimension); */
+                  let status = await post_start_new_session(n_param, localDimension);
                   console.log('status = ', status);
                   session_status = status;
                   setValue(value => value + 1);

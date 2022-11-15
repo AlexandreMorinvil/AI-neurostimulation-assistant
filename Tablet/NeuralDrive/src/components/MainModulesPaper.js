@@ -131,6 +131,11 @@ const InputModule = ({
     {key: 5, value: 'F', disabled: true},
   ];
 
+  const [n_param, setNParam] = React.useState(2);
+  const [dimension, setDimension] = React.useState(100);
+  const [data, setData] = React.useState('');
+  const [position, setPosition] = React.useState([]);
+
   return (
     /* InputModule */
     <Surface style={styles.inputSurface} elevation={1}>
@@ -181,7 +186,7 @@ const InputModule = ({
         />
         <Input
           flexInput={0.35}
-    setFunction={text => {
+          setFunction={text => {
             setP2(text);
           }}
           dimension={'Parameter #2'}
@@ -394,7 +399,10 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
                     localDimension;
 
                   /* let status = await start_new_session(n_param, localDimension); */
-                  let status = await post_start_new_session(n_param, localDimension);
+                  let status = await post_start_new_session(
+                    n_param,
+                    localDimension,
+                  );
                   console.log('status = ', status);
                   session_status = status;
                   setValue(value => value + 1);

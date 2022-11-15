@@ -1,5 +1,6 @@
 // React Native Imports
 import React, {useState} from 'react';
+import * as Structures from '../components/Structures.js';
 
 import {View, Dimensions} from 'react-native';
 
@@ -43,15 +44,15 @@ class MainPaper extends React.Component {
 class MainPaperHorizontal extends React.Component {
   render() {
     return (
-      <MainModulesPaper.FlexContainer>
+      <Structures.FlexContainer>
         <MainModulesPaper.SideTabModule
-          flex={0.4}
+          flex={0.3}
           StartSessionPress={() => blank()}
           ResetPress={() => blank()}
           QueryPress={() => blank()}
         />
         <MainModulesPaper.GraphModule />
-      </MainModulesPaper.FlexContainer>
+      </Structures.FlexContainer>
     );
   }
 }
@@ -59,18 +60,18 @@ class MainPaperHorizontal extends React.Component {
 class MainPaperVertical extends React.Component {
   render() {
     return (
-      <MainModulesPaper.FlexContainer flexDirection={'column'}>
-        <MainModulesPaper.FlexContainer flex={0.5}>
+      <Structures.FlexContainer flexDirection={'column'}>
+        <Structures.FlexContainer flex={0.5}>
           <MainModulesPaper.SideTabModuleVertical
             flex={1}
             ResetPress={() => blank()}
             QueryPress={() => blank()}
           />
-        </MainModulesPaper.FlexContainer>
-        <MainModulesPaper.FlexContainer>
+        </Structures.FlexContainer>
+        <Structures.FlexContainer>
           <MainModulesPaper.GraphModule />
-        </MainModulesPaper.FlexContainer>
-      </MainModulesPaper.FlexContainer>
+        </Structures.FlexContainer>
+      </Structures.FlexContainer>
     );
   }
 }

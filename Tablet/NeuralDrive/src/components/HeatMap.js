@@ -1,116 +1,20 @@
-import React, {Component, useRef} from 'react';
-import {View, Dimensions, StyleSheet} from 'react-native';
-import {Text} from 'react-native-paper';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import {Image} from 'react-native-elements';
-import Canvas from 'react-native-canvas';
-import {set_dimension_of_chart, set_heat_map_data} from '../class/const';
-
-// export interface Algorithm {
-//   n_param: number;
-//   dimention: number;
-//   data: number[];
-//   position: number[];
-// }
+import {Text} from 'react-native-paper';
 
 class HeatMap extends React.Component {
-  ctx;
-  current_algorithm = {
-    n_param: 2,
-    dimention: 100,
+  state = {
     data: '',
-    position: [],
   };
-
-  COLOR_MAP = [
-    [0, 'blue'],
-    [1, '#06f'],
-    [2, '#0cf'],
-    [3, '#0fc'],
-    [4, '#0f6'],
-    [5, 'lime'],
-    [6, '#6f0'],
-    [7, '#cf0'],
-    [8, ' #fc0'],
-    [9, '#f60'],
-    [10, 'red'],
-    [11, 'red'],
-  ];
 
   constructor(props) {
     super(props);
     this.ref = React.createRef();
   }
 
-  componentDidMount() {
-    // this.ctx = this.ref.current.getContext('2d');
-    // this.ctx.canvas.width = Dimensions.get('window').width * 0.78;
-    // this.ctx.canvas.height = Dimensions.get('window').height;
-    // console.log('width', this.ctx.canvas.width);
-    // this.createRectangle(this.getRandomInt(10, 50), 50, 50, 50, 'white');
-    // this.forceUpdate();
-  }
-
-  draw_heat_map(algorithm) {
-    // this.createRectangle(this.getRandomInt(50, 50), 50, 100, 50, 'white');
-    // this.current_algorithm = algorithm;
-    // set_heat_map_data(this.current_algorithm.data);
-    // set_dimension_of_chart(this.current_algorithm.dimention);
-    // console.log('draw ++++++++++++++++++++++', this.current_algorithm.data);
-    // this.clear_canvas();
-    // dx = this.ctx.canvas.width / algorithm.dimention;
-    // dy = this.ctx.canvas.height / algorithm.dimention;
-    // index_x = 0;
-    // index_y = 0;
-
-    // for (var i = 0; i < Math.pow(algorithm.dimention, algorithm.n_param); i++) {
-    //   x = index_x * dx;
-    //   y = index_y * dy;
-
-    //   this.createRectangle(
-    //     dx,
-    //     dy,
-    //     x,
-    //     y,
-    //     this.getHeatColor(this.current_algorithm.data[i][1]),
-    //   );
-
-    //   index_x++;
-    //   if (index_x >= algorithm.dimention) {
-    //     index_x = 0;
-    //     index_y++;
-    //   }
-    // }
-
+  draw_heat_map() {
     this.forceUpdate();
-  }
-
-  clear_canvas() {
-    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.forceUpdate();
-  }
-
-  getHeatColor(data) {
-    if (data < 0) {
-      return this.COLOR_MAP[0][1];
-    } else {
-      for (i = 1; i < this.COLOR_MAP.length - 1; i++) {
-        if (data >= this.COLOR_MAP[i][0] && data <= this.COLOR_MAP[i + 1][0]) {
-          return this.COLOR_MAP[i][1];
-        }
-      }
-    }
-    return this.COLOR_MAP[0][1];
-  }
-
-  getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
-  createRectangle(dx, dy, posX, posY, color) {
-    this.ctx.fillStyle = color;
-    this.ctx.fillRect(posX, posY, dx, dy);
   }
 
   render() {
@@ -122,7 +26,7 @@ class HeatMap extends React.Component {
         <View>
           <Image
             source={{
-              uri: `data:image/jpeg;base64,${this.current_algorithm.data}`,
+              uri: `data:image/jpeg;base64,${this.state.data}`,
             }}
             style={this.styles.box}
           />
@@ -144,5 +48,7 @@ class HeatMap extends React.Component {
     },
   });
 }
+
+// we will create the new component HeatMapComponent that is the same as HeatMap but will be a functional component instead of a class component
 
 export default HeatMap;

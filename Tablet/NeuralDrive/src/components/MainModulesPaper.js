@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {BarIndicator, PulseIndicator} from 'react-native-indicators';
 import * as Structures from './Structures.js';
@@ -50,6 +50,9 @@ const Input = ({
   setFunction,
   value,
   predictedValue,
+  oldAlgorithmValue,
+  boxFunction,
+
 }) => (
   <Structures.FlexContainer
     jc={'flex-start'}
@@ -67,9 +70,11 @@ const Input = ({
       bgColor={'#eee'}
       borderRadius={'5px'}
       border={'2px solid black'}>
+      <Pressable onPress={boxFunction}>
       <Text variant="titleMedium" style={{color: '#374F42'}}>
-        {predictedValue}
+        {oldAlgorithmValue}
       </Text>
+      </Pressable>
     </Structures.Box>
 
     <TextInput
@@ -126,6 +131,15 @@ const InputModule = ({
     {key: 5, value: 'F', disabled: true},
   ];
 
+  const [oldAlgorithmA, setOldAlgorithmA] = React.useState(0);
+  const [oldAlgorithmB, setOldAlgorithmB] = React.useState(0);
+
+  const [currentDisplayA, setCurrentDisplayA] = React.useState(0);
+  const [currentDisplayB, setCurrentDisplayB] = React.useState(0);
+
+  const [currentRecommendationA, setCurrentRecommendationA] = React.useState(0);
+  const [currentRecommendationB, setCurrentRecommendationB] = React.useState(0);
+
   return (
     /* InputModule */
     <Surface style={styles.inputSurface} elevation={1}>
@@ -169,24 +183,30 @@ const InputModule = ({
         <Input
           flexInput={0.35}
           dimension={'Amplitude (V)'}
-          value={valueP1}
+          value={currentDisplayA}
           predictedValue={predictedP1}
           setFunction={text => {
-            setP1(text);
+            setP1(text)
+            setCurrentDisplayA(text);
           }}
           unitType={'units'}
           titleSpacing={'0 5px 0 0'}
+          oldAlgorithmValue = {oldAlgorithmA}
+          boxFunction={text => {setCurrentDisplayA(oldAlgorithmA.toString());}}
         />
         <Input
           flexInput={0.35}
           setFunction={text => {
             setP2(text);
+            setCurrentDisplayB(text);
           }}
           dimension={'Parameter #2'}
-          value={valueP2}
+          value={currentDisplayB}
           predictedValue={predictedP2}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
+          oldAlgorithmValue = {oldAlgorithmB}
+          boxFunction={text => {setCurrentDisplayB(oldAlgorithmB.toString());}}
         />
         <Input
           flexInput={0.35}
@@ -208,7 +228,10 @@ const InputModule = ({
           buttonColor={'#CC958F'}
           dark={false}
           loading={false}
-          onPress={() => ResetPress}
+          onPress={() => {
+            setCurrentDisplayA(currentRecommendationA.toString());
+            setCurrentDisplayB(currentRecommendationB.toString());
+          }}
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
             reset
@@ -227,9 +250,18 @@ const InputModule = ({
             ref.current.draw_heat_map();
             setPredictedP1(newPosition[Number(response.next_query)][0]);
             setPredictedP2(newPosition[Number(response.next_query)][1]);
+
+            setOldAlgorithmA(currentDisplayA.toString());
+            setOldAlgorithmB(currentDisplayB.toString());
+            setCurrentDisplayA(newPosition[Number(response.next_query)][0].toString());
+            setCurrentDisplayB(newPosition[Number(response.next_query)][1].toString());
+            setCurrentRecommendationA(newPosition[Number(response.next_query)][0].toString());
+            setCurrentRecommendationB(newPosition[Number(response.next_query)][1].toString());
+
             set_heat_map_data(JSON.parse(response.values));
             /* set_dimension_of_chart(this.dimension); */
             set_dimension_of_chart(localDimension);
+
           }}
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>

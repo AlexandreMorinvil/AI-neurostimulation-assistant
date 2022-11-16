@@ -269,15 +269,17 @@ const InputModule = ({
           </Text>
         </Button>
       </Structures.FlexContainer>
-      <Text variant="labelLarge" adjustsFontSizeToFit={true}>
-        2D Gaussian parameter
-      </Text>
-      <SelectList
-        setSelected={val => setSelected(val)}
-        data={gaussianGraphSelectionParam}
-        save="key"
-        onSelect={() => set_chosen_param_2D(selected)}
-      />
+      <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
+        <Text variant="titleMedium"> 2D Gaussian parameter</Text>
+      </Structures.FlexContainer>
+      <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
+        <SelectList
+          setSelected={val => setSelected(val)}
+          data={gaussianGraphSelectionParam}
+          save="key"
+          onSelect={() => set_chosen_param_2D(selected)}
+        />
+      </Structures.FlexContainer>
     </Surface>
   );
 };

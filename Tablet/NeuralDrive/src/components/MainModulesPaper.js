@@ -277,6 +277,8 @@ const InputModule = ({
           setSelected={val => setSelected(val)}
           data={gaussianGraphSelectionParam}
           save="key"
+          dropdownTextStyles={{color:"black"}}
+          disabledTextStyles={{color:"grey"}}
           onSelect={() => set_chosen_param_2D(selected)}
         />
       </Structures.FlexContainer>

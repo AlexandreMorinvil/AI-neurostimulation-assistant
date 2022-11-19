@@ -144,6 +144,14 @@ const InputModule = ({
     /* InputModule */
     <Surface style={styles.inputSurface} elevation={1}>
       {/* dimension */}
+      <Structures.FlexContainer 
+        flex={0.2}
+        marg={'0px'}
+        pad={'0px 0px 0px 8px'}
+        bgColor={'#8a8a8a'}
+        borderRadius={'15px'}>
+      <Text variant="titleLarge"> Parameter Setup</Text>
+      </Structures.FlexContainer>
       <Structures.FlexContainer
         flex={0.2}
         flexDirection={'column'}
@@ -298,10 +306,25 @@ const InfoModule = ({height, width, bgColor}) => {
 
   return (
     <Surface style={styles.watchSurface} elevation={1}>
-      <Text variant="headlineLarge" style={{marginTop: 30}}>
+      <Structures.FlexContainer 
+        flex={0.3}
+        marg={'0px'}
+        pad={'0px 0px 0px 8px'}
+        bgColor={'#8a8a8a'}
+        borderRadius={'15px'}>
+      <Text variant="titleLarge"> Watch Info</Text>
+      </Structures.FlexContainer>
+      <Structures.FlexContainer flex={0.7}
+        flexDirection={'column'}
+        jc={'flex-start'}
+        alignItems="center"
+        pad="0"
+        bgColor={'#00000000'}>
+        <Text variant="headlineLarge" style={{marginTop: 30}}>
         {' '}
         <Text variant="headlineSmall"> Average Tremor: </Text> {patient_level}
-      </Text>
+        </Text>
+      </Structures.FlexContainer>
     </Surface>
   );
 };
@@ -328,6 +351,20 @@ const ConnectionModule = ({height, width, bgColor}) => {
       {/* TODO */}
       {/* Watch */}
       {/* <Text>SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}</Text> */}
+      <Structures.FlexContainer 
+        flex={0.3}
+        marg={'0px'}
+        pad={'0px 0px 0px 8px'}
+        bgColor={'#8a8a8a'}
+        borderRadius={'15px'}>
+      <Text variant="titleLarge"> Connection Info</Text>
+      </Structures.FlexContainer>
+      <Structures.FlexContainer flex={0.7}
+        flexDirection={'column'}
+        jc={'flex-start'}
+        alignItems="center"
+        pad="0"
+        bgColor={'#00000000'}>
       <ConnectionIndicator
         device={'server'}
         checkConnectionFunction={get_watch_data}
@@ -336,6 +373,7 @@ const ConnectionModule = ({height, width, bgColor}) => {
         device={'watch'}
         checkConnectionFunction={get_smartwatch_connected}
       />
+      </Structures.FlexContainer>
     </Surface>
   );
 };
@@ -564,7 +602,7 @@ const styles = StyleSheet.create({
   watchSurface: {
     margin: 10,
     padding: 8,
-    height: 100,
+    height: 300,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',

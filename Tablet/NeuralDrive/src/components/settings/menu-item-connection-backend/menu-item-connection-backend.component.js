@@ -107,7 +107,8 @@ const SettingsMenuItemConnectionBackend = () => {
         <ConfirmButton
           isActive={stateIsConnectButtonActive}
           text={CONFIRM_BUTTON_TEXT}
-          handleButtonPressedParentFunction={() => { }}
+          argument={stateInputIpAddress}
+          handleButtonPressedParentFunction={connectionBackendService.setBackendIpAddress}
         />
       </View>
     </AccodionItem>

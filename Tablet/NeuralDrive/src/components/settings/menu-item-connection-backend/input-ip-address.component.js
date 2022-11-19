@@ -27,7 +27,7 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
   setParentIsInputIpAddressValidFunction = setParentIsInputIpAddressValidFunction ? setParentIsInputIpAddressValidFunction : () => { };
 
   const getIpAddress = () => {
-    return `${stateInputIpFirstOctet}.${stateInputIpSecondOctet}.${stateInputIpSecondOctet}.${stateInputIpFourthOctet}`
+    return `${stateInputIpFirstOctet}.${stateInputIpSecondOctet}.${stateInputIpThirdOctet}.${stateInputIpFourthOctet}`
   }
 
   const isIpAddressValid = () => {
@@ -36,7 +36,7 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
   }
 
   const isIpOctetValueValid = (octetNumber) => {
-    const isWithinAcceptableBounds = Number(octetNumber) > 0 && Number(octetNumber) <= 255;
+    const isWithinAcceptableBounds = Number(octetNumber) >= 0 && Number(octetNumber) <= 255;
     const isEmpty = octetNumber === "";
     return isWithinAcceptableBounds || isEmpty;
   }

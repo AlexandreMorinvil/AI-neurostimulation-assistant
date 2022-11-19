@@ -8,7 +8,7 @@ const ConfirmButton = ({ handleButtonPressedParentFunction, ...props }) => {
   /**
    * Props
    */
-  const { isActive, text, argument } = props;
+  const { isActive, text } = props;
 
   /**
    * States
@@ -22,7 +22,7 @@ const ConfirmButton = ({ handleButtonPressedParentFunction, ...props }) => {
   handleButtonPressedParentFunction = handleButtonPressedParentFunction ? handleButtonPressedParentFunction : () => { };
 
   const handlePress = () => {
-    if (stateIsActive) handleButtonPressedParentFunction(argument);
+    if (stateIsActive) handleButtonPressedParentFunction();
   }
 
   /**

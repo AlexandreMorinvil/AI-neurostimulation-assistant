@@ -13,12 +13,24 @@ import SectionLocalBackend from "./section-local-backend.component";
 import * as connectionBackendService from "../../../services/connection-backend.service";
 
 const CONFIRM_BUTTON_TEXT = "Connect";
-const NO_CONNECTION_HEADER_SUMMARY = "No Connection";
+
+const CONNECTED_EXTERNAL_BACKEND_HEADER_SUMMARY = (ipAddress) => `Connected (${ipAddress})`
 const CONNECTED_LOCAL_BACKEND_HEADER_SUMMARY = "Connected Locally";
-const CONNECTED_EXTERNAL_BACKEND_HEADER_SUMMARY = (ipAddress) => `Connected to ${ipAddress}`
+const NOT_CONNECTED_EXTERNAL_HEADER_SUMMARY = (ipAddress) => `No connection (${ipAddress})`;
+const NOT_CONNECTED_LOCAL_HEADER_SUMMARY = "No Connection";
 
 
 const SettingsMenuItemConnectionBackend = () => {
+
+  /**
+   * Store states 
+   */
+  const [storeBackendIpAddress] = connectionBackendService.store.useState(
+    connectionBackendService.STORE_KEY_BACKEND_IP_ADDRESS
+  );
+  const [storeIsInLocalhostMode] = connectionBackendService.store.useState(
+    connectionBackendService.STORE_KEY_IS_IN_LOCALHOST_MODE
+  );
 
   /**
    * States
@@ -33,6 +45,16 @@ const SettingsMenuItemConnectionBackend = () => {
   /**
    * Functions
    */
+  const commitConnection = () => {
+    if(stateIsLocalBackendTypeSelected) {
+      connectionBackendService.activateLocalHostMode();
+    }
+    else {
+      connectionBackendService.deactivateLocalHostMode();
+      connectionBackendService.setBackendIpAddress(stateInputIpAddress);
+    }
+  }
+
   const setConnectButtonActivation = () => {
     // Local backend mode
     if (stateIsLocalBackendTypeSelected) {
@@ -54,17 +76,21 @@ const SettingsMenuItemConnectionBackend = () => {
   }
 
   const updateSettingStatus = () => {
+    const ipAddressConnected = connectionBackendService.getBackendIpAddress();
+    const isInLocalhostMode = connectionBackendService.getIsInLocalhostMode();
+
     if (connectionBackendService.getIsConnectedStatus()) {
       setStateSettingStatus(SettingsStatus.SET);
-      const ipAddressConnected = connectionBackendService.getBackendIpAddress();
-      connectionBackendService.getIsInLocalhostMode() ?
+      isInLocalhostMode ?
         setStateHeaderSummary(CONNECTED_LOCAL_BACKEND_HEADER_SUMMARY) :
         setStateHeaderSummary(CONNECTED_EXTERNAL_BACKEND_HEADER_SUMMARY(ipAddressConnected));
     }
 
     else {
       setStateSettingStatus(SettingsStatus.NEEDED);
-      setStateHeaderSummary(NO_CONNECTION_HEADER_SUMMARY);
+      isInLocalhostMode ?
+        setStateHeaderSummary(NOT_CONNECTED_LOCAL_HEADER_SUMMARY) :
+        setStateHeaderSummary(NOT_CONNECTED_EXTERNAL_HEADER_SUMMARY(ipAddressConnected));
     }
   }
 
@@ -107,8 +133,7 @@ const SettingsMenuItemConnectionBackend = () => {
         <ConfirmButton
           isActive={stateIsConnectButtonActive}
           text={CONFIRM_BUTTON_TEXT}
-          argument={stateInputIpAddress}
-          handleButtonPressedParentFunction={connectionBackendService.setBackendIpAddress}
+          handleButtonPressedParentFunction={commitConnection}
         />
       </View>
     </AccodionItem>

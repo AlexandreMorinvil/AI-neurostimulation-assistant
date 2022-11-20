@@ -9,6 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomDrawer from './components/CustomDrawer';
 // Style Imports
 import * as ColorTheme from './styles/Colors';
+import DataBase from './views/Database';
 // View Imports
 import MainPaper from './views/MainPaper';
 import SettingsView from './views/settings.view';
@@ -47,6 +48,15 @@ const App = () => {
         <Drawer.Screen
           name="Settings"
           component={SettingsView}
+          options={{
+            drawerIcon: () => (
+              <Ionicons name="settings-outline" size={20} color={'#000'} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Database"
+          component={DataBase}
           options={{
             drawerIcon: () => (
               <Ionicons name="settings-outline" size={20} color={'#000'} />

@@ -52,7 +52,6 @@ const Input = ({
   predictedValue,
   oldAlgorithmValue,
   boxFunction,
-
 }) => (
   <Structures.FlexContainer
     jc={'flex-start'}
@@ -71,9 +70,9 @@ const Input = ({
       borderRadius={'5px'}
       border={'2px solid black'}>
       <Pressable onPress={boxFunction}>
-      <Text variant="titleMedium" style={{color: '#374F42'}}>
-        {oldAlgorithmValue}
-      </Text>
+        <Text variant="titleMedium" style={{color: '#374F42'}}>
+          {oldAlgorithmValue}
+        </Text>
       </Pressable>
     </Structures.Box>
 
@@ -186,13 +185,15 @@ const InputModule = ({
           value={currentDisplayA}
           predictedValue={predictedP1}
           setFunction={text => {
-            setP1(text)
+            setP1(text);
             setCurrentDisplayA(text);
           }}
           unitType={'units'}
           titleSpacing={'0 5px 0 0'}
-          oldAlgorithmValue = {oldAlgorithmA}
-          boxFunction={text => {setCurrentDisplayA(oldAlgorithmA.toString());}}
+          oldAlgorithmValue={oldAlgorithmA}
+          boxFunction={text => {
+            setCurrentDisplayA(oldAlgorithmA.toString());
+          }}
         />
         <Input
           flexInput={0.35}
@@ -205,8 +206,10 @@ const InputModule = ({
           predictedValue={predictedP2}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
-          oldAlgorithmValue = {oldAlgorithmB}
-          boxFunction={text => {setCurrentDisplayB(oldAlgorithmB.toString());}}
+          oldAlgorithmValue={oldAlgorithmB}
+          boxFunction={text => {
+            setCurrentDisplayB(oldAlgorithmB.toString());
+          }}
         />
         <Input
           flexInput={0.35}
@@ -253,15 +256,22 @@ const InputModule = ({
 
             setOldAlgorithmA(currentDisplayA.toString());
             setOldAlgorithmB(currentDisplayB.toString());
-            setCurrentDisplayA(newPosition[Number(response.next_query)][0].toString());
-            setCurrentDisplayB(newPosition[Number(response.next_query)][1].toString());
-            setCurrentRecommendationA(newPosition[Number(response.next_query)][0].toString());
-            setCurrentRecommendationB(newPosition[Number(response.next_query)][1].toString());
+            setCurrentDisplayA(
+              newPosition[Number(response.next_query)][0].toString(),
+            );
+            setCurrentDisplayB(
+              newPosition[Number(response.next_query)][1].toString(),
+            );
+            setCurrentRecommendationA(
+              newPosition[Number(response.next_query)][0].toString(),
+            );
+            setCurrentRecommendationB(
+              newPosition[Number(response.next_query)][1].toString(),
+            );
 
             set_heat_map_data(JSON.parse(response.values));
             /* set_dimension_of_chart(this.dimension); */
             set_dimension_of_chart(localDimension);
-
           }}
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
@@ -311,13 +321,13 @@ const ConnectionModule = ({height, width, bgColor}) => {
   const [value2, setValue2] = React.useState(0);
   React.useEffect(() => {
     const interval2 = setInterval(() => {
-      setValue3(value3 => value3 + 1);
+      setValue2(value2 => value2 + 1);
       console.log('smartwatch state = ', get_smartwatch_connected());
       smartwatch_connected = get_smartwatch_connected();
     }, 1000);
 
     return () => clearInterval(interval2);
-  }, [value3]);
+  }, [value2]);
 
   return (
     <Surface style={styles.watchSurface} elevation={1}>
@@ -601,5 +611,4 @@ export default MainModulesPaper = {
   ConnectionModule: ConnectionModule,
   SideTabModule: SideTabModule,
   SideTabModuleVertical: SideTabModuleVertical,
-  HeatMapModule: HeatMapModule,
 };

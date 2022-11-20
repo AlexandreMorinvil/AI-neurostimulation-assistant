@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Button, Paragraph, Dialog, Portal, Provider} from 'react-native-paper';
-import Swiper from 'react-native-swiper';
-import MainModulesPaper from '../MainModulesPaper';
+//import Swiper from 'react-native-swiper';
 
 const DialogData = () => {
   const [visible, setVisible] = React.useState(false);
@@ -18,9 +17,9 @@ const DialogData = () => {
         <Dialog visible={visible} onDismiss={hideDialog} style={styles.dialog}>
           <Dialog.Title>Session #id</Dialog.Title>
           <Dialog.Content>
-            <Swiper>
-              <MainModulesPaper.HeatMapModule />
-            </Swiper>
+            {/* <Swiper>
+
+            </Swiper> */}
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={hideDialog}>Done</Button>

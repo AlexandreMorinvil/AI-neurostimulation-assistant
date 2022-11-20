@@ -46,7 +46,7 @@ class MainPaperHorizontal extends React.Component {
     return (
       <Structures.FlexContainer>
         <MainModulesPaper.SideTabModule
-          flex={0.3}
+          flex={0.4}
           StartSessionPress={() => blank()}
           ResetPress={() => blank()}
           QueryPress={() => blank()}

@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import { settingsStyles } from "../../../styles/settings-styles";
 import { SettingsStatus } from "../../../const/settings";
+import { store } from "../../../services/store.service";
 
 import AccodionItem from "../accordion-item.component";
 import ConfirmButton from "../confirm-button.component";
@@ -14,23 +15,13 @@ import * as connectionBackendService from "../../../services/connection-backend.
 
 const CONFIRM_BUTTON_TEXT = "Connect";
 
-const CONNECTED_EXTERNAL_BACKEND_HEADER_SUMMARY = (ipAddress) => `Connected (${ipAddress})`
+const CONNECTED_EXTERNAL_BACKEND_HEADER_SUMMARY = (ipAddress) => `Connected (${ipAddress})`;
 const CONNECTED_LOCAL_BACKEND_HEADER_SUMMARY = "Connected Locally";
 const NOT_CONNECTED_EXTERNAL_HEADER_SUMMARY = (ipAddress) => `No connection (${ipAddress})`;
 const NOT_CONNECTED_LOCAL_HEADER_SUMMARY = "No Connection";
 
 
 const SettingsMenuItemConnectionBackend = () => {
-
-  /**
-   * Store states 
-   */
-  const [storeBackendIpAddress] = connectionBackendService.store.useState(
-    connectionBackendService.STORE_KEY_BACKEND_IP_ADDRESS
-  );
-  const [storeIsInLocalhostMode] = connectionBackendService.store.useState(
-    connectionBackendService.STORE_KEY_IS_IN_LOCALHOST_MODE
-  );
 
   /**
    * States
@@ -46,7 +37,7 @@ const SettingsMenuItemConnectionBackend = () => {
    * Functions
    */
   const commitConnection = () => {
-    if(stateIsLocalBackendTypeSelected) {
+    if (stateIsLocalBackendTypeSelected) {
       connectionBackendService.activateLocalHostMode();
     }
     else {
@@ -102,8 +93,19 @@ const SettingsMenuItemConnectionBackend = () => {
   }, [stateInputIpAddress, statIsInputIpAddressValid, stateIsLocalBackendTypeSelected]);
 
   useEffect(() => {
+    // Initilization
     updateSettingStatus();
-  }, [connectionBackendService.isConnected]);
+
+    // Reactive subcribtion
+    const subscription = connectionBackendService.subject.subscribe({
+      next: updateSettingStatus
+    });
+    
+    // Cleanup
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  }, []);
 
   /**
    * Render

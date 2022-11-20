@@ -1,30 +1,34 @@
-// import store from "./store.service";
-import { createStore } from 'state-pool';
+import {
+  initializeValueWithPersistantData,
+  savePersistantData
+} from "./persistant-data.service";
+import { Subject } from "rxjs";
 
 // Constants
 const LOCALHOST = "localhost";
 const PROTOCOLE = "http://";
 const PORT = "5000";
 
-// Global variables
-export const STORE_KEY_BACKEND_IP_ADDRESS = "backendIpAddress";
-export const STORE_KEY_IS_IN_LOCALHOST_MODE = "isInLocalhostMode";
-
-const store = createStore();
-store.setState(STORE_KEY_BACKEND_IP_ADDRESS, "0.0.0.0");//, { persist: true });
-store.setState(STORE_KEY_IS_IN_LOCALHOST_MODE, false);//, { persist: true });
+const STORE_KEY_BACKEND_IP_ADDRESS = "backendIpAddress";
+const STORE_KEY_IS_IN_LOCALHOST_MODE = "isInLocalhostMode";
 
 // Variables
-export let isConnected = false;
-export let isInLocalhostMode = false;
+let backendIpAddress = "0.0.0.0";
+let isInLocalhostMode = false;
+let isConnected = false;
+
+// Reactive behavior handlers
+export const subject = new Subject();
 
 // Methods
 export function activateLocalHostMode() {
-  isInLocalhostMode = true;
+  savePersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, true);
+  subject.next();
 }
 
 export function deactivateLocalHostMode() {
-  isInLocalhostMode = false;
+  savePersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, false);
+  subject.next();
 }
 
 export function getIsInLocalhostMode() {
@@ -36,17 +40,23 @@ export function getIsConnectedStatus() {
 }
 
 export function getBackendIpAddress() {
-  if (isInLocalhostMode) return LOCALHOST;
-  else return store.getState(STORE_KEY_BACKEND_IP_ADDRESS).value;
+  if (getIsInLocalhostMode()) return LOCALHOST;
+  else return backendIpAddress;
 }
 
 export function getBackendUrl() {
-  if (isInLocalhostMode) return `${PROTOCOLE}${LOCALHOST}:${PORT}`;
-  else return `${PROTOCOLE}${store.getState(STORE_KEY_BACKEND_IP_ADDRESS).value}:${PORT}`;
+  if (getIsInLocalhostMode()) return `${PROTOCOLE}${LOCALHOST}:${PORT}`;
+  else return `${PROTOCOLE}${backendIpAddress}:${PORT}`;
 }
 
 export function setBackendIpAddress(inputIpAddress) {
-  store.setState(STORE_KEY_BACKEND_IP_ADDRESS, inputIpAddress);
-  console.log("IP address", getBackendIpAddress());
+  backendIpAddress = inputIpAddress;
+  savePersistantData(STORE_KEY_BACKEND_IP_ADDRESS, inputIpAddress);
+  subject.next();
 }
 
+// Initialization
+(async function initialize() {
+  backendIpAddress = await initializeValueWithPersistantData(STORE_KEY_BACKEND_IP_ADDRESS, backendIpAddress);
+  isInLocalhostMode = await initializeValueWithPersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, isInLocalhostMode);
+})()

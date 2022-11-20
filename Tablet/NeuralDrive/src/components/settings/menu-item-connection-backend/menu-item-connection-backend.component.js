@@ -37,6 +37,7 @@ const SettingsMenuItemConnectionBackend = () => {
    * Functions
    */
   const commitConnection = () => {
+    connectionBackendService.connect();
     if (stateIsLocalBackendTypeSelected) {
       connectionBackendService.activateLocalHostMode();
     }

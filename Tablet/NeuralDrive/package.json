@@ -50,6 +50,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-webview": "^11.23.1",
     "rxjs": "^7.5.7",
+    "socket.io-client": "^4.5.3",
     "styled-components": "^5.3.5",
     "to-fast-properties": "^4.0.0"
   },

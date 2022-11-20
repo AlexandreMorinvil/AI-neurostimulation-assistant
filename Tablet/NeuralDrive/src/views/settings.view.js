@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 
-import SettingsMenuItemPatient from '../components/settings/menu-item-patient/menu-item-patient.component';
 import SettingsMenuItemConnectionBackend from '../components/settings/menu-item-connection-backend/menu-item-connection-backend.component';
 import SettingsMenuItemConnectionWatch from '../components/settings/menu-item-connection-watch/menu-item-connection-watch.component';
+import SettingsMenuItemPatient from '../components/settings/menu-item-patient/menu-item-patient.component';
+import SettingsMenuItemProblemDimension from '../components/settings/menu-item-pronlem-dimensions/menu-item-problem-dimensions.component';
 
 const SettingsView = () => {
   
@@ -12,6 +13,7 @@ const SettingsView = () => {
       <SettingsMenuItemPatient />
       <SettingsMenuItemConnectionBackend />
       <SettingsMenuItemConnectionWatch />
+      <SettingsMenuItemProblemDimension />
     </ScrollView >
   );
 };

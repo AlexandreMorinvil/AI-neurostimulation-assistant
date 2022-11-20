@@ -40,11 +40,12 @@ const SectionExternalBackend = ({ setParentInputIpAddressFunction, setParentIsIn
   setParentIsInputIpAddressValidFunction = setParentIsInputIpAddressValidFunction ? setParentIsInputIpAddressValidFunction : () => { };
 
   const updateConnectionStatus = () => {
+    setStateIsConnected(false);
     if (!connectionBackendService.getIsInLocalhostMode() &&
       connectionBackendService.isIpCurrentIpAddress(stateInputIpAddress))
       setStateIsConnected(connectionBackendService.getIsConnectedStatus());
     else
-      setStateIsConnected(false); 
+      setStateIsConnected(false);
   }
 
   /**

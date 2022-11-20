@@ -1,35 +1,52 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsMessageType } from '../../../const/settings';
 import { textStyles } from "../../../styles/text.styles";
 
-import * as patientService from "../../../services/patient.service";
+import ButtonProblemDimension from "./button-problem-dimension.component";
 import InformationButton from "../information-button.component";
 import MessageBubble from "../message-bubble.component";
 
-const SECTION_TITLE = "Problem Size :"
-const HELP_INFORMATION =
-  `Details... TODO.`
+import * as problemDimensionService from "../../../services/problem-dimension.service";
 
-const SectionInputPatientId = ({ setParentIsValidPatientIdFunction }) => {
+const SECTION_TITLE = "Dimensions :"
+const HELP_INFORMATION =
+  `Details... TODO.`;
+
+const POSSIBLE_DIMENSIONS_LIST = problemDimensionService.POSSIBLE_DIMENSIONS_LIST;
+
+const BUTTON_RADIUS = 15;
+
+const SectionInputPatientId = ({ setParentStateSelectedDimensionFunction }) => {
 
   /**
    * States
    */
-  const [stateIsIdValid, setStateIsIdValid] = useState(true);
-  const [statePatientId, setStatePatientId] = useState(patientService.getPatientId());
-
+  const [stateSelectedDimension, setStateSelectedDimension] = useState(problemDimensionService.getProblemDimension());
   const [stateIsHelpInformationDisplayed, setStateIsHelpInformationDisplayed] = useState(true);
 
   /**
    * Functions
    */
-  setParentIsValidPatientIdFunction = setParentIsValidPatientIdFunction ? setParentIsValidPatientIdFunction : () => { };
+  setParentStateSelectedDimensionFunction = setParentStateSelectedDimensionFunction ? setParentStateSelectedDimensionFunction : () => { };
 
-  /**
-   * Effects
-   */
+  const isFirstButton = (index) => {
+    return index === 0;
+  }
+
+  const isLastButton = (index) => {
+    return index === POSSIBLE_DIMENSIONS_LIST.length - 1;
+  }
+
+  const isSelectedOption = (index) => {
+    return POSSIBLE_DIMENSIONS_LIST[index] === stateSelectedDimension;
+  }
+
+  const setSelectedDimension = (dimension) => {
+    setStateSelectedDimension(dimension);
+    setParentStateSelectedDimensionFunction(dimension);
+  }
 
   /**
    * Render
@@ -47,8 +64,25 @@ const SectionInputPatientId = ({ setParentIsValidPatientIdFunction }) => {
           message={HELP_INFORMATION}
         />
       }
-
-      <Text> {"Content of the section"} </Text>
+      <View style={styles.buttonArea}>
+        {
+          POSSIBLE_DIMENSIONS_LIST.map((dimension, index) => {
+            return <ButtonProblemDimension
+              key={index}
+              style={
+                [
+                  styles.button,
+                  isFirstButton(index) && styles.leftMostButton,
+                  isLastButton(index) && styles.rightMostButton
+                ]
+              }
+              dimension={dimension}
+              isActive={isSelectedOption(index)}
+              setParentStateSelectedDimensionFunction={setSelectedDimension}
+            />
+          })
+        }
+      </View>
     </View>
   );
 };
@@ -57,6 +91,22 @@ const SectionInputPatientId = ({ setParentIsValidPatientIdFunction }) => {
  * Style Sheet
  */
 const styles = StyleSheet.create({
+  buttonArea: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  button: {
+    maxWidth: 150,
+    margin: 2.5,
+  },
+  leftMostButton: {
+    borderTopLeftRadius: BUTTON_RADIUS,
+    borderBottomLeftRadius: BUTTON_RADIUS,
+  },
+  rightMostButton: {
+    borderTopRightRadius: BUTTON_RADIUS,
+    borderBottomRightRadius: BUTTON_RADIUS,
+  }
 });
 
 export default SectionInputPatientId;

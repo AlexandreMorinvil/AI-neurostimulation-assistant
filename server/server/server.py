@@ -22,12 +22,16 @@ signal.signal(signal.SIGTERM, command_handler.release)
 
 
 
-users = {}
+users = set()
+@socketio.on('connect')
+def handle_connection():
+    users.add(request.sid)
+    print("New User {request.sid} connected.  Current users :", users)
+
 @socketio.on('disconnect')
-def on_disconnect():
-    users.pop(request.sid,'No user found')
-    socketio.emit('current_users', users)
-    print("User disconnected!\nThe users are: ", users)
+def handle_disconnection():
+    users.discard(request.sid)
+    print("User disconnected. Current users : ", users)
 
 @socketio.on('message')
 def messaging(message, methods=['GET', 'POST']):

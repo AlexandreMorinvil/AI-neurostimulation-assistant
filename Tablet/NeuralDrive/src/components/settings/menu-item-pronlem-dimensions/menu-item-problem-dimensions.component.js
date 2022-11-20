@@ -7,51 +7,51 @@ import { SettingsStatus } from "../../../const/settings";
 import AccodionItem from "../accordion-item.component";
 import ConfirmButton from "../confirm-button.component";
 import SectionProblemSize from "./section-problem-dimensions.component";
-import * as patientService from "../../../services/patient.service";
+
+import * as problemDimensionService from "../../../services/problem-dimension.service";
 
 const CONFIRM_BUTTON_TEXT = "Confirm";
+const HEADER_SUMMARY_TEXT = (dimension) => `Dimension ${dimension}`;
 
 const SettingsMenuItemProblemDimensions = () => {
 
   /**
    * States
    */
-  const [stateInputPatientId, setStateInputPatientId] = useState(patientService.getPatientId());
-  const [stateIsPatientIdValid, setStateIsPatientIdValid] = useState(false);
+  const [stateSelectedDimension, setStateSelectedDimension] = useState(problemDimensionService.getProblemDimension());
   const [stateHeaderSummary, setStateHeaderSummary] = useState("");
-  const [stateSettingStatus, setStateSettingStatus] = useState(SettingsStatus.SET);
+  const [stateSettingStatus] = useState(SettingsStatus.SET);
   const [stateIsConfirmButtonActive, setStateIsConfirmButtonActive] = useState(false);
 
   /**
    * Functions
    */
-  const setPatientId = () => {
-    patientService.setPatientId(stateInputPatientId);
-    updateIsConfirmButtonActive();
-  }
-
+  
   const updateSettingStatus = () => {
-    if (patientService.hasPatientId()) {
-      const storedPatientId = patientService.getPatientId();
-      setStateSettingStatus(SettingsStatus.SET);
-      setStateHeaderSummary(storedPatientId);
-    }
+    setStateHeaderSummary(HEADER_SUMMARY_TEXT(stateSelectedDimension));
   }
-
+  
   const updateIsConfirmButtonActive = () => {
     setStateIsConfirmButtonActive(true);
+  }
+  
+  const setDimension = () => {
+    problemDimensionService.setProblemDimension(stateSelectedDimension);
+    updateSettingStatus();
+    updateIsConfirmButtonActive();
   }
 
   /**
    * Effects
    */
   useEffect(() => {
-    updateSettingStatus();
-  }, [patientService.patientId]);
+    updateIsConfirmButtonActive();
+  }, []);
 
   useEffect(() => {
+    updateSettingStatus();
     updateIsConfirmButtonActive();
-  }, [stateInputPatientId, stateIsPatientIdValid]);
+  }, []);
 
   /**
    * Render
@@ -64,12 +64,13 @@ const SettingsMenuItemProblemDimensions = () => {
     >
       <SectionProblemSize
         style={settingsStyles.sectionSpacing}
+        setParentStateSelectedDimensionFunction={setStateSelectedDimension}
       />
       <View style={styles.spacing}>
         <ConfirmButton
           isActive={stateIsConfirmButtonActive}
           text={CONFIRM_BUTTON_TEXT}
-          handleButtonPressedParentFunction={setPatientId}
+          handleButtonPressedParentFunction={setDimension}
         />
       </View>
     </AccodionItem>

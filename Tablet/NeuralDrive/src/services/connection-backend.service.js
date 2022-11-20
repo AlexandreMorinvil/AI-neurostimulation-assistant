@@ -1,9 +1,9 @@
 import io from 'socket.io-client';
+import { Subject } from "rxjs";
 import {
   initializeValueWithPersistantData,
   savePersistantData
 } from "./persistant-data.service";
-import { Subject } from "rxjs";
 
 // Constants
 const LOCALHOST = "localhost";

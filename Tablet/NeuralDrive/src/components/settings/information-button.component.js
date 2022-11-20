@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   icon: {
+    color: "#444444",
     fontWeight: "bold",
     textAlign: "center",
   }

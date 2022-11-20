@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { settingsStyles } from "../../../styles/settings-styles";
+import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsStatus } from "../../../const/settings";
 import { store } from "../../../services/store.service";
 

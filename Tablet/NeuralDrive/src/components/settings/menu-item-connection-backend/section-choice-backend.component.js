@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-
-import { settingsStyles } from "../../../styles/settings-styles";
+import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsMessageType } from '../../../const/settings';
+import { textStyles } from "../../../styles/text.styles";
+
 import InformationButton from "../information-button.component";
 import MessageBubble from "../message-bubble.component";
 import ButtonBackendType from "./button-backend-type.component";
@@ -48,7 +49,7 @@ const SectionChoiceBackend = ({ setParentIsLocalBackendTypeSelected }) => {
     <View style={settingsStyles.sectionContent}>
       <View style={settingsStyles.sectionTitleArea}>
         <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
-        <Text style={settingsStyles.sectionTitle}> {SECTION_TITLE} </Text>
+        <Text style={[textStyles.default, settingsStyles.sectionTitle]}> {SECTION_TITLE} </Text>
       </View>
       {
         stateIsHelpInformationDisplayed &&

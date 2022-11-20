@@ -27,6 +27,10 @@ export function activateLocalHostMode() {
   subject.next();
 }
 
+export function connect() {
+  initSocket();
+}
+
 export function deactivateLocalHostMode() {
   savePersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, false);
   subject.next();
@@ -50,8 +54,8 @@ export function getBackendUrl() {
   else return `${PROTOCOLE}${_backendIpAddress}:${PORT}`;
 }
 
-export function connect() {
-  initSocket();
+export function isIpCurrentIpAddress(ipAddress) {
+  return ipAddress === getBackendIpAddress();
 }
 
 export function setBackendIpAddress(inputIpAddress) {
@@ -68,7 +72,6 @@ function initializeConnectionListeners() {
     const engine = socketBackend.io.engine;
 
     engine.on("close", (reason) => {
-      subject.next();
       console.log("Socket.io engine disconnection reason :", reason);
     });
   });
@@ -81,8 +84,10 @@ function initializeConnectionListeners() {
 
 function initSocket() {
   if (socketBackend.connected) socketBackend.disconnect();
-  socketBackend = io(getBackendUrl());
-  initializeConnectionListeners();
+  setTimeout(() => {
+    socketBackend = io(getBackendUrl());
+    initializeConnectionListeners();
+  }, 500);
 }
 
 // Initialization

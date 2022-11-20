@@ -15,6 +15,7 @@ const SECTION_DETAILS = "Insert the IP address indicated by the NeuralDrive desk
 const HELP_INFORMATION =
   `Details... TODO.`;
 
+const STATUS_CONNECTED = "Connected";
 const STATUS_NOT_CONNECTED = "Not connected";
 
 const SectionExternalBackend = ({ setParentInputIpAddressFunction, setParentIsInputIpAddressValidFunction, ...props }) => {
@@ -30,6 +31,7 @@ const SectionExternalBackend = ({ setParentInputIpAddressFunction, setParentIsIn
   const [stateInputIpAddress, setStateInputIpAddress] = useState("");
   const [statIsInputIpAddressValid, setStatIsInputIpAddressValid] = useState(true);
   const [stateIsHelpInformationDisplayed, setStateIsHelpInformationDisplayed] = useState(true);
+  const [stateIsConnected, setStateIsConnected] = useState(false);
 
   /**
    * Functions
@@ -37,13 +39,37 @@ const SectionExternalBackend = ({ setParentInputIpAddressFunction, setParentIsIn
   setParentInputIpAddressFunction = setParentInputIpAddressFunction ? setParentInputIpAddressFunction : () => { };
   setParentIsInputIpAddressValidFunction = setParentIsInputIpAddressValidFunction ? setParentIsInputIpAddressValidFunction : () => { };
 
+  const updateConnectionStatus = () => {
+    if (!connectionBackendService.getIsInLocalhostMode() &&
+      connectionBackendService.isIpCurrentIpAddress(stateInputIpAddress))
+      setStateIsConnected(connectionBackendService.getIsConnectedStatus());
+    else
+      setStateIsConnected(false); 
+  }
+
   /**
    * Effects
    */
   useEffect(() => {
+    updateConnectionStatus();
     setParentInputIpAddressFunction(stateInputIpAddress);
     setParentIsInputIpAddressValidFunction(statIsInputIpAddressValid);
   }, [stateInputIpAddress, statIsInputIpAddressValid]);
+
+  useEffect(() => {
+    // Initialization
+    updateConnectionStatus();
+
+    // Reactive subcribtion
+    const subscription = connectionBackendService.subject.subscribe({
+      next: updateConnectionStatus
+    });
+
+    // Cleanup
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  }, [])
 
   /**
    * Render
@@ -71,8 +97,8 @@ const SectionExternalBackend = ({ setParentInputIpAddressFunction, setParentIsIn
       />
       <MessageBubble
         style={styles.spacing}
-        type={SettingsMessageType.NEUTRAL}
-        message={STATUS_NOT_CONNECTED}
+        type={stateIsConnected ? SettingsMessageType.CLEARED : SettingsMessageType.NEUTRAL}
+        message={stateIsConnected ? STATUS_CONNECTED : STATUS_NOT_CONNECTED}
       />
     </View>
   );

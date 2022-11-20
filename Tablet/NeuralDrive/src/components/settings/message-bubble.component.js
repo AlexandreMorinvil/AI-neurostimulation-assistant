@@ -38,7 +38,7 @@ const MessageBubble = (props) => {
     switch (type) {
       case SettingsMessageType.CLEARED:
         setStateIcon(ICON_CLEARED);
-        setStateBackgoundColor(COLOR_BLUE);
+        setStateBackgoundColor(COLOR_GREEN);
         setStateHasIcon(true);
         break;
       case SettingsMessageType.DISABLED:

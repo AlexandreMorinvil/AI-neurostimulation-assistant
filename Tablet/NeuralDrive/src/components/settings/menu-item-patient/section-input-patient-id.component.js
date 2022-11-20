@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-
-import { settingsStyles } from "../../../styles/settings-styles";
+import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsMessageType } from '../../../const/settings';
+import { textStyles } from "../../../styles/text.styles";
+
 import * as patientService from "../../../services/patient.service";
 import InformationButton from "../information-button.component";
 import MessageBubble from "../message-bubble.component";
@@ -85,7 +86,7 @@ const SectionInputPatientId = ({ setParentIsValidPatientIdFunction, setParentInp
     <View style={settingsStyles.sectionContent}>
       <View style={settingsStyles.sectionTitleArea}>
         <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
-        <Text style={settingsStyles.sectionTitle}> {sectionTitle} </Text>
+        <Text style={[textStyles.default, settingsStyles.sectionTitle]}> {sectionTitle} </Text>
       </View>
       {
         stateIsHelpInformationDisplayed &&
@@ -103,7 +104,7 @@ const SectionInputPatientId = ({ setParentIsValidPatientIdFunction, setParentInp
       }
 
       <TextInput
-        style={settingsStyles.textInput}
+        style={[textStyles.default, settingsStyles.textInput]}
         onEndEditing={updateToIsNotInFocus}
         onFocus={indicateIsInFocus}
         value={statePatientId}

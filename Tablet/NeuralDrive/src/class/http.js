@@ -1,11 +1,11 @@
 import {Action, ERROR_CODE, Status} from '../class/actions';
-import {set_server_ip, get_server_ip} from '../class/const';
+import { getBackendUrl } from "../services/connection-backend.service";
 
 export const send_request = async data => {
   try {
-    console.log(get_server_ip());
+    console.log(getBackendUrl());
     console.log(data);
-    const response = await fetch(get_server_ip());
+    const response = await fetch(getBackendUrl());
     const json = await response.json();
     console.log(json);
     return json.movies;
@@ -17,7 +17,7 @@ export const send_request = async data => {
 export const send_command = async command => {
   try {
     console.log(command);
-    const response = await fetch(get_server_ip() + '/command', {
+    const response = await fetch(getBackendUrl() + '/command', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -71,7 +71,7 @@ export const get_watch_data = async chart => {
     arg: {},
   };
   try {
-    const response = await fetch(get_server_ip() + '/command', {
+    const response = await fetch(getBackendUrl() + '/command', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

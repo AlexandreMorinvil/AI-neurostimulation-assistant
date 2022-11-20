@@ -1,41 +1,98 @@
+import io from 'socket.io-client';
+import { Subject } from "rxjs";
+import {
+  initializeValueWithPersistantData,
+  savePersistantData
+} from "./persistant-data.service";
+
 // Constants
 const LOCALHOST = "localhost";
 const PROTOCOLE = "http://";
 const PORT = "5000";
 
-// Variables
-export let backendIpAddress = '0.0.0.0';
-export let isConnected = false;
-export let isInLocalhostMode = false;
+const STORE_KEY_BACKEND_IP_ADDRESS = "backendIpAddress";
+const STORE_KEY_IS_IN_LOCALHOST_MODE = "isInLocalhostMode";
 
-// Methods
+// Variables
+let socketBackend = io();
+let _backendIpAddress = "0.0.0.0";
+let _isInLocalhostMode = false;
+
+// Reactive behavior handlers
+export const subject = new Subject();
+
+// Exported methods
 export function activateLocalHostMode() {
-  isInLocalhostMode = true;
+  savePersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, true);
+  subject.next();
+}
+
+export function connect() {
+  initSocket();
 }
 
 export function deactivateLocalHostMode() {
-  isInLocalhostMode = false;
+  savePersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, false);
+  subject.next();
 }
 
 export function getIsInLocalhostMode() {
-  return isInLocalhostMode;
+  return _isInLocalhostMode;
 }
 
 export function getIsConnectedStatus() {
-  return isConnected;
+  return socketBackend.connected || false;
 }
 
 export function getBackendIpAddress() {
-  if (isInLocalhostMode) return LOCALHOST;
-  else return backendIpAddress;
+  if (getIsInLocalhostMode()) return LOCALHOST;
+  else return _backendIpAddress;
 }
 
 export function getBackendUrl() {
-  if (isInLocalhostMode) return `${PROTOCOLE}${LOCALHOST}:${PORT}`;
-  else return `${PROTOCOLE}${backendIpAddress}:${PORT}`;
+  if (getIsInLocalhostMode()) return `${PROTOCOLE}${LOCALHOST}:${PORT}`;
+  else return `${PROTOCOLE}${_backendIpAddress}:${PORT}`;
+}
+
+export function isIpCurrentIpAddress(ipAddress) {
+  return ipAddress === getBackendIpAddress();
 }
 
 export function setBackendIpAddress(inputIpAddress) {
-  backendIpAddress = inputIpAddress;
+  _backendIpAddress = inputIpAddress;
+  savePersistantData(STORE_KEY_BACKEND_IP_ADDRESS, inputIpAddress);
+  subject.next();
 }
 
+// Private methods
+function initializeConnectionListeners() {
+  socketBackend.on('connect', () => {
+    subject.next();
+    console.log("Connected to server");
+    const engine = socketBackend.io.engine;
+
+    engine.on("close", (reason) => {
+      console.log("Socket.io engine disconnection reason :", reason);
+    });
+  });
+
+  socketBackend.on('disconnect', () => {
+    subject.next();
+    console.log("Disconnected from server");
+  });
+}
+
+function initSocket() {
+  if (socketBackend.connected) socketBackend.disconnect();
+  setTimeout(() => {
+    socketBackend = io(getBackendUrl());
+    initializeConnectionListeners();
+  }, 500);
+}
+
+// Initialization
+(async function initialize() {
+  _backendIpAddress = await initializeValueWithPersistantData(STORE_KEY_BACKEND_IP_ADDRESS, _backendIpAddress);
+  _isInLocalhostMode = await initializeValueWithPersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, _isInLocalhostMode);
+  initSocket();
+})()

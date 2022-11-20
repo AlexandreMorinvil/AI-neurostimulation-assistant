@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SettingsMessageType, SettingsMessageFontSize } from '../../const/settings';
+import { textStyles } from "../../styles/text.styles";
 
 const ICON_CLEARED = "✓";
 const ICON_DISABLED = "🛇";
@@ -37,7 +38,7 @@ const MessageBubble = (props) => {
     switch (type) {
       case SettingsMessageType.CLEARED:
         setStateIcon(ICON_CLEARED);
-        setStateBackgoundColor(COLOR_BLUE);
+        setStateBackgoundColor(COLOR_GREEN);
         setStateHasIcon(true);
         break;
       case SettingsMessageType.DISABLED:
@@ -92,7 +93,7 @@ const MessageBubble = (props) => {
         </View>
       }
       <View style={styles.messageArea}>
-        <Text style={[styles.message, { fontSize: stateFontSize }]}>
+        <Text style={[textStyles.default, styles.message, { fontSize: stateFontSize }]}>
           {stateMessage}
         </Text>
       </View>

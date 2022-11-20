@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-
-import { settingsStyles } from "../../../styles/settings-styles";
+import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsMessageType } from '../../../const/settings';
+import { textStyles } from "../../../styles/text.styles";
+
 import InformationButton from "../information-button.component";
 import MessageBubble from "../message-bubble.component";
+
+import * as connectionBackendService from "../../../services/connection-backend.service";
 
 const SECTION_TITLE = "Local Backend :";
 const HELP_INFORMATION =
   `Details... TODO.`;
 
+const STATUS_CONNECTED = "Connected";
 const STATUS_NOT_CONNECTED = "Not connected";
 
 const SectionLocalBackend = () => {
@@ -18,6 +22,35 @@ const SectionLocalBackend = () => {
    * States
    */
   const [stateIsHelpInformationDisplayed, setStateIsHelpInformationDisplayed] = useState(true);
+  const [stateIsConnected, setStateIsConnected] = useState(false);
+
+  /**
+   * Functions
+   */
+  const updateConnectionStatus = () => {
+    if (connectionBackendService.getIsInLocalhostMode())
+      setStateIsConnected(connectionBackendService.getIsConnectedStatus());
+    else
+      setStateIsConnected(false);
+  }
+
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    // Initialization
+    updateConnectionStatus();
+
+    // Reactive subcribtion
+    const subscription = connectionBackendService.subject.subscribe({
+      next: updateConnectionStatus
+    });
+
+    // Cleanup
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  }, [])
 
   /**
    * Render
@@ -26,7 +59,7 @@ const SectionLocalBackend = () => {
     <View style={settingsStyles.sectionContent}>
       <View style={settingsStyles.sectionTitleArea}>
         <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
-        <Text style={settingsStyles.sectionTitle}> {SECTION_TITLE} </Text>
+        <Text style={[textStyles.default, settingsStyles.sectionTitle]}> {SECTION_TITLE} </Text>
       </View>
       {
         stateIsHelpInformationDisplayed &&
@@ -35,10 +68,10 @@ const SectionLocalBackend = () => {
           message={HELP_INFORMATION}
         />
       }
-        <MessageBubble
-          type={SettingsMessageType.NEUTRAL}
-          message={STATUS_NOT_CONNECTED}
-        />
+      <MessageBubble
+        type={stateIsConnected ? SettingsMessageType.CLEARED : SettingsMessageType.NEUTRAL}
+        message={stateIsConnected ? STATUS_CONNECTED : STATUS_NOT_CONNECTED}
+      />
     </View>
   );
 };

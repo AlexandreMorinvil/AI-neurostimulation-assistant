@@ -76,6 +76,9 @@ const styles = StyleSheet.create({
   inactive: {
     backgroundColor: "#AAAAAA",
     borderColor: "#929292",
+  },
+  text: {
+    color: "#555555",
   }
 });
 

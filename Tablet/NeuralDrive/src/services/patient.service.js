@@ -1,3 +1,8 @@
+import {
+  initializeValueWithPersistantData,
+  savePersistantData
+} from "./persistant-data.service";
+
 // Constants
 export const MIN_CHARACTERS_COUNT = 5;
 export const MAX_CHARACTERS_COUNT = 20;
@@ -9,6 +14,8 @@ export const IdInvalidationReasons = {
   ILLEGAL_CHARACTER: "The patient ID should only contain letters or numbers. Special characters are not accepted.",
   INTERNAL_ERROR: "An internal error occured and the patient ID is unrecognizable by the application. It would be adviseable to restart the application.",
 }
+
+const STORE_KEY_PATIENT_ID = "patientId";
 
 // Variables
 export let patientId = "";
@@ -24,6 +31,7 @@ export function getPatientId() {
 
 export function setPatientId(id) {
   patientId = id;
+  savePersistantData(STORE_KEY_PATIENT_ID, patientId);
 }
 
 export function validatePatientId(id) {
@@ -41,3 +49,9 @@ export function validatePatientId(id) {
 
   return { isValid: true, reason: IdInvalidationReasons.NOTHING };
 }
+
+
+// Initialization
+(async function initialize() {
+  patientId = await initializeValueWithPersistantData(STORE_KEY_PATIENT_ID, patientId);
+})()

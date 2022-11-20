@@ -7,6 +7,8 @@ import InformationButton from "../information-button.component";
 import InputIpAddress from "./input-ip-address.component";
 import MessageBubble from "../message-bubble.component";
 
+import * as connectionBackendService from "../../../services/connection-backend.service";
+
 const SECTION_TITLE = "External Backend :";
 const SECTION_DETAILS = "Insert the IP address indicated by the NeuralDrive desktop application."
 const HELP_INFORMATION =
@@ -26,7 +28,6 @@ const SectionExternalBackend = ({ setParentInputIpAddressFunction, setParentIsIn
    */
   const [stateInputIpAddress, setStateInputIpAddress] = useState("");
   const [statIsInputIpAddressValid, setStatIsInputIpAddressValid] = useState(true);
-
   const [stateIsHelpInformationDisplayed, setStateIsHelpInformationDisplayed] = useState(true);
 
   /**
@@ -63,6 +64,7 @@ const SectionExternalBackend = ({ setParentInputIpAddressFunction, setParentIsIn
         />
       }
       <InputIpAddress
+        initialIpAddress={connectionBackendService.getBackendIpAddress()}
         setParentInputIpAddressFunction={setStateInputIpAddress}
         setParentIsInputIpAddressValidFunction={setStatIsInputIpAddressValid}
       />

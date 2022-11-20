@@ -10,7 +10,7 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
   /**
    * Props
    */
-  const { style } = props;
+  const { initialIpAddress, style } = props;
 
   /**
    * States
@@ -61,6 +61,15 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
       setStateInputIpFourthOctet(octetNumber);
   }
 
+  const setInputsFromIpAddress = (ipAddress) => {
+    octetsList = ipAddress.split(".");
+    updateFirstIpOctetValue(octetsList[0]);
+    updateSecondIpOctetValue(octetsList[1]);
+    updateThirdIpOctetValue(octetsList[2]);
+    updateFourthIpOctetValue(octetsList[3]);
+  }
+
+
   /**
    * Effects
    */
@@ -68,6 +77,10 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
     setParentInputIpAddressFunction(getIpAddress());
     setParentIsInputIpAddressValidFunction(isIpAddressValid());
   }, [stateInputIpFirstOctet, stateInputIpSecondOctet, stateInputIpThirdOctet, stateInputIpFourthOctet]);
+
+  useEffect(() => {
+    setInputsFromIpAddress(props.initialIpAddress);
+  }, []);
 
   /**
    * Render

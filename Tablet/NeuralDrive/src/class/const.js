@@ -2,7 +2,6 @@ patient_level = 10;
 smartwatch_connected = false;
 
 heat_map_data = [];
-dimension_of_chart = 0;
 chosen_param_2D = 0;
 
 
@@ -12,14 +11,6 @@ export function set_heat_map_data(data){
 
 export function get_heat_map_data(){
   return heat_map_data;
-}
-
-export function set_dimension_of_chart(dimension){
-  dimension_of_chart = dimension;
-}
-
-export function get_dimension_of_chart(){
-  return dimension_of_chart;
 }
 
 export function set_chosen_param_2D(param){

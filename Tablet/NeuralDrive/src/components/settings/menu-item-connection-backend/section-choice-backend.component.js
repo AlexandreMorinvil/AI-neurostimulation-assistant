@@ -14,13 +14,18 @@ const INSTRUCTIONS =
 
 const BUTTON_RADIUS = 50;
 
-const SectionChoiceBackend = ({ setParentIsLocalBackendTypeSelected }) => {
+const SectionChoiceBackend = ({ setParentIsLocalBackendTypeSelected, ...props }) => {
+
+  /**
+   * Props
+   */
+   const { initialIsLocalBackendTypeSelected } = props;
 
   /**
    * States
    */
   const [stateIsHelpInformationDisplayed, setStateIsHelpInformationDisplayed] = useState(true);
-  const [stateIsLocalBackendTypeSelected, setStateIsLocalBackendTypeSelected] = useState(true);
+  const [stateIsLocalBackendTypeSelected, setStateIsLocalBackendTypeSelected] = useState(initialIsLocalBackendTypeSelected);
 
   /**
    * Functions

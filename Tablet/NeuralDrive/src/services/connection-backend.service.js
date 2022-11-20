@@ -69,7 +69,7 @@ function initializeConnectionListeners() {
 
     engine.on("close", (reason) => {
       subject.next();
-      console.log("Disconnected from server (engine issue) :", reason);
+      console.log("Socket.io engine disconnection reason :", reason);
     });
   });
 

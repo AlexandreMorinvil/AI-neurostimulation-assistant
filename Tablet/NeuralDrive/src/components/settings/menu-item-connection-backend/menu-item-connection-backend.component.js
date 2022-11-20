@@ -120,6 +120,7 @@ const SettingsMenuItemConnectionBackend = () => {
       <View>
         <SectionChoiceBackend
           style={settingsStyles.sectionSpacing}
+          initialIsLocalBackendTypeSelected={connectionBackendService.getIsInLocalhostMode()}
           setParentIsLocalBackendTypeSelected={setStateIsLocalBackendTypeSelected}
         />
         <View style={styles.spacing}>

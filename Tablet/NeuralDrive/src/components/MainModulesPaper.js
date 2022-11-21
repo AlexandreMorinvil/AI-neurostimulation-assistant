@@ -5,7 +5,6 @@ import {BarIndicator, PulseIndicator} from 'react-native-indicators';
 import * as Structures from './Structures.js';
 import {
   Button,
-  SegmentedButtons,
   Surface,
   Text,
   TextInput,
@@ -17,7 +16,6 @@ import {Status} from '../class/actions';
 import {
   get_smartwatch_connected,
   set_chosen_param_2D,
-  set_dimension_of_chart,
   set_heat_map_data,
 } from '../class/const';
 import {
@@ -28,6 +26,8 @@ import {
 import Chart from '../components/Chart.js';
 import HeatMap from '../components/HeatMap.js';
 import HeatMapGraph from '../components/HeatMapGraph';
+
+import * as problemDimensionService from "../services/problem-dimension.service";
 
 ref = React.createRef();
 
@@ -109,8 +109,6 @@ const Input = ({
 const InputModule = ({
   QueryPress,
   ResetPress,
-  localDimension,
-  setLocalDimension,
 }) => {
   const [valueP1, setP1] = React.useState(0);
   const [valueP2, setP2] = React.useState(0);
@@ -142,36 +140,15 @@ const InputModule = ({
   return (
     /* InputModule */
     <Surface style={styles.inputSurface} elevation={1}>
-      {/* dimension */}
-      <Structures.FlexContainer
-        flex={0.2}
-        flexDirection={'column'}
-        bgColor="#00000000">
-        <Text variant="titleMedium"> Dimension</Text>
-        <SegmentedButtons
-          value={localDimension}
-          onValueChange={setLocalDimension}
-          buttons={[
-            {
-              value: 10,
-              label: '10x10',
-              icon: 'grid',
-            },
-            {
-              value: 20,
-              icon: 'grid',
-              label: '20x20',
-            },
-            {
-              value: 50,
-              icon: 'grid',
-              label: '50x50',
-            },
-          ]}
-        />
-        <Text variant="headlineSmall">{'dimension:' + localDimension}</Text>
-      </Structures.FlexContainer>
       {/* Inputs */}
+      <Structures.FlexContainer 
+        flex={0.3}
+        marg={'0px'}
+        pad={'0px 0px 0px 8px'}
+        bgColor={'#8a8a8a'}
+        borderRadius={'15px'}>
+      <Text variant="titleLarge"> Parameter Setup</Text>
+      </Structures.FlexContainer>
       <Structures.FlexContainer
         flex={0.8}
         flexDirection={'column'}
@@ -270,8 +247,6 @@ const InputModule = ({
             );
 
             set_heat_map_data(JSON.parse(response.values));
-            /* set_dimension_of_chart(this.dimension); */
-            set_dimension_of_chart(localDimension);
           }}
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
@@ -287,6 +262,8 @@ const InputModule = ({
           setSelected={val => setSelected(val)}
           data={gaussianGraphSelectionParam}
           save="key"
+          dropdownTextStyles={{color:"black"}}
+          disabledTextStyles={{color:"grey"}}
           onSelect={() => set_chosen_param_2D(selected)}
         />
       </Structures.FlexContainer>
@@ -306,10 +283,25 @@ const InfoModule = ({height, width, bgColor}) => {
 
   return (
     <Surface style={styles.watchSurface} elevation={1}>
-      <Text variant="headlineLarge" style={{marginTop: 30}}>
+      <Structures.FlexContainer 
+        flex={0.3}
+        marg={'0px'}
+        pad={'0px 0px 0px 8px'}
+        bgColor={'#8a8a8a'}
+        borderRadius={'15px'}>
+      <Text variant="titleLarge"> Watch Info</Text>
+      </Structures.FlexContainer>
+      <Structures.FlexContainer flex={0.7}
+        flexDirection={'column'}
+        jc={'flex-start'}
+        alignItems="center"
+        pad="0"
+        bgColor={'#00000000'}>
+        <Text variant="headlineLarge" style={{marginTop: 30}}>
         {' '}
         <Text variant="headlineSmall"> Average Tremor: </Text> {patient_level}
-      </Text>
+        </Text>
+      </Structures.FlexContainer>
     </Surface>
   );
 };
@@ -322,7 +314,6 @@ const ConnectionModule = ({height, width, bgColor}) => {
   React.useEffect(() => {
     const interval2 = setInterval(() => {
       setValue2(value2 => value2 + 1);
-      console.log('smartwatch state = ', get_smartwatch_connected());
       smartwatch_connected = get_smartwatch_connected();
     }, 1000);
 
@@ -336,6 +327,20 @@ const ConnectionModule = ({height, width, bgColor}) => {
       {/* TODO */}
       {/* Watch */}
       {/* <Text>SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}</Text> */}
+      <Structures.FlexContainer 
+        flex={0.3}
+        marg={'0px'}
+        pad={'0px 0px 0px 8px'}
+        bgColor={'#8a8a8a'}
+        borderRadius={'15px'}>
+      <Text variant="titleLarge"> Connection Info</Text>
+      </Structures.FlexContainer>
+      <Structures.FlexContainer flex={0.7}
+        flexDirection={'column'}
+        jc={'flex-start'}
+        alignItems="center"
+        pad="0"
+        bgColor={'#00000000'}>
       <ConnectionIndicator
         device={'server'}
         checkConnectionFunction={get_watch_data}
@@ -344,6 +349,7 @@ const ConnectionModule = ({height, width, bgColor}) => {
         device={'watch'}
         checkConnectionFunction={get_smartwatch_connected}
       />
+      </Structures.FlexContainer>
     </Surface>
   );
 };
@@ -356,7 +362,7 @@ const ConnectionIndicator = ({device, checkConnectionFunction}) => {
 
   React.useEffect(() => {
     const interval = setInterval(async () => {
-      smartwatch_connected = await checkConnectionFunction();
+      smartwatch_connected = true;// await checkConnectionFunction();
       if (smartwatch_connected) {
         setConnectionStatus('Connected to ' + device);
         setIndicadorColor('#A3D9A3');
@@ -387,7 +393,6 @@ const ConnectionIndicator = ({device, checkConnectionFunction}) => {
 
 const SideTabModule = ({flex, ResetPress, QueryPress}) => {
   const n_param = 2;
-  const [localDimension, setLocalDimension] = React.useState(10);
   const [value, setValue] = React.useState(0);
 
   // stopwatch
@@ -419,7 +424,7 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
                 onPress={async () => {
                   let status = await post_start_new_session(
                     n_param,
-                    localDimension,
+                    problemDimensionService.getProblemDimension(),
                   );
                   console.log('status = ', status);
                   session_status = status;
@@ -467,8 +472,6 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
             alignItems={'flex-start'}
             ResetPress={ResetPress}
             QueryPress={QueryPress}
-            localDimension={localDimension}
-            setLocalDimension={setLocalDimension}
           />
           {/* </Structures.FlexContainer> */}
 
@@ -572,7 +575,7 @@ const styles = StyleSheet.create({
   watchSurface: {
     margin: 10,
     padding: 8,
-    height: 100,
+    height: 300,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',

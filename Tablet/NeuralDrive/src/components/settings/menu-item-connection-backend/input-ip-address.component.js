@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
-import { settingsStyles } from "../../../styles/settings-styles";
+import { settingsStyles } from "../../../styles/settings.styles";
+import { textStyles } from "../../../styles/text.styles";
 
 const IP_ADDREES_OCTET_PLACEHOLDER = "255";
 
@@ -10,7 +11,7 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
   /**
    * Props
    */
-  const { style } = props;
+  const { initialIpAddress, style } = props;
 
   /**
    * States
@@ -27,7 +28,7 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
   setParentIsInputIpAddressValidFunction = setParentIsInputIpAddressValidFunction ? setParentIsInputIpAddressValidFunction : () => { };
 
   const getIpAddress = () => {
-    return `${stateInputIpFirstOctet}.${stateInputIpSecondOctet}.${stateInputIpSecondOctet}.${stateInputIpFourthOctet}`
+    return `${stateInputIpFirstOctet}.${stateInputIpSecondOctet}.${stateInputIpThirdOctet}.${stateInputIpFourthOctet}`
   }
 
   const isIpAddressValid = () => {
@@ -36,7 +37,7 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
   }
 
   const isIpOctetValueValid = (octetNumber) => {
-    const isWithinAcceptableBounds = Number(octetNumber) > 0 && Number(octetNumber) <= 255;
+    const isWithinAcceptableBounds = Number(octetNumber) >= 0 && Number(octetNumber) <= 255;
     const isEmpty = octetNumber === "";
     return isWithinAcceptableBounds || isEmpty;
   }
@@ -61,6 +62,15 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
       setStateInputIpFourthOctet(octetNumber);
   }
 
+  const setInputsFromIpAddress = (ipAddress) => {
+    octetsList = ipAddress.split(".");
+    updateFirstIpOctetValue(octetsList[0]);
+    updateSecondIpOctetValue(octetsList[1]);
+    updateThirdIpOctetValue(octetsList[2]);
+    updateFourthIpOctetValue(octetsList[3]);
+  }
+
+
   /**
    * Effects
    */
@@ -69,43 +79,47 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
     setParentIsInputIpAddressValidFunction(isIpAddressValid());
   }, [stateInputIpFirstOctet, stateInputIpSecondOctet, stateInputIpThirdOctet, stateInputIpFourthOctet]);
 
+  useEffect(() => {
+    setInputsFromIpAddress(props.initialIpAddress);
+  }, []);
+
   /**
    * Render
    */
   return (
     <View style={[settingsStyles.sectionContent, styles.container, props.style]}>
       <TextInput
-        style={[settingsStyles.textInput, styles.octetInput]}
+        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpFirstOctet}
         onChangeText={updateFirstIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
         keyboardType="numeric"
       />
-      <View style={styles.pointArea}>
+      <View style={[textStyles.default, styles.pointArea]}>
         <Text> {"."} </Text>
       </View>
       <TextInput
-        style={[settingsStyles.textInput, styles.octetInput]}
+        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpSecondOctet}
         onChangeText={updateSecondIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
         keyboardType="numeric"
       />
-      <View style={styles.pointArea}>
+      <View style={[textStyles.default, styles.pointArea]}>
         <Text> {"."} </Text>
       </View>
       <TextInput
-        style={[settingsStyles.textInput, styles.octetInput]}
+        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpThirdOctet}
         onChangeText={updateThirdIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
         keyboardType="numeric"
       />
-      <View style={styles.pointArea}>
+      <View style={[textStyles.default, styles.pointArea]}>
         <Text> {"."} </Text>
       </View>
       <TextInput
-        style={[settingsStyles.textInput, styles.octetInput]}
+        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpFourthOctet}
         onChangeText={updateFourthIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}

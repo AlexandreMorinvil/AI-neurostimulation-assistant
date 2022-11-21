@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { settingsStyles } from "../../../styles/settings-styles";
+import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsStatus } from "../../../const/settings";
+import { store } from "../../../services/store.service";
 
 import AccodionItem from "../accordion-item.component";
 import ConfirmButton from "../confirm-button.component";
@@ -13,9 +14,11 @@ import SectionLocalBackend from "./section-local-backend.component";
 import * as connectionBackendService from "../../../services/connection-backend.service";
 
 const CONFIRM_BUTTON_TEXT = "Connect";
-const NO_CONNECTION_HEADER_SUMMARY = "No Connection";
+
+const CONNECTED_EXTERNAL_BACKEND_HEADER_SUMMARY = (ipAddress) => `Connected (${ipAddress})`;
 const CONNECTED_LOCAL_BACKEND_HEADER_SUMMARY = "Connected Locally";
-const CONNECTED_EXTERNAL_BACKEND_HEADER_SUMMARY = (ipAddress) => `Connected to ${ipAddress}`
+const NOT_CONNECTED_EXTERNAL_HEADER_SUMMARY = (ipAddress) => `No connection (${ipAddress})`;
+const NOT_CONNECTED_LOCAL_HEADER_SUMMARY = "No Connection";
 
 
 const SettingsMenuItemConnectionBackend = () => {
@@ -33,6 +36,17 @@ const SettingsMenuItemConnectionBackend = () => {
   /**
    * Functions
    */
+  const commitConnection = () => {
+    connectionBackendService.connect();
+    if (stateIsLocalBackendTypeSelected) {
+      connectionBackendService.activateLocalHostMode();
+    }
+    else {
+      connectionBackendService.deactivateLocalHostMode();
+      connectionBackendService.setBackendIpAddress(stateInputIpAddress);
+    }
+  }
+
   const setConnectButtonActivation = () => {
     // Local backend mode
     if (stateIsLocalBackendTypeSelected) {
@@ -54,17 +68,21 @@ const SettingsMenuItemConnectionBackend = () => {
   }
 
   const updateSettingStatus = () => {
+    const ipAddressConnected = connectionBackendService.getBackendIpAddress();
+    const isInLocalhostMode = connectionBackendService.getIsInLocalhostMode();
+
     if (connectionBackendService.getIsConnectedStatus()) {
       setStateSettingStatus(SettingsStatus.SET);
-      const ipAddressConnected = connectionBackendService.getBackendIpAddress();
-      connectionBackendService.getIsInLocalhostMode() ?
+      isInLocalhostMode ?
         setStateHeaderSummary(CONNECTED_LOCAL_BACKEND_HEADER_SUMMARY) :
         setStateHeaderSummary(CONNECTED_EXTERNAL_BACKEND_HEADER_SUMMARY(ipAddressConnected));
     }
 
     else {
       setStateSettingStatus(SettingsStatus.NEEDED);
-      setStateHeaderSummary(NO_CONNECTION_HEADER_SUMMARY);
+      isInLocalhostMode ?
+        setStateHeaderSummary(NOT_CONNECTED_LOCAL_HEADER_SUMMARY) :
+        setStateHeaderSummary(NOT_CONNECTED_EXTERNAL_HEADER_SUMMARY(ipAddressConnected));
     }
   }
 
@@ -76,8 +94,19 @@ const SettingsMenuItemConnectionBackend = () => {
   }, [stateInputIpAddress, statIsInputIpAddressValid, stateIsLocalBackendTypeSelected]);
 
   useEffect(() => {
+    // Initilization
     updateSettingStatus();
-  }, [connectionBackendService.isConnected]);
+
+    // Reactive subcribtion
+    const subscription = connectionBackendService.subject.subscribe({
+      next: updateSettingStatus
+    });
+    
+    // Cleanup
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  }, []);
 
   /**
    * Render
@@ -91,6 +120,7 @@ const SettingsMenuItemConnectionBackend = () => {
       <View>
         <SectionChoiceBackend
           style={settingsStyles.sectionSpacing}
+          initialIsLocalBackendTypeSelected={connectionBackendService.getIsInLocalhostMode()}
           setParentIsLocalBackendTypeSelected={setStateIsLocalBackendTypeSelected}
         />
         <View style={styles.spacing}>
@@ -107,7 +137,7 @@ const SettingsMenuItemConnectionBackend = () => {
         <ConfirmButton
           isActive={stateIsConnectButtonActive}
           text={CONFIRM_BUTTON_TEXT}
-          handleButtonPressedParentFunction={() => { }}
+          handleButtonPressedParentFunction={commitConnection}
         />
       </View>
     </AccodionItem>

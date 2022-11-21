@@ -8,11 +8,9 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {
-  get_heat_map_data,
-  get_dimension_of_chart,
-  get_chosen_param_2D,
-} from '../class/const';
+import {get_heat_map_data, get_chosen_param_2D} from '../class/const';
+
+import * as problemDimensionService from "../services/problem-dimension.service";
 
 export function HeatMapGraph() {
   array = new Array();
@@ -24,10 +22,10 @@ export function HeatMapGraph() {
   useEffect(() => {
     const interval = setInterval(() => {
       updateData(
-        get_heat_map_data(),
-        get_dimension_of_chart(),
-        get_chosen_param_2D(),
-      );
+        get_heat_map_data(), 
+        problemDimensionService.getProblemDimension(), 
+        get_chosen_param_2D()
+        );
     }, 1000);
     return () => clearInterval(interval);
   });

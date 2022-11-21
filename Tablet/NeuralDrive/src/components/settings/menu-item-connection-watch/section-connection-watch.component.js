@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-
-import { settingsStyles } from "../../../styles/settings-styles";
+import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsMessageType } from '../../../const/settings';
+import { textStyles } from "../../../styles/text.styles";
+
 import InformationButton from "../information-button.component";
 import MessageBubble from "../message-bubble.component";
 
@@ -82,7 +83,7 @@ const SectionConnectionWatch = () => {
     <View style={settingsStyles.sectionContent}>
       <View style={settingsStyles.sectionTitleArea}>
         <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
-        <Text style={settingsStyles.sectionTitle}> {SECTION_TITLE} </Text>
+        <Text style={[textStyles.default, settingsStyles.sectionTitle]}> {SECTION_TITLE} </Text>
       </View>
       {
         stateIsHelpInformationDisplayed &&
@@ -91,7 +92,7 @@ const SectionConnectionWatch = () => {
           message={HELP_INFORMATION}
         />
       }
-      <Text> {MESSAGE_INSERT_IP_ADDREES_TO_WATCH} </Text>
+      <Text style={textStyles.default}> {MESSAGE_INSERT_IP_ADDREES_TO_WATCH} </Text>
       <MessageBubble
         type={stateInstructionMessageType}
         message={stateWatchIpToPutMessage}

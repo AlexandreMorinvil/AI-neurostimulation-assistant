@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
+import { View, Dimensions, StyleSheet, Text } from 'react-native';
 
-import MainModulesPaper from '../components/MainModulesPaper.js';
+import { COLOR_BACKGROUND } from '../styles/colors.style.js';
+import PanelControl from '../components/main/panel-control/panel-control.component.js';
 import PanelVizualization from "../components/main/panel-visualization/panel-visualization.component";
-
-
-import * as Structures from '../components/Structures.js';
-
 
 const MainView = () => {
 
@@ -29,58 +26,57 @@ const MainView = () => {
    */
   return (
     <View
-      style={styles.viewContainer}
+      style={[
+        styles.viewContainer,
+        stateIsOrientationHorizontal ? styles.horizontalOrientation : styles.verticalOrientation,
+      ]}
       onLayout={updateLayout}
     >
-      {
-        stateIsOrientationHorizontal ?
-          <MainPaperHorizontal /> :
-          <MainPaperVertical />
-      }
+      <View style={styles.controlPanelArea} >
+        <PanelControl />
+      </View>
+      <View style={styles.vizualizationPanelArea} >
+        <PanelVizualization />
+      </View>
     </View>
   );
-
-}
-
-class MainPaperHorizontal extends React.Component {
-  render() {
-    return (
-      <Structures.FlexContainer>
-        <MainModulesPaper.SideTabModule
-          flex={0.3}
-          ResetPress={() => { }}
-          QueryPress={() => { }}
-        />
-        <PanelVizualization />
-      </Structures.FlexContainer>
-    );
-  }
-}
-
-class MainPaperVertical extends React.Component {
-  render() {
-    return (
-      <Structures.FlexContainer flexDirection={'column'}>
-        <Structures.FlexContainer flex={0.5}>
-          <MainModulesPaper.SideTabModuleVertical
-            flex={1}
-            ResetPress={() => { }}
-            QueryPress={() => { }}
-          />
-        </Structures.FlexContainer>
-        <Structures.FlexContainer>
-          <PanelVizualization />
-        </Structures.FlexContainer>
-      </Structures.FlexContainer>
-    );
-  }
 }
 
 const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
-    padding: 10,
+    backgroundColor: COLOR_BACKGROUND.Application,
+    height: 200,
+    padding:
+      0,
   },
+  horizontalOrientation: {
+    flexDirection: "row",
+  },
+  verticalOrientation: {
+    flexDirection: "column",
+  },
+  controlPanelArea: {
+    flex: 1,
+    minWidth: 300,
+    minHeight: 300,
+  },
+  vizualizationPanelArea: {
+    flex: 2,
+    minWidth: 500,
+    minHeight: 500,
+  },
+  test1: {
+    margin: 20,
+    backgroundColor: "blue",
+    flex: 1
+  },
+
+  test2: {
+    margin: 20,
+    backgroundColor: "red",
+    flex: 1
+  }
 });
 
 export default MainView;

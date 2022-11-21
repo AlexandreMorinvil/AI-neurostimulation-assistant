@@ -1,14 +1,15 @@
 import { StyleSheet } from "react-native";
+import { COLOR_BACKGROUND } from "./colors.style";
 
 export const settingsStyles = StyleSheet.create({
   sectionContent: {
-    backgroundColor: "#F0F0F0",
+    backgroundColor: COLOR_BACKGROUND.ItemSection,
     borderRadius: 10,
     padding: 30,
   },
   textInput: {
     backgroundColor: "white",
-    borderColor: "#EEEEEE",
+    borderColor: COLOR_BACKGROUND.TextInput,
     borderStyle: "solid",
     borderWidth: 1,
     textAlign: "center",

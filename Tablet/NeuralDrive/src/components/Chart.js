@@ -7,6 +7,7 @@ import {
   StyleSheet,
   useColorScheme,
   View,
+  Text,
 } from 'react-native';
 import {get_watch_data} from '../class/http';
 import {

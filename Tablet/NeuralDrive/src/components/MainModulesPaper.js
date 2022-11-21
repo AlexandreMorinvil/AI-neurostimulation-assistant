@@ -3,12 +3,7 @@ import {Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {BarIndicator, PulseIndicator} from 'react-native-indicators';
 import * as Structures from './Structures.js';
-import {
-  Button,
-  Surface,
-  Text,
-  TextInput,
-} from 'react-native-paper';
+import {Button, Surface, Text, TextInput} from 'react-native-paper';
 import {Stopwatch} from 'react-native-stopwatch-timer';
 import Swiper from 'react-native-swiper';
 import styled from 'styled-components';
@@ -27,14 +22,25 @@ import Chart from '../components/Chart.js';
 import HeatMap from '../components/HeatMap.js';
 import HeatMapGraph from '../components/HeatMapGraph';
 
-import * as problemDimensionService from "../services/problem-dimension.service";
+import * as problemDimensionService from '../services/problem-dimension.service';
+
+/********************* SERVER ON TABLET ****************************/
+/*****************************************************************/
+/*****************************************************************/
+
+// import {NativeModules} from 'react-native';
+// const {CalendarModule} = NativeModules;
+// CalendarModule.createCalendarEvent();
+
+/*****************************************************************/
+/*****************************************************************/
 
 ref = React.createRef();
 
 const GraphModule = () => (
   <Structures.FlexContainer>
-    <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
-      <Swiper>
+    <Surface style={{display: 'flex', borderWidth: 3, borderColor: 'black'}}>
+      <Swiper style={{backgroundColor: 'white'}}>
         <Chart />
         <HeatMap ref={ref} />
         <HeatMapGraph />
@@ -58,8 +64,8 @@ const Input = ({
     flex={flexInput}
     marg={'5px'}
     pad={'0px 0px 0px 8px'}
-    bgColor={'#8a8a8a'}
-    borderRadius={'15px'}
+    bgColor={'white'}
+    //borderRadius={'15px'}
     /* onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}> */
   >
     {/* <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText> */}
@@ -67,7 +73,7 @@ const Input = ({
       height={'70px'}
       width={'70px'}
       bgColor={'#eee'}
-      borderRadius={'5px'}
+      borderRadius={'0px'}
       border={'2px solid black'}>
       <Pressable onPress={boxFunction}>
         <Text variant="titleMedium" style={{color: '#374F42'}}>
@@ -88,12 +94,15 @@ const Input = ({
       label={dimension}
       dense={true}
       style={{
+        borderWidth: 2,
+        borderColor: 'black',
         paddingVertical: 8,
         paddingHorizontal: 0,
         marginHorizontal: 10,
         width: '60%',
         height: 60,
         textAlign: 'center',
+        backgroundColor: 'white',
         fontSize: 24,
       }}
     />
@@ -106,10 +115,7 @@ const Input = ({
 // };
 
 // flexInput to adjust each input size
-const InputModule = ({
-  QueryPress,
-  ResetPress,
-}) => {
+const InputModule = ({QueryPress, ResetPress}) => {
   const [valueP1, setP1] = React.useState(0);
   const [valueP2, setP2] = React.useState(0);
   const [valueY, setY] = React.useState(0);
@@ -141,23 +147,26 @@ const InputModule = ({
     /* InputModule */
     <Surface style={styles.inputSurface} elevation={1}>
       {/* Inputs */}
-      <Structures.FlexContainer 
-        flex={0.3}
+
+      <Structures.FlexContainer
+        flex={0.13}
         marg={'0px'}
         pad={'0px 0px 0px 8px'}
         bgColor={'#8a8a8a'}
-        borderRadius={'15px'}>
-      <Text variant="titleLarge"> Parameter Setup</Text>
+        //borderRadius={'15px'}
+      >
+        <Text variant="titleLarge"> Parameter Setup</Text>
       </Structures.FlexContainer>
+
       <Structures.FlexContainer
-        flex={0.8}
+        flex={0.7}
         flexDirection={'column'}
         jc={'flex-start'}
         alignItems="center"
         pad="0"
-        bgColor={'#00000000'}>
+        bgColor={'white'}>
         <Input
-          flexInput={0.35}
+          flexInput={0.33}
           dimension={'Amplitude (V)'}
           value={currentDisplayA}
           predictedValue={predictedP1}
@@ -173,7 +182,7 @@ const InputModule = ({
           }}
         />
         <Input
-          flexInput={0.35}
+          flexInput={0.33}
           setFunction={text => {
             setP2(text);
             setCurrentDisplayB(text);
@@ -189,7 +198,7 @@ const InputModule = ({
           }}
         />
         <Input
-          flexInput={0.35}
+          flexInput={0.33}
           setFunction={text => {
             setY(text);
           }}
@@ -201,11 +210,12 @@ const InputModule = ({
         />
       </Structures.FlexContainer>
       {/* Reset & Query */}
-      <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
+      <Structures.FlexContainer flex={0.17} jc="space-around" bgColor="white">
         <Button
+          style={{borderWidth: 3, borderColor: 'black'}}
           icon="sync"
           mode="elevated"
-          buttonColor={'#CC958F'}
+          buttonColor={'white'}
           dark={false}
           loading={false}
           onPress={() => {
@@ -218,9 +228,10 @@ const InputModule = ({
           </Text>
         </Button>
         <Button
+          style={{borderWidth: 3, borderColor: 'black'}}
           icon="tab-search"
           mode="elevated"
-          buttonColor={'#CC958F'}
+          buttonColor={'white'}
           dark={false}
           loading={false}
           onPress={async () => {
@@ -254,19 +265,6 @@ const InputModule = ({
           </Text>
         </Button>
       </Structures.FlexContainer>
-      <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
-        <Text variant="titleMedium"> 2D Gaussian parameter</Text>
-      </Structures.FlexContainer>
-      <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
-        <SelectList
-          setSelected={val => setSelected(val)}
-          data={gaussianGraphSelectionParam}
-          save="key"
-          dropdownTextStyles={{color:"black"}}
-          disabledTextStyles={{color:"grey"}}
-          onSelect={() => set_chosen_param_2D(selected)}
-        />
-      </Structures.FlexContainer>
     </Surface>
   );
 };
@@ -283,23 +281,25 @@ const InfoModule = ({height, width, bgColor}) => {
 
   return (
     <Surface style={styles.watchSurface} elevation={1}>
-      <Structures.FlexContainer 
+      <Structures.FlexContainer
         flex={0.3}
         marg={'0px'}
         pad={'0px 0px 0px 8px'}
         bgColor={'#8a8a8a'}
-        borderRadius={'15px'}>
-      <Text variant="titleLarge"> Watch Info</Text>
+        //borderRadius={'15px'}
+      >
+        <Text variant="titleLarge"> Watch Info</Text>
       </Structures.FlexContainer>
-      <Structures.FlexContainer flex={0.7}
+      <Structures.FlexContainer
+        flex={0.7}
         flexDirection={'column'}
         jc={'flex-start'}
         alignItems="center"
         pad="0"
-        bgColor={'#00000000'}>
+        bgColor={'white'}>
         <Text variant="headlineLarge" style={{marginTop: 30}}>
-        {' '}
-        <Text variant="headlineSmall"> Average Tremor: </Text> {patient_level}
+          {' '}
+          <Text variant="headlineSmall"> Average Tremor: </Text> {patient_level}
         </Text>
       </Structures.FlexContainer>
     </Surface>
@@ -327,28 +327,30 @@ const ConnectionModule = ({height, width, bgColor}) => {
       {/* TODO */}
       {/* Watch */}
       {/* <Text>SMART-WATCH IS CONNECTED = {String(smartwatch_connected)}</Text> */}
-      <Structures.FlexContainer 
+      <Structures.FlexContainer
         flex={0.3}
         marg={'0px'}
         pad={'0px 0px 0px 8px'}
         bgColor={'#8a8a8a'}
-        borderRadius={'15px'}>
-      <Text variant="titleLarge"> Connection Info</Text>
+        //borderRadius={'15px'}
+      >
+        <Text variant="titleLarge"> Connection Info</Text>
       </Structures.FlexContainer>
-      <Structures.FlexContainer flex={0.7}
+      <Structures.FlexContainer
+        flex={0.7}
         flexDirection={'column'}
         jc={'flex-start'}
         alignItems="center"
         pad="0"
-        bgColor={'#00000000'}>
-      <ConnectionIndicator
-        device={'server'}
-        checkConnectionFunction={get_watch_data}
-      />
-      <ConnectionIndicator
-        device={'watch'}
-        checkConnectionFunction={get_smartwatch_connected}
-      />
+        bgColor={'white'}>
+        <ConnectionIndicator
+          device={'server'}
+          checkConnectionFunction={get_watch_data}
+        />
+        <ConnectionIndicator
+          device={'watch'}
+          checkConnectionFunction={get_smartwatch_connected}
+        />
       </Structures.FlexContainer>
     </Surface>
   );
@@ -362,7 +364,7 @@ const ConnectionIndicator = ({device, checkConnectionFunction}) => {
 
   React.useEffect(() => {
     const interval = setInterval(async () => {
-      smartwatch_connected = true;// await checkConnectionFunction();
+      smartwatch_connected = true; // await checkConnectionFunction();
       if (smartwatch_connected) {
         setConnectionStatus('Connected to ' + device);
         setIndicadorColor('#A3D9A3');
@@ -399,11 +401,21 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
   const [sessionStarted, setSessionStarted] = React.useState(false);
   const [stopwatchReset, setStopwatchReset] = React.useState(false);
 
+  const [selected, setSelected] = React.useState(0);
+  const gaussianGraphSelectionParam = [
+    {key: 0, value: 'A'},
+    {key: 1, value: 'B'},
+    {key: 2, value: 'C', disabled: true},
+    {key: 3, value: 'D', disabled: true},
+    {key: 4, value: 'E', disabled: true},
+    {key: 5, value: 'F', disabled: true},
+  ];
+
   return (
     <Structures.FlexContainer flex={flex} pad="0px">
       <ScrollView>
         <Structures.FlexContainer
-          height={'1500px'}
+          height={'1700px'}
           flexDirection="column"
           jc="flex-start"
           pad="10px">
@@ -414,7 +426,8 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
               flexDirection="column"
               alignItems="center"
               height="125px"
-              bgColor="#00000000">
+              width="100%"
+              bgColor="white">
               <Button
                 icon={sessionStarted ? 'stop' : 'play'}
                 mode="elevated"
@@ -444,12 +457,17 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
                   }
                 }}
                 uppercase={true}
-                style={{height: 40}}>
+                style={{
+                  height: 50,
+                  width: '50%',
+                  borderWidth: 3,
+                  borderColor: 'black',
+                }}>
                 <Text
                   variant="labelLarge"
                   adjustsFontSizeToFit={true}
                   numberOfLines={1}>
-                  {!sessionStarted ? 'start session' : 'stop session'}
+                  {!sessionStarted ? 'start' : 'stop'}
                   {/* start session */}
                 </Text>
               </Button>
@@ -473,6 +491,36 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
             ResetPress={ResetPress}
             QueryPress={QueryPress}
           />
+          <Surface
+            style={{
+              width: '100%',
+              height: 150,
+              borderWidth: 3,
+              borderColor: 'black',
+            }}>
+            <Structures.FlexContainer
+              flex={0.8}
+              marg={'0px'}
+              pad={'0px 0px 0px 8px'}
+              bgColor={'#8a8a8a'}
+              //borderRadius={'15px'}
+            >
+              <Text variant="titleLarge"> Gaussian parameter</Text>
+            </Structures.FlexContainer>
+            <Structures.FlexContainer
+              bgColor="white"
+              style={{flexDirection: 'row'}}>
+              <Text variant="titleMedium"> Parameter</Text>
+              <SelectList
+                setSelected={val => setSelected(val)}
+                data={gaussianGraphSelectionParam}
+                save="key"
+                dropdownTextStyles={{color: 'black'}}
+                disabledTextStyles={{color: 'grey'}}
+                onSelect={() => set_chosen_param_2D(selected)}
+              />
+            </Structures.FlexContainer>
+          </Surface>
           {/* </Structures.FlexContainer> */}
 
           <InfoModule />
@@ -493,9 +541,10 @@ const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
         <Structures.FlexContainer flex={0.2}>
           <PulseIndicator color="#CC958F" size={20} />
           <Button
+            style={{borderWidth: 3, borderColor: 'black'}}
             icon="play"
             mode="elevated"
-            buttonColor={'#CC958F'}
+            buttonColor={'white'}
             dark={false}
             loading={false}
             onPress={() => StartSessionPress}
@@ -546,57 +595,83 @@ const SideTabModuleVertical = ({flex, ResetPress, QueryPress}) => (
 
 // Styling
 const styles = StyleSheet.create({
+  titleView: {
+    width: '100%',
+    textAlign: 'center',
+    height: 60,
+    backgroundColor: 'grey',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  titleText: {
+    fontSize: 20,
+    color: 'white',
+    fontStyle: 'bold',
+  },
   surface: {
+    borderWidth: 3,
+    borderColor: 'black',
     margin: 10,
-    padding: 10,
+    //padding: 10,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
+    //borderRadius: 20,
+    backgroundColor: 'white',
   },
   startSurface: {
+    borderWidth: 3,
+    borderColor: 'black',
     margin: 10,
-    padding: 5,
+    //padding: 5,
     flexDirection: 'row',
-    borderRadius: 15,
-    width: '60%',
+    //borderRadius: 15,
+    width: '100%',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   graphSurface: {
-    padding: 8,
+    borderWidth: 3,
+    borderColor: 'black',
+    //padding: 8,
     height: 80,
     width: 80,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
+    //borderRadius: 20,
+    backgroundColor: 'white',
   },
   watchSurface: {
+    borderWidth: 3,
+    borderColor: 'black',
     margin: 10,
-    padding: 8,
-    height: 300,
+    //padding: 8,
+    height: 150,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
+    //borderRadius: 20,
+    backgroundColor: 'white',
   },
   inputSurface: {
+    borderWidth: 3,
+    borderColor: 'black',
     margin: 10,
-    padding: 8,
-    height: 800,
+    //padding: 8,
+    height: 500,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
-    // backgroundColor: '',
+    //borderRadius: 20,
+    backgroundColor: 'white',
   },
   stopwatchOptions: {
     container: {
-      backgroundColor: '#00000000',
+      backgroundColor: 'white',
       padding: 0,
-      borderRadius: 15,
+      //borderRadius: 15,
       width: 150,
       alignItems: 'center',
     },

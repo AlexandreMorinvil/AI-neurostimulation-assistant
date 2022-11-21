@@ -6,50 +6,13 @@ import { Button, Surface, Text } from 'react-native-paper';
 import {Stopwatch} from 'react-native-stopwatch-timer';
 
 import PanelItemParameters from "./main/panel-control/panel-item-parameters/panel-item-parameters.component";
+import PanelItemStatistics from "./main/panel-control/panel-item-statistics/panel-item-statistics.component";
 
 import { get_smartwatch_connected } from '../class/const';
 import { get_watch_data, post_start_new_session } from '../class/http';
 
 import * as problemDimensionService from "../services/problem-dimension.service";
 
-
-
-const InfoModule = ({height, width, bgColor}) => {
-  const [value2, setValue2] = React.useState(0);
-  React.useEffect(() => {
-    const interval2 = setInterval(() => {
-      setValue2(value2 => value2 + 1);
-    }, 1000);
-
-    return () => clearInterval(interval2);
-  }, [value2]);
-
-  return (
-    <Surface style={styles.watchSurface} elevation={1}>
-      <Structures.FlexContainer 
-        flex={0.3}
-        marg={'0px'}
-        pad={'0px 0px 0px 8px'}
-        bgColor={'#8a8a8a'}
-        borderRadius={'15px'}>
-      <Text variant="titleLarge"> Watch Info</Text>
-      </Structures.FlexContainer>
-      <Structures.FlexContainer flex={0.7}
-        flexDirection={'column'}
-        jc={'flex-start'}
-        alignItems="center"
-        pad="0"
-        bgColor={'#00000000'}>
-        <Text variant="headlineLarge" style={{marginTop: 30}}>
-        {' '}
-        <Text variant="headlineSmall"> Average Tremor: </Text> {patient_level}
-        </Text>
-      </Structures.FlexContainer>
-    </Surface>
-  );
-};
-
-patient_level = 10;
 smartwatch_connected = false;
 // Used inside SideTabModule
 const ConnectionModule = ({height, width, bgColor}) => {
@@ -218,7 +181,7 @@ const SideTabModule = ({flex, ResetPress, QueryPress}) => {
           />
           {/* </Structures.FlexContainer> */}
 
-          <InfoModule />
+          <PanelItemStatistics />
         </Structures.FlexContainer>
       </ScrollView>
     </Structures.FlexContainer>

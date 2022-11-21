@@ -15,7 +15,7 @@ const STORE_KEY_IS_IN_LOCALHOST_MODE = 'isInLocalhostMode';
 
 // Variables
 let socketBackend = io();
-let _backendIpAddress = '192.168.0.53';
+let _backendIpAddress = '0.0.0.0';
 let _isInLocalhostMode = false;
 
 // Reactive behavior handlers

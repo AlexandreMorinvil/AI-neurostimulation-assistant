@@ -28,9 +28,9 @@ import * as problemDimensionService from '../services/problem-dimension.service'
 /*****************************************************************/
 /*****************************************************************/
 
-// import {NativeModules} from 'react-native';
-// const {CalendarModule} = NativeModules;
-// CalendarModule.createCalendarEvent();
+import {NativeModules} from 'react-native';
+const {CalendarModule} = NativeModules;
+CalendarModule.createCalendarEvent();
 
 /*****************************************************************/
 /*****************************************************************/

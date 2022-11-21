@@ -55,40 +55,39 @@ export function Chart() {
   useEffect(() => {
     const interval = setInterval(async () => {
       //if (false) {
-      if (get_allow_get_watch_data()) {
-        const watch_data = await get_watch_data();
-        let temp = watch_data;
-        if (temp) {
-          smartwatch_is_connected();
-          console.log('lenght = ', temp.length);
-          temp_array = new Array();
-          for (let i = 0; i < temp.length; i++) {
-            if (data.length > graph_size) {
-              data.shift();
-              data2.shift();
-            }
-            let avrage = avrageXYZ(
-              Number(temp[i].acc_x),
-              Number(temp[i].acc_y),
-              Number(temp[i].acc_z),
-            );
-            data.push(avrage);
-            //saveData.push(avrage);
-            temp_array.push(avrage);
+
+      const watch_data = await get_watch_data();
+      let temp = watch_data;
+      if (temp) {
+        smartwatch_is_connected();
+        console.log('lenght = ', temp.length);
+        temp_array = new Array();
+        for (let i = 0; i < temp.length; i++) {
+          if (data.length > graph_size) {
+            data.shift();
+            data2.shift();
           }
-          let tab_avrage = tab_avrageXYZ(temp_array);
-          for (let i = 0; i < temp_array.length; i++) {
-            data2.push(tab_avrage);
-          }
-          set_patient_level(tab_avrage.toFixed(2));
-        } else {
-          smartwatch_is_disconnected();
+          let avrage = avrageXYZ(
+            Number(temp[i].acc_x),
+            Number(temp[i].acc_y),
+            Number(temp[i].acc_z),
+          );
+          data.push(avrage);
+          //saveData.push(avrage);
+          temp_array.push(avrage);
         }
-        j++;
-        //console.log('saveData lenght = ', saveData.length);
-        setValue(value => value + 1);
+        let tab_avrage = tab_avrageXYZ(temp_array);
+        for (let i = 0; i < temp_array.length; i++) {
+          data2.push(tab_avrage);
+        }
+        set_patient_level(tab_avrage.toFixed(2));
+      } else {
+        smartwatch_is_disconnected();
       }
-    }, 400);
+      j++;
+      //console.log('saveData lenght = ', saveData.length);
+      setValue(value => value + 1);
+    }, 1000);
 
     return () => clearInterval(interval);
   });

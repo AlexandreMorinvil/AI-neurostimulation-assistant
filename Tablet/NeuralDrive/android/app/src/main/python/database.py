@@ -25,7 +25,7 @@ class Database:
             )
             self.cur = self.conn.cursor()
             self.cur.execute(
-                "CREATE TABLE IF NOT EXISTS Mission ( id INT NOT NULL, watch_data VARCHAR[], heat_map VARCHAR[],PRIMARY KEY (Id));"
+                "CREATE TABLE IF NOT EXISTS Session ( id INT NOT NULL, watch_data VARCHAR[], heat_map VARCHAR[], username VARCHAR(20),PRIMARY KEY (Id));"
             )
             self.conn.commit()
             return True
@@ -33,14 +33,15 @@ class Database:
             return False
 
     #############################################################################
-    #### Add mission into the database
+    #### Add session into the database
     #### @param {Mission} mission
     #############################################################################
     def add_session(self, session):
+        print(session)
         if self.cur != None:
             self.cur.execute(
-                "INSERT INTO mission (id, watch_data, heat_map) VALUES ({0}, ARRAY{1}, ARRAY{2});".format(
-                    session.id, session.watch_data, session.heat_map
+                "INSERT INTO Session (id, watch_data, heat_map, username) VALUES ({0}, ARRAY{1}, ARRAY{2}, '{3}');".format(
+                   session['id'], session['watch_data'], session['heat_map'], session['username']
                 )
             )
             self.conn.commit()
@@ -48,13 +49,16 @@ class Database:
         return 0
 
     #############################################################################
-    #### Get all the missions into the database and transform it to Json format
-    #### @Return {Json} lis of mission
+    #### Get all the session into the database and transform it to Json format
+    #### @Return {[Session]} list of session
     #############################################################################
     def get_all_session(self):
-        query = "SELECT * FROM mission;"
+        query = "SELECT * FROM Session;"
         self.cur.execute(query)
-        return self.cur.fetchall()
+        print('execute querry get all session')
+        data = self.cur.fetchall()
+        if data :
+            return data
 
 
     #############################################################################
@@ -62,7 +66,8 @@ class Database:
     #### @param {String} id
     #############################################################################
     def delete_session(self, id) -> None:
-        query = "DELETE FROM mission WHERE id = '{0}';".format(id)
+        print(id)
+        query = "DELETE FROM Session WHERE id = '{0}';".format(id)
         self.cur.execute(query)
         self.conn.commit()
 

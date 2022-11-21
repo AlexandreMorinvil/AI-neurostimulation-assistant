@@ -1,12 +1,15 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Surface, Text } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { Stopwatch } from 'react-native-stopwatch-timer';
 
+import PanelItem from '../../panel-item.component';
 import { post_start_new_session } from "../../../../class/http";
 
 import * as problemDimensionService from "../../../../services/problem-dimension.service";
 import * as Structures from "../../../Structures";
+
+const ITEM_TITLE = "Session Management";
 
 const PanelItemSession = () => {
 
@@ -21,7 +24,10 @@ const PanelItemSession = () => {
    * Render
    */
   return (
-    <Surface style={styles.startSurface}>
+    <PanelItem
+      isActive={true}
+      title={ITEM_TITLE}
+    >
       <Structures.FlexContainer
         flexDirection="column"
         alignItems="center"
@@ -70,7 +76,7 @@ const PanelItemSession = () => {
           options={styles.stopwatchOptions}
         />
       </Structures.FlexContainer>
-    </Surface>
+    </PanelItem>
   );
 };
 

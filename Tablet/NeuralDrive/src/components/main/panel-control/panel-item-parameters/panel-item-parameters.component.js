@@ -1,13 +1,16 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
-import { Button, Surface, Text } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 
 import InputQueryParameter from "./input-query-parameter.component"
+import PanelItem from '../../panel-item.component';
 import { set_chosen_param_2D, set_heat_map_data } from '../../../../class/const';
 import { post_execute_query } from '../../../../class/http';
 
 import * as Structures from "../../../Structures";
+
+const ITEM_TITLE = "Input Parameters";
 
 const PanelItemParameters = () => {
   const [valueP1, setP1] = React.useState(0);
@@ -41,16 +44,10 @@ const PanelItemParameters = () => {
    * Render
    */
   return (
-    <Surface style={styles.inputSurface} elevation={1}>
-      {/* Inputs */}
-      <Structures.FlexContainer
-        flex={0.3}
-        marg={'0px'}
-        pad={'0px 0px 0px 8px'}
-        bgColor={'#8a8a8a'}
-        borderRadius={'15px'}>
-        <Text variant="titleLarge"> Parameter Setup</Text>
-      </Structures.FlexContainer>
+    <PanelItem
+      isActive={true}
+      title={ITEM_TITLE}
+    >
       <Structures.FlexContainer
         flex={0.8}
         flexDirection={'column'}
@@ -157,7 +154,7 @@ const PanelItemParameters = () => {
           onSelect={() => set_chosen_param_2D(selected)}
         />
       </Structures.FlexContainer>
-    </Surface>
+    </ PanelItem>
   );
 };
 

@@ -52,7 +52,7 @@ const InputQueryParameter = ({
         paddingHorizontal: 0,
         marginHorizontal: 10,
         width: '60%',
-        height: 60,
+        height: 50,
         textAlign: 'center',
         fontSize: 24,
       }}

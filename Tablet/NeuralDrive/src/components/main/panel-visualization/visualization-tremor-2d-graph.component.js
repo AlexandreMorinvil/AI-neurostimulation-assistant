@@ -1,42 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {LineChart, YAxis, XAxis, Path, Grid} from 'react-native-svg-charts';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-  View,
-} from 'react-native';
-import {get_watch_data} from '../class/http';
+import React, { useEffect, useState } from 'react';
+import { LineChart, YAxis, XAxis, Grid } from 'react-native-svg-charts';
+import { StyleSheet, View } from 'react-native';
+import { get_watch_data } from '../../../class/http';
 import {
   set_patient_level,
   smartwatch_is_disconnected,
   smartwatch_is_connected,
-  get_smartwatch_connected,
-} from '../class/const';
+} from '../../../class/const';
 
-const max_size = 150;
 watch_is_connected = false;
 
-const getRandomInt = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-};
-
 j = 0;
-export function Chart() {
-  //const [position, setPosition] = useState(graph_size);
-
-  // const interval = setInterval(async () => {
-  //   watch_data = await get_watch_data();
-  //   if (watch_data) {
-  //     console.log(watch_data[0]);
-  //     this.add_point(watch_data, dataSet);
-  //   }
-  // }, 1000);
-  //console.log('j = ', j);
+export function VizualizationTremor2dGraph() {
   const graph_size = 500;
   array = new Array(graph_size);
   array.fill(0);
@@ -93,20 +68,20 @@ export function Chart() {
           data={[
             {
               data: data,
-              svg: {stroke: 'black'},
+              svg: { stroke: 'black' },
             },
             {
               data: data2,
-              svg: {stroke: 'red'},
+              svg: { stroke: 'red' },
             },
           ]}
-          svg={{stroke: 'black'}}
-          contentInset={{top: 20, bottom: 20}}>
+          svg={{ stroke: 'black' }}
+          contentInset={{ top: 20, bottom: 20 }}>
           <Grid />
         </LineChart>
       </View>
       <XAxis
-        style={{marginHorizontal: '5%', width: '93%'}}
+        style={{ marginHorizontal: '5%', width: '93%' }}
         data={data}
         formatLabel={(value, index) => {
           if (index % 50 == 0) {
@@ -114,8 +89,8 @@ export function Chart() {
           }
           return '';
         }}
-        contentInset={{left: 10, right: 10}}
-        svg={{fontSize: 18, fill: 'black'}}
+        contentInset={{ left: 10, right: 10 }}
+        svg={{ fontSize: 18, fill: 'black' }}
       />
     </View>
   );
@@ -144,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Chart;
+export default VizualizationTremor2dGraph;

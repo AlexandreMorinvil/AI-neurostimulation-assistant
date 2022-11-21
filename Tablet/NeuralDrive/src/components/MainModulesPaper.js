@@ -10,9 +10,7 @@ import {
   TextInput,
 } from 'react-native-paper';
 import {Stopwatch} from 'react-native-stopwatch-timer';
-import Swiper from 'react-native-swiper';
-import styled from 'styled-components';
-import {Status} from '../class/actions';
+
 import {
   get_smartwatch_connected,
   set_chosen_param_2D,
@@ -23,25 +21,10 @@ import {
   post_execute_query,
   post_start_new_session,
 } from '../class/http';
-import Chart from '../components/Chart.js';
-import HeatMap from '../components/HeatMap.js';
-import HeatMapGraph from '../components/HeatMapGraph';
 
 import * as problemDimensionService from "../services/problem-dimension.service";
 
-ref = React.createRef();
-
-const GraphModule = () => (
-  <Structures.FlexContainer>
-    <Surface color="red" style={{display: 'flex', borderRadius: 25}}>
-      <Swiper>
-        <Chart />
-        <HeatMap ref={ref} />
-        <HeatMapGraph />
-      </Swiper>
-    </Surface>
-  </Structures.FlexContainer>
-);
+// ref = React.createRef(); // XXX : I am not sure what it is used for
 
 const Input = ({
   dimension,
@@ -61,9 +44,7 @@ const Input = ({
     pad={'0px 0px 0px 8px'}
     bgColor={'#8a8a8a'}
     borderRadius={'15px'}
-    /* onStartShouldSetResponder={() => Alert.alert('Input Clicked...')}> */
   >
-    {/* <CustomText fontsize={'16px'} marg={titleSpacing}> {dimension} </CustomText> */}
     <Structures.Box
       height={'70px'}
       width={'70px'}
@@ -598,7 +579,6 @@ const styles = StyleSheet.create({
 
 // EXPORTS
 export default MainModulesPaper = {
-  GraphModule: GraphModule, // You need to put them here
   InputModule: InputModule,
   ConnectionModule: ConnectionModule,
   SideTabModule: SideTabModule,

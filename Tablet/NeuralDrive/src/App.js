@@ -10,7 +10,7 @@ import CustomDrawer from './components/CustomDrawer';
 // Style Imports
 import * as ColorTheme from './styles/Colors';
 // View Imports
-import MainPaper from './views/MainPaper';
+import MainView from './views/main.view';
 import SettingsView from './views/settings.view';
 
 // ----------------------------------------------------------------------
@@ -36,8 +36,8 @@ const App = () => {
           },
         }}>
         <Drawer.Screen
-          name="MainPaper"
-          component={MainPaper}
+          name="Main"
+          component={MainView}
           options={{
             drawerIcon: () => (
               <Ionicons name="grid-outline" size={20} color={'#000'} />

@@ -51,7 +51,7 @@ class CommandHandler:
             output = self.current_session.algorithm.execute_query(x_chanel,float(arg["y_value"]))
             print("EXECUTE_QUERY")
             # print(output[0])
-            data = { 
+            data = {
                 "predict_heat_map" : json.dumps(output[0]),
                 "position": json.dumps(output[1]),
                 "values": json.dumps(output[2]),

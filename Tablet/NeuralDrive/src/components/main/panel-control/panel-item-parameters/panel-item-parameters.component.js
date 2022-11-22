@@ -153,8 +153,8 @@ const PanelItemParameters = () => {
             //   /* setStateIsQuerying(true); */
 
               // reset AvgTremor
-              /* setStateAvgTremor(get_patient_lvl); */
-              /* setStateCount(1); */
+              setStateAvgTremor(get_patient_level());
+              setStateCount(1);
 
               /* const intervalUniqueId = setInterval(() => { */
               /*   setStateAvgTremor(stateAvgTremor + 1); */

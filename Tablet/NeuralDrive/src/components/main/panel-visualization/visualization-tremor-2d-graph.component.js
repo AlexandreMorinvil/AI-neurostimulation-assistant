@@ -1,121 +1,121 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, YAxis, XAxis, Grid } from 'react-native-svg-charts';
 import { StyleSheet, View } from 'react-native';
-import { get_watch_data } from '../../../class/http';
-import {
-  set_patient_level,
-  smartwatch_is_disconnected,
-  smartwatch_is_connected,
-} from '../../../class/const';
 
-watch_is_connected = false;
+import PanelVizualizationItem from "./panel-vizualization-item.component";
+import * as watchDataService from "../../../services/watch-data.service";
 
-j = 0;
+const VISUALIZATION_TITLE = "Vizualization : Real Time Tremor";
+
+const COUNT_DATA_POINTS = 500;
+
+const Y_MIN_VALUE = 0;
+const Y_MAX_VALUE = 10;
+
+const X_POINT_TIME_INTERVAL = 10;
+
+const REFRESH_RATE_IN_MS = 150;
+
+const CONTENT_INSET = {
+  top: 20,
+  left: 20,
+  right: 20,
+  bottom: 20
+}
+
 export function VizualizationTremor2dGraph() {
-  const graph_size = 500;
-  array = new Array(graph_size);
-  array.fill(0);
-  const array2 = new Array(graph_size);
-  array2.fill(5);
-  const [data, setData] = useState(array);
-  const [data2, setData2] = useState(array2);
-  const [value, setValue] = useState(0);
-  const [position, setPosition] = useState(graph_size);
+
+  /**
+   * States
+   */
+  const [stateTremorRawData, setStateTremorRawData] = useState([0, 1, 2, 3, 4, 5, 6, 7,]);
+  const [stateTremorAveragedData, setStateTremorAveragedData] = useState([1 / 2, 2 / 2, 3 / 2, 4 / 2, 5 / 2, 6 / 2, 7 / 2, 8 / 2, 9 / 2, 10 / 2, 11 / 2]);
+
+  /**
+   * Function 
+   */
+  const updateGraph = () => {
+    setStateTremorRawData(watchDataService.getWatchPointsToDisplay(COUNT_DATA_POINTS));
+    setStateTremorAveragedData(Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)));
+  }
+
+  /**
+   * Effects
+   */
   useEffect(() => {
-    const interval = setInterval(async () => {
-      const watch_data = await get_watch_data();
-      let temp = watch_data;
-      if (temp) {
-        smartwatch_is_connected();
-        console.log('lenght = ', temp.length);
-        temp_array = new Array();
-        for (let i = 0; i < temp.length; i++) {
-          if (data.length > graph_size) {
-            data.shift();
-          }
-          data.push(Number(temp[i].acc_y));
-          temp_array.push(Number(temp[i].acc_y));
-        }
-        let max = Math.max.apply(null, temp_array);
-        data2.fill(max);
-        set_patient_level(max.toFixed(2));
-      } else {
-        smartwatch_is_disconnected();
-      }
-      j++;
-      setValue(value => value + 1);
-    }, 1000);
+    const intervalUniqueId = setInterval(updateGraph, REFRESH_RATE_IN_MS);
+    return () => clearInterval(intervalUniqueId);
+  }, []);
 
-    return () => clearInterval(interval);
-  }, [data, value]);
-
+  /**
+   * Render
+   */
   return (
-    <View style={styles.chartView}>
-      <View style={styles.lineChart}>
-        <YAxis
-          style={styles.axis}
-          data={data}
-          //contentInset={contentInset}
-          svg={{
-            fill: 'black',
-            fontSize: 18,
-          }}
-          numberOfTicks={10}
-          formatLabel={value => `${value}`}
+    <PanelVizualizationItem title={VISUALIZATION_TITLE}>
+      <View style={styles.container}>
+        <View style={styles.lineChart}>
+          <YAxis
+            style={styles.axis}
+            data={[Y_MIN_VALUE, Y_MAX_VALUE]}
+            min={Y_MIN_VALUE}
+            max={Y_MAX_VALUE}
+            numberOfTicks={10}
+            svg={{
+              fill: 'black',
+              fontSize: 18,
+            }}
+            contentInset={CONTENT_INSET}
+          />
+          <LineChart
+            style={styles.chart}
+            gridMin={Y_MIN_VALUE}
+            gridMax={Y_MAX_VALUE}
+            ticks={11}
+            data={[
+              {
+                data: stateTremorRawData,
+                svg: { stroke: 'black', strokeWidth: 2 },
+              },
+              {
+                data: stateTremorAveragedData,
+                svg: { stroke: 'blue', strokeWidth: 3 },
+              },
+            ]}
+            svg={{ stroke: 'black' }}
+            contentInset={CONTENT_INSET}
+          >
+            <Grid />
+          </LineChart>
+        </View>
+        <XAxis
+          style={{ marginHorizontal: '3%', width: '93%' }}
+          data={stateTremorRawData}
+          numberOfTicks={5}
+          formatLabel={(value, index) => { return `${(index * X_POINT_TIME_INTERVAL)}s `; }}
+          contentInset={CONTENT_INSET}
+          svg={{ fontSize: 18, fill: 'black' }}
         />
-        <LineChart
-          style={styles.chart}
-          data={[
-            {
-              data: data,
-              svg: { stroke: 'black' },
-            },
-            {
-              data: data2,
-              svg: { stroke: 'red' },
-            },
-          ]}
-          svg={{ stroke: 'black' }}
-          contentInset={{ top: 20, bottom: 20 }}>
-          <Grid />
-        </LineChart>
       </View>
-      <XAxis
-        style={{ marginHorizontal: '5%', width: '93%' }}
-        data={data}
-        formatLabel={(value, index) => {
-          if (index % 50 == 0) {
-            return `${(graph_size - index) / 50}s`;
-          }
-          return '';
-        }}
-        contentInset={{ left: 10, right: 10 }}
-        svg={{ fontSize: 18, fill: 'black' }}
-      />
-    </View>
+    </PanelVizualizationItem>
   );
 }
 
+/**
+ * Style Sheet
+ */
 const styles = StyleSheet.create({
-  lineChart: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'white',
-    flexDirection: 'row',
-  },
-  chartView: {
-    width: '100%',
-    height: '90%',
-    backgroundColor: 'white',
+  container: {
+    flex: 1,
+    flexDirection: "column",
     flexDirection: 'column',
   },
-  axis: {
-    width: '4%',
-    height: '100%',
+  lineChart: {
+    flex: 1,
+    flexDirection: "column",
+    flexDirection: 'row',
   },
   chart: {
-    width: '95%',
-    height: '100%',
+    flex: 1,
   },
 });
 

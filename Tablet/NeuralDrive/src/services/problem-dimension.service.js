@@ -27,6 +27,6 @@ export function setProblemDimension(dimension) {
 }
 
 // Initialization
-(async function initialize() {
+export async function initialize() {
   _problemDimension = await initializeValueWithPersistantData(STORE_KEY_PROBLEM_DIMENSION, _problemDimension);
-})()
+}

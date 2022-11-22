@@ -79,7 +79,7 @@ function initializeConnectionListeners() {
   socketBackend.on('connect', () => {
     subject.next();
     console.log("Connected to server");
-    
+
     socketBackend.io.engine.on("close", (reason) => {
       console.log("Socket.io engine disconnection reason :", reason);
     });
@@ -102,7 +102,13 @@ function initSocket() {
 }
 
 // Initialization
-(async function initialize() {
+export async function initialize() {
   _backendIpAddress = await initializeValueWithPersistantData(STORE_KEY_BACKEND_IP_ADDRESS, _backendIpAddress);
   _isInLocalhostMode = await initializeValueWithPersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, _isInLocalhostMode);
-})()
+  initSocket();
+}
+
+// Clean Up
+export function cleanUp() {
+  disconnect();
+}

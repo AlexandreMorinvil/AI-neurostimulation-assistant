@@ -22,27 +22,13 @@ const PanelVisualization = (props) => {
    */
   return (
     <PanelFrame style={style}>
-      <Surface style={styles.content}>
-        <Swiper>
-          <VizualizationTremor2dGraph />
-          <VizualizationQueryHeatMap ref={ref} />
-          <VizualizationQuery2dGraph />
-        </Swiper>
-      </Surface>
+      <Swiper>
+        <VizualizationTremor2dGraph />
+        <VizualizationQueryHeatMap ref={ref} />
+        <VizualizationQuery2dGraph />
+      </Swiper>
     </PanelFrame>
   );
 }
-
-/**
- * Style Sheet
- */
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    height: 100,
-    padding: 10,
-  }
-});
-
 
 export default PanelVisualization

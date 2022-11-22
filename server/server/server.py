@@ -1,8 +1,9 @@
+import logging
 import json
 import signal
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 from flask import jsonify
 from flask.wrappers import Response
 from command_handler import CommandHandler
@@ -14,6 +15,9 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 CORS(app)
 ssid = None
 
+logging.getLogger('socketio').setLevel(logging.ERROR)
+logging.getLogger('engineio').setLevel(logging.ERROR)
+logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
 command_handler = CommandHandler(socketio)
 
@@ -23,6 +27,7 @@ signal.signal(signal.SIGTERM, command_handler.release)
 
 
 users = set()
+watches = set()
 @socketio.on('connect')
 def handle_connection():
     users.add(request.sid)
@@ -33,12 +38,9 @@ def handle_disconnection():
     users.discard(request.sid)
     print("User disconnected. Current users : ", users)
 
-@socketio.on('message')
-def messaging(message, methods=['GET', 'POST']):
-    print('received message: ' + str(message))
-    ssid = request.sid
-    command_handler.ssid = ssid
-    socketio.emit('message', 'reponseVersNoe', room=request.sid)
+@socketio.on('watch_packet')
+def handle_watch_packet(watch_packet):
+    emit('watch_packet', watch_packet, broadcast=True, includde_self=False)
 
 ####################################################################################################
 #### Only for debug

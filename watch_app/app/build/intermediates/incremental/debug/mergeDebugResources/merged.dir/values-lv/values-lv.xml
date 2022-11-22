@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2" xmlns:ns2="http://schemas.android.com/tools">
     <plurals name="mtrl_badge_content_description">
     <item quantity="zero">%d jaunu paziņojumu</item>
     <item quantity="one">%d jauns paziņojums</item>
@@ -36,25 +36,13 @@
     <string name="character_counter_content_description">Ievadītās rakstzīmes: %1$d no %2$d</string>
     <string name="character_counter_overflowed_content_description">Pārsniegts rakstzīmju skaita ierobežojums (%1$d no %2$d)</string>
     <string name="clear_text_end_icon_content_description">Notīrīt tekstu</string>
-    <string msgid="8585111718777012708" name="common_google_play_services_enable_button">"Iespējot"</string>
-    <string msgid="7045129128108380659" name="common_google_play_services_enable_text">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, ir jāiespējo Google Play pakalpojumi."</string>
-    <string msgid="3147157405986503375" name="common_google_play_services_enable_title">"Google Play pakalpojumu iespējošana"</string>
-    <string msgid="9115728400623041681" name="common_google_play_services_install_button">"Instalēt"</string>
-    <string msgid="8179894293032530091" name="common_google_play_services_install_text">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, ierīcē ir jāinstalē Google Play pakalpojumi."</string>
-    <string msgid="7442193194585196676" name="common_google_play_services_install_title">"Google Play pakalpojumu iegūšana"</string>
-    <string msgid="4293541511340436975" name="common_google_play_services_notification_channel_name">"Google Play pakalpojumu pieejamība"</string>
-    <string msgid="180394615667698242" name="common_google_play_services_notification_ticker">"Google Play pakalpojumu kļūda"</string>
-    <string msgid="2518680582564677258" name="common_google_play_services_unknown_issue">"Lietotnē <ns1:g id="APP_NAME">%1$s</ns1:g> ir radusies problēma ar Google Play pakalpojumu darbību. Lūdzu, mēģiniet vēlreiz."</string>
-    <string msgid="5501187292256987189" name="common_google_play_services_unsupported_text">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, ir nepieciešami Google Play pakalpojumi, taču jūsu ierīce tos neatbalsta."</string>
-    <string msgid="8172070149091615356" name="common_google_play_services_update_button">"Atjaunināt"</string>
-    <string msgid="7773943415006962566" name="common_google_play_services_update_text">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, jums ir jāatjaunina Google Play pakalpojumi."</string>
-    <string msgid="8706675115216073244" name="common_google_play_services_update_title">"Google Play pakalpojumu atjaunināšana"</string>
-    <string msgid="7894275749778928941" name="common_google_play_services_updating_text">"Lai lietotne <ns1:g id="APP_NAME">%1$s</ns1:g> darbotos, ir jāinstalē Google Play pakalpojumi. Pašlaik notiek to atjaunināšana."</string>
-    <string msgid="2804989272736383918" name="common_google_play_services_wear_update_text">"Ir nepieciešama jauna Google Play pakalpojumu versija. Drīzumā tā tiks instalēta."</string>
-    <string msgid="5201977337835724196" name="common_open_on_phone">"Atvērt tālrunī"</string>
-    <string msgid="3441753203274453993" name="common_signin_button_text">"Pierakstīties"</string>
-    <string msgid="669893613918351210" name="common_signin_button_text_long">"Pierakstīties ar Google kontu"</string>
+    <string msgid="6412144553299494336" name="confirmation_overlay_a11y_description_fail">"Kļūme"</string>
+    <string msgid="8809042819843332546" name="confirmation_overlay_a11y_description_phone">"Atvērts jūsu tālrunī"</string>
+    <string msgid="2936753235333429892" name="confirmation_overlay_a11y_description_success">"Gatavs"</string>
+    <string msgid="4327971892987955014" name="confirmation_overlay_a11y_type_image">"Attēls"</string>
+    <string msgid="6083905920877235314" name="copy">"Kopēt"</string>
     <string name="error_icon_content_description">Kļūda</string>
+    <string msgid="2427401033573778270" name="expand_button_title">"Papildu iestatījumi"</string>
     <string name="exposed_dropdown_menu_content_description">Rādīt nolaižamo izvēlni</string>
     <string name="icon_content_description">Dialoglodziņa ikona</string>
     <string name="item_view_role_description">Cilne</string>
@@ -72,11 +60,12 @@
     <string name="material_timepicker_text_input_mode_description">Lai ievadītu laiku, ieslēdziet teksta ievades režīmu.</string>
     <string name="mtrl_badge_numberless_content_description">Jauns paziņojums</string>
     <string name="mtrl_chip_close_icon_content_description">Noņemt: %1$s</string>
-    <string name="mtrl_exceed_max_badge_number_content_description">Vairāk nekā %1$d jauni paziņojumi</string>
+    <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">Vairāk nekā %1$d jauni paziņojumi</string>
     <string name="mtrl_picker_a11y_next_month">Pāriet uz nākamo mēnesi</string>
     <string name="mtrl_picker_a11y_prev_month">Pāriet uz iepriekšējo mēnesi</string>
     <string name="mtrl_picker_announce_current_selection">Pašreizējā atlase: %1$s</string>
-    <string name="mtrl_picker_confirm">@android:string/ok</string>
+    <string name="mtrl_picker_cancel">Atcelt</string>
+    <string name="mtrl_picker_confirm">Labi</string>
     <string name="mtrl_picker_date_header_selected">%1$s</string>
     <string name="mtrl_picker_date_header_title">Atlasiet datumu</string>
     <string name="mtrl_picker_date_header_unselected">Atlasītais datums</string>
@@ -103,9 +92,16 @@
     <string name="mtrl_picker_toggle_to_day_selection">Pieskarties, lai pārslēgtos uz dienas atlasīšanu</string>
     <string name="mtrl_picker_toggle_to_text_input_mode">Pārslēgties uz teksta ievades režīmu</string>
     <string name="mtrl_picker_toggle_to_year_selection">Pieskarties, lai pārslēgtos uz gada atlasīšanu</string>
+    <string name="mtrl_timepicker_cancel">Atcelt</string>
+    <string name="mtrl_timepicker_confirm">Labi</string>
+    <string msgid="6573031135582639649" name="not_set">"Nav iestatīts"</string>
     <string name="password_toggle_content_description">Rādīt paroli</string>
+    <string msgid="6685851473431805375" name="preference_copied">"Preference “<ns1:g id="SUMMARY">%1$s</ns1:g>” ir kopēta starpliktuvē."</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Meklēt"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
+    <string msgid="3140233346420563315" name="v7_preference_off">"IZSLĒGTS"</string>
+    <string msgid="89551595707643515" name="v7_preference_on">"IESLĒGTS"</string>
     <string msgid="8863821639144537553" name="ws_action_drawer_content_description">"Darbību atvilktne"</string>
     <string msgid="777117228299084604" name="ws_navigation_drawer_content_description">"Navigācijas atvilktne"</string>
 </resources>

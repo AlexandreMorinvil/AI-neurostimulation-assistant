@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-36:/values-round-v23/values-round-v23.xml",
+            "outputFile": "com.example.neuraldrive.app-mergeDebugResources-35:/values-round-v23/values-round-v23.xml",
             "map": [
                 {
-                    "source": "/home/noe/.gradle/caches/transforms-3/37b14a5523b4984131fc6eca972d3d4b/transformed/wear-1.1.0/res/values-round-v23/values-round-v23.xml",
+                    "source": "/Users/andrewabdo/.gradle/caches/transforms-3/ba1e70ae1cec97fcfa688e44f3af10c4/transformed/wear-1.2.0/res/values-round-v23/values-round-v23.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",

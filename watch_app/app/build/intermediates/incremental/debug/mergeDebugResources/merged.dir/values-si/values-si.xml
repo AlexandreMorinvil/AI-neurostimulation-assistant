@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2" xmlns:ns2="http://schemas.android.com/tools">
     <plurals name="mtrl_badge_content_description">
     <item quantity="one">නව දැනුම්දීම් %dක්</item>
     <item quantity="other">නව දැනුම්දීම් %dක්</item>
@@ -35,25 +35,13 @@
     <string name="character_counter_content_description">අනුලකුණු %2$dන් %1$dක් ඇතුළු කෙරිණි</string>
     <string name="character_counter_overflowed_content_description">අනුලකුණු සීමාව %2$dකින් %1$d ඉක්ම විය</string>
     <string name="clear_text_end_icon_content_description">පෙළ හිස් කරන්න</string>
-    <string msgid="8585111718777012708" name="common_google_play_services_enable_button">"සබල කරන්න"</string>
-    <string msgid="7045129128108380659" name="common_google_play_services_enable_text">"ඔබ Google Play සේවා සබල කරන්නේ නම් මිස <ns1:g id="APP_NAME">%1$s</ns1:g> වැඩ නොකරනු ඇත."</string>
-    <string msgid="3147157405986503375" name="common_google_play_services_enable_title">"Google Play සේවා සබල කරන්න"</string>
-    <string msgid="9115728400623041681" name="common_google_play_services_install_button">"ස්ථාපනය කරන්න"</string>
-    <string msgid="8179894293032530091" name="common_google_play_services_install_text">"ඔබගේ ටැබ්ලට් පරිගණකයේ නැති Google Play සේවා නොමැතිව <ns1:g id="APP_NAME">%1$s</ns1:g> ධාවනය නොවනු ඇත."</string>
-    <string msgid="7442193194585196676" name="common_google_play_services_install_title">"Google Play සේවා ලබා ගන්න"</string>
-    <string msgid="4293541511340436975" name="common_google_play_services_notification_channel_name">"Google Play සේවාවල ලබා ගත හැකි බව"</string>
-    <string msgid="180394615667698242" name="common_google_play_services_notification_ticker">"Google Play සේවා දෝෂය"</string>
-    <string msgid="2518680582564677258" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> හට Google Play සේවා සමගින් ගැටලු ඇත. කරුණාකර නැවත උත්සාහ කරන්න."</string>
-    <string msgid="5501187292256987189" name="common_google_play_services_unsupported_text">"ඔබගේ උපාංගය මගින් සහාය නොදක්වන, Google Play සේවා නොමැතිව <ns1:g id="APP_NAME">%1$s</ns1:g> ධාවනය නොවනු ඇත."</string>
-    <string msgid="8172070149091615356" name="common_google_play_services_update_button">"යාවත්කාලීන කරන්න"</string>
-    <string msgid="7773943415006962566" name="common_google_play_services_update_text">"Google Play සේවා යාවත්කාලීන කරන්නේ නොමැතිව <ns1:g id="APP_NAME">%1$s</ns1:g> ධාවනය නොවේ."</string>
-    <string msgid="8706675115216073244" name="common_google_play_services_update_title">"Google Play සේවා යාවත්කාලීන කරන්න"</string>
-    <string msgid="7894275749778928941" name="common_google_play_services_updating_text">"දැනට යාවත්කාලීන කරමින් ඇති, Google Play සේවා නොමැතිව <ns1:g id="APP_NAME">%1$s</ns1:g> ධාවනය නොවනු ඇත."</string>
-    <string msgid="2804989272736383918" name="common_google_play_services_wear_update_text">"Google Play සේවාවල නව අනුවාදයක් අවශ්‍යයි. එය මද වේලාවකින් එය විසින්ම යාවත්කාලීන වනු ඇත."</string>
-    <string msgid="5201977337835724196" name="common_open_on_phone">"දුරකථනය තුළ විවෘත කරන්න"</string>
-    <string msgid="3441753203274453993" name="common_signin_button_text">"පුරන්න"</string>
-    <string msgid="669893613918351210" name="common_signin_button_text_long">"Google සමගින් පුරන්න"</string>
+    <string msgid="6412144553299494336" name="confirmation_overlay_a11y_description_fail">"අසාර්ථකයි"</string>
+    <string msgid="8809042819843332546" name="confirmation_overlay_a11y_description_phone">"ඔබගේ දුරකථනයෙහි විවෘත කරන ලදි"</string>
+    <string msgid="2936753235333429892" name="confirmation_overlay_a11y_description_success">"සාර්ථකයි"</string>
+    <string msgid="4327971892987955014" name="confirmation_overlay_a11y_type_image">"රූපය"</string>
+    <string msgid="6083905920877235314" name="copy">"පිටපත් කරන්න"</string>
     <string name="error_icon_content_description">දෝෂය</string>
+    <string msgid="2427401033573778270" name="expand_button_title">"උසස්"</string>
     <string name="exposed_dropdown_menu_content_description">පතන මෙනුව පෙන්වන්න</string>
     <string name="icon_content_description">සංවාද නිරූපකය</string>
     <string name="item_view_role_description">ටැබය</string>
@@ -71,11 +59,12 @@
     <string name="material_timepicker_text_input_mode_description">වේලා ආදානය සඳහා ආදාන ප්‍රකාරය වෙත මාරු වෙන්න.</string>
     <string name="mtrl_badge_numberless_content_description">නව දැනුම්දීම</string>
     <string name="mtrl_chip_close_icon_content_description">%1$s ඉවත් කරන්න</string>
-    <string name="mtrl_exceed_max_badge_number_content_description">නව දැනුම්දීම් %1$dකට වඩා</string>
+    <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">නව දැනුම්දීම් %1$dකට වඩා</string>
     <string name="mtrl_picker_a11y_next_month">ලබන මාසයට වෙනස් කරන්න</string>
     <string name="mtrl_picker_a11y_prev_month">කලින් මාසයට වෙනස් කරන්න</string>
     <string name="mtrl_picker_announce_current_selection">වත්මන් තේරීම: %1$s</string>
-    <string name="mtrl_picker_confirm">@android:string/ok</string>
+    <string name="mtrl_picker_cancel">අවලංගු කරන්න</string>
+    <string name="mtrl_picker_confirm">හරි</string>
     <string name="mtrl_picker_date_header_selected">%1$s</string>
     <string name="mtrl_picker_date_header_title">දිනය තෝරන්න</string>
     <string name="mtrl_picker_date_header_unselected">තේරූ දිනය</string>
@@ -102,9 +91,16 @@
     <string name="mtrl_picker_toggle_to_day_selection">දිනයක් තේරීමට මාරු වීමට තට්ටු කරන්න</string>
     <string name="mtrl_picker_toggle_to_text_input_mode">පෙළ ආදාන ප්‍රකාරයට මාරු වන්න</string>
     <string name="mtrl_picker_toggle_to_year_selection">වසරක් තේරීමට මාරු වීමට තට්ටු කරන්න</string>
+    <string name="mtrl_timepicker_cancel">අවලංගු කරන්න</string>
+    <string name="mtrl_timepicker_confirm">හරි</string>
+    <string msgid="6573031135582639649" name="not_set">"සකසා නැත"</string>
     <string name="password_toggle_content_description">මුරපදය පෙන්වන්න</string>
+    <string msgid="6685851473431805375" name="preference_copied">"\"<ns1:g id="SUMMARY">%1$s</ns1:g>\" පසුරු පුවරුවට පිටපත් කරන ලදී."</string>
     <string msgid="6264217191555673260" name="search_menu_title">"සෙවීම"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
+    <string msgid="3140233346420563315" name="v7_preference_off">"ක්‍රියාවිරහිතයි"</string>
+    <string msgid="89551595707643515" name="v7_preference_on">"ක්‍රියාත්මකයි"</string>
     <string msgid="8863821639144537553" name="ws_action_drawer_content_description">"ක්‍රියාමාර්ග ලාච්චුව"</string>
     <string msgid="777117228299084604" name="ws_navigation_drawer_content_description">"සංචාලන ලාච්චුව"</string>
 </resources>

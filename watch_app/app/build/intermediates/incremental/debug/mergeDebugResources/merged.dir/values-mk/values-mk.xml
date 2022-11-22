@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2" xmlns:ns2="http://schemas.android.com/tools">
     <plurals name="mtrl_badge_content_description">
     <item quantity="one">%d ново известување</item>
     <item quantity="other">%d нови известувања</item>
@@ -26,7 +26,7 @@
     <string msgid="3741173234950517107" name="abc_searchview_description_clear">"Исчисти барање"</string>
     <string msgid="693312494995508443" name="abc_searchview_description_query">"Пребарај барање"</string>
     <string msgid="3417662926640357176" name="abc_searchview_description_search">"Пребарај"</string>
-    <string msgid="1486535517437947103" name="abc_searchview_description_submit">"Поднеси барање"</string>
+    <string msgid="1486535517437947103" name="abc_searchview_description_submit">"Испрати барање"</string>
     <string msgid="2293578557972875415" name="abc_searchview_description_voice">"Гласовно пребарување"</string>
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Сподели со"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Сподели со <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
@@ -35,25 +35,13 @@
     <string name="character_counter_content_description">Внесени се %1$d од %2$d знаци</string>
     <string name="character_counter_overflowed_content_description">Ограничувањето на знаците надмина %1$d од %2$d</string>
     <string name="clear_text_end_icon_content_description">Избриши го текстот</string>
-    <string msgid="8585111718777012708" name="common_google_play_services_enable_button">"Овозможи"</string>
-    <string msgid="7045129128108380659" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> нема да се извршува ако не овозможите услуги на Google Play."</string>
-    <string msgid="3147157405986503375" name="common_google_play_services_enable_title">"Овозможи ги услугите на Google Play"</string>
-    <string msgid="9115728400623041681" name="common_google_play_services_install_button">"Инсталирај"</string>
-    <string msgid="8179894293032530091" name="common_google_play_services_install_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> нема да се извршува без услугите на Google Play што ги нема на уредот."</string>
-    <string msgid="7442193194585196676" name="common_google_play_services_install_title">"Преземи ги услугите на Google Play"</string>
-    <string msgid="4293541511340436975" name="common_google_play_services_notification_channel_name">"Достапност на услугите на Google Play"</string>
-    <string msgid="180394615667698242" name="common_google_play_services_notification_ticker">"Грешка на услугите на Google Play"</string>
-    <string msgid="2518680582564677258" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> има проблеми со услугите на Google Play. Обидете се повторно."</string>
-    <string msgid="5501187292256987189" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> нема да работи без услугите на Google Play, што не се поддржани од уредов."</string>
-    <string msgid="8172070149091615356" name="common_google_play_services_update_button">"Ажурирај"</string>
-    <string msgid="7773943415006962566" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> нема да се извршува ако не ги ажурирате услугите на Google Play."</string>
-    <string msgid="8706675115216073244" name="common_google_play_services_update_title">"Ажурирај ги услугите на Google Play"</string>
-    <string msgid="7894275749778928941" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> нема да се извршува без услугите на Google Play што се ажурираат во моментов."</string>
-    <string msgid="2804989272736383918" name="common_google_play_services_wear_update_text">"Потребна е нова верзија на услугите на Google Play. Таа наскоро самата ќе се ажурира."</string>
-    <string msgid="5201977337835724196" name="common_open_on_phone">"Отвори на телефонот"</string>
-    <string msgid="3441753203274453993" name="common_signin_button_text">"Најави се"</string>
-    <string msgid="669893613918351210" name="common_signin_button_text_long">"Најави се со Google"</string>
+    <string msgid="6412144553299494336" name="confirmation_overlay_a11y_description_fail">"Неуспешно"</string>
+    <string msgid="8809042819843332546" name="confirmation_overlay_a11y_description_phone">"Отворено на телефонот"</string>
+    <string msgid="2936753235333429892" name="confirmation_overlay_a11y_description_success">"Успешно"</string>
+    <string msgid="4327971892987955014" name="confirmation_overlay_a11y_type_image">"Слика"</string>
+    <string msgid="6083905920877235314" name="copy">"Копирај"</string>
     <string name="error_icon_content_description">Грешка</string>
+    <string msgid="2427401033573778270" name="expand_button_title">"Напредни"</string>
     <string name="exposed_dropdown_menu_content_description">Прикажи паѓачко мени</string>
     <string name="icon_content_description">Икона за дијалог</string>
     <string name="item_view_role_description">Картичка</string>
@@ -71,11 +59,12 @@
     <string name="material_timepicker_text_input_mode_description">Префрлете се на режимот за внесување текст за да внесете време.</string>
     <string name="mtrl_badge_numberless_content_description">Ново известување</string>
     <string name="mtrl_chip_close_icon_content_description">Отстрани %1$s</string>
-    <string name="mtrl_exceed_max_badge_number_content_description">Над %1$d нови известувања</string>
+    <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">Над %1$d нови известувања</string>
     <string name="mtrl_picker_a11y_next_month">Промени на следниот месец</string>
     <string name="mtrl_picker_a11y_prev_month">Промени на претходниот месец</string>
     <string name="mtrl_picker_announce_current_selection">Тековен избор: %1$s</string>
-    <string name="mtrl_picker_confirm">@android:string/ok</string>
+    <string name="mtrl_picker_cancel">Откажи</string>
+    <string name="mtrl_picker_confirm">Во ред</string>
     <string name="mtrl_picker_date_header_selected">%1$s</string>
     <string name="mtrl_picker_date_header_title">Изберете датум</string>
     <string name="mtrl_picker_date_header_unselected">Избран датум</string>
@@ -102,9 +91,16 @@
     <string name="mtrl_picker_toggle_to_day_selection">Допрете за да се префрлите на избирање ден</string>
     <string name="mtrl_picker_toggle_to_text_input_mode">Префрли на режим за внесување текст</string>
     <string name="mtrl_picker_toggle_to_year_selection">Допрете за да се префрлите на избирање година</string>
+    <string name="mtrl_timepicker_cancel">Откажи</string>
+    <string name="mtrl_timepicker_confirm">Во ред</string>
+    <string msgid="6573031135582639649" name="not_set">"Не е поставено"</string>
     <string name="password_toggle_content_description">Прикажи ја лозинката</string>
+    <string msgid="6685851473431805375" name="preference_copied">"„<ns1:g id="SUMMARY">%1$s</ns1:g>“ копирано во привремена меморија."</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Пребарај"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
+    <string msgid="3140233346420563315" name="v7_preference_off">"ИСКЛУЧЕНО"</string>
+    <string msgid="89551595707643515" name="v7_preference_on">"ВКЛУЧЕНО"</string>
     <string msgid="8863821639144537553" name="ws_action_drawer_content_description">"Фиока за дејство"</string>
     <string msgid="777117228299084604" name="ws_navigation_drawer_content_description">"Фиока за навигација"</string>
 </resources>

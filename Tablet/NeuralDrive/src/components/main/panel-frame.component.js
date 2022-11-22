@@ -28,7 +28,7 @@ const PanelFrame = (props) => {
   return (
     <View style={[
       styles.container,
-      // stateStyle
+      stateStyle
     ]}>
       {children}
     </View>

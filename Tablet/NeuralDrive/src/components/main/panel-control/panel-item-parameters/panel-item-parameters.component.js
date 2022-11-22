@@ -25,7 +25,7 @@ const ITEM_TITLE = "Input Parameters";
 
 const PanelItemParameters = () => {
   const[stateIsQuerying, setStateIsQuerying] = React.useState(false);
-  const[stateCount, setStateCount] = React.useState(0);
+  const[stateCount, setStateCount] = React.useState(1);
   const[stateAvgTremor, setStateAvgTremor] = React.useState(0);
 
   const [valueP1, setP1] = React.useState(0);
@@ -154,7 +154,7 @@ const PanelItemParameters = () => {
 
               // reset AvgTremor
               setStateAvgTremor(get_patient_level());
-              setStateCount(1);
+              setStateCount(3);
 
               /* const intervalUniqueId = setInterval(() => { */
               /*   setStateAvgTremor(stateAvgTremor + 1); */
@@ -165,10 +165,10 @@ const PanelItemParameters = () => {
                 async () => {
                 // Stop Interval
                 // clearInterval(intervalUniqueId);
-                // Division to count avg tremor
-                // setStateAvgTremor(stateAvgTremor/stateCount)
-                response = await post_execute_query(valueP1, valueP2, get_patient_level());
-                /* response = await post_execute_query(valueP1, valueP2, stateAvgTremor); */
+                // Division to count avg tremor  - TODO : stateAvgTremor is not affected in setTimeout or async?
+                  // setStateAvgTremor(stateAvgTremor)
+                /* response = await post_execute_query(valueP1, valueP2, get_patient_level()); */
+                response = await post_execute_query(valueP1, valueP2, stateAvgTremor);
                 ref.current.state.data = JSON.parse(response.predict_heat_map);
                 newPosition = JSON.parse(response.position);
                 ref.current.draw_heat_map();

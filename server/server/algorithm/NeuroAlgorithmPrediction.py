@@ -63,7 +63,6 @@ class NeuroAlgorithmPrediction:
         self.mean_function.update_gradients = lambda a, b: None
 
     def execute_query(self, x_chan, BO_reward):
-        print("------------------", x_chan, BO_reward)
         if self.q < 100:
             # We will sample the search space randomly for exactly nrnd queries
             self.P_test[self.q][0] = x_chan
@@ -185,12 +184,23 @@ class NeuroAlgorithmPrediction:
         ymu_r = np.reshape(ymu, (-1, self.dimention))
         print(ymu)
         print(ymu_r)
-        pic_iobytes = io.BytesIO()
 
         plt.clf()
         plt.imshow(ymu_r)
         # plt.imsave(pic_iobytes, ymu_r)
         plt.colorbar()
+
+        # let's add arrows pointing to the lowest values of ymu_r
+        # we can use quiver and np.gradient to do this
+        # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.quiver.html
+
+        # first we need to get the gradient of ymu_r
+        X, Y = np.gradient(ymu_r)
+        U = -2*X
+        V = 2*Y
+        plt.quiver(U, V, color='black', scale=15)
+
+        pic_iobytes = io.BytesIO()
         plt.savefig(pic_iobytes, format="png", transparent=True)
         plt.savefig("ymu.jpg")
         pic_iobytes.seek(0)

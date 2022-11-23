@@ -196,8 +196,8 @@ class NeuroAlgorithmPrediction:
 
         # first we need to get the gradient of ymu_r
         X, Y = np.gradient(ymu_r)
-        U = -2*X
-        V = 2*Y
+        U = 2*X
+        V = -2*Y
         plt.quiver(U, V, color='black', scale=15)
 
         pic_iobytes = io.BytesIO()

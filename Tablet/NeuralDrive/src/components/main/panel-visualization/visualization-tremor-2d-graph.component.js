@@ -73,7 +73,8 @@ export function VizualizationTremor2dGraph() {
         <View style={styles.lineChart}>
           <YAxis
             style={styles.axis}
-            data={[Y_MIN_VALUE, Y_MAX_VALUE]}
+            // data={[Y_MIN_VALUE, Y_MAX_VALUE]}
+            data={Array(COUNT_Y_AXIS_LABEL).fill(0)}
             min={Y_MIN_VALUE}
             max={Y_MAX_VALUE}
             formatLabel={formatYAxisLabel}

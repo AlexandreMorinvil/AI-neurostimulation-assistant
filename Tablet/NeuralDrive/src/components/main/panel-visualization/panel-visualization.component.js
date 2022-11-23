@@ -10,18 +10,13 @@ import VizualizationQuery2dGraph from "./visualization-query-2d-graph.component"
 
 ref = React.createRef();
 
-const PanelVisualization = (props) => {
-
-  /**
-   * Props
-   */
-  const { style } = props;
+const PanelVisualization = () => {
 
   /**
    * Render
    */
   return (
-    <PanelFrame style={style}>
+    <PanelFrame>
       <Swiper>
         <VizualizationTremor2dGraph />
         <VizualizationQueryHeatMap ref={ref} />

@@ -11,24 +11,12 @@ const PanelFrame = (props) => {
   const { children, style } = props;
 
   /**
-   * States
-   */
-  const [stateStyle, setStateStyle] = useState(style);
-
-  /**
-   * Effects
-   */
-  useEffect(() => {
-    setStateStyle(props.style);
-  }, [props.style]);
-
-  /**
    * Render
    */
   return (
     <View style={[
       styles.container,
-      stateStyle
+      props.style
     ]}>
       {children}
     </View>

@@ -5,16 +5,21 @@ import { StyleSheet, View } from 'react-native';
 import PanelVizualizationItem from "./panel-vizualization-item.component";
 import * as watchDataService from "../../../services/watch-data.service";
 
-const VISUALIZATION_TITLE = "Vizualization : Real Time Tremor";
+const TITLE_VISUALIZATION = "Vizualization : Real Time Tremor";
+const TITLE_X_AXIS = "Time";
+const TITLE_Y_AXIS = "Intensity";
 
+const UNIT_X_AXIS = "s";
+const UNIT_Y_AXIS = "m/s²";
+
+const REFRESH_RATE_IN_MS = 200;
 const COUNT_DATA_POINTS = 500;
 
 const Y_MIN_VALUE = 0;
-const Y_MAX_VALUE = 10;
+const Y_MAX_VALUE = 30;
 
-const X_POINT_TIME_INTERVAL = 10;
-
-const REFRESH_RATE_IN_MS = 150;
+const COUNT_X_AXIS_LABEL = 10;
+const COUNT_Y_AXIS_LABEL = 10;
 
 const CONTENT_INSET = {
   top: 20,
@@ -23,13 +28,15 @@ const CONTENT_INSET = {
   bottom: 20
 }
 
+const TIME_INTERVAL_BETWEEN_X_AXIS_TICKS = COUNT_DATA_POINTS / COUNT_X_AXIS_LABEL * watchDataService.TIME_INTERVAL_BETWEEN_POINTS_IN_MS;
+
 export function VizualizationTremor2dGraph() {
 
   /**
    * States
    */
-  const [stateTremorRawData, setStateTremorRawData] = useState([0, 1, 2, 3, 4, 5, 6, 7,]);
-  const [stateTremorAveragedData, setStateTremorAveragedData] = useState([1 / 2, 2 / 2, 3 / 2, 4 / 2, 5 / 2, 6 / 2, 7 / 2, 8 / 2, 9 / 2, 10 / 2, 11 / 2]);
+  const [stateTremorRawData, setStateTremorRawData] = useState(Array(COUNT_DATA_POINTS).fill(0));
+  const [stateTremorAveragedData, setStateTremorAveragedData] = useState(Array(COUNT_DATA_POINTS).fill(0));
 
   /**
    * Function 
@@ -37,6 +44,16 @@ export function VizualizationTremor2dGraph() {
   const updateGraph = () => {
     setStateTremorRawData(watchDataService.getWatchPointsToDisplay(COUNT_DATA_POINTS));
     setStateTremorAveragedData(Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)));
+  }
+
+  const formatXAxisLabel = (value, index) => {
+    if ((index + 1) === COUNT_X_AXIS_LABEL) return `${TITLE_X_AXIS} `;
+    else return `${(COUNT_X_AXIS_LABEL - (index + 1)) * TIME_INTERVAL_BETWEEN_X_AXIS_TICKS / 1000} ${UNIT_X_AXIS}`;
+  }
+
+  const formatYAxisLabel = (value, index) => {
+    if (value === Y_MAX_VALUE) return `${TITLE_Y_AXIS}`;
+    else return `${value} ${UNIT_Y_AXIS}`;
   }
 
   /**
@@ -51,7 +68,7 @@ export function VizualizationTremor2dGraph() {
    * Render
    */
   return (
-    <PanelVizualizationItem title={VISUALIZATION_TITLE}>
+    <PanelVizualizationItem title={TITLE_VISUALIZATION}>
       <View style={styles.container}>
         <View style={styles.lineChart}>
           <YAxis
@@ -59,7 +76,8 @@ export function VizualizationTremor2dGraph() {
             data={[Y_MIN_VALUE, Y_MAX_VALUE]}
             min={Y_MIN_VALUE}
             max={Y_MAX_VALUE}
-            numberOfTicks={10}
+            formatLabel={formatYAxisLabel}
+            numberOfTicks={COUNT_Y_AXIS_LABEL}
             svg={{
               fill: 'black',
               fontSize: 18,
@@ -70,7 +88,6 @@ export function VizualizationTremor2dGraph() {
             style={styles.chart}
             gridMin={Y_MIN_VALUE}
             gridMax={Y_MAX_VALUE}
-            ticks={11}
             data={[
               {
                 data: stateTremorRawData,
@@ -88,10 +105,10 @@ export function VizualizationTremor2dGraph() {
           </LineChart>
         </View>
         <XAxis
-          style={{ marginHorizontal: '3%', width: '93%' }}
-          data={stateTremorRawData}
-          numberOfTicks={5}
-          formatLabel={(value, index) => { return `${(index * X_POINT_TIME_INTERVAL)}s `; }}
+          style={{ marginHorizontal: '3%', marginLeft: '10%',  width: '87%' }}
+          data={Array(COUNT_X_AXIS_LABEL).fill(0)}
+          numberOfTicks={10}
+          formatLabel={formatXAxisLabel}
           contentInset={CONTENT_INSET}
           svg={{ fontSize: 18, fill: 'black' }}
         />

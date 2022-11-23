@@ -1,7 +1,10 @@
-// Const 
+// Constants
 const COUNT_POINTS_BUFFER_POINTS_DISPLAYED = 600;
 const INTERVAL_BUFFER_PULL_IN_MS = 100;
-const FREQUENCY_WATCH_POINT_GENERATION_IN_HZ = 50;
+const FREQUENCY_WATCH_POINT_GENERATION_IN_HZ = 50
+
+// Computed contants
+export const TIME_INTERVAL_BETWEEN_POINTS_IN_MS = 1 / FREQUENCY_WATCH_POINT_GENERATION_IN_HZ * 1000;
 const MIN_POINTS_RENEWED_PER_BUFFER_PULL = INTERVAL_BUFFER_PULL_IN_MS / 1000 * FREQUENCY_WATCH_POINT_GENERATION_IN_HZ;
 
 // Variables
@@ -17,7 +20,6 @@ export function getWatchPointsToDisplay(countPoints) {
 
 export async function handleReceivedWatchPacket(watchPacket) {
   try {
-    console.log("Here is the packet", watchPacket);
     const parsedWatchPacket = JSON.parse(watchPacket);
     _watchPointsRawDataBuffer = _watchPointsRawDataBuffer.concat(parsedWatchPacket);
   } catch (error) {

@@ -2,17 +2,32 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { Button, Text } from 'react-native-paper';
+import { Timer } from 'react-native-stopwatch-timer';
 
 import InputQueryParameter from "./input-query-parameter.component"
 import PanelItem from '../../panel-item.component';
-import { set_chosen_param_2D, set_heat_map_data } from '../../../../class/const';
+import { set_chosen_param_2D, set_heat_map_data, get_patient_level, set_patient_level } from '../../../../class/const';
 import { post_execute_query } from '../../../../class/http';
 
 import * as Structures from "../../../Structures";
 
 const ITEM_TITLE = "Input Parameters";
 
+// /** Timer */
+
+//   // const [handleFinish, handleFinishSet] = React.useState(false);
+
+
+// const [timerStart, timerStartSet] = React.useState(false);
+// const [timerReset, timerResetSet] = React.useState(false);
+// const [totalDuration, totalDurationSet] = React.useState(5000);
+// // const [handleFinish, handleFinishSet] = React.useState(false);
+
 const PanelItemParameters = () => {
+  const[stateIsQuerying, setStateIsQuerying] = React.useState(false);
+  const[stateCount, setStateCount] = React.useState(1);
+  const[stateAvgTremor, setStateAvgTremor] = React.useState(0);
+
   const [valueP1, setP1] = React.useState(0);
   const [valueP2, setP2] = React.useState(0);
   const [valueY, setY] = React.useState(0);
@@ -39,6 +54,16 @@ const PanelItemParameters = () => {
 
   const [currentRecommendationA, setCurrentRecommendationA] = React.useState(0);
   const [currentRecommendationB, setCurrentRecommendationB] = React.useState(0);
+
+  /** Increments a value so the view is re-rendered every second (1000ms)  */
+  const [value, incrementer] = React.useState(0);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      incrementer(value => value + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [value]);
 
   /**
    * Render
@@ -84,15 +109,17 @@ const PanelItemParameters = () => {
           boxFunction={text => { setCurrentDisplayB(oldAlgorithmB.toString()); }}
         />
         <InputQueryParameter
+          disabled={true}
           flexInput={0.35}
           setFunction={text => {
-            setY(text);
+            setY(get_patient_level());
           }}
           dimension={'tremor'}
-          value={valueY}
+          value={get_patient_level()}
           predictedValue={predictedY}
           unitType={'units'}
           titleSpacing={'0 6px 0 0'}
+          /* disabled={true} */
         />
       </Structures.FlexContainer>
       {/* Reset & Query */}
@@ -118,23 +145,50 @@ const PanelItemParameters = () => {
           buttonColor={'#CC958F'}
           dark={false}
           loading={false}
-          onPress={async () => {
-            response = await post_execute_query(valueP1, valueP2, valueY);
-            ref.current.state.data = JSON.parse(response.predict_heat_map);
-            newPosition = JSON.parse(response.position);
-            ref.current.draw_heat_map();
-            setPredictedP1(newPosition[Number(response.next_query)][0]);
-            setPredictedP2(newPosition[Number(response.next_query)][1]);
+          onPress={
+            // disable inputs & button to avoid another query
+            // calculate average
+            () => {
+            //   console.log('asjdgqiwygeq')
+            //   /* setStateIsQuerying(true); */
 
-            setOldAlgorithmA(currentDisplayA.toString());
-            setOldAlgorithmB(currentDisplayB.toString());
-            setCurrentDisplayA(newPosition[Number(response.next_query)][0].toString());
-            setCurrentDisplayB(newPosition[Number(response.next_query)][1].toString());
-            setCurrentRecommendationA(newPosition[Number(response.next_query)][0].toString());
-            setCurrentRecommendationB(newPosition[Number(response.next_query)][1].toString());
+              // reset AvgTremor
+              setStateAvgTremor(get_patient_level());
+              setStateCount(3);
 
-            set_heat_map_data(JSON.parse(response.values));
-          }}
+              /* const intervalUniqueId = setInterval(() => { */
+              /*   setStateAvgTremor(stateAvgTremor + 1); */
+              /*   setStateCount(stateCount + 1); */
+              /* }, 500); */
+
+              setTimeout(
+                async () => {
+                // Stop Interval
+                // clearInterval(intervalUniqueId);
+                // Division to count avg tremor  - TODO : stateAvgTremor is not affected in setTimeout or async?
+                  // setStateAvgTremor(stateAvgTremor)
+                /* response = await post_execute_query(valueP1, valueP2, get_patient_level()); */
+                response = await post_execute_query(valueP1, valueP2, stateAvgTremor);
+                ref.current.state.data = JSON.parse(response.predict_heat_map);
+                newPosition = JSON.parse(response.position);
+                ref.current.draw_heat_map();
+                setPredictedP1(newPosition[Number(response.next_query)][0]);
+                setPredictedP2(newPosition[Number(response.next_query)][1]);
+
+                setOldAlgorithmA(currentDisplayA.toString());
+                setOldAlgorithmB(currentDisplayB.toString());
+                setCurrentDisplayA(newPosition[Number(response.next_query)][0].toString());
+                setCurrentDisplayB(newPosition[Number(response.next_query)][1].toString());
+                setCurrentRecommendationA(newPosition[Number(response.next_query)][0].toString());
+                setCurrentRecommendationB(newPosition[Number(response.next_query)][1].toString());
+
+                set_heat_map_data(JSON.parse(response.values));
+
+                /* setStateIsQuering(false); */
+                  }, 5000)
+                }
+            }
+
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
             query

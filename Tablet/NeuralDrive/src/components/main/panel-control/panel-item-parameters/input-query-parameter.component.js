@@ -13,6 +13,7 @@ const InputQueryParameter = ({
   predictedValue,
   oldAlgorithmValue,
   boxFunction,
+  disabled,
 
 }) => (
   <Structures.FlexContainer
@@ -42,6 +43,7 @@ const InputQueryParameter = ({
       outlineColor="white"
       selectionColor="#6f6f6f"
       multiline={false}
+      disabled={disabled}
       value={value}
       onChangeText={setFunction}
       textColor="black"

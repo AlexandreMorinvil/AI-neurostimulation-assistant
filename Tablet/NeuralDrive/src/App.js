@@ -1,15 +1,12 @@
-// React Native Imports
-import {createDrawerNavigator} from '@react-navigation/drawer';
-// Drawer Imports
-import {NavigationContainer} from '@react-navigation/native';
-import React from 'react';
-// Icon Imports
+import React, { useEffect } from 'react';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// Component Imports
+
+import { cleanUp, initialize } from './services/app-setup.service';
 import CustomDrawer from './components/CustomDrawer';
-// Style Imports
 import * as ColorTheme from './styles/Colors';
-// View Imports
+
 import MainView from './views/main.view';
 import SettingsView from './views/settings.view';
 
@@ -18,6 +15,18 @@ import SettingsView from './views/settings.view';
 const Drawer = createDrawerNavigator();
 
 const App = () => {
+
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    initialize();
+    return cleanUp;
+  }, []);
+
+  /**
+   * Render
+   */
   return (
     <NavigationContainer>
       <Drawer.Navigator

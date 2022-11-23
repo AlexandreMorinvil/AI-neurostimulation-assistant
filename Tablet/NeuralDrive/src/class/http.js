@@ -1,20 +1,8 @@
 import {Action, ERROR_CODE, Status} from '../class/actions';
 import { getBackendUrl } from "../services/connection-backend.service";
+import { sendRequest } from "./connection-backend.service";
 
-export const send_request = async data => {
-  try {
-    console.log(getBackendUrl());
-    console.log(data);
-    const response = await fetch(getBackendUrl());
-    const json = await response.json();
-    console.log(json);
-    return json.movies;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const send_command = async command => {
+const sendCommand = async (command) => {
   try {
     console.log(command);
     const response = await fetch(getBackendUrl() + '/command', {
@@ -44,7 +32,7 @@ export const post_start_new_session = async (n_param, dimension) => {
       dimention: dimension,
     },
   };
-  response = await send_command(command);
+  response = await sendCommand(command);
   if (response === ERROR_CODE.FAIL_CONNECT_TO_SERVER) {
     return Status.STOP;
   } else {
@@ -57,7 +45,7 @@ export const post_execute_query = async (A, B, y_value) => {
     action: Action.EXECUTE_QUERY,
     arg: {A: A, B: B, y_value: y_value},
   };
-  response = await send_command(command);
+  response = await sendCommand(command);
   if (response === ERROR_CODE.FAIL_CONNECT_TO_SERVER) {
     return Status.STOP;
   } else {

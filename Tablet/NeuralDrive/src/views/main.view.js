@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Dimensions, StyleSheet, Text } from 'react-native';
+import { View, Dimensions, StyleSheet } from 'react-native';
 
 import { COLOR_BACKGROUND } from '../styles/colors.style.js';
 import PanelControl from '../components/main/panel-control/panel-control.component.js';
@@ -65,17 +65,6 @@ const styles = StyleSheet.create({
     flex: 2,
     minWidth: 500,
     minHeight: 500,
-  },
-  test1: {
-    margin: 20,
-    backgroundColor: "blue",
-    flex: 1
-  },
-
-  test2: {
-    margin: 20,
-    backgroundColor: "red",
-    flex: 1
   }
 });
 

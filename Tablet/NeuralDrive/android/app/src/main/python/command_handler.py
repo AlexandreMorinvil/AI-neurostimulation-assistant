@@ -11,7 +11,7 @@ from interface.session import Session
 from interface.watchData import WatchData
 import numpy as np
 import random
-from database import Database
+#from database import Database
 
 ####################################################################################################
 #### Represent the different mode available to tranfer data
@@ -32,8 +32,8 @@ class CommandHandler:
         self.socketIO = socketIO
         self.ssid = None
         self.current_session = None
-        self.db : Database = Database()
-        self.db.connect()
+        # self.db : Database = Database()
+        # self.db.connect()
 
 ####################################################################################################
 #### START_SESSION : Create a new session.
@@ -53,8 +53,8 @@ class CommandHandler:
             print("x_chanel = ", x_chanel)
             output = self.current_session.algorithm.execute_query(x_chanel,float(arg["y_value"]))
             print("EXECUTE_QUERY")
-            print(output[0])
-            data = { 
+            # print(output[0])
+            data = {
                 "predict_heat_map" : json.dumps(output[0]),
                 "position": json.dumps(output[1]),
                 "values": json.dumps(output[2]),

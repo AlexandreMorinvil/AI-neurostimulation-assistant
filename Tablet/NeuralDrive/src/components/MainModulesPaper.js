@@ -24,17 +24,6 @@ import HeatMapGraph from '../components/HeatMapGraph';
 
 import * as problemDimensionService from '../services/problem-dimension.service';
 
-/********************* SERVER ON TABLET ****************************/
-/*****************************************************************/
-/*****************************************************************/
-
-import {NativeModules} from 'react-native';
-const {CalendarModule} = NativeModules;
-CalendarModule.createCalendarEvent();
-
-/*****************************************************************/
-/*****************************************************************/
-
 ref = React.createRef();
 
 const GraphModule = () => (

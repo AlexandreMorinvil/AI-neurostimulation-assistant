@@ -58,31 +58,17 @@ class NeuroAlgorithmPrediction:
         self.P_test = np.zeros((self.DimSearchSpace, 2))  # storing all queries
         self.q = 0  # query number
         self.hyp = [1.0, 1.0, 1.0, 1.0]  # initialize kernel hyperparameters
-        self.order_this = np.random.permutation(
-            self.DimSearchSpace
-        )  # random permutation of each entry of the search space
         self.P_max = []
         self.mean_function = GPy.core.Mapping(input_dim=2, output_dim=1)
         self.mean_function.update_gradients = lambda a, b: None
 
     def execute_query(self, x_chan, BO_reward):
+        print("------------------", x_chan, BO_reward)
         if self.q < 100:
             # We will sample the search space randomly for exactly nrnd queries
-            if self.q >= self.nrnd:
-                # Find next point (max of acquisition function)
-                self.AcquisitionMap = self.ymu + self.kappa * np.nan_to_num(
-                    np.sqrt(self.ys2)
-                )  # UCB acquisition function
-                # self.NextQuery= np.where(self.AcquisitionMap.reshape(len(self.AcquisitionMap))==np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap))))
-                # print("next querry" + str(self.NextQuery))
-
-                # select next query
-                self.NextQuery = x_chan
-                self.P_test[self.q][0] = self.NextQuery
-            else:
-                self.P_test[self.q][0] = int(self.order_this[self.q])  #
-                self.query_elec = self.P_test[self.q][0]
-                # print("next querry " + str(self.q))
+            self.P_test[self.q][0] = x_chan
+            self.query_elec = self.P_test[self.q][0]
+            # print("next querry " + str(self.q))
 
             # SEND THIS TO CLINICIAN
             # RECEIVE RESPONSE
@@ -197,6 +183,8 @@ class NeuroAlgorithmPrediction:
         """Transform ymu data to base64 image"""
 
         ymu_r = np.reshape(ymu, (-1, self.dimention))
+        print(ymu)
+        print(ymu_r)
         pic_iobytes = io.BytesIO()
 
         plt.clf()
@@ -204,7 +192,7 @@ class NeuroAlgorithmPrediction:
         # plt.imsave(pic_iobytes, ymu_r)
         plt.colorbar()
         plt.savefig(pic_iobytes, format="png", transparent=True)
-        plt.savefig("ymu.jpg")
+        #plt.savefig("ymu.jpg")
         pic_iobytes.seek(0)
 
         pic_hash = base64.b64encode(pic_iobytes.read())

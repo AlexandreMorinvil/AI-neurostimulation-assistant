@@ -2,7 +2,7 @@ import logging
 import json
 import signal
 from flask import Flask, request
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from flask import jsonify
 from flask.wrappers import Response
@@ -16,7 +16,7 @@ import numpy as np
 
 def main():
     app = Flask(__name__)
-    socketio = SocketIO(app, cors_allowed_origins="*")
+    socketio = SocketIO(app)
     CORS(app)
     ssid = None
 

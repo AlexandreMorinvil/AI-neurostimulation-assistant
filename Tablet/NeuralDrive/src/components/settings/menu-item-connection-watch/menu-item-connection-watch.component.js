@@ -27,7 +27,7 @@ const SettingsMenuItemConnectionWatch = () => {
       setStateHeaderSummary(CONNECTED_HEADER_SUMMARY);
     }
     else {
-      setStateSettingStatus(SettingsStatus.NEEDED);
+      setStateSettingStatus(SettingsStatus.PROBLEMATIC);
       setStateHeaderSummary(NO_CONNECTION_HEADER_SUMMARY);
     }
   }

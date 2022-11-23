@@ -52,6 +52,6 @@ export function validatePatientId(id) {
 
 
 // Initialization
-(async function initialize() {
+export async function initialize() {
   patientId = await initializeValueWithPersistantData(STORE_KEY_PATIENT_ID, patientId);
-})()
+}

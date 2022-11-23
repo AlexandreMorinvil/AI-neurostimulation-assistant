@@ -1,12 +1,14 @@
+import logging
 import json
-
+import signal
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 from flask import jsonify
 from flask.wrappers import Response
 from command_handler import CommandHandler
 import numpy as np
+
 
 
 
@@ -17,20 +19,28 @@ def main():
     socketio = SocketIO(app, cors_allowed_origins="*")
     CORS(app)
     ssid = None
-    command_handler = CommandHandler(socketio)
-    users = {}
-    @socketio.on('disconnect')
-    def on_disconnect():
-        users.pop(request.sid,'No user found')
-        socketio.emit('current_users', users)
-        print("User disconnected!\nThe users are: ", users)
 
-    @socketio.on('message')
-    def messaging(message, methods=['GET', 'POST']):
-        print('received message: ' + str(message))
-        ssid = request.sid
-        command_handler.ssid = ssid
-        socketio.emit('message', 'reponseVersNoe', room=request.sid)
+    logging.getLogger('socketio').setLevel(logging.ERROR)
+    logging.getLogger('engineio').setLevel(logging.ERROR)
+    logging.getLogger('werkzeug').setLevel(logging.ERROR)
+
+    command_handler = CommandHandler(socketio)
+    
+    users = set()
+    watches = set()
+    @socketio.on('connect')
+    def handle_connection():
+        users.add(request.sid)
+        print("New User {request.sid} connected.  Current users :", users)
+
+    @socketio.on('disconnect')
+    def handle_disconnection():
+        users.discard(request.sid)
+        print("User disconnected. Current users : ", users)
+
+    @socketio.on('watch_packet')
+    def handle_watch_packet(watch_packet):
+        emit('watch_packet', watch_packet, broadcast=True, includde_self=False)
 
     ####################################################################################################
     #### Only for debug
@@ -51,7 +61,7 @@ def main():
     def watch_packet() -> Response:
         data = request.data.decode('UTF-8')
         print(len(command_handler.stack_watch_data))
-        if(len(command_handler.stack_watch_data)<=50):
+        if(len(command_handler.stack_watch_data)<50):
             command_handler.push_watch_data_in_stack(json.loads(data))
         response = "packet accepted"
         socketio.emit('message', data, room=ssid)
@@ -70,5 +80,6 @@ def main():
         if data != None:
             response = command_handler.handle_command(data["action"], data["arg"])
         return jsonify({"content": response})
+
 
     socketio.run(app, host='0.0.0.0',allow_unsafe_werkzeug=True)

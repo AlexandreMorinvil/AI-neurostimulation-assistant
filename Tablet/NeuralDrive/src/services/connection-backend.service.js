@@ -1,9 +1,12 @@
 import io from 'socket.io-client';
 import {Subject} from 'rxjs';
+
 import {
   initializeValueWithPersistantData,
   savePersistantData,
 } from './persistant-data.service';
+import {handleReceivedWatchPacket} from './watch-data.service';
+import {SOCKET_EVENT_WATCH_PACKET} from '../const/socket-events';
 
 // Constants
 const LOCALHOST = 'localhost';
@@ -23,6 +26,7 @@ export const subject = new Subject();
 
 // Exported methods
 export function activateLocalHostMode() {
+  _isInLocalhostMode = true;
   savePersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, true);
   subject.next();
 }
@@ -32,8 +36,13 @@ export function connect() {
 }
 
 export function deactivateLocalHostMode() {
+  _isInLocalhostMode = false;
   savePersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, false);
   subject.next();
+}
+
+export function disconnect() {
+  if (socketBackend.connected) socketBackend.disconnect();
 }
 
 export function getIsInLocalhostMode() {
@@ -58,6 +67,10 @@ export function isIpCurrentIpAddress(ipAddress) {
   return ipAddress === getBackendIpAddress();
 }
 
+export function sendRequest() {
+  return true;
+}
+
 export function setBackendIpAddress(inputIpAddress) {
   _backendIpAddress = inputIpAddress;
   savePersistantData(STORE_KEY_BACKEND_IP_ADDRESS, inputIpAddress);
@@ -69,9 +82,8 @@ function initializeConnectionListeners() {
   socketBackend.on('connect', () => {
     subject.next();
     console.log('Connected to server');
-    const engine = socketBackend.io.engine;
 
-    engine.on('close', reason => {
+    socketBackend.io.engine.on('close', reason => {
       console.log('Socket.io engine disconnection reason :', reason);
     });
   });
@@ -80,10 +92,12 @@ function initializeConnectionListeners() {
     subject.next();
     console.log('Disconnected from server');
   });
+
+  socketBackend.on(SOCKET_EVENT_WATCH_PACKET, handleReceivedWatchPacket);
 }
 
 function initSocket() {
-  if (socketBackend.connected) socketBackend.disconnect();
+  disconnect();
   setTimeout(() => {
     socketBackend = io(getBackendUrl());
     initializeConnectionListeners();
@@ -91,7 +105,7 @@ function initSocket() {
 }
 
 // Initialization
-(async function initialize() {
+export async function initialize() {
   _backendIpAddress = await initializeValueWithPersistantData(
     STORE_KEY_BACKEND_IP_ADDRESS,
     _backendIpAddress,
@@ -101,4 +115,9 @@ function initSocket() {
     _isInLocalhostMode,
   );
   initSocket();
-})();
+}
+
+// Clean Up
+export function cleanUp() {
+  disconnect();
+}

@@ -1,18 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {LineChart, YAxis, XAxis, Path, Grid} from 'react-native-svg-charts';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-  View,
-} from 'react-native';
-import {get_heat_map_data, get_chosen_param_2D} from '../class/const';
+import {LineChart, YAxis, XAxis, Grid} from 'react-native-svg-charts';
+import {StyleSheet, View} from 'react-native';
+import {get_heat_map_data, get_chosen_param_2D} from '../../../class/const';
 
-import * as problemDimensionService from "../services/problem-dimension.service";
+import * as problemDimensionService from '../../../services/problem-dimension.service';
 
-export function HeatMapGraph() {
+export function VizualizationQuery2dGraph() {
   array = new Array();
   const [initialData, setInitialData] = useState(array);
   const [dataMean, setDataMean] = useState(array);
@@ -22,10 +15,10 @@ export function HeatMapGraph() {
   useEffect(() => {
     const interval = setInterval(() => {
       updateData(
-        get_heat_map_data(), 
-        problemDimensionService.getProblemDimension(), 
-        get_chosen_param_2D()
-        );
+        get_heat_map_data(),
+        problemDimensionService.getProblemDimension(),
+        get_chosen_param_2D(),
+      );
     }, 1000);
     return () => clearInterval(interval);
   });
@@ -64,19 +57,7 @@ export function HeatMapGraph() {
     }
     setDataMean(temp);
   }
-  //if we want it for more then 2 params
-  /*function calculate_mean(array, sum){
-    if (array.lenght === 1){
-        sum+=array
-        
-    }
-    var current_dimension;
-    for (i = 0; i>array.lenght; i++){
-        current_dimension = array[i];
-        calculate_mean(current_dimension);
-    }
-    return current_dimension;
-  }*/
+
   return (
     <View style={styles.chartView}>
       <View style={styles.lineChart}>
@@ -132,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HeatMapGraph;
+export default VizualizationQuery2dGraph;

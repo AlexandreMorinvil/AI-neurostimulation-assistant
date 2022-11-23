@@ -1,17 +1,13 @@
-// React Native Imports
+import React, {useEffect} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-// Drawer Imports
 import {NavigationContainer} from '@react-navigation/native';
-import React from 'react';
-// Icon Imports
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// Component Imports
+
+import {cleanUp, initialize} from './services/app-setup.service';
 import CustomDrawer from './components/CustomDrawer';
-// Style Imports
 import * as ColorTheme from './styles/Colors';
-import DataBase from './views/Database';
-// View Imports
-import MainPaper from './views/MainPaper';
+
+import MainView from './views/main.view';
 import SettingsView from './views/settings.view';
 
 // ----------------------------------------------------------------------
@@ -19,6 +15,17 @@ import SettingsView from './views/settings.view';
 const Drawer = createDrawerNavigator();
 
 const App = () => {
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    initialize();
+    return cleanUp;
+  }, []);
+
+  /**
+   * Render
+   */
   return (
     <NavigationContainer>
       <Drawer.Navigator
@@ -37,8 +44,8 @@ const App = () => {
           },
         }}>
         <Drawer.Screen
-          name="MainPaper"
-          component={MainPaper}
+          name="Main"
+          component={MainView}
           options={{
             drawerIcon: () => (
               <Ionicons name="grid-outline" size={20} color={'#000'} />
@@ -54,7 +61,7 @@ const App = () => {
             ),
           }}
         />
-        <Drawer.Screen
+        {/* <Drawer.Screen
           name="Database"
           component={DataBase}
           options={{
@@ -62,7 +69,7 @@ const App = () => {
               <Ionicons name="settings-outline" size={20} color={'#000'} />
             ),
           }}
-        />
+        /> */}
       </Drawer.Navigator>
     </NavigationContainer>
   );

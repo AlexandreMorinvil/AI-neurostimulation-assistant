@@ -79,7 +79,7 @@ const SettingsMenuItemConnectionBackend = () => {
     }
 
     else {
-      setStateSettingStatus(SettingsStatus.NEEDED);
+      setStateSettingStatus(SettingsStatus.PROBLEMATIC);
       isInLocalhostMode ?
         setStateHeaderSummary(NOT_CONNECTED_LOCAL_HEADER_SUMMARY) :
         setStateHeaderSummary(NOT_CONNECTED_EXTERNAL_HEADER_SUMMARY(ipAddressConnected));

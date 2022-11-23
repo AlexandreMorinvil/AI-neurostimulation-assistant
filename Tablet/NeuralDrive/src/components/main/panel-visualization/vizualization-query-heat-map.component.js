@@ -49,6 +49,4 @@ class HeatMap extends React.Component {
   });
 }
 
-// we will create the new component HeatMapComponent that is the same as HeatMap but will be a functional component instead of a class component
-
 export default HeatMap;

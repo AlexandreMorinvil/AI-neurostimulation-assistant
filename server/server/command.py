@@ -1,14 +1,11 @@
 from enum import Enum
 
-class Action(Enum):
-    START_SESSION = 0
-    CONNECT_WATCH = 1
-    RECEIVE_DATA_WATCH = 2
-    EXECUTE_QUERY = 3
-    GET_WATCH_DATA = 4
-    SAVE_SESSION = 5
-    DELETE_SESSION = 6
-    GET_ALL_SESSION = 7
+class Action(str, Enum):
+    START_SESSION = 'START_SESSION'
+    CONNECT_WATCH = 'CONNECT_WATCH'
+    RECEIVE_DATA_WATCH = 'RECEIVE_DATA_WATCH'
+    EXECUTE_QUERY = 'EXECUTE_QUERY'
+    GET_WATCH_DATA = 'GET_WATCH_DATA'
 
 class Session_status(Enum):
     STOP = 0

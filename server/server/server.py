@@ -1,5 +1,6 @@
 import logging
 import json
+import random
 import signal
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
@@ -8,6 +9,7 @@ from flask import jsonify
 from flask.wrappers import Response
 from command_handler import CommandHandler
 import numpy as np
+from interface.watchData import WatchData
 
 
 app = Flask(__name__)
@@ -60,11 +62,16 @@ def packet() -> Response:
 @app.route("/watch_packet/", methods=["POST", "GET"])
 def watch_packet() -> Response:
     data = request.data.decode('UTF-8')
-    #print(len(command_handler.stack_watch_data))
-    #if(len(command_handler.stack_watch_data)<50):
-        #command_handler.push_watch_data_in_stack(json.loads(data))
-    response = "packet accepted"
-    emit('watch_packet', json.dumps(json.loads(data)), broadcast=True, includde_self=False)
+    # data = []
+    
+    #  ### SIMULATION SANS MONTRE ##############################
+    # for i in range(10):
+    #     n = str(random.randint(0, 9))
+    #     data = WatchData(n,n,n,n,n,n).__dict__
+    #         #########################################################
+    response = "packet accepted" 
+    print(json.dumps(json.loads(data)))
+    socketio.emit('watch_packet', json.dumps(json.loads(data)), broadcast=True, includde_self=False)
     return jsonify({"content": response})
 
 

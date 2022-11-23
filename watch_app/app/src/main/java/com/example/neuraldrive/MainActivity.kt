@@ -32,7 +32,7 @@ class MainActivity : Activity(), SensorEventListener{
     private lateinit var binding: ActivityMainBinding
 
     private val client = OkHttpClient()
-    private var ipAddressServer: String = "192.168.0.53"
+    private var ipAddressServer: String = "192.168.0.60"
     private var handler: Handler = Handler()
     var runnable: Runnable? = null
     private var delay = 500

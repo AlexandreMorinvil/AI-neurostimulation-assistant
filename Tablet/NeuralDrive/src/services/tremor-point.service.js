@@ -1,11 +1,16 @@
 import { Subject } from "rxjs";
 
+import { FREQUENCY_WATCH_POINT_GENERATION_IN_HZ } from "../const/watch";
 import * as watchDataService from "./watch-data.service";
 
 // Constants
-const MOVING_AVERAGE_WINDOW = 250;
+const MOVING_AVERAGE_WINDOW_TIME_INTERVAL_IN_SECONDS = 5;
+
+// Computed Constants
+const MOVING_AVERAGE_WINDOW_COUNT_POINTS = MOVING_AVERAGE_WINDOW_TIME_INTERVAL_IN_SECONDS * FREQUENCY_WATCH_POINT_GENERATION_IN_HZ;
 
 // Variables
+let _currentTremorMetric = 0;
 let _scalarizedTremorPointsBuffer = Array(watchDataService.COUNT_BUFFER_POINTS).fill(0);
 let _watchDataBufferSubscription = null;
 
@@ -19,15 +24,14 @@ export function getScalarizedTremorPointListToDisplay(countPoints, keepPointFreq
 }
 
 export function getMovingAveragePointsListToDisplay(countPoints, keepPointFrequency) {
-  const movingAverageTremorPointsBuffer = computeMovingAverageTremorPointsBuffer(MOVING_AVERAGE_WINDOW);
-  const countPointsToTake = countPoints - Math.ceil(MOVING_AVERAGE_WINDOW / 2);
+  const movingAverageTremorPointsBuffer = computeMovingAverageTremorPointsBuffer(MOVING_AVERAGE_WINDOW_COUNT_POINTS);
+  const countPointsToTake = countPoints - Math.ceil(MOVING_AVERAGE_WINDOW_COUNT_POINTS / 2);
   const pointsList =  movingAverageTremorPointsBuffer.slice(-countPointsToTake);
   return pointsList.filter((value, index) => { return index % keepPointFrequency === 0 });
 }
 
 export function getTremorMetricToDisplay() {
-  const lastTrenorPointsWindow = _scalarizedTremorPointsBuffer.slice(-MOVING_AVERAGE_WINDOW);
-  return computeAverage(lastTrenorPointsWindow);
+  return _currentTremorMetric;
 }
 
 // Private methods
@@ -64,7 +68,13 @@ function scalarizeTremorPoint(rawDataPoint) {
 
 async function updateBuffers(rawDataPointsBuffer) {
   updateScalarizedTremorPointsBuffer(rawDataPointsBuffer);
+  updateCurrentTremorMetric();
   subject.next();
+}
+
+function updateCurrentTremorMetric() {
+  const lastTrenorPointsWindow = _scalarizedTremorPointsBuffer.slice(-MOVING_AVERAGE_WINDOW_COUNT_POINTS);
+  _currentTremorMetric = computeAverage(lastTrenorPointsWindow);
 }
 
 function updateScalarizedTremorPointsBuffer(rawDataPointsBuffer) {

@@ -20,7 +20,7 @@ const KEEP_POINT_FREQUENCY = 2;
 const Y_MIN_VALUE = 0;
 const Y_MAX_VALUE = 30;
 
-const COUNT_X_AXIS_LABEL = 11;
+const COUNT_X_AXIS_LABEL = 10;
 const COUNT_Y_AXIS_LABEL = 10;
 
 const CONTENT_INSET = {
@@ -52,7 +52,6 @@ export function VizualizationTremor2dGraph() {
     if ((index + 1) === COUNT_X_AXIS_LABEL) return `${TITLE_X_AXIS} `;
     else {
       const timeInSeconds = (COUNT_X_AXIS_LABEL - (index + 1)) * TIME_INTERVAL_BETWEEN_X_AXIS_TICKS / 1000;
-      // return `${timeInSeconds.toFixed(1)} ${UNIT_X_AXIS}`;
       return `${timeInSeconds.toFixed(1)} ${UNIT_X_AXIS}`;
     }
   }

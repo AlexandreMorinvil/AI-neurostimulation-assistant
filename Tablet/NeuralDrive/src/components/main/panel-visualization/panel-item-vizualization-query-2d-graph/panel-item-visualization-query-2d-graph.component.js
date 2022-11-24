@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { LineChart, YAxis, XAxis, Grid } from 'react-native-svg-charts';
 import { StyleSheet, View } from 'react-native';
-import { get_heat_map_data, get_chosen_param_2D } from '../../../../class/const';
+import { LineChart, YAxis, XAxis, Grid } from 'react-native-svg-charts';
 
+import { get_heat_map_data, get_chosen_param_2D } from '../../../../class/const';
+import PanelVizualizationItem from "../panel-vizualization-item.component";
 import * as problemDimensionService from "../../../../services/problem-dimension.service";
+
+const TITLE_VISUALIZATION = "Averaged Parameter Effect";
 
 export function PanelItemVizualizationQuery2dGraph() {
 
@@ -60,34 +63,36 @@ export function PanelItemVizualizationQuery2dGraph() {
   }
 
   return (
-    <View style={styles.chartView}>
-      <View style={styles.lineChart}>
-        <YAxis
-          style={styles.axis}
+    <PanelVizualizationItem title={TITLE_VISUALIZATION}>
+      <View style={styles.chartView}>
+        <View style={styles.lineChart}>
+          <YAxis
+            style={styles.axis}
+            data={dataMean}
+            svg={{
+              fill: 'grey',
+              fontSize: 18,
+            }}
+            numberOfTicks={10}
+            formatLabel={value => `${value}`}
+          />
+          <LineChart
+            style={styles.chart}
+            data={dataMean}
+            svg={{ stroke: 'black' }}
+            contentInset={{ top: 20, bottom: 20 }}>
+            <Grid />
+          </LineChart>
+        </View>
+        <XAxis
+          style={{ marginHorizontal: '5%', width: '93%' }}
           data={dataMean}
-          svg={{
-            fill: 'grey',
-            fontSize: 18,
-          }}
-          numberOfTicks={10}
-          formatLabel={value => `${value}`}
+          formatLabel={(value, index) => index}
+          contentInset={{ left: 10, right: 10 }}
+          svg={{ fontSize: 18, fill: 'grey' }}
         />
-        <LineChart
-          style={styles.chart}
-          data={dataMean}
-          svg={{ stroke: 'black' }}
-          contentInset={{ top: 20, bottom: 20 }}>
-          <Grid />
-        </LineChart>
       </View>
-      <XAxis
-        style={{ marginHorizontal: '5%', width: '93%' }}
-        data={dataMean}
-        formatLabel={(value, index) => index}
-        contentInset={{ left: 10, right: 10 }}
-        svg={{ fontSize: 18, fill: 'grey' }}
-      />
-    </View>
+    </PanelVizualizationItem>
   );
 }
 

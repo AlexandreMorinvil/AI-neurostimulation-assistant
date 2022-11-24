@@ -6,7 +6,7 @@ import PanelVizualizationItem from "../panel-vizualization-item.component";
 import * as tremorPointService from "../../../../services/tremor-point.service";
 import * as watchDataService from "../../../../services/watch-data.service";
 
-const TITLE_VISUALIZATION = "Vizualization : Real Time Tremor";
+const TITLE_VISUALIZATION = "Real Time Tremor";
 const TITLE_X_AXIS = "Time";
 const TITLE_Y_AXIS = "Intensity";
 

@@ -14,7 +14,8 @@ const UNIT_X_AXIS = "s";
 const UNIT_Y_AXIS = "m/s²";
 
 const REFRESH_RATE_IN_MS = 200;
-const COUNT_DATA_POINTS = 450;
+const COUNT_DATA_POINTS = 500;
+const KEEP_POINT_FREQUENCY = 2;
 
 const Y_MIN_VALUE = 0;
 const Y_MAX_VALUE = 30;
@@ -43,8 +44,8 @@ export function VizualizationTremor2dGraph() {
    * Function 
    */
   const updateGraph = () => {
-    setStateTremorRawData(tremorPointService.getScalarizedTremorPointListToDisplay(COUNT_DATA_POINTS));
-    setStateTremorAveragedData(tremorPointService.getMovingAveragePointsListToDisplay(COUNT_DATA_POINTS));
+    setStateTremorRawData(tremorPointService.getScalarizedTremorPointListToDisplay(COUNT_DATA_POINTS, KEEP_POINT_FREQUENCY));
+    setStateTremorAveragedData(tremorPointService.getMovingAveragePointsListToDisplay(COUNT_DATA_POINTS, KEEP_POINT_FREQUENCY));
   }
 
   const formatXAxisLabel = (value, index, array) => {

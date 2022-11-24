@@ -5,39 +5,23 @@ const MOVING_AVERAGE_WINDOW = 50;
 
 // Variables
 let _scalarizedTremorPointsBuffer = Array(watchDataService.COUNT_BUFFER_POINTS).fill(0);
-let _movingAverageTremorPointsBuffer = Array(watchDataService.COUNT_BUFFER_POINTS).fill(0);
 let _watchDataBufferSubscription = null;
 
 // Exported methods
-export function getScalarizedTremorPointListToDisplay(countPoints) {
-  return _scalarizedTremorPointsBuffer.slice(-countPoints);
+export function getScalarizedTremorPointListToDisplay(countPoints, keepPointFrequency) {
+  const pointsList = _scalarizedTremorPointsBuffer.slice(-countPoints);
+  return pointsList.filter((value, index) => { return index % keepPointFrequency === 0 })
 }
 
-export function getMovingAveragePointsListToDisplay(countPoints) {
+export function getMovingAveragePointsListToDisplay(countPoints, keepPointFrequency) {
   const countPointsToTake = countPoints - Math.ceil(MOVING_AVERAGE_WINDOW / 2);
-  return _movingAverageTremorPointsBuffer.slice(-countPointsToTake);
+  const movingAverageTremorPointsBuffer = computeMovingAverageTremorPointsBuffer();
+  const pointsList =  movingAverageTremorPointsBuffer.slice(-countPointsToTake);
+  return pointsList.filter((value, index) => { return index % keepPointFrequency === 0 });
 }
 
 // Private methods
-function scalarizeTremorPoint(rawDataPoint) {
-  const { xAcceleration, yAcceleration, zAcceleration } = rawDataPoint;
-  return Math.sqrt(
-    Math.pow(xAcceleration, 2),
-    Math.pow(yAcceleration, 2),
-    Math.pow(zAcceleration, 2)
-  );
-}
-
-async function updateBuffers(rawDataPointsBuffer) {
-  updateScalarizedTremorPointsBuffer(rawDataPointsBuffer);
-  updateMovingAverageTremorPointsBuffer();
-}
-
-function updateScalarizedTremorPointsBuffer(rawDataPointsBuffer) {
-  _scalarizedTremorPointsBuffer = rawDataPointsBuffer.map(scalarizeTremorPoint);
-}
-
-function updateMovingAverageTremorPointsBuffer() {
+function computeMovingAverageTremorPointsBuffer() {
 
   const countPointsTakenBefore = Math.floor(MOVING_AVERAGE_WINDOW / 2);
   const countPointsTakenAfter = Math.ceil(MOVING_AVERAGE_WINDOW / 2);
@@ -55,8 +39,24 @@ function updateMovingAverageTremorPointsBuffer() {
     movingAverageList.push(average);
   }
 
-  _movingAverageTremorPointsBuffer.splice(0, movingAverageList.length, ...movingAverageList);
-  console.log(movingAverageList.length, _movingAverageTremorPointsBuffer.length);
+  return movingAverageList;
+}
+
+function scalarizeTremorPoint(rawDataPoint) {
+  const { xAcceleration, yAcceleration, zAcceleration } = rawDataPoint;
+  return Math.sqrt(
+    Math.pow(xAcceleration, 2),
+    Math.pow(yAcceleration, 2),
+    Math.pow(zAcceleration, 2)
+  );
+}
+
+async function updateBuffers(rawDataPointsBuffer) {
+  updateScalarizedTremorPointsBuffer(rawDataPointsBuffer);
+}
+
+function updateScalarizedTremorPointsBuffer(rawDataPointsBuffer) {
+  _scalarizedTremorPointsBuffer = rawDataPointsBuffer.map(scalarizeTremorPoint);
 }
 
 // Initialization

@@ -1,24 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import PanelItem from '../../panel-item.component';
 
-import * as Structures from "../../../Structures";
-
 patient_level = 10;
 
 const ITEM_TITLE = "Statistics";
 
-const PanelItemStatistics = () => {
-  const [value2, setValue2] = React.useState(0);
-  React.useEffect(() => {
-    const interval2 = setInterval(() => {
-      setValue2(value2 => value2 + 1);
-    }, 1000);
+const TITLE_TREMOR_METRIC = "Average Tremor";
+const UNIT_TREMOR_METRIC = "m/s²";
 
-    return () => clearInterval(interval2);
-  }, [value2]);
+const PanelItemStatistics = () => {
+  const [stateTremorMetric, setStateTremorMetric] = useState();
 
   /**
    * Render
@@ -28,16 +22,7 @@ const PanelItemStatistics = () => {
       isActive={true}
       title={ITEM_TITLE}
     >
-      <Structures.FlexContainer flex={0.7} height={100}
-        flexDirection={'column'}
-        jc={'flex-start'}
-        alignItems="center"
-        pad="0"
-        bgColor={'#00000000'}>
-        <Text variant="headlineLarge" style={{ marginTop: 30 }}>
-          <Text variant="headlineSmall"> Average Tremor: </Text> {patient_level}
-        </Text>
-      </Structures.FlexContainer>
+      <Text variant="headlineSmall"> {TITLE_TREMOR_METRIC} {stateTremorMetric} {UNIT_TREMOR_METRIC} </Text>
     </PanelItem>
   );
 };

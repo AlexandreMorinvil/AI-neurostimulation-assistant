@@ -4,8 +4,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import PanelItem from '../../panel-item.component';
 import * as tremorPointService from "../../../../services/tremor-point.service";
 
-patient_level = 10;
-
 const ITEM_TITLE = "Statistics";
 
 const TITLE_TREMOR_METRIC = "Average Tremor";

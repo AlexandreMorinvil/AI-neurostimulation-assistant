@@ -13,13 +13,14 @@ import * as Structures from "../../../Structures";
 const ITEM_TITLE = "Input Parameters";
 
 const PanelItemParameters = () => {
+
   const [valueP1, setP1] = React.useState(0);
   const [valueP2, setP2] = React.useState(0);
   const [valueY, setY] = React.useState(0);
 
   const [predictedP1, setPredictedP1] = React.useState(0);
   const [predictedP2, setPredictedP2] = React.useState(0);
-  const [predictedY, setPredictedY] = React.useState(0);
+  const [predictedY] = React.useState(0);
 
   const [selected, setSelected] = React.useState(0);
   const gaussianGraphSelectionParam = [

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, YAxis, XAxis, Grid } from 'react-native-svg-charts';
 import { StyleSheet, View } from 'react-native';
-import { get_heat_map_data, get_chosen_param_2D } from '../../../class/const';
+import { get_heat_map_data, get_chosen_param_2D } from '../../../../class/const';
 
-import * as problemDimensionService from "../../../services/problem-dimension.service";
+import * as problemDimensionService from "../../../../services/problem-dimension.service";
 
-export function VizualizationQuery2dGraph() {
+export function PanelItemVizualizationQuery2dGraph() {
 
   array = new Array();
   const [initialData, setInitialData] = useState(array);
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VizualizationQuery2dGraph;
+export default PanelItemVizualizationQuery2dGraph;

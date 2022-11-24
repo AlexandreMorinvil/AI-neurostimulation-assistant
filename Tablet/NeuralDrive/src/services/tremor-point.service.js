@@ -3,7 +3,7 @@ import { Subject } from "rxjs";
 import * as watchDataService from "./watch-data.service";
 
 // Constants
-const MOVING_AVERAGE_WINDOW = 200;
+const MOVING_AVERAGE_WINDOW = 250;
 
 // Variables
 let _scalarizedTremorPointsBuffer = Array(watchDataService.COUNT_BUFFER_POINTS).fill(0);
@@ -19,8 +19,8 @@ export function getScalarizedTremorPointListToDisplay(countPoints, keepPointFreq
 }
 
 export function getMovingAveragePointsListToDisplay(countPoints, keepPointFrequency) {
+  const movingAverageTremorPointsBuffer = computeMovingAverageTremorPointsBuffer(MOVING_AVERAGE_WINDOW);
   const countPointsToTake = countPoints - Math.ceil(MOVING_AVERAGE_WINDOW / 2);
-  const movingAverageTremorPointsBuffer = computeMovingAverageTremorPointsBuffer();
   const pointsList =  movingAverageTremorPointsBuffer.slice(-countPointsToTake);
   return pointsList.filter((value, index) => { return index % keepPointFrequency === 0 });
 }
@@ -35,10 +35,10 @@ function computeAverage(pointsList) {
   return pointsList.reduce((a, b) => a + b, 0) / pointsList.length;
 };
 
-function computeMovingAverageTremorPointsBuffer() {
+function computeMovingAverageTremorPointsBuffer(windowSize) {
 
-  const countPointsTakenBefore = Math.floor(MOVING_AVERAGE_WINDOW / 2);
-  const countPointsTakenAfter = Math.ceil(MOVING_AVERAGE_WINDOW / 2);
+  const countPointsTakenBefore = Math.floor(windowSize / 2);
+  const countPointsTakenAfter = Math.ceil(windowSize / 2);
 
   const startIndex = countPointsTakenBefore;
   const endIndex = _scalarizedTremorPointsBuffer.length - countPointsTakenAfter;

@@ -20,7 +20,7 @@ const KEEP_POINT_FREQUENCY = 2;
 const Y_MIN_VALUE = 0;
 const Y_MAX_VALUE = 30;
 
-const COUNT_X_AXIS_LABEL = 6;
+const COUNT_X_AXIS_LABEL = 10;
 const COUNT_Y_AXIS_LABEL = 10;
 
 const CONTENT_INSET = {

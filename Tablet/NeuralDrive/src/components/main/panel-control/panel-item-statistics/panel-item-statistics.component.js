@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 import PanelItem from '../../panel-item.component';
+import * as tremorPointService from "../../../../services/tremor-point.service";
 
 patient_level = 10;
 
@@ -12,7 +12,36 @@ const TITLE_TREMOR_METRIC = "Average Tremor";
 const UNIT_TREMOR_METRIC = "m/s²";
 
 const PanelItemStatistics = () => {
-  const [stateTremorMetric, setStateTremorMetric] = useState();
+
+  /**
+   * States
+   */
+  const [stateTremorMetric, setStateTremorMetric] = useState(0);
+
+  /**
+   * Function 
+   */
+  const updateStatistics = () => {
+    setStateTremorMetric(tremorPointService.getTremorMetricToDisplay());
+  }
+
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    // Initilization
+    updateStatistics();
+
+    // Reactive subcribtion
+    const subscription = tremorPointService.subject.subscribe({
+      next: updateStatistics
+    });
+    
+    // Cleanup
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  }, []);
 
   /**
    * Render
@@ -22,7 +51,9 @@ const PanelItemStatistics = () => {
       isActive={true}
       title={ITEM_TITLE}
     >
-      <Text variant="headlineSmall"> {TITLE_TREMOR_METRIC} {stateTremorMetric} {UNIT_TREMOR_METRIC} </Text>
+      <View>
+        <Text variant="headlineSmall"> {TITLE_TREMOR_METRIC} {stateTremorMetric} {UNIT_TREMOR_METRIC} </Text>
+      </View>
     </PanelItem>
   );
 };
@@ -31,15 +62,7 @@ const PanelItemStatistics = () => {
  * Style Sheet
  */
 const styles = StyleSheet.create({
-  watchSurface: {
-    margin: 10,
-    padding: 8,
-    height: 300,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-  }
+
 });
 
 export default PanelItemStatistics;

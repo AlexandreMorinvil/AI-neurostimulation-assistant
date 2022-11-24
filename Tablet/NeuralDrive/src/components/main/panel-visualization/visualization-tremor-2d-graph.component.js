@@ -3,6 +3,7 @@ import { LineChart, YAxis, XAxis, Grid } from 'react-native-svg-charts';
 import { StyleSheet, View } from 'react-native';
 
 import PanelVizualizationItem from "./panel-vizualization-item.component";
+import * as tremorPointService from "../../../services/tremor-point.service";
 import * as watchDataService from "../../../services/watch-data.service";
 
 const TITLE_VISUALIZATION = "Vizualization : Real Time Tremor";
@@ -13,12 +14,12 @@ const UNIT_X_AXIS = "s";
 const UNIT_Y_AXIS = "m/s²";
 
 const REFRESH_RATE_IN_MS = 200;
-const COUNT_DATA_POINTS = 500;
+const COUNT_DATA_POINTS = 450;
 
 const Y_MIN_VALUE = 0;
 const Y_MAX_VALUE = 30;
 
-const COUNT_X_AXIS_LABEL = 10;
+const COUNT_X_AXIS_LABEL = 6;
 const COUNT_Y_AXIS_LABEL = 10;
 
 const CONTENT_INSET = {
@@ -42,11 +43,11 @@ export function VizualizationTremor2dGraph() {
    * Function 
    */
   const updateGraph = () => {
-    setStateTremorRawData(watchDataService.getWatchPointsToDisplay(COUNT_DATA_POINTS));
-    setStateTremorAveragedData(Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)));
+    setStateTremorRawData(tremorPointService.getScalarizedTremorPointListToDisplay(COUNT_DATA_POINTS));
+    setStateTremorAveragedData(tremorPointService.getMovingAveragePointsListToDisplay(COUNT_DATA_POINTS));
   }
 
-  const formatXAxisLabel = (value, index) => {
+  const formatXAxisLabel = (value, index, array) => {
     if ((index + 1) === COUNT_X_AXIS_LABEL) return `${TITLE_X_AXIS} `;
     else return `${(COUNT_X_AXIS_LABEL - (index + 1)) * TIME_INTERVAL_BETWEEN_X_AXIS_TICKS / 1000} ${UNIT_X_AXIS}`;
   }
@@ -73,7 +74,6 @@ export function VizualizationTremor2dGraph() {
         <View style={styles.lineChart}>
           <YAxis
             style={styles.axis}
-            // data={[Y_MIN_VALUE, Y_MAX_VALUE]}
             data={Array(COUNT_Y_AXIS_LABEL).fill(0)}
             min={Y_MIN_VALUE}
             max={Y_MAX_VALUE}
@@ -108,7 +108,7 @@ export function VizualizationTremor2dGraph() {
         <XAxis
           style={{ marginHorizontal: '3%', marginLeft: '10%',  width: '87%' }}
           data={Array(COUNT_X_AXIS_LABEL).fill(0)}
-          numberOfTicks={10}
+          numberOfTicks={COUNT_X_AXIS_LABEL}
           formatLabel={formatXAxisLabel}
           contentInset={CONTENT_INSET}
           svg={{ fontSize: 18, fill: 'black' }}

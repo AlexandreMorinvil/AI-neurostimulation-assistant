@@ -14,7 +14,8 @@ import * as networkService from "../../../services/network.service";
 
 const SECTION_TITLE = "Connection Smart Watch :"
 const HELP_INFORMATION =
-  `Details... TODO.`
+  `This section shows the user the needed information to connect himself to the Smartwatch application. By entering the given ip address into the Smartwatch \n\
+  application, the application will be able to connect itself to the Tablet application. Once it is connected the header of the section will turn green.`;
 
 const MESSAGE_INSERT_IP_ADDREES_TO_WATCH = "Insert the following IP address in the NeuralDrive smart watch application :";
 const MESSAGE_BACKEND_NOT_CONNECTED = "Smart watch cannot be connected if the backend is not connected.";

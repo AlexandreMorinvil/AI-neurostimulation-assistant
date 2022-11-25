@@ -10,7 +10,8 @@ import ButtonBackendType from "./button-backend-type.component";
 
 const SECTION_TITLE = "Backend Type :";
 const INSTRUCTIONS =
-  `Details... TODO.`;
+  `This section enables the user to connect themselves to the backend of the system. In order to do so the user has to select a backend type between a local backend \n\
+  located on the tablet or an external backend located on a computer.`;
 
 const BUTTON_RADIUS = 50;
 

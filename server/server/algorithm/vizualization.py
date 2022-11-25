@@ -1,3 +1,7 @@
+# Specifying a different backend for matplotlib so that it can run outside the main thread
+import matplotlib
+matplotlib.use('Agg')
+
 import base64
 import io
 import matplotlib.pyplot as plt
@@ -20,6 +24,7 @@ def generate_heatmap_image(values_list,
 
     # Generate image
     pic_iobytes = io.BytesIO()
+    plt.savefig(pic_iobytes, format='jpeg')
     pic_iobytes.seek(0)
     pic_hash = base64.b64encode(pic_iobytes.read())
     

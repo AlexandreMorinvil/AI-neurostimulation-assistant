@@ -29,14 +29,16 @@ class CommandHandler:
 
         elif action == Action.EXECUTE_QUERY.value:
             x_chanel = int(arg["A"]) + int(arg["B"])*self.current_session.algorithm.dimension
+            
             print("EXECUTE_QUERY for parameters :", int(arg["A"]), int(arg["B"]))
-            output = self.current_session.algorithm.execute_query(x_chanel,float(arg["y_value"]))
+            heatmap_base64_jpeg_image, position, values, next_query = \
+                self.current_session.algorithm.execute_query(x_chanel,float(arg["y_value"]))
             
             data = {
-                "predict_heat_map" : json.dumps(output[0]),
-                "position": json.dumps(output[1]),
-                "values": json.dumps(output[2]),
-                "next_query": output[3]
+                "heatmap_base64_jpeg_image" : json.dumps(heatmap_base64_jpeg_image),
+                "position":                   json.dumps(position),
+                "values":                     json.dumps(values),
+                "next_query":                 json.dumps(next_query)
             }
             return data
 

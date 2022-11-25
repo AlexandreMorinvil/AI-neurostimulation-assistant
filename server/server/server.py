@@ -12,6 +12,7 @@ import numpy as np
 from interface.watchData import WatchData
 
 
+
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
 CORS(app)

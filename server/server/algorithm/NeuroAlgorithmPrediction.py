@@ -66,8 +66,15 @@ class NeuroAlgorithmPrediction:
         print("------------------", x_chan, BO_reward)
         if self.q < 100:
             # We will sample the search space randomly for exactly nrnd queries
-            self.P_test[self.q][0] = x_chan
-            self.query_elec = self.P_test[self.q][0]
+            # Find next point (max of acquisition function)
+            self.AcquisitionMap = self.ymu + self.kappa*np.nan_to_num(np.sqrt(self.ys2)) # UCB acquisition function
+            #self.NextQuery= np.where(self.AcquisitionMap.reshape(len(self.AcquisitionMap))==np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap))))
+            #print("next querry" + str(self.NextQuery))
+                
+            # select next query 
+            self.NextQuery = x_chan    
+            self.P_test[self.q][0]= self.NextQuery
+
             # print("next querry " + str(self.q))
 
             # SEND THIS TO CLINICIAN
@@ -150,10 +157,7 @@ class NeuroAlgorithmPrediction:
         solution = self.ymu_image(self.ymu)
 
         if self.NextQuery:
-            self.NextQuery = np.where(
-                self.AcquisitionMap.reshape(len(self.AcquisitionMap))
-                == np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap)))
-            )
+            self.NextQuery= np.where(self.AcquisitionMap.reshape(len(self.AcquisitionMap))==np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap))))
             print("next querry = " + str(self.NextQuery[0][0]))
             return solution, position, values, str(self.NextQuery[0][0])
         return solution, position, values, "0"

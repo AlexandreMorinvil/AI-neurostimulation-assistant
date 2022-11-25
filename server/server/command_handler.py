@@ -8,10 +8,11 @@ from command import Action
 from command import Session_status
 from algorithm.NeuroAlgorithmPrediction import NeuroAlgorithmPrediction
 from interface.session import Session
-from interface.watchData import WatchData
+from interface.saveSession import *
 import numpy as np
 import random
-from database import Database
+from interface.watchData import WatchData
+#from database import Database
 
 ####################################################################################################
 #### Represent the different mode available to tranfer data
@@ -32,8 +33,10 @@ class CommandHandler:
         self.socketIO = socketIO
         self.ssid = None
         self.current_session = None
-        self.db : Database = Database()
-        self.db.connect()
+        self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000), 2, [], [])
+        save_session_local(self.current_save_session)
+        #self.db : Database = Database()
+        #self.db.connect()
 
 ####################################################################################################
 #### START_SESSION : Create a new session.
@@ -86,21 +89,24 @@ class CommandHandler:
                 print(data)
                 return json.dumps(data)
 
-        elif action == Action.SAVE_SESSION.value:
-            print("save session")
-            self.db.add_session(arg["session"])
-            sessions = self.db.get_all_session()
-            print(sessions)
-            return sessions
+        elif action == Action.SAVE_SESSION_LOCAL.value:
+            save_session_local(self.current_save_session)
 
-        elif action == Action.DELETE_SESSION.value:
-            print("delete session")
-            self.db.delete_session(arg["id"])
+        # elif action == Action.SAVE_SESSION.value:
+        #     print("save session")
+        #     self.db.add_session(arg["session"])
+        #     sessions = self.db.get_all_session()
+        #     print(sessions)
+        #     return sessions
 
-        elif action == Action.GET_ALL_SESSION.value:
-            sessions = self.db.get_all_session()
-            print(sessions)
-            return sessions
+        # elif action == Action.DELETE_SESSION.value:
+        #     print("delete session")
+        #     self.db.delete_session(arg["id"])
+
+        # elif action == Action.GET_ALL_SESSION.value:
+        #     sessions = self.db.get_all_session()
+        #     print(sessions)
+        #     return sessions
 
 
 

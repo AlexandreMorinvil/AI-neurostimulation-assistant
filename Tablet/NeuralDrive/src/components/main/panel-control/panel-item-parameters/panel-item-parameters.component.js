@@ -5,10 +5,13 @@ import { Button, Text } from 'react-native-paper';
 
 import InputQueryParameter from "./input-query-parameter.component"
 import PanelItem from '../../panel-item.component';
+
+
 import { set_chosen_param_2D, set_heat_map_data } from '../../../../class/const';
 import { post_execute_query } from '../../../../class/http';
 
 import * as Structures from "../../../Structures";
+import * as backendCommandService from "../../../../services/backed-command.service";
 
 const ITEM_TITLE = "Input Parameters";
 
@@ -40,6 +43,27 @@ const PanelItemParameters = () => {
 
   const [currentRecommendationA, setCurrentRecommendationA] = React.useState(0);
   const [currentRecommendationB, setCurrentRecommendationB] = React.useState(0);
+
+  /**
+   * Functions
+   */
+  const performQuery = async () => {
+    const response = await backendCommandService.commandExecuteQuery(valueP1, valueP2, valueY);
+    // ref.current.state.data = JSON.parse(response.heatMapBase64JpegImagejpeg);
+    // newPosition = JSON.parse(response.position);
+    // ref.current.draw_heat_map();
+    // setPredictedP1(newPosition[Number(response.next_query)][0]);
+    // setPredictedP2(newPosition[Number(response.next_query)][1]);
+
+    // setOldAlgorithmA(currentDisplayA.toString());
+    // setOldAlgorithmB(currentDisplayB.toString());
+    // setCurrentDisplayA(newPosition[Number(response.next_query)][0].toString());
+    // setCurrentDisplayB(newPosition[Number(response.next_query)][1].toString());
+    // setCurrentRecommendationA(newPosition[Number(response.next_query)][0].toString());
+    // setCurrentRecommendationB(newPosition[Number(response.next_query)][1].toString());
+
+    // set_heat_map_data(JSON.parse(response.values));
+  }
 
   /**
    * Render
@@ -119,23 +143,7 @@ const PanelItemParameters = () => {
           buttonColor={'#CC958F'}
           dark={false}
           loading={false}
-          onPress={async () => {
-            response = await post_execute_query(valueP1, valueP2, valueY);
-            ref.current.state.data = JSON.parse(response.predict_heat_map);
-            newPosition = JSON.parse(response.position);
-            ref.current.draw_heat_map();
-            setPredictedP1(newPosition[Number(response.next_query)][0]);
-            setPredictedP2(newPosition[Number(response.next_query)][1]);
-
-            setOldAlgorithmA(currentDisplayA.toString());
-            setOldAlgorithmB(currentDisplayB.toString());
-            setCurrentDisplayA(newPosition[Number(response.next_query)][0].toString());
-            setCurrentDisplayB(newPosition[Number(response.next_query)][1].toString());
-            setCurrentRecommendationA(newPosition[Number(response.next_query)][0].toString());
-            setCurrentRecommendationB(newPosition[Number(response.next_query)][1].toString());
-
-            set_heat_map_data(JSON.parse(response.values));
-          }}
+          onPress={performQuery}
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
             query

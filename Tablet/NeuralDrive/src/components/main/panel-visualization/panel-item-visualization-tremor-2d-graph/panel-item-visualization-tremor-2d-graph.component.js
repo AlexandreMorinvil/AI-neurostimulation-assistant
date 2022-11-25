@@ -13,7 +13,7 @@ const TITLE_Y_AXIS = "Intensity";
 const UNIT_X_AXIS = "s";
 const UNIT_Y_AXIS = "m/s²";
 
-const REFRESH_RATE_IN_MS = 200;
+const REFRESH_RATE_IN_MS = 250;
 const COUNT_DATA_POINTS = 500;
 const KEEP_POINT_FREQUENCY = 2;
 

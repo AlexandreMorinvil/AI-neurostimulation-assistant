@@ -52,27 +52,3 @@ export const post_execute_query = async (A, B, y_value) => {
     return response.content;
   }
 };
-
-export const get_watch_data = async chart => {
-  command = {
-    action: Action.GET_WATCH_DATA,
-    arg: {},
-  };
-  try {
-    const response = await fetch(getBackendUrl() + '/command', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        action: command.action,
-        arg: command.arg,
-      }),
-    });
-    const json = await response.json();
-    return JSON.parse(json.content);
-  } catch (error) {
-    console.log(error);
-  }
-};

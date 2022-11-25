@@ -8,10 +8,9 @@ import PanelItem from '../../panel-item.component';
 
 
 import { set_chosen_param_2D, set_heat_map_data } from '../../../../class/const';
-import { post_execute_query } from '../../../../class/http';
 
 import * as Structures from "../../../Structures";
-import * as backendCommandService from "../../../../services/backed-command.service";
+import * as httpRequestService from "../../../../services/http-request.service";
 
 const ITEM_TITLE = "Input Parameters";
 
@@ -48,21 +47,23 @@ const PanelItemParameters = () => {
    * Functions
    */
   const performQuery = async () => {
-    const response = await backendCommandService.commandExecuteQuery(valueP1, valueP2, valueY);
-    // ref.current.state.data = JSON.parse(response.heatMapBase64JpegImagejpeg);
-    // newPosition = JSON.parse(response.position);
-    // ref.current.draw_heat_map();
-    // setPredictedP1(newPosition[Number(response.next_query)][0]);
-    // setPredictedP2(newPosition[Number(response.next_query)][1]);
+    const response = await httpRequestService.postExecuteQuery(valueP1, valueP2, valueY);
+
+    ref.current.state.data = response.heatMapBase64JpegImage;
+    ref.current.draw_heat_map();
+
+    newPosition = response.position;
+    // setPredictedP1(newPosition[Number(response.nextQuery)][0]);
+    // setPredictedP2(newPosition[Number(response.nextQuery)][1]);
 
     // setOldAlgorithmA(currentDisplayA.toString());
     // setOldAlgorithmB(currentDisplayB.toString());
-    // setCurrentDisplayA(newPosition[Number(response.next_query)][0].toString());
-    // setCurrentDisplayB(newPosition[Number(response.next_query)][1].toString());
-    // setCurrentRecommendationA(newPosition[Number(response.next_query)][0].toString());
-    // setCurrentRecommendationB(newPosition[Number(response.next_query)][1].toString());
+    // setCurrentDisplayA(newPosition[Number(response.nextQuery)][0].toString());
+    // setCurrentDisplayB(newPosition[Number(response.nextQuery)][1].toString());
+    // setCurrentRecommendationA(newPosition[Number(response.nextQuery)][0].toString());
+    // setCurrentRecommendationB(newPosition[Number(response.nextQuery)][1].toString());
 
-    // set_heat_map_data(JSON.parse(response.values));
+    set_heat_map_data(response.values);
   }
 
   /**
@@ -120,7 +121,6 @@ const PanelItemParameters = () => {
           titleSpacing={'0 6px 0 0'}
         />
       </Structures.FlexContainer>
-      {/* Reset & Query */}
       <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
         <Button
           icon="sync"

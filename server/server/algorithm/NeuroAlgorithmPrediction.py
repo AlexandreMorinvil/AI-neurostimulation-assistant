@@ -1,20 +1,13 @@
+from .vizualization import generate_heatmap_image
 import itertools
-import matplotlib.pyplot as plt
 import numpy as np
-import base64
-import io
-import time
-from datetime import date
 import GPy
-
 
 class NeuroAlgorithmPrediction:
 
-    positions = None
-    n_Chan = 0
-    NextQuery = None
-
     def __init__(self) -> None:
+        
+        # Hyper parameters
         self.mKernel = 5  # Matern kernel order
         self.noise_min = 0.0001
         self.kappa = 5
@@ -24,11 +17,16 @@ class NeuroAlgorithmPrediction:
         self.noise_max = 0.05
         np.random.seed(0)
 
-    def generate_space(self, dimention, n_param):
-        self.dimention = dimention
+        # Private variables
+        self.positions = None
+        self.n_chan = 0
+        self.next_query = None
+
+    def generate_space(self, dimension, n_param):
+        self.dimension = dimension
         self.n_param = n_param
         tab = []
-        for i in range(dimention):
+        for i in range(dimension):
             tab.append(i)
 
         space = []
@@ -38,7 +36,7 @@ class NeuroAlgorithmPrediction:
         positions = list(itertools.product(*space))
 
         self.positions = np.array(positions)
-        self.n_Chan = len(self.positions)
+        self.n_chan = len(self.positions)
 
         # Create the kernel
         # Put a  prior on the two lengthscale hyperparameters and the variance
@@ -53,37 +51,46 @@ class NeuroAlgorithmPrediction:
         )
 
         # Then run the sequential optimization
-        self.DimSearchSpace = self.n_Chan
-        self.MaxQueries = self.DimSearchSpace
-        self.P_test = np.zeros((self.DimSearchSpace, 2))  # storing all queries
-        self.q = 0  # query number
-        self.hyp = [1.0, 1.0, 1.0, 1.0]  # initialize kernel hyperparameters
+        self.dim_search_space =  self.n_chan
+        self.P_test = np.zeros((self.n_chan, 2))    # Storing all queries
+        self.q = 0                                  # query number
+        self.hyp = [1.0, 1.0, 1.0, 1.0]             # initialize kernel hyperparameters
+        
+        # random permutation of each entry of the search space
+        self.order_this= np.random.permutation(self.dim_search_space) 
+        
         self.P_max = []
-        self.mean_function = GPy.core.Mapping(input_dim=2, output_dim=1)
-        self.mean_function.update_gradients = lambda a, b: None
 
     def execute_query(self, x_chan, BO_reward):
         if self.q < 100:
             # We will sample the search space randomly for exactly nrnd queries
-            self.P_test[self.q][0] = x_chan
-            self.query_elec = self.P_test[self.q][0]
-            # print("next querry " + str(self.q))
+            if self.q>=self.nrnd:
+                # Find next point (max of acquisition function)
+                self.acquisition_map = self.ymu \
+                    + self.kappa * np.nan_to_num(np.sqrt(self.ys2)) # UCB acquisition function 
+                
+                # select next query 
+                self.next_query = x_chan    
+                self.P_test[self.q][0]= self.next_query
+
+            else:
+                self.P_test[self.q][0]= int(self.order_this[self.q]) #
+                self.query_elec = self.P_test[self.q][0]
 
             # SEND THIS TO CLINICIAN
             # RECEIVE RESPONSE
 
-            # noisy response
+            # Noisy response
             self.BO_reward = BO_reward
-            # done reading response
 
+            # Done reading response
             self.P_test[self.q][1] = self.BO_reward
-            # The first element of P_test is the selected search
-            # space point, the second the resulting value
+            
+            # The first element of P_test is the selected search space point, the second the 
+            # resulting value
 
-            self.x = self.positions[
-                self.P_test[: self.q + 1, 0].astype(int), :
-            ]  # search space position
-            self.y = self.P_test[: self.q + 1, 1]  # test result
+            self.x = self.positions[self.P_test[: self.q + 1, 0].astype(int), :]  # Search space position
+            self.y = self.P_test[: self.q + 1, 1]  # Test result
             self.y = self.y.reshape((len(self.y), 1))
 
             # Update the initial value of the parameters
@@ -93,7 +100,6 @@ class NeuroAlgorithmPrediction:
 
             # Initialization of the model and the constraint of the Gaussian noise
             if self.q == 0:
-                # m=GPy.models.GPRegression(x,y, kernel= matk, normalizer=None, noise_var=hyp[3])
                 self.m = GPy.models.GPRegression(
                     self.x,
                     self.y,
@@ -101,9 +107,11 @@ class NeuroAlgorithmPrediction:
                     normalizer=None,
                     noise_var=self.hyp[3],
                 )
+
                 self.m.Gaussian_noise.constrain_bounded(
                     self.noise_min**2, self.noise_max**2, warning=False
                 )
+
             else:
                 self.m.set_XY(self.x, self.y)
                 self.m.Gaussian_noise.variance[0] = self.hyp[3]
@@ -123,9 +131,8 @@ class NeuroAlgorithmPrediction:
                 self.X_test, full_cov=False, Y_metadata=None, include_likelihood=True
             )
 
-            # We only test for gp predictions at electrodes that
-            # we had queried (presumable we only want to return an
-            # electrode that we have already queried).
+            # We only test for gp predictions at electrodes that we had queried (presumable we only
+            # want to return an electrode that we have already queried).
             self.Tested = np.unique(self.P_test[: self.q + 1, 0].astype(int))
             self.MapPredictionTested = self.ymu[self.Tested]
 
@@ -139,28 +146,30 @@ class NeuroAlgorithmPrediction:
                 self.BestQuery = np.array(
                     [self.BestQuery[np.random.randint(len(self.BestQuery))]]
                 )
+
             # Maximum response at time q
             self.P_max.append(self.BestQuery[0])
             self.q += 1
 
-        position = self.generateOutput(self.positions)
+        position = self.generate_output(self.positions)
         values = self.transform_ymu(self.ymu)
-        # print(solution)
-        solution = self.ymu_image(self.ymu)
+        heatmap_base64_jpeg_image = generate_heatmap_image(
+            self.ymu, [self.dimension] * 2, "parameter #1", "parameter #2"
+        )
 
-        if self.NextQuery:
-            self.NextQuery = np.where(
-                self.AcquisitionMap.reshape(len(self.AcquisitionMap))
-                == np.max(self.AcquisitionMap.reshape(len(self.AcquisitionMap)))
+        if self.next_query:
+            self.next_query = np.where(
+                self.acquisition_map.reshape(len(self.acquisition_map))
+                == np.max(self.acquisition_map.reshape(len(self.acquisition_map)))
             )
-            print("next querry = " + str(self.NextQuery[0][0]))
-            return solution, position, values, str(self.NextQuery[0][0])
-        return solution, position, values, "0"
+            print("Next querry = " + str(self.next_query[0][0]))
+            return heatmap_base64_jpeg_image, position, values, str(self.next_query[0][0])
+        return heatmap_base64_jpeg_image, position, values, 0
 
-    ####################################################################################################
-    #### generate new array in 2 dimentions
-    ####################################################################################################
-    def generateOutput(self, solution):
+    ################################################################################################
+    #### generate new array in 2 dimensions
+    ################################################################################################
+    def generate_output(self, solution):
         output = []
         for rep in solution:
             tab = []
@@ -169,44 +178,11 @@ class NeuroAlgorithmPrediction:
             output.append(tab)
         return output
 
-    ####################################################################################################
+    ################################################################################################
     #### transform predict heat-map(ymu) form 1D to 2D array
-    ####################################################################################################
+    ################################################################################################
     def transform_ymu(self, ymu):
         output = []
         for i in range(len(self.positions)):
             output.append([i, ymu[i][0]])
         return output
-
-    def ymu_image(self, ymu):
-        """Transform ymu data to base64 image"""
-
-        ymu_r = np.reshape(ymu, (-1, self.dimention))
-        print(ymu)
-        print(ymu_r)
-
-        plt.clf()
-        plt.imshow(ymu_r)
-        # plt.imsave(pic_iobytes, ymu_r)
-        plt.colorbar()
-
-        # let's add arrows pointing to the lowest values of ymu_r
-        # we can use quiver and np.gradient to do this
-        # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.quiver.html
-
-        # first we need to get the gradient of ymu_r
-        X, Y = np.gradient(ymu_r)
-        U = 2*X
-        V = -2*Y
-        plt.quiver(U, V, color='black', scale=15)
-
-        pic_iobytes = io.BytesIO()
-        plt.savefig(pic_iobytes, format="png", transparent=True)
-        plt.savefig("ymu.jpg")
-        pic_iobytes.seek(0)
-
-        pic_hash = base64.b64encode(pic_iobytes.read())
-        return pic_hash.decode("utf-8")
-
-    def sendQueryResult(self):
-        pass

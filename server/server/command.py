@@ -5,7 +5,6 @@ class Action(str, Enum):
     CONNECT_WATCH = 'CONNECT_WATCH'
     RECEIVE_DATA_WATCH = 'RECEIVE_DATA_WATCH'
     EXECUTE_QUERY = 'EXECUTE_QUERY'
-    GET_WATCH_DATA = 'GET_WATCH_DATA'
 
 class Session_status(Enum):
     STOP = 0

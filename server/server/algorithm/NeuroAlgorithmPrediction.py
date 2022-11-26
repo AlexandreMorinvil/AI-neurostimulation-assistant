@@ -1,4 +1,3 @@
-from .vizualization import generate_heatmap_image
 import itertools
 import numpy as np
 import GPy

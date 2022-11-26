@@ -41,6 +41,20 @@ export function hasNoLoadedHeatmap() {
   return Boolean(_loadedHeatmapBase64JpegImageData);
 }
 
+export async function refreshVizualizations() {
+    _isLoadingHeatmap = true;
+    _isLoadingParameterGraph = true;
+    subjectHeatmap.next();
+    subjectParameterGraph.next();
+    const { heatMapBase64JpegImage, parameterGraphBase64JpegImage } =
+    await httpRequestService.getVisualizationsForParameters(
+      _selectedFirstParameterIndex,
+      _selectedSecondParameterIndex
+    );
+    _loadedHeatmapBase64JpegImageData = heatMapBase64JpegImage;
+    _loadedParameterGraphBase64JpegImageData = parameterGraphBase64JpegImage;
+}
+
 export function setHeatmapBase64JpegImageData() {
   return _loadedHeatmapBase64JpegImageData;
 }

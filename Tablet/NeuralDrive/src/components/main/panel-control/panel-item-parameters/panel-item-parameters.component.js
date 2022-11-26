@@ -1,40 +1,48 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import InputQueryParameter from "./input-query-parameter.component"
 import PanelItem from '../../panel-item.component';
 
-import * as Structures from "../../../Structures";
-import * as httpRequestService from "../../../../services/http-request.service";
+import * as problemDimensionService from "../../../../services/problem-dimension.service";
+import * as queryService from "../../../../services/query.service";
+import * as tremorPointService from "../../../../services/tremor-point.service";
 
 const ITEM_TITLE = "Input Parameters";
 
+const BUTTON_TEXT_QUERY = "PERFORM QUERY";
+const BUTTON_TEXT_RESET = "SET TO RECOMMENDED";
+
 const PanelItemParameters = () => {
 
-  const [valueP1, setP1] = React.useState(0);
-  const [valueP2, setP2] = React.useState(0);
-  const [valueY, setY] = React.useState(0);
-
-  const [oldAlgorithmA, setOldAlgorithmA] = React.useState(0);
-  const [currentDisplayA, setCurrentDisplayA] = React.useState(0);
-  const [currentRecommendationA, setCurrentRecommendationA] = React.useState(0);
+  /**
+   * States
+   */
+  const [stateSelectedParametersValueList, setStateSelectedParametersValueList] = useState(problemDimensionService.getDefaultValues());
+  const [stateSuggestedParametersValueList, setStateSuggestedParametersValueList] = useState(problemDimensionService.getDefaultValues());
+  const [statePreviousParametersValueList, setStatePreviousParametersValueList] = useState(problemDimensionService.getDefaultValues());
 
   /**
    * Functions
    */
   const performQuery = async () => {
-    const response = await httpRequestService.postExecuteQuery(valueP1, valueP2, valueY);
+    await queryService.postExecuteQuery(
+      stateSelectedParametersValueList,
+      tremorPointService.getAveragedTremorMetric()
+    );
+    setStateSuggestedParametersValueList(queryService.getCurrentSuggestedParametersList());
+    setStatePreviousParametersValueList(queryService.getLastQueryParametersList());
+  }
 
-    ref.current.state.data = response.heatMapBase64JpegImage;
-    ref.current.draw_heat_map();
+  const setParameterValue = (index, value) => {
+    const currentParameterValuesList = stateSelectedParametersValueList.splice();
+    currentParameterValuesList[index] = value;
+    setStateSelectedParametersValueList(currentParameterValuesList);
+  }
 
-    newPosition = response.position;
-    // setPredictedP1(newPosition[Number(response.nextQuery)][0]);
-    // setOldAlgorithmA(currentDisplayA.toString());
-    // setCurrentDisplayA(newPosition[Number(response.nextQuery)][0].toString());
-    // setCurrentRecommendationA(newPosition[Number(response.nextQuery)][0].toString());
+  const setAllParameterValuesToSuggestedValues = (index, value) => {
+    setStateSelectedParametersValueList(stateSuggestedParametersValueList.splice());
   }
 
   /**
@@ -45,50 +53,45 @@ const PanelItemParameters = () => {
       isActive={true}
       title={ITEM_TITLE}
     >
-      {
+      {stateSelectedParametersValueList.map((_, index) => {
+        return (
+          <InputQueryParameter
+            label ={'Parameter #' + (index + 1)}
+            initialValue={stateSelectedParametersValueList[index]}
+            previousValue={statePreviousParametersValueList[index]}
+            setParentValueFunction={(index) => setParameterValue(index, value)}
+          />
+        );
+      })
 
       }
-      <InputQueryParameter
-        flexInput={0.35}
-        dimension={'Amplitude (V)'}
-        value={currentDisplayA}
-        setFunction={text => {
-          setP1(text)
-          setCurrentDisplayA(text);
-        }}
-        oldAlgorithmValue={oldAlgorithmA}
-        boxFunction={text => { setCurrentDisplayA(oldAlgorithmA.toString()); }}
-      />
 
-      <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
+      <View style={styles.buttonArea}>
         <Button
           icon="sync"
           mode="elevated"
-          buttonColor={'#CC958F'}
           dark={false}
           loading={false}
-          onPress={() => {
-            setCurrentDisplayA(currentRecommendationA.toString());
-            setCurrentDisplayB(currentRecommendationB.toString());
-          }}
+          onPress={setAllParameterValuesToSuggestedValues}
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
-            reset
+            {BUTTON_TEXT_RESET}
           </Text>
         </Button>
         <Button
           icon="tab-search"
           mode="elevated"
-          buttonColor={'#CC958F'}
+
           dark={false}
-          loading={false}
+          loading={true}
           onPress={performQuery}
           uppercase={true}>
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
-            query
+            {BUTTON_TEXT_QUERY}
           </Text>
         </Button>
-      </Structures.FlexContainer>
+      </View>
+
     </ PanelItem>
   );
 };
@@ -97,14 +100,8 @@ const PanelItemParameters = () => {
  * Style Sheet
  */
 const styles = StyleSheet.create({
-  inputSurface: {
-    margin: 10,
-    padding: 8,
-    height: 800,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
+  buttonArea: {
+    backgroundColor: "green",
   }
 });
 

@@ -25,6 +25,10 @@ export function getProblemDimension() {
   return _problemDimension;
 }
 
+export function getDefaultValues() {
+  return _problemDimension.slice().fill(0);
+}
+
 export function isIpCurrentDimension(dimension) {
   return dimension === getProblemDimension();
 }

@@ -18,6 +18,10 @@ let _watchDataBufferSubscription = null;
 export const subject = new Subject();
 
 // Exported methods
+export function getAveragedTremorMetric() {
+  return _currentTremorMetric;
+}
+
 export function getScalarizedTremorPointListToDisplay(countPoints, keepPointFrequency) {
   const pointsList = _scalarizedTremorPointsBuffer.slice(-countPoints);
   return pointsList.filter((value, index) => { return index % keepPointFrequency === 0 })

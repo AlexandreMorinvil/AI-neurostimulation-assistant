@@ -23,15 +23,14 @@ export async function postStartNewSession(dimensions) {
   }
 };
 
-export async function postExecuteQuery(A, B, y_value) {
+export async function postExecuteQuery(parametersValueList, tremorMetric) {
 
   // Request format
   const command = {
     action: Action.EXECUTE_QUERY,
     arg: {
-      A: A,
-      B: B,
-      y_value: y_value
+      parameters_value_list: parametersValueList,
+      tremor_metric: tremorMetric
     },
   };
 
@@ -43,10 +42,7 @@ export async function postExecuteQuery(A, B, y_value) {
 
     // Response format
     return {
-      heatMapBase64JpegImage: response.content?.heatmap_base64_jpeg_image,
-      position: response.content?.position,
-      values: response.content?.values,
-      nextQuery: response.content?.next_query
+      suggestedParametersList: response.content?.suggested_parameters_list
     }
   }
 };

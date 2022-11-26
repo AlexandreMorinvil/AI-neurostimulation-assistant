@@ -1,14 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Pressable } from 'react-native';
 import { Text, TextInput } from 'react-native-paper';
 
-const InputQueryParameter = (props) => {
+const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
 
   /**
    * Props
    */
-  const { dimension, setFunction, value, oldAlgorithmValue, boxFunction } = props;
+  const { initialValue, label, previousValue } = props;
+
+  /**
+   * States
+   */
+  const [stateLabel, setStateLabel] = useState(label);
+  const [stateValue, setStateValue] = useState(initialValue);
+  const [statePreviousValue, setStatePreviousValue] = useState(previousValue);
+
+  /**
+   * Functions
+   */
+  const setValue = (value) => {
+    setParentValueFunction(value);
+    setStateValue(value);
+  }
+
+  const setValueToPreviousValue = () => {
+    setValue(statePreviousValue);
+  }
+
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    setStateLabel(props.label);
+    setStatePreviousValue(props.previousValue);
+  },
+    [
+      props.label,
+      props.previousValue
+    ]);
 
   /**
    * Render
@@ -17,9 +47,11 @@ const InputQueryParameter = (props) => {
     <View style={styles.container}>
 
 
-      <TouchableOpacity onPress={boxFunction}>
+      <TouchableOpacity
+        onPress={setValueToPreviousValue}
+      >
         <Text variant="titleMedium" style={{ color: '#374F42' }}>
-          {oldAlgorithmValue}
+          {statePreviousValue}
         </Text>
       </TouchableOpacity>
 
@@ -30,12 +62,11 @@ const InputQueryParameter = (props) => {
         outlineColor="white"
         selectionColor="#6f6f6f"
         multiline={false}
-        value={value}
-        onChangeText={setFunction}
+        value={stateValue}
+        onChangeText={setValue}
         textColor="black"
-        label={dimension}
+        label={stateLabel}
         dense={true}
-
       />
     </View>
   );
@@ -47,7 +78,7 @@ const InputQueryParameter = (props) => {
  */
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "green",
+    backgroundColor: "#DDDDDD",
     margin: 10,
     height: 100,
     width: 100,

@@ -12,7 +12,7 @@ const ButtonProblemDimension = ({ setParentStateSelectedDimensionFunction, ...pr
    * States
    */
   const [stateIsActive, setStateIsActive] = useState(isActive);
-  const [stateDimension, setStateDimension] = useState(dimension || 10);
+  const [stateDimension, setStateDimension] = useState(dimension || [10, 10]);
 
   /**
    * Functions
@@ -20,7 +20,7 @@ const ButtonProblemDimension = ({ setParentStateSelectedDimensionFunction, ...pr
   setParentStateSelectedDimensionFunction = setParentStateSelectedDimensionFunction ? setParentStateSelectedDimensionFunction : () => { };
 
   const makeButtonText = () => {
-    return `${stateDimension} × ${stateDimension}`;
+    return stateDimension.join(" × ");
   }
 
   const setSelectedDimension = () => {
@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     color: "#999999",
     fontSize: 20,
     fontWeight: "bold",
+    textAlign: "center"
   },
   active: {
     backgroundColor: "#32C832",

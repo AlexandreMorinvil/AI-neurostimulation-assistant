@@ -2,14 +2,13 @@ import { Action, ERROR_CODE, Status } from '../class/actions';
 import { getBackendUrl } from "./connection-backend.service";
 
 // Exported methods
-export const post_start_new_session = async (countParameters, dimension) => {
+export async function postStartNewSession(dimensions) {
 
   // Request format
   const command = {
     action: Action.START_SESSION,
     arg: {
-      n_param: countParameters,
-      dimention: dimension,
+      dimensions: dimensions,
     },
   };
   response = await sendCommand(command);
@@ -18,11 +17,13 @@ export const post_start_new_session = async (countParameters, dimension) => {
   } else {
 
     // Response format 
-    return response.content.status;
+    return {
+      status: response.content?.status
+    }
   }
 };
 
-export const postExecuteQuery = async (A, B, y_value) => {
+export async function postExecuteQuery(A, B, y_value) {
 
   // Request format
   const command = {
@@ -50,10 +51,10 @@ export const postExecuteQuery = async (A, B, y_value) => {
   }
 };
 
-
-export const getVisualizationsForParameters = async (firstParameterIndex, secondParameterIndex) => {
+export async function getVisualizationsForParameters(firstParameterIndex, secondParameterIndex) {
 
   // Request format
+  const method = "GET";
   const command = {
     action: Action.GET_VIZUALIZATIONS,
     arg: {
@@ -63,7 +64,7 @@ export const getVisualizationsForParameters = async (firstParameterIndex, second
   };
 
   // Send request and handle errors
-  response = await sendCommand(command);
+  response = await sendCommand(command, method);
   if (response === ERROR_CODE.FAIL_CONNECT_TO_SERVER) {
     return Status.STOP;
   } else {
@@ -77,11 +78,11 @@ export const getVisualizationsForParameters = async (firstParameterIndex, second
 };
 
 // Private methods
-const sendCommand = async (command) => {
+async function sendCommand(command, method) {
   try {
     console.log("Send HTTP request for command :", command);
     const response = await fetch(getBackendUrl() + '/command', {
-      method: 'POST',
+      method: method || 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

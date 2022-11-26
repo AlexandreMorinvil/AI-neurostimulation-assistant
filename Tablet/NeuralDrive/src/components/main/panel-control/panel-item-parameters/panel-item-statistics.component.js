@@ -50,7 +50,7 @@ const PanelItemStatistics = () => {
       title={ITEM_TITLE}
     >
       <View>
-        <Text variant="headlineSmall"> {TITLE_TREMOR_METRIC} {stateTremorMetric} {UNIT_TREMOR_METRIC} </Text>
+        <Text> {TITLE_TREMOR_METRIC} {stateTremorMetric} {UNIT_TREMOR_METRIC} </Text>
       </View>
     </PanelItem>
   );

@@ -5,7 +5,7 @@ import { Image } from 'react-native-elements';
 import PanelVizualizationItem from "../panel-vizualization-item.component";
 import * as queryVizualizationService from "../../../../services/query-vizualization.service";
 
-const TITLE_VISUALIZATION = "Dual Parameter Influence";
+const TITLE_VISUALIZATION = "Dual Parameters Influence";
 
 const PanelItemVizualizationQueryHeatMap = () => {
 
@@ -13,7 +13,7 @@ const PanelItemVizualizationQueryHeatMap = () => {
    * States
    */
   const [stateHeatmapBase64JpegImageData, setStateHeatmapBase64JpegImageData] = useState("");
-  const [stateIsLoading, setStateIsLoading] = useState(true);
+  const [stateIsLoading, setStateIsLoading] = useState(false);
 
   /**
    * Functions

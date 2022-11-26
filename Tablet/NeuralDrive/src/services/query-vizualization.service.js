@@ -1,5 +1,7 @@
 import { Subject } from "rxjs";
 
+import * as httpRequestService from "./http-request.service";
+
 // Variables
 let _selectedFirstParameterIndex = 0;
 let _selectedSecondParameterIndex = 1;
@@ -36,7 +38,7 @@ export function getParameterGraphBase64JpegImageData() {
 }
 
 export function hasNoLoadedHeatmap() {
-  return _loadedHeatmapBase64JpegImageData === "";
+  return Boolean(_loadedHeatmapBase64JpegImageData);
 }
 
 export function setHeatmapBase64JpegImageData() {
@@ -87,7 +89,11 @@ async function updateVizualizations(firstParameterIndex, secondParameterIndex) {
   }
 
   // Fetch the updated graph
-  const { heatMapBase64JpegImage, parameterGraphBase64JpegImage } = await httpRequestService.getVisualizationsForParameters();
+  const { heatMapBase64JpegImage, parameterGraphBase64JpegImage } =
+    await httpRequestService.getVisualizationsForParameters(
+      _selectedFirstParameterIndex,
+      _selectedSecondParameterIndex
+    );
 
   // Update the vizualizations and remove the loading state
   if (mustUpdateHeatmap) {

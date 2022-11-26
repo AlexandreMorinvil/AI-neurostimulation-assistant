@@ -1,13 +1,10 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { SelectList } from 'react-native-dropdown-select-list';
+
 import { Button, Text } from 'react-native-paper';
 
 import InputQueryParameter from "./input-query-parameter.component"
 import PanelItem from '../../panel-item.component';
-
-
-import { set_chosen_param_2D, set_heat_map_data } from '../../../../class/const';
 
 import * as Structures from "../../../Structures";
 import * as httpRequestService from "../../../../services/http-request.service";
@@ -20,28 +17,9 @@ const PanelItemParameters = () => {
   const [valueP2, setP2] = React.useState(0);
   const [valueY, setY] = React.useState(0);
 
-  const [predictedP1, setPredictedP1] = React.useState(0);
-  const [predictedP2, setPredictedP2] = React.useState(0);
-  const [predictedY] = React.useState(0);
-
-  const [selected, setSelected] = React.useState(0);
-  const gaussianGraphSelectionParam = [
-    { key: 0, value: 'A' },
-    { key: 1, value: 'B' },
-    { key: 2, value: 'C', disabled: true },
-    { key: 3, value: 'D', disabled: true },
-    { key: 4, value: 'E', disabled: true },
-    { key: 5, value: 'F', disabled: true },
-  ];
-
   const [oldAlgorithmA, setOldAlgorithmA] = React.useState(0);
-  const [oldAlgorithmB, setOldAlgorithmB] = React.useState(0);
-
   const [currentDisplayA, setCurrentDisplayA] = React.useState(0);
-  const [currentDisplayB, setCurrentDisplayB] = React.useState(0);
-
   const [currentRecommendationA, setCurrentRecommendationA] = React.useState(0);
-  const [currentRecommendationB, setCurrentRecommendationB] = React.useState(0);
 
   /**
    * Functions
@@ -54,16 +32,9 @@ const PanelItemParameters = () => {
 
     newPosition = response.position;
     // setPredictedP1(newPosition[Number(response.nextQuery)][0]);
-    // setPredictedP2(newPosition[Number(response.nextQuery)][1]);
-
     // setOldAlgorithmA(currentDisplayA.toString());
-    // setOldAlgorithmB(currentDisplayB.toString());
     // setCurrentDisplayA(newPosition[Number(response.nextQuery)][0].toString());
-    // setCurrentDisplayB(newPosition[Number(response.nextQuery)][1].toString());
     // setCurrentRecommendationA(newPosition[Number(response.nextQuery)][0].toString());
-    // setCurrentRecommendationB(newPosition[Number(response.nextQuery)][1].toString());
-
-    set_heat_map_data(response.values);
   }
 
   /**
@@ -74,53 +45,21 @@ const PanelItemParameters = () => {
       isActive={true}
       title={ITEM_TITLE}
     >
-      <Structures.FlexContainer
-        flex={0.8}
-        flexDirection={'column'}
-        jc={'flex-start'}
-        alignItems="center"
-        pad="0"
-        bgColor={'#00000000'}>
-        <InputQueryParameter
-          flexInput={0.35}
-          dimension={'Amplitude (V)'}
-          value={currentDisplayA}
-          predictedValue={predictedP1}
-          setFunction={text => {
-            setP1(text)
-            setCurrentDisplayA(text);
-          }}
-          unitType={'units'}
-          titleSpacing={'0 5px 0 0'}
-          oldAlgorithmValue={oldAlgorithmA}
-          boxFunction={text => { setCurrentDisplayA(oldAlgorithmA.toString()); }}
-        />
-        <InputQueryParameter
-          flexInput={0.35}
-          setFunction={text => {
-            setP2(text);
-            setCurrentDisplayB(text);
-          }}
-          dimension={'Parameter #2'}
-          value={currentDisplayB}
-          predictedValue={predictedP2}
-          unitType={'units'}
-          titleSpacing={'0 6px 0 0'}
-          oldAlgorithmValue={oldAlgorithmB}
-          boxFunction={text => { setCurrentDisplayB(oldAlgorithmB.toString()); }}
-        />
-        <InputQueryParameter
-          flexInput={0.35}
-          setFunction={text => {
-            setY(text);
-          }}
-          dimension={'tremor'}
-          value={valueY}
-          predictedValue={predictedY}
-          unitType={'units'}
-          titleSpacing={'0 6px 0 0'}
-        />
-      </Structures.FlexContainer>
+      {
+
+      }
+      <InputQueryParameter
+        flexInput={0.35}
+        dimension={'Amplitude (V)'}
+        value={currentDisplayA}
+        setFunction={text => {
+          setP1(text)
+          setCurrentDisplayA(text);
+        }}
+        oldAlgorithmValue={oldAlgorithmA}
+        boxFunction={text => { setCurrentDisplayA(oldAlgorithmA.toString()); }}
+      />
+
       <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
         <Button
           icon="sync"
@@ -149,19 +88,6 @@ const PanelItemParameters = () => {
             query
           </Text>
         </Button>
-      </Structures.FlexContainer>
-      <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
-        <Text variant="titleMedium"> 2D Gaussian parameter</Text>
-      </Structures.FlexContainer>
-      <Structures.FlexContainer flex={0.2} jc="space-around" bgColor="00000000">
-        <SelectList
-          setSelected={val => setSelected(val)}
-          data={gaussianGraphSelectionParam}
-          save="key"
-          dropdownTextStyles={{ color: "black" }}
-          disabledTextStyles={{ color: "grey" }}
-          onSelect={() => set_chosen_param_2D(selected)}
-        />
       </Structures.FlexContainer>
     </ PanelItem>
   );

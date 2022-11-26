@@ -1,0 +1,87 @@
+[
+    {
+        "system": "Machine 1",
+        "parameters": [
+            {
+                "name": "Frequency",
+                "dimension": 10,
+                "unit": "Hertz"
+            },
+            {
+                "name": "Amplitude",
+                "dimension": 10,
+                "unit": "Volt"
+            }
+        ]
+    },
+    {
+        "system": "Machine 2",
+        "parameters": [
+            {
+                "name": "Frequency",
+                "dimension": 20,
+                "unit": "Hertz"
+            },
+            {
+                "name": "Amplitude",
+                "dimension": 30,
+                "unit": "Volt"
+            }
+        ]
+    },
+    {
+        "system": "Machine 3",
+        "parameters": [
+            {
+                "name": "Frequency",
+                "dimension": 50,
+                "unit": "Hertz"
+            },
+            {
+                "name": "Amplitude",
+                "dimension": 50,
+                "unit": "Volt"
+            }
+        ]
+    },
+    {
+        "system": "Machine 4",
+        "parameters": [
+            {
+                "name": "Frequency",
+                "dimension": 10,
+                "unit": "Hertz"
+            },
+            {
+                "name": "Amplitude",
+                "dimension": 10,
+                "unit": "Volt"
+            },
+            {
+                "name": "Currant",
+                "dimension": 10,
+                "unit": "Ampere"
+            }
+        ]
+    },
+    {
+        "system": "Machine 5",
+        "parameters": [
+            {
+                "name": "Frequency",
+                "dimension": 5,
+                "unit": "Hertz"
+            },
+            {
+                "name": "Amplitude",
+                "dimension": 20,
+                "unit": "Volt"
+            },
+            {
+                "name": "Currant",
+                "dimension": 10,
+                "unit": "Ampere"
+            }
+        ]
+    }
+]

@@ -8,9 +8,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def generate_heatmap_image(values_list, 
-                         dimensions_list, 
-                         x_parameter_name = "", 
-                         y_parameter_name = ""):
+                           dimensions_list,
+                           first_parameter_index,
+                           second_parameter_index,
+                           x_parameter_name = "", 
+                           y_parameter_name = ""):
     
     # Main heatmap
     plt.clf()

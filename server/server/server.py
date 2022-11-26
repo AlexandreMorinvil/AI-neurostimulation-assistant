@@ -64,11 +64,10 @@ def watch_packet() -> Response:
 ####################################################################################################
 @app.route("/command", methods=["POST", "GET"])
 def command() -> Response:
-    data = request.get_json()
-    print(data)
+    command = request.get_json()
     response = None
-    if data != None:
-        response = command_handler.handle_command(data["action"], data["arg"])
+    if command != None:
+        response = command_handler.handle_command(command["action"], command["arg"])
     return jsonify({"content": response})
 
 ####################################################################################################

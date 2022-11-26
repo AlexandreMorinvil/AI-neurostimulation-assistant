@@ -1,52 +1,76 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Image} from 'react-native-elements';
-import {Text} from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet } from "react-native";
+import { Image } from 'react-native-elements';
 
-class HeatMap extends React.Component {
-  state = {
-    data: '',
-  };
+import PanelVizualizationItem from "../panel-vizualization-item.component";
+import * as queryVizualizationService from "../../../../services/query-vizualization.service";
 
-  constructor(props) {
-    super(props);
-    this.ref = React.createRef();
+const TITLE_VISUALIZATION = "Dual Parameter Influence";
+
+const PanelItemVizualizationQueryHeatMap = () => {
+
+  /**
+   * States
+   */
+  const [stateHeatmapBase64JpegImageData, setStateHeatmapBase64JpegImageData] = useState("");
+  const [stateIsLoading, setStateIsLoading] = useState(true);
+
+  /**
+   * Functions
+   */
+  const updateHeatMap = () => {
+    setStateHeatmapBase64JpegImageData(queryVizualizationService.getHeatmapBase64JpegImageData());
+    if (queryVizualizationService.getIsLoadingHeatmap() ||
+      queryVizualizationService.hasNoLoadedHeatmap()) {
+      setStateIsLoading(true);
+    } else
+      setStateIsLoading(false);
   }
 
-  draw_heat_map() {
-    this.forceUpdate();
-  }
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    // Initialization
+    updateHeatMap();
 
-  render() {
-    return (
-      <View>
-        <View>
-          <Text variant="titleLarge"> HeatMap </Text>
-        </View>
-        <View>
-          <Image
-            source={{
-              uri: `data:image/jpeg;base64,${this.state.data}`,
-            }}
-            style={this.styles.box}
-          />
-        </View>
-      </View>
-    );
-  }
+    // Reactive subcribtion
+    const subscription = queryVizualizationService.subjectHeatmap.subscribe({
+      next: updateHeatMap
+    });
 
-  styles = StyleSheet.create({
-    box: {
-      width: '95%',
-      height: '95%',
-      margin: 10,
-    },
-    canvas_box: {
-      // backgroundColor: 'pink',
-      width: '100%',
-      height: '100%',
-    },
-  });
+    // Cleanup
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  }, []);
+
+  /**
+   * Render
+   */
+  return (
+    <PanelVizualizationItem title={TITLE_VISUALIZATION}>
+      {stateIsLoading ?
+        <ActivityIndicator
+          style={styles.activityIndicator}
+          size="large"
+        /> :
+        <Image
+          source={{ uri: `data:image/jpeg;base64,${stateHeatmapBase64JpegImageData}` }}
+        />
+      }
+    </PanelVizualizationItem>
+  );
 }
 
-export default HeatMap;
+/**
+ * Style Sheet
+ */
+const styles = StyleSheet.create({
+  activityIndicator: {
+    height: "100%",
+    width: "100%",
+  }
+});
+
+export default PanelItemVizualizationQueryHeatMap;

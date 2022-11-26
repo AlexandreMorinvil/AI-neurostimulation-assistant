@@ -16,14 +16,14 @@ export const post_start_new_session = async (countParameters, dimension) => {
   if (response === ERROR_CODE.FAIL_CONNECT_TO_SERVER) {
     return Status.STOP;
   } else {
-    
+
     // Response format 
     return response.content.status;
   }
 };
 
 export const postExecuteQuery = async (A, B, y_value) => {
-  
+
   // Request format
   const command = {
     action: Action.EXECUTE_QUERY,
@@ -33,7 +33,7 @@ export const postExecuteQuery = async (A, B, y_value) => {
       y_value: y_value
     },
   };
-  
+
   // Send request and handle errors
   response = await sendCommand(command);
   if (response === ERROR_CODE.FAIL_CONNECT_TO_SERVER) {
@@ -41,13 +41,37 @@ export const postExecuteQuery = async (A, B, y_value) => {
   } else {
 
     // Response format
-    // console.log("response.content", response.content.heatmap_base64_jpeg_image);
-    // const parsedResponse = JSON.parse(response.content);
     return {
-      heatMapBase64JpegImage : response.content?.heatmap_base64_jpeg_image,
-      position : response.content?.position,
+      heatMapBase64JpegImage: response.content?.heatmap_base64_jpeg_image,
+      position: response.content?.position,
       values: response.content?.values,
-      nextQuery : response.content?.next_query
+      nextQuery: response.content?.next_query
+    }
+  }
+};
+
+
+export const getVisualizationsForParameters = async (firstParameterIndex, secondParameterIndex) => {
+
+  // Request format
+  const command = {
+    action: Action.GET_VIZUALIZATIONS,
+    arg: {
+      first_parameter: firstParameterIndex,
+      second_parameter: secondParameterIndex,
+    },
+  };
+
+  // Send request and handle errors
+  response = await sendCommand(command);
+  if (response === ERROR_CODE.FAIL_CONNECT_TO_SERVER) {
+    return Status.STOP;
+  } else {
+
+    // Response format
+    return {
+      heatMapBase64JpegImage: response.content?.heatmap_base64_jpeg_image,
+      parameterGraphBase64JpegImage: response.content?.parameter_graph_base64_jpeg_image,
     }
   }
 };
@@ -55,7 +79,7 @@ export const postExecuteQuery = async (A, B, y_value) => {
 // Private methods
 const sendCommand = async (command) => {
   try {
-    console.log(command);
+    console.log("Send HTTP request for command :", command);
     const response = await fetch(getBackendUrl() + '/command', {
       method: 'POST',
       headers: {

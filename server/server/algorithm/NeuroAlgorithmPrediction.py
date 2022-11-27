@@ -152,7 +152,7 @@ class NeuroAlgorithmPrediction:
                 == np.max(self.acquisition_map.reshape(len(self.acquisition_map)))
             )
             print("Next querry = " + str(self.next_query[0][0]))
-            return position, str(self.next_query[0][0])
+            return position, [5, 5] # str(self.next_query[0][0])
         return position, [0, 0]
 
     def convert_parameter_values_to_position(self, values_list):

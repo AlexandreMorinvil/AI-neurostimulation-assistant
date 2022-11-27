@@ -35,7 +35,7 @@ def generate_heatmap_image(values_list,
 
     # Legend
     cbar = plt.colorbar()
-    cbar.set_label('Tremor Intensity', fontsize='large')
+    cbar.set_label('Average Tremor', fontsize='large')
 
     # Generate image
     pic_iobytes = io.BytesIO()

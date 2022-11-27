@@ -6,14 +6,14 @@ import { SettingsStatus } from "../../../const/settings";
 
 import AccodionItem from "../accordion-item.component";
 import ConfirmButton from "../confirm-button.component";
-import SectionProblemSize from "./section-problem-dimensions.component";
+import SectionProblemDimensionType from "./section-problem-dimension-type.component";
 
 import * as problemDimensionTypeService from "../../../services/problem-dimension-type.service";
 
 const CONFIRM_BUTTON_TEXT = "Confirm";
 const HEADER_SUMMARY_TEXT = (dimension) => `Dimensions ${dimension}`;
 
-const SettingsMenuItemProblemDimensions = () => {
+const SettingsMenuItemProblemDimensionType = () => {
 
   /**
    * States
@@ -62,7 +62,7 @@ const SettingsMenuItemProblemDimensions = () => {
       summaryText={stateHeaderSummary}
       settingStatus={stateSettingStatus}
     >
-      <SectionProblemSize
+      <SectionProblemDimensionType
         style={settingsStyles.sectionSpacing}
         setParentStateSelectedDimensionTypeFunction={setStateSelectedProblemDimensionType}
       />
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SettingsMenuItemProblemDimensions;
+export default SettingsMenuItemProblemDimensionType;

@@ -39,7 +39,7 @@ const SettingsMenuItemPatient = () => {
     }
 
     else {
-      setStateSettingStatus(SettingsStatus.UNSET);
+      setStateSettingStatus(SettingsStatus.PROBLEMATIC);
       setStateHeaderSummary(NO_PATIENT_HEADER_SUMMARY);
     }
   }

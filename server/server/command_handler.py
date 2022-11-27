@@ -37,9 +37,12 @@ class CommandHandler:
             }
 
         elif action == Action.GET_VIZUALIZATIONS.value:
+
             # Arguments parsing
             first_parameter_index = int(arg["first_parameter"])
             second_parameter_index = int(arg["second_parameter"])
+            first_parameter_name = str(arg["first_parameter_name"])
+            second_parameter_name = str(arg["second_parameter_name"])
             
             # Handling : Generate vizualzations
             algorithm = self.current_session.algorithm
@@ -47,8 +50,8 @@ class CommandHandler:
                                                                algorithm.dimensions_list,
                                                                first_parameter_index,
                                                                second_parameter_index,
-                                                               "parameter #1", 
-                                                               "parameter #2")
+                                                               first_parameter_name, 
+                                                               second_parameter_name)
 
             # Response format
             return {

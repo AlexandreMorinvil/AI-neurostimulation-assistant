@@ -37,7 +37,7 @@ export function getParameterGraphBase64JpegImageData() {
   return _loadedParameterGraphBase64JpegImageData;
 }
 
-export function hasNoLoadedHeatmap() {
+export function hasLoadedHeatmap() {
   return Boolean(_loadedHeatmapBase64JpegImageData);
 }
 
@@ -53,6 +53,8 @@ export async function refreshVizualizations() {
     );
     _loadedHeatmapBase64JpegImageData = heatMapBase64JpegImage;
     _loadedParameterGraphBase64JpegImageData = parameterGraphBase64JpegImage;
+    _isLoadingHeatmap = false;
+    _isLoadingParameterGraph = false;
     subjectHeatmap.next();
     subjectParameterGraph.next();
 }

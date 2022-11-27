@@ -1,65 +1,74 @@
-// Const 
-const COUNT_POINTS_BUFFER_POINTS_DISPLAYED = 600;
-const INTERVAL_BUFFER_PULL_IN_MS = 100;
-const FREQUENCY_WATCH_POINT_GENERATION_IN_HZ = 50;
+import { Subject } from "rxjs";
+import { watchIsConnected, stopWatchTimeOut } from "./connection-watch.service";
+import { FREQUENCY_WATCH_POINT_GENERATION_IN_HZ } from "../const/watch";
+
+// Constants
+const COUNT_BUFFER_POINTS = 600;
+const INTERVAL_BUFFER_PULL_IN_MS = 200;
+
+// Computed contants
+export const TIME_INTERVAL_BETWEEN_POINTS_IN_MS = 1 / FREQUENCY_WATCH_POINT_GENERATION_IN_HZ * 1000;
 const MIN_POINTS_RENEWED_PER_BUFFER_PULL = INTERVAL_BUFFER_PULL_IN_MS / 1000 * FREQUENCY_WATCH_POINT_GENERATION_IN_HZ;
 
 // Variables
 let _intervalBufferRefresh = 0;
-let _isLocked = false;
-let _watchPointsRawDataBuffer = [];
-let _watchPointDisplayedBuffer = Array(COUNT_POINTS_BUFFER_POINTS_DISPLAYED).fill(0);
+let _watchPointsNewRawDataBuffer = [];
+let _watchPointsRawDataBuffer = Array(COUNT_BUFFER_POINTS).fill(0);
+
+// Reactive behavior handlers
+export const subject = new Subject();
 
 // Exported methods
-export function getWatchPointsToDisplay(countPoints) {
-  return _watchPointDisplayedBuffer.slice(-countPoints);
+export function getWatchRawDataBuffer() {
+  return _watchPointsRawDataBuffer.map(makeWatchPoint).slice();
 }
 
 export async function handleReceivedWatchPacket(watchPacket) {
   try {
-    console.log("Here is the packet", watchPacket);
     const parsedWatchPacket = JSON.parse(watchPacket);
-    _watchPointsRawDataBuffer = _watchPointsRawDataBuffer.concat(parsedWatchPacket);
+    _watchPointsNewRawDataBuffer = _watchPointsNewRawDataBuffer.concat(parsedWatchPacket);
+    stopWatchTimeOut();
+    watchIsConnected();
   } catch (error) {
     console.error("Watch data format is invalid: ", error);
   }
 }
 
 // Private methods
-function tranformWatchRawDataPointToDisplayedPoint(rawDataPoint) {
-  return Math.sqrt(
-    Math.pow(rawDataPoint.acc_x, 2),
-    Math.pow(rawDataPoint.acc_y, 2),
-    Math.pow(rawDataPoint.acc_z, 2)
-  );
+function makeWatchPoint(watchPointObject) {
+  const { acc_x, acc_y, acc_z, gir_x, gir_y, gir_z } = watchPointObject || {};
+  return {
+    xAcceleration: acc_x || 0,
+    yAcceleration: acc_y || 0,
+    zAcceleration: acc_z || 0,
+    xRotation: gir_x || 0,
+    yRotation: gir_y || 0,
+    zRotation: gir_z || 0
+  }
 }
 
 async function updateWatchPointDisplayedBuffer() {
-  // Lock the buffer;
-  if (_isLocked) return;
-  _isLocked = true;
 
   // Determine the amount of points that must be refreshed
-  const retreivedRawPointList = _watchPointsRawDataBuffer.splice(0, _watchPointsRawDataBuffer.length);
+  const retreivedRawPointList = _watchPointsNewRawDataBuffer.splice(0, _watchPointsNewRawDataBuffer.length);
   const countPointsRefreshed = Math.max(retreivedRawPointList.length, MIN_POINTS_RENEWED_PER_BUFFER_PULL);
 
   // Generate the new points to diplay
-  let newPointsToDisplayList = Array(countPointsRefreshed).fill(0);
-  const pointsFromBuffer = retreivedRawPointList.map(tranformWatchRawDataPointToDisplayedPoint);
-  newPointsToDisplayList.splice(0, pointsFromBuffer.length);
-  newPointsToDisplayList = newPointsToDisplayList.concat(pointsFromBuffer);
+  let newPointsList = Array(countPointsRefreshed).fill(0);
+  const pointsFromBuffer = retreivedRawPointList;
+  newPointsList.splice(0, pointsFromBuffer.length);
+  newPointsList = newPointsList.concat(pointsFromBuffer);
 
   // Shift the points in the buffer of points to diplay
-  _watchPointDisplayedBuffer.splice(0, newPointsToDisplayList.length);
-  _watchPointDisplayedBuffer = _watchPointDisplayedBuffer.concat(newPointsToDisplayList);
+  _watchPointsRawDataBuffer.splice(0, newPointsList.length);
+  _watchPointsRawDataBuffer = _watchPointsRawDataBuffer.concat(newPointsList);
 
-  // Unlock the buffer;
-  _isLocked = false;
+  // Notify subscribers with a deep copy of the buffer
+  subject.next(getWatchRawDataBuffer());
 }
 
 // Initialization
 export function initialize() {
-  _isLocked = false;
   _intervalBufferRefresh = setInterval(updateWatchPointDisplayedBuffer, INTERVAL_BUFFER_PULL_IN_MS);
 }
 

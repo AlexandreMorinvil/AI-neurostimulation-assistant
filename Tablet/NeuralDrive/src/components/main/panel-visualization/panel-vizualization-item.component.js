@@ -18,7 +18,7 @@ const PanelVizualizationItem = (props) => {
    * Render
    */
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <View style={styles.shadow}>
 
         <View style={styles.headerContainer}>
@@ -40,10 +40,8 @@ const PanelVizualizationItem = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    height: 1200,
     flexDirection: "column",
-    backgroundColor: "green",
+    margin: 10,
   },
   shadow: {
     width: "100%",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { COLOR_BACKGROUND } from '../../styles/colors.style';
@@ -11,24 +11,12 @@ const PanelFrame = (props) => {
   const { children, style } = props;
 
   /**
-   * States
-   */
-  const [stateStyle, setStateStyle] = useState(style);
-
-  /**
-   * Effects
-   */
-  useEffect(() => {
-    setStateStyle(props.style);
-  }, [props.style]);
-
-  /**
    * Render
    */
   return (
     <View style={[
       styles.container,
-      stateStyle
+      props.style
     ]}>
       {children}
     </View>

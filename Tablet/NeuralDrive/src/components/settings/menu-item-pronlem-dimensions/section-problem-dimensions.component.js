@@ -12,7 +12,8 @@ import * as problemDimensionService from "../../../services/problem-dimension.se
 
 const SECTION_TITLE = "Dimensions :"
 const HELP_INFORMATION =
-  `Details... TODO.`;
+  `This section enables the user to select the dimension of the problem. These dimensions are used for the parameters that the user will input in the main page.\n\
+  Said parameters will not be able to go over the given dimensions, and the graphs in the main page will have the size of the set dimension.`;
 
 const POSSIBLE_DIMENSIONS_LIST = problemDimensionService.POSSIBLE_DIMENSIONS_LIST;
 

@@ -1,7 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
-import { Surface } from 'react-native-paper';
 
 import PanelFrame from '../panel-frame.component';
 import VizualizationTremor2dGraph from "./visualization-tremor-2d-graph.component";
@@ -10,18 +8,13 @@ import VizualizationQuery2dGraph from "./visualization-query-2d-graph.component"
 
 ref = React.createRef();
 
-const PanelVisualization = (props) => {
-
-  /**
-   * Props
-   */
-  const { style } = props;
+const PanelVisualization = () => {
 
   /**
    * Render
    */
   return (
-    <PanelFrame style={style}>
+    <PanelFrame>
       <Swiper>
         <VizualizationTremor2dGraph />
         <VizualizationQueryHeatMap ref={ref} />

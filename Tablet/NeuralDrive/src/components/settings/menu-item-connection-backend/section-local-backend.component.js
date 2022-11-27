@@ -11,7 +11,7 @@ import * as connectionBackendService from "../../../services/connection-backend.
 
 const SECTION_TITLE = "Local Backend :";
 const HELP_INFORMATION =
-  `Details... TODO.`;
+  `When using the local backend connection type, all that is needed for the user to do is click on the connect button in order to connect to the server.`;
 
 const STATUS_CONNECTED = "Connected";
 const STATUS_NOT_CONNECTED = "Not connected";

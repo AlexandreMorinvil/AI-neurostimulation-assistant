@@ -11,7 +11,7 @@ const IndicatorConnection = ({ device, checkConnectionFunction }) => {
 
   React.useEffect(() => {
     const interval = setInterval(async () => {
-      smartwatch_connected = true;// await checkConnectionFunction();
+      smartwatch_connected = checkConnectionFunction();// await checkConnectionFunction();
       if (smartwatch_connected) {
         setConnectionStatus('Connected to ' + device);
         setIndicadorColor('#A3D9A3');

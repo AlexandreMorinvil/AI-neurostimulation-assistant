@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { Image } from 'react-native-elements';
 
 import PanelVizualizationItem from "../panel-vizualization-item.component";
@@ -13,7 +13,7 @@ const PanelItemVizualizationQueryHeatMap = () => {
    * States
    */
   const [stateHeatmapBase64JpegImageData, setStateHeatmapBase64JpegImageData] = useState("");
-  const [stateIsLoading, setStateIsLoading] = useState(false);
+  const [stateIsLoading, setStateIsLoading] = useState(true);
 
   /**
    * Functions
@@ -21,7 +21,7 @@ const PanelItemVizualizationQueryHeatMap = () => {
   const updateHeatMap = () => {
     setStateHeatmapBase64JpegImageData(queryVizualizationService.getHeatmapBase64JpegImageData());
     if (queryVizualizationService.getIsLoadingHeatmap() ||
-      queryVizualizationService.hasNoLoadedHeatmap()) {
+      !queryVizualizationService.hasLoadedHeatmap()) {
       setStateIsLoading(true);
     } else
       setStateIsLoading(false);
@@ -45,20 +45,26 @@ const PanelItemVizualizationQueryHeatMap = () => {
     }
   }, []);
 
+
+
   /**
    * Render
    */
   return (
     <PanelVizualizationItem title={TITLE_VISUALIZATION}>
-      {stateIsLoading ?
-        <ActivityIndicator
-          style={styles.activityIndicator}
-          size="large"
-        /> :
-        <Image
-          source={{ uri: `data:image/jpeg;base64,${stateHeatmapBase64JpegImageData}` }}
-        />
-      }
+      <View style={styles.container}>
+        {stateIsLoading ?
+          <ActivityIndicator
+            style={styles.activityIndicator}
+            size="large"
+          /> :
+          <Image
+            source={{ uri: `data:image/jpeg;base64,${stateHeatmapBase64JpegImageData}` }}
+            resizeMode='contain'
+            style={styles.image}
+          />
+        }
+      </View>
     </PanelVizualizationItem>
   );
 }
@@ -67,9 +73,24 @@ const PanelItemVizualizationQueryHeatMap = () => {
  * Style Sheet
  */
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "stretch",
+    width: "100%",
+    height: "100%",
+    flexDirection: "row",
+    overflow: 'hidden',
+  },
   activityIndicator: {
     height: "100%",
     width: "100%",
+  },
+  image: {
+    flex: 1,
+    height: "100%",
+    minWidth: 700,
   }
 });
 

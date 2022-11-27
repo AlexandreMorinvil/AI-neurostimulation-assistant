@@ -48,7 +48,11 @@ export async function postExecuteQuery(parametersValueList, tremorMetric) {
   }
 };
 
-export async function getVisualizationsForParameters(firstParameterIndex, secondParameterIndex) {
+export async function getVisualizationsForParameters(
+  firstParameterIndex,
+  secondParameterIndex,
+  firstParameterName,
+  secondParameterName) {
 
   // Request format
   const command = {
@@ -56,6 +60,8 @@ export async function getVisualizationsForParameters(firstParameterIndex, second
     arg: {
       first_parameter: firstParameterIndex,
       second_parameter: secondParameterIndex,
+      first_parameter_name: firstParameterName,
+      second_parameter_name: secondParameterName
     },
   };
 

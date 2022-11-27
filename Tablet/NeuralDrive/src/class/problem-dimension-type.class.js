@@ -33,6 +33,10 @@ export class ProblemDimensionType {
     return this.parametersList;
   }
 
+  getParameterNameByIndex(index) {
+    return this.parametersList[index].getName();
+  }
+
   isSame(problemDimensionType) {
     return this.id === problemDimensionType.getId();
   }

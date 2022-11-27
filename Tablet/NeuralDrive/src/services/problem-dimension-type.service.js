@@ -41,6 +41,10 @@ export function getDefaultValuesList() {
   return _problemDimensionType.getDefaultValuesList();
 }
 
+export function getParameterNameByIndex(index) {
+  return _problemDimensionType.getParameterNameByIndex(index);
+}
+
 export function setProblemDimensionType(problemDimensionType) {
   _problemDimensionType = problemDimensionType;
   savePersistantData(STORE_KEY_PROBLEM_DIMENSION_TYPE_ID, _problemDimensionType.getId());

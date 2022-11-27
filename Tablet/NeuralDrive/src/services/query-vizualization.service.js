@@ -1,6 +1,7 @@
 import { Subject } from "rxjs";
 
 import * as httpRequestService from "./http-request.service";
+import * as problemDimensionTypeService from "./problem-dimension-type.service";
 
 // Variables
 let _selectedFirstParameterIndex = 0;
@@ -42,21 +43,17 @@ export function hasLoadedHeatmap() {
 }
 
 export async function refreshVizualizations() {
-    _isLoadingHeatmap = true;
-    _isLoadingParameterGraph = true;
-    subjectHeatmap.next();
-    subjectParameterGraph.next();
-    const { heatMapBase64JpegImage, parameterGraphBase64JpegImage } =
-    await httpRequestService.getVisualizationsForParameters(
-      _selectedFirstParameterIndex,
-      _selectedSecondParameterIndex
-    );
-    _loadedHeatmapBase64JpegImageData = heatMapBase64JpegImage;
-    _loadedParameterGraphBase64JpegImageData = parameterGraphBase64JpegImage;
-    _isLoadingHeatmap = false;
-    _isLoadingParameterGraph = false;
-    subjectHeatmap.next();
-    subjectParameterGraph.next();
+  _isLoadingHeatmap = true;
+  _isLoadingParameterGraph = true;
+  subjectHeatmap.next();
+  subjectParameterGraph.next();
+  const { heatMapBase64JpegImage, parameterGraphBase64JpegImage } = await fetchVizualizations();
+  _loadedHeatmapBase64JpegImageData = heatMapBase64JpegImage;
+  _loadedParameterGraphBase64JpegImageData = parameterGraphBase64JpegImage;
+  _isLoadingHeatmap = false;
+  _isLoadingParameterGraph = false;
+  subjectHeatmap.next();
+  subjectParameterGraph.next();
 }
 
 export function setHeatmapBase64JpegImageData() {
@@ -78,6 +75,15 @@ export function setSecondSelectedParameter(index) {
 }
 
 // Private methods
+async function fetchVizualizations() {
+  return await httpRequestService.getVisualizationsForParameters(
+    _selectedFirstParameterIndex,
+    _selectedSecondParameterIndex,
+    problemDimensionTypeService.getParameterNameByIndex(_selectedFirstParameterIndex),
+    problemDimensionTypeService.getParameterNameByIndex(_selectedSecondParameterIndex),
+  );
+}
+
 function isLoadedHeatmapDifferentFromSelected() {
   return _loadedHeatmapBase64JpegImageFirstIndex !== _selectedFirstParameterIndex ||
     _loadedHeatmapBase64JpegImageSecondIndex !== _selectedSecondParameterIndex;
@@ -107,11 +113,7 @@ async function updateVizualizations(firstParameterIndex, secondParameterIndex) {
   }
 
   // Fetch the updated graph
-  const { heatMapBase64JpegImage, parameterGraphBase64JpegImage } =
-    await httpRequestService.getVisualizationsForParameters(
-      _selectedFirstParameterIndex,
-      _selectedSecondParameterIndex
-    );
+  const { heatMapBase64JpegImage, parameterGraphBase64JpegImage } = await fetchVizualizations();
 
   // Update the vizualizations and remove the loading state
   if (mustUpdateHeatmap) {

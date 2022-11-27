@@ -32,12 +32,13 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
   const [stateInvalidMessageReason, setStateInvalidMessageReason] = useState("");
   const [stateMustDisplayInvalidityReason, setStateMustDisplayInvalidityReason] = useState(false);
   const [stateIsInFocus, setStateIsInFocus] = useState(true);
+  const [stateLabelText, setStateLabelText] = useState(TEXT_INSERT_VALUE);
 
   /**
    * Functions
    */
   const isValueEmpty = () => {
-    return Boolean(stateIsFirstInput);
+    return !Boolean(stateValue);
   }
 
   const setValue = (newValue) => {
@@ -57,13 +58,14 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     return `${name}`
   }
 
-  const makeLabelText = () => {
+  const updateLabelText = () => {
     if (stateIsFirstInput) {
-      if (isValueEmpty()) return TEXT_INSERT_VALUE;
-      else return stateParameter.getName();
+      console.log("isValueEmpty", isValueEmpty());
+      if (isValueEmpty()) setStateLabelText(TEXT_INSERT_VALUE);
+      else setStateLabelText(stateParameter.getName());
     } else {
-      if (stateValue === stateSuggestedValue) return TEXT_SUGGESTED_VALUE_PRESENT;
-      else return TEXT_SUGGESTED_VALUE(stateSuggestedValue);
+      if (stateValue === stateSuggestedValue) setStateLabelText(TEXT_SUGGESTED_VALUE_PRESENT);
+      else setStateLabelText(TEXT_SUGGESTED_VALUE(stateSuggestedValue));
     }
   }
 
@@ -112,6 +114,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     setStateSuggestedValue(props.suggestedValue);
     setStateValue(props.value);
     updateMustDisplayInvalidityMessage();
+    updateLabelText();
   },
     [
       props.isDisabled,
@@ -124,6 +127,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
 
   useEffect(() => {
     updateMustDisplayInvalidityMessage();
+    updateLabelText();
   }, [])
 
   /**
@@ -175,7 +179,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
           onEndEditing={handleEndEdittingValue}
           onFocus={handleEnterInputFocus}
           textColor="black"
-          label={makeLabelText()}
+          label={stateLabelText}
           dense={true}
           keyboardType="numeric"
         />

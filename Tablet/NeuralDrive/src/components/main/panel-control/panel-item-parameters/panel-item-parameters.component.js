@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
@@ -21,9 +21,12 @@ const PanelItemParameters = () => {
    * States
    */
   const [stateIsQuerying, setStateIsQuerying] = useState(false);
+  const [stateParameters, setStateParameters] = useState(problemDimensionTypeService.getProblemDimensionType());
   const [stateSelectedParametersValueList, setStateSelectedParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
   const [stateSuggestedParametersValueList, setStateSuggestedParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
   const [statePreviousParametersValueList, setStatePreviousParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
+
+  console.log(stateSelectedParametersValueList);
 
   /**
    * Functions
@@ -42,12 +45,35 @@ const PanelItemParameters = () => {
   const setParameterValue = (index, value) => {
     const currentParameterValuesList = stateSelectedParametersValueList.slice();
     currentParameterValuesList[index] = value;
-    setStateSelectedParametersValueList(currentParameterValuesList);
+    // setStateSelectedParametersValueList(currentParameterValuesList);
   }
 
-  const setAllParameterValuesToSuggestedValues = (index, value) => {
-    setStateSelectedParametersValueList(stateSuggestedParametersValueList.slice());
+  const setAllParameterValuesToSuggestedValues = () => {
+    // setStateSelectedParametersValueList(stateSuggestedParametersValueList.slice());
   }
+
+  const changeParametersUsed = () => {
+    setStateParameters(problemDimensionTypeService.getProblemDimensionType());
+    setStateSelectedParametersValueList(problemDimensionTypeService.getDefaultValuesList());
+  }
+
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    // Initialization
+    changeParametersUsed();
+
+    // Reactive subcribtion
+    const subscription = problemDimensionTypeService.subject.subscribe({
+      next: changeParametersUsed
+    });
+
+    // Cleanup
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  }, [])
 
   /**
    * Render
@@ -59,12 +85,13 @@ const PanelItemParameters = () => {
     >
       <View style={mainStyles.sectionContent}>
         {
-          stateSelectedParametersValueList.map((_, index) => {
+          stateSelectedParametersValueList.map((parameter, index) => {
             return (
               <InputQueryParameter
+                key={index}
                 style={styles.parameterSectionSpacing}
                 parameterName={'Parameter #' + (index + 1)}
-                value={stateSelectedParametersValueList[index]}
+                // value={stateSelectedParametersValueList[index]}
                 previousValue={statePreviousParametersValueList[index]}
                 setParentValueFunction={(value) => setParameterValue(index, value)}
                 suggestedValue={stateSuggestedParametersValueList[index]}

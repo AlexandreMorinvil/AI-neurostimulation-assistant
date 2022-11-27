@@ -1,4 +1,6 @@
 
+import { Subject } from "rxjs";
+
 import { ProblemDimensionType } from "../class/problem-dimension-type.class";
 import problemTypesConfiguration from "../configurations/problem-types.json"
 import {
@@ -14,6 +16,9 @@ const STORE_KEY_PROBLEM_DIMENSION_TYPE_ID = "problemDimensionTypeId";
 
 // Variables
 let _problemDimensionType = DEFAULT_PROBLEM_DIMENSION_TYPE;
+
+// Reactive behavior handlers
+export const subject = new Subject();
 
 // Exported methods
 export function getPossibleProblemDimensionTypesList() {
@@ -35,6 +40,7 @@ export function getDefaultValuesList() {
 export function setProblemDimensionType(problemDimensionType) {
   _problemDimensionType = problemDimensionType;
   savePersistantData(STORE_KEY_PROBLEM_DIMENSION_TYPE_ID, _problemDimensionType.getId());
+  subject.next();
 }
 
 // Private methods
@@ -55,5 +61,6 @@ function getProblemDimensionTypeFromId(problemDimensionTypeId) {
 export async function initialize() {
   const savecProblemDimensionTypeId = await initializeValueWithPersistantData(STORE_KEY_PROBLEM_DIMENSION_TYPE_ID, _problemDimensionType.getId());
   _problemDimensionType = getProblemDimensionTypeFromId(savecProblemDimensionTypeId);
+  subject.next();
 }
 

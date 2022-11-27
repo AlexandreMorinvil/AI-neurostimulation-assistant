@@ -64,9 +64,8 @@ const styles = StyleSheet.create({
   container: {
     borderStyle: "solid",
     borderWidth: 2,
-    height: 150,
+    minHeight: 150,
     minwidth: 150,
-    maxWidth: 150,
     padding: 20,
     flex: 1,
     flexDirection: "column",
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#999999",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center"
   },

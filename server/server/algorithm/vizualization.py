@@ -14,9 +14,22 @@ def generate_heatmap_image(values_list,
                            x_parameter_name = "", 
                            y_parameter_name = ""):
     
+    # Compute dimensions
+    reshaped_values_list = np.reshape(values_list, dimensions_list)
+
+    number_dimensions = len(dimensions_list)
+    mean_axis_parameters_index_list = list(range(number_dimensions))
+    mean_axis_parameters_index_list.remove(first_parameter_index)
+    mean_axis_parameters_index_list.remove(second_parameter_index)
+
+    heatmap_points = reshaped_values_list
+    if len(mean_axis_parameters_index_list) > 0:
+        heatmap_points = np.mean(reshaped_values_list, 
+                                 axis=mean_axis_parameters_index_list)
+
     # Main heatmap
     plt.clf()
-    plt.imshow(np.reshape(values_list, dimensions_list))
+    plt.imshow(heatmap_points)
     plt.xlabel(x_parameter_name, fontsize='x-large')
     plt.ylabel(y_parameter_name, fontsize='x-large')
 

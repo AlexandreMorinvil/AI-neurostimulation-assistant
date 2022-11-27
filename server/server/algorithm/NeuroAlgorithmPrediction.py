@@ -29,7 +29,11 @@ class NeuroAlgorithmPrediction:
         # Create the kernel
         # Put a  prior on the two lengthscale hyperparameters and the variance
         self.matk = GPy.kern.Matern52(
-            input_dim=2, variance=1.0, lengthscale=[1.0, 1.0], ARD=True, name="Mat52"
+            input_dim=2, 
+            variance=1.0, 
+            lengthscale=[1.0, 1.0], 
+            ARD=True, 
+            name="Mat52"
         )
         self.matk.variance.set_prior(
             GPy.priors.Uniform(0.01**2, 100**2), warning=False
@@ -141,7 +145,6 @@ class NeuroAlgorithmPrediction:
         self.q += 1
 
         position = self.generate_output(self.positions)
-        values = self.transform_ymu(self.ymu)
 
         if self.next_query:
             self.next_query = np.where(
@@ -149,8 +152,8 @@ class NeuroAlgorithmPrediction:
                 == np.max(self.acquisition_map.reshape(len(self.acquisition_map)))
             )
             print("Next querry = " + str(self.next_query[0][0]))
-            return position, values, str(self.next_query[0][0])
-        return position, values, 0
+            return position, str(self.next_query[0][0])
+        return position, [0, 0]
 
     def convert_parameter_values_to_position(self, values_list):
         return np.ravel_multi_index(values_list, self.dimensions_list)
@@ -181,13 +184,4 @@ class NeuroAlgorithmPrediction:
             for param in rep:
                 tab.append(float(param))
             output.append(tab)
-        return output
-
-    ################################################################################################
-    #### transform predict heat-map(ymu) form 1D to 2D array
-    ################################################################################################
-    def transform_ymu(self, ymu):
-        output = []
-        for i in range(len(self.positions)):
-            output.append([i, ymu[i][0]])
         return output

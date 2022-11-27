@@ -24,26 +24,16 @@ class CommandHandler:
 
         if action == Action.EXECUTE_QUERY.value:
             # Arguments parsing
-            parameters_value_list = int(arg["parameters_value_list"])
+            parameters_value_list = [int(value) for value in arg["parameters_value_list"]]
             tremor_metric = float(arg["tremor_metric"])
             
             # Handling : Execute query and generate vizualzations
             algorithm = self.current_session.algorithm
-            position, values, next_query = algorithm.execute_query(parameters_value_list,
-                                                                   tremor_metric)
-            heatmap_base64_jpeg_image = generate_heatmap_image(algorithm.ymu, 
-                                                               algorithm.dimensions_lists,
-                                                               0,
-                                                               1,
-                                                               "parameter #1", 
-                                                               "parameter #2")
+            position, next_query = algorithm.execute_query(parameters_value_list, tremor_metric)
 
             # Response format
             return {
-                "heatmap_base64_jpeg_image" :           json.dumps(heatmap_base64_jpeg_image),
-                "position":                             json.dumps(position),
-                "values":                               json.dumps(values),
-                "next_query":                           json.dumps(next_query)
+                "suggested_parameters_list":            json.dumps(next_query)
             }
 
         elif action == Action.GET_VIZUALIZATIONS.value:
@@ -54,7 +44,7 @@ class CommandHandler:
             # Handling : Generate vizualzations
             algorithm = self.current_session.algorithm
             heatmap_base64_jpeg_image = generate_heatmap_image(algorithm.ymu, 
-                                                               algorithm.dimensions_lists,
+                                                               algorithm.dimensions_list,
                                                                first_parameter_index,
                                                                second_parameter_index,
                                                                "parameter #1", 

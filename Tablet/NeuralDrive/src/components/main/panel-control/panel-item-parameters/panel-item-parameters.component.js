@@ -77,7 +77,6 @@ const PanelItemParameters = () => {
     for (let index = 0; index < stateSelectedParametersValueList.length; index++) {
       const parameter = stateParametersList[index];
       const value = stateSelectedParametersValueList[index];
-      console.log(index, value);
       const { isAccepted } = parameter.isValueAccepted(value);
       if (!isAccepted || String(value) === "")
         areAllInputsReady = false;

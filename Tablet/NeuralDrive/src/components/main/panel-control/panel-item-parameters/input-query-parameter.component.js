@@ -7,7 +7,7 @@ import { COLOR_BACKGROUND } from '../../../../styles/colors.style';
 import MessageBubble from "../../../message-bubble.component";
 
 const TEXT_INSERT_VALUE = `Insert value`;
-const TEXT_SUGGESTED_VALUE_PRESENT = "Sugg. :";
+const TEXT_SUGGESTED_VALUE_PRESENT = "";
 const TEXT_SUGGESTED_VALUE = (value) => `Sugg. : ${value}`
 
 const TEXT_OLD_VALUE_BUTTON = "Old";
@@ -46,7 +46,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     const { isAccepted, reason } = stateParameter.isValueAccepted(newValue);
     const currentValue = stateValue;
     setParentValueFunction(isAccepted ? newValue : currentValue);
-    setStateValue(isAccepted ? newValue : currentValue);
+    // setStateValue(isAccepted ? newValue : currentValue);
   }
 
   const setValueToPreviousValue = () => {

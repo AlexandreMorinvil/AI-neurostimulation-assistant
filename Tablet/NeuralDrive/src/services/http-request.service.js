@@ -41,6 +41,7 @@ export async function postExecuteQuery(parametersValueList, tremorMetric) {
   } else {
 
     // Response format
+    console.log("response.content?.suggested_parameters_list", response.content?.suggested_parameters_list);
     return {
       suggestedParametersList: response.content?.suggested_parameters_list
     }
@@ -50,7 +51,6 @@ export async function postExecuteQuery(parametersValueList, tremorMetric) {
 export async function getVisualizationsForParameters(firstParameterIndex, secondParameterIndex) {
 
   // Request format
-  const method = "GET";
   const command = {
     action: Action.GET_VIZUALIZATIONS,
     arg: {
@@ -61,7 +61,7 @@ export async function getVisualizationsForParameters(firstParameterIndex, second
 
   // Send request and handle errors
   console.log("The problem hasn't occured so far");
-  response = await sendCommand(command, method);
+  response = await sendCommand(command);
   if (response === ERROR_CODE.FAIL_CONNECT_TO_SERVER) {
     return Status.STOP;
   } else {

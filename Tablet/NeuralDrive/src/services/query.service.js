@@ -12,11 +12,11 @@ export function hasDoneQueryPreviously() {
 }
 
 export function getCurrentSuggestedParametersList() {
-  return +_historySuggestedValues.slice(-1);
+  return _historySuggestedValues.slice(-1);
 }
 
 export function getLastQueryParametersList() {
-  return +_historySelectedParametersList.slice(-1);
+  return _historySelectedParametersList.slice(-1);
 }
 
 export async function performQuery(parametersValueList, tremorMetric) {

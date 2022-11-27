@@ -53,6 +53,8 @@ export async function refreshVizualizations() {
     );
     _loadedHeatmapBase64JpegImageData = heatMapBase64JpegImage;
     _loadedParameterGraphBase64JpegImageData = parameterGraphBase64JpegImage;
+    subjectHeatmap.next();
+    subjectParameterGraph.next();
 }
 
 export function setHeatmapBase64JpegImageData() {

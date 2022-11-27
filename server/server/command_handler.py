@@ -34,7 +34,6 @@ class CommandHandler:
         self.ssid = None
         self.current_session = None
         self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000), 2, [], [])
-        save_session_local(self.current_save_session)
         #self.db : Database = Database()
         #self.db.connect()
 
@@ -90,7 +89,16 @@ class CommandHandler:
                 return json.dumps(data)
 
         elif action == Action.SAVE_SESSION_LOCAL.value:
-            save_session_local(self.current_save_session)
+            self.current_save_session.points = self.stack_watch_data
+            sessions = save_session_local(self.current_save_session)
+            self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000), 2, [], [])
+            print(sessions)
+            return  sessions
+
+        elif action == Action.GET_SESSION_BY_ID.value:
+            session = get_session_by_ID(arg["id"])
+            return session
+
 
         # elif action == Action.SAVE_SESSION.value:
         #     print("save session")

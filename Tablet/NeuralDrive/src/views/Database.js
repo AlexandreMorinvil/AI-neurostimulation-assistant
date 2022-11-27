@@ -1,159 +1,56 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {View, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {current_session} from '../global/environement';
-import {
-  post_save_session,
-  post_delete_session,
-  post_get_all_session,
-} from '../class/http';
-import {getRandomInt} from '../class/const';
+import {post_save_session, post_get_session_by_ID} from '../class/http';
 import DialogData from '../components/database/dialogData';
 
-import {
-  Button,
-  Modal,
-  Portal,
-  Provider,
-  Surface,
-  Text,
-  TextInput,
-  DataTable,
-  Checkbox,
-} from 'react-native-paper';
-
-const delete_selected_sessions = async list_sessions => {
-  for (let session of list_sessions) {
-    session.isCheck ? await post_delete_session(session.id) : null;
-  }
-  return post_get_all_session();
-};
-
-var sessions = new Array(0);
-// let sessions_list = await delete_selected_sessions(sessions);
-// console.log(sessions_list);
-// sessions = new Array(0);
-// for (let session of sessions_list) {
-//   sessions.push({
-//     id: session[0],
-//     watch_data: session[1],
-//     heat_map: session[2],
-//     user: 'Noe',
-//     date: '2022/11/11',
-//     isCheck: false,
-//   });
-// }
+import {Button, DataTable, Checkbox} from 'react-native-paper';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const DataBase = () => {
   const [value, setValue] = useState(0);
+  const [sessions, setSessions] = useState(Array(0));
+  const dialogRef = React.useRef();
 
   return (
     <View style={styles.mainBox}>
+      <DialogData ref={dialogRef}></DialogData>
       <View style={styles.toolBox}>
-        <DialogData></DialogData>
         <Button
           style={styles.button}
           mode="contained"
           onPress={async () => {
-            current_session.id = getRandomInt(0, 10000);
-            let sessions_list = await post_save_session(current_session);
-            console.log(sessions_list);
-            sessions = new Array(0);
-            for (let session of sessions_list) {
-              sessions.push({
-                id: session[0],
-                watch_data: session[1],
-                heat_map: session[2],
-                user: 'Noe',
-                date: '2022/11/11',
-                isCheck: false,
-              });
-            }
+            r = await post_save_session();
+            setSessions(r);
             console.log(sessions);
-            setValue(value => value + 1);
           }}>
           SAVE SESSION
         </Button>
-        <Button
-          style={styles.button}
-          mode="contained"
-          onPress={async () => {
-            let sessions_list = await delete_selected_sessions(sessions);
-            console.log(sessions_list);
-            sessions = new Array(0);
-            for (let session of sessions_list) {
-              sessions.push({
-                id: session[0],
-                watch_data: session[1],
-                heat_map: session[2],
-                user: 'Noe',
-                date: '2022/11/11',
-                isCheck: false,
-              });
-            }
-            console.log(sessions);
-            setValue(value => value + 1);
-          }}>
+        <Button style={styles.button} mode="contained" onPress={async () => {}}>
           DELETE SESSIONS
         </Button>
       </View>
-      <View style={styles.tableBox}>
-        <DataTable>
-          <DataTable.Header>
-            <DataTable.Title style={styles.tableRow}>select</DataTable.Title>
-            <DataTable.Title style={styles.tableRow}>id</DataTable.Title>
-            <DataTable.Title style={styles.tableRow}>user</DataTable.Title>
-            <DataTable.Title style={styles.tableRow}>date</DataTable.Title>
-          </DataTable.Header>
-
-          {sessions != null && sessions.length > 0
-            ? sessions.map(session => {
-                //const [checked, setChecked] = useState(false);
-                return (
-                  <DataTable.Row
-                    key={session.accNumber} // you need a unique key per item
-                    onPress={() => {
-                      // added to illustrate how you can make the row take the onPress event and do something
-                      console.log(`selected --------session ${session.id}`);
-                    }}>
-                    <DataTable.Cell style={styles.tableRow}>
-                      <Checkbox
-                        //color="red"
-                        status={session.isCheck ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                          session.isCheck = !session.isCheck;
-                          console.log(`selected session ${session.id}`);
-                          setValue(value => value + 1);
-                        }}
-                      />
-                    </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableRow}>
-                      {session.id}
-                    </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableRow}>
-                      {session.user}
-                    </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableRow} numeric>
-                      {session.date}
-                    </DataTable.Cell>
-                  </DataTable.Row>
-                );
-              })
-            : null}
-
-          {/* <DataTable.Pagination
-            page={page}
-            numberOfPages={3}
-            onPageChange={page => setPage(page)}
-            label="1-2 of 6"
-            optionsPerPage={optionsPerPage}
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
-            showFastPagination
-            optionsLabel={'Rows per page'}
-          /> */}
-        </DataTable>
-      </View>
+      <ScrollView contentContainerStyle={styles.tableBox}>
+        {sessions != null && sessions.length > 0
+          ? sessions.map(session_id => {
+              return (
+                <TouchableOpacity
+                  key={session_id}
+                  style={styles.sessionBox}
+                  onPress={async () => {
+                    if (dialogRef) {
+                      console.log('open dialog session', session_id);
+                      session = await post_get_session_by_ID(session_id);
+                      dialogRef.current.showDialog(session);
+                    }
+                  }}>
+                  <Text style={styles.textSession}>{session_id}</Text>
+                </TouchableOpacity>
+              );
+            })
+          : null}
+      </ScrollView>
     </View>
   );
 };
@@ -168,6 +65,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  textSession: {
+    color: 'black',
+    width: '100%',
+    height: '100%',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    fontSize: 48,
+  },
+  sessionBox: {
+    width: 150,
+    height: 100,
+    borderWidth: 2,
+    borderColor: 'black',
+    color: 'black',
+    //flexBasis: '20%',
+    margin: 25,
+  },
   toolBox: {
     width: '90%',
     height: '10%',
@@ -179,10 +93,11 @@ const styles = StyleSheet.create({
   },
   tableBox: {
     width: '90%',
-    height: '90%',
+    height: '300%',
     //backgroundColor: 'pink',
     flexDirection: 'row',
-    justifyContent: 'center',
+    flexWrap: 'wrap',
+    //justifyContent: 'space-between',
   },
   button: {
     alignContent: 'center',

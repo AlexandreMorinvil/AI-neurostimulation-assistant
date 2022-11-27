@@ -24,14 +24,23 @@ const sendCommand = async command => {
   }
 };
 
-export const post_save_session = async session => {
+export const post_save_session = async () => {
   const command = {
-    action: Action.SAVE_SESSION,
+    action: Action.SAVE_SESSION_LOCAL,
+    arg: {},
+  };
+  response = await sendCommand(command);
+  return response.content;
+};
+
+export const post_get_session_by_ID = async id => {
+  const command = {
+    action: Action.GET_SESSION_BY_ID,
     arg: {
-      session: session,
+      id: id,
     },
   };
-  response = await send_command(command);
+  response = await sendCommand(command);
   return response.content;
 };
 

@@ -63,16 +63,12 @@ def packet() -> Response:
 @app.route("/watch_packet/", methods=["POST", "GET"])
 def watch_packet() -> Response:
     data = request.data.decode('UTF-8')
-    # data = []
-    
-    #  ### SIMULATION SANS MONTRE ##############################
-    # for i in range(10):
-    #     n = str(random.randint(0, 9))
-    #     data = WatchData(n,n,n,n,n,n).__dict__
-    #         #########################################################
     response = "packet accepted" 
-    print(json.dumps(json.loads(data)))
-    socketio.emit('watch_packet', json.dumps(json.loads(data)), broadcast=True, includde_self=False)
+    data= json.loads(data)
+    command_handler.push_watch_data_in_stack(data)
+    
+    print(data)
+    socketio.emit('watch_packet', json.dumps(data), broadcast=True, includde_self=False)
     return jsonify({"content": response})
 
 

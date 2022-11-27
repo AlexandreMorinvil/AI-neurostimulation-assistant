@@ -1,6 +1,9 @@
 from datetime import date
 from datetime import datetime
+import os
 import json
+
+SAVE_SESSIONS_PATH = 'storage'
 
 class SaveSession():
     session_id = None
@@ -29,3 +32,25 @@ def save_session_local(session):
     
     with open("storage/"+ str(session.session_id) + ".json", "w") as outfile:
         outfile.write(json_object)
+
+    return get_all_save_sessions()
+
+def get_all_save_sessions():
+    listSaveSessionsID = []
+    for file in get_files():
+        id = int(file.split('.')[0])
+        listSaveSessionsID.append(id)
+        print(id)
+    return listSaveSessionsID
+
+def get_files():
+   for file in os.listdir(SAVE_SESSIONS_PATH):
+        if os.path.isfile(os.path.join(SAVE_SESSIONS_PATH, file)):
+            yield file
+
+
+def get_session_by_ID(id):
+    f = open(SAVE_SESSIONS_PATH+'/'+ str(id) + '.json')
+    data = json.load(f)
+    print(data)
+    return(data)

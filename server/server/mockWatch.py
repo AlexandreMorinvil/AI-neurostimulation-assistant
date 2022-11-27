@@ -8,7 +8,7 @@ IP = 'localhost'
 PORT = '5000'
 
 API_ENDPOINT  = 'http://'+ IP + ':' + PORT +'/watch_packet'
-PACKET_SIZE = 10
+PACKET_SIZE = 50
 SLEEP_TIME = 1
 
 

@@ -181,6 +181,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
           label={stateLabelText}
           dense={true}
           keyboardType="numeric"
+          defaultValue={""}
         />
       </View>
 

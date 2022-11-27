@@ -6,7 +6,6 @@ import InputQueryParameter from "./input-query-parameter.component"
 import OutputDisplayTremorMetric from "./output-display-tremor-metric.component";
 import PanelItem from '../../panel-item.component';
 
-
 import { mainStyles } from '../../../../styles/main.styles';
 import MessageBubble from "../../../message-bubble.component";
 import * as problemDimensionTypeService from "../../../../services/problem-dimension-type.service";
@@ -31,7 +30,7 @@ const PanelItemParameters = () => {
   const [stateParametersList, setStateParametersList] = useState(problemDimensionTypeService.getParametersList());
   const [stateSelectedParametersValueList, setStateSelectedParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
   const [stateSuggestedParametersValueList, setStateSuggestedParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
-  const [statePreviousParametersValueList, setStatePreviousParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
+  const [statePreviousParametersValueList, setStatePreviousParametersValueList] = useState([]);
 
   const [stateAreValuesReadyForQuery, setStateAreValuesReadyForQuery] = useState(false);
 
@@ -39,6 +38,7 @@ const PanelItemParameters = () => {
    * Functions
    */
   const changeParametersUsed = () => {
+    console.log(problemDimensionTypeService.getDefaultValuesList());
     setStateParametersList(problemDimensionTypeService.getParametersList());
     setStateSelectedParametersValueList(problemDimensionTypeService.getDefaultValuesList());
     setStateSuggestedParametersValueList(problemDimensionTypeService.getDefaultValuesList());
@@ -78,7 +78,7 @@ const PanelItemParameters = () => {
       const parameter = stateParametersList[index];
       const value = stateSelectedParametersValueList[index];
       const { isAccepted } = parameter.isValueAccepted(value);
-      if (!isAccepted || String(value) === "")
+      if (!isAccepted || (!value && value !== ""))
         areAllInputsReady = false;
     }
     setStateAreValuesReadyForQuery(areAllInputsReady);

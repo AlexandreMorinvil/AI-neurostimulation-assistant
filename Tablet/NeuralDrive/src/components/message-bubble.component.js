@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { SettingsMessageType, SettingsMessageFontSize } from '../../const/settings';
-import { textStyles } from "../../styles/text.styles";
+import { SettingsMessageType, SettingsMessageFontSize } from '../const/settings';
+import { textStyles } from "../styles/text.styles";
 
 const ICON_CLEARED = "✓";
 const ICON_DISABLED = "🛇";

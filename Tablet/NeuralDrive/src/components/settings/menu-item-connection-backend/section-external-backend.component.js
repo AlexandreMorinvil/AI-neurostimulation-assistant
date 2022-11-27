@@ -6,7 +6,7 @@ import { textStyles } from "../../../styles/text.styles";
 
 import InformationButton from "../information-button.component";
 import InputIpAddress from "./input-ip-address.component";
-import MessageBubble from "../message-bubble.component";
+import MessageBubble from "../../message-bubble.component";
 
 import * as connectionBackendService from "../../../services/connection-backend.service";
 

@@ -1,0 +1,104 @@
+[
+    {
+        "id": "machine_1",
+        "system": "Machine 1",
+        "parameters": [
+            {
+                "name": "Frequency",
+                "dimension": 10,
+                "default": 0,
+                "unit": "Hertz"
+            },
+            {
+                "name": "Amplitude",
+                "dimension": 10,
+                "default": 0,
+                "unit": "Volt"
+            }
+        ]
+    },
+    {
+        "id": "machine_2",
+        "system": "Machine 2",
+        "parameters": [
+            {
+                "name": "Frequency",
+                "dimension": 20,
+                "default": 0,
+                "unit": "Hertz"
+            },
+            {
+                "name": "Amplitude",
+                "dimension": 30,
+                "default": 0,
+                "unit": "Volt"
+            }
+        ]
+    },
+    {
+        "id": "machine_3",
+        "system": "Machine 3",
+        "parameters": [
+            {
+                "name": "Frequency",
+                "dimension": 50,
+                "default": 0,
+                "unit": "Hertz"
+            },
+            {
+                "name": "Amplitude",
+                "dimension": 50,
+                "default": 0,
+                "unit": "Volt"
+            }
+        ]
+    },
+    {
+        "id": "machine_4",
+        "system": "Machine 4",
+        "parameters": [
+            {
+                "name": "Frequency",
+                "dimension": 10,
+                "default": 0,
+                "unit": "Hertz"
+            },
+            {
+                "name": "Amplitude",
+                "dimension": 10,
+                "default": 0,
+                "unit": "Volt"
+            },
+            {
+                "name": "Currant",
+                "dimension": 10,
+                "default": 0,
+                "unit": "Ampere"
+            }
+        ]
+    },
+    {
+        "id": "machine_5",
+        "system": "Machine 5",
+        "parameters": [
+            {
+                "name": "Frequency",
+                "dimension": 5,
+                "default": 0,
+                "unit": "Hertz"
+            },
+            {
+                "name": "Amplitude",
+                "dimension": 20,
+                "default": 0,
+                "unit": "Volt"
+            },
+            {
+                "name": "Currant",
+                "dimension": 10,
+                "default": 0,
+                "unit": "Ampere"
+            }
+        ]
+    }
+]

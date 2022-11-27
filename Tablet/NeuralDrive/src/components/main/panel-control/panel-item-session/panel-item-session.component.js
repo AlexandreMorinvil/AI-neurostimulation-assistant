@@ -4,16 +4,15 @@ import { Button, Text } from 'react-native-paper';
 import { Stopwatch } from 'react-native-stopwatch-timer';
 
 import PanelItem from '../../panel-item.component';
-import { post_start_new_session } from "../../../../class/http";
+import { postStartNewSession } from "../../../../services/http-request.service";
 
-import * as problemDimensionService from "../../../../services/problem-dimension.service";
+import * as problemDimensionTypeService from "../../../../services/problem-dimension-type.service";
 import * as Structures from "../../../Structures";
 
 const ITEM_TITLE = "Session Management";
 
 const PanelItemSession = () => {
 
-  const n_param = 2;
   const [value, setValue] = React.useState(0);
 
   // stopwatch
@@ -40,9 +39,8 @@ const PanelItemSession = () => {
           dark={false}
           loading={false}
           onPress={async () => {
-            let status = await post_start_new_session(
-              n_param,
-              problemDimensionService.getProblemDimension(),
+            let status = await postStartNewSession(
+              problemDimensionTypeService.getProblemDimensionsList(),
             );
             console.log('status = ', status);
             session_status = status;

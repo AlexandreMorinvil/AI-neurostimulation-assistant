@@ -1,11 +1,16 @@
 import { StyleSheet } from "react-native";
 import { COLOR_BACKGROUND } from "./colors.style";
 
-export const settingsStyles = StyleSheet.create({
+export const mainStyles = StyleSheet.create({
   sectionContent: {
     backgroundColor: COLOR_BACKGROUND.ItemSection,
     borderRadius: 10,
     padding: 30,
+  },
+  subSectionContent: {
+    backgroundColor: COLOR_BACKGROUND.ItemSubSection,
+    borderRadius: 10,
+    padding: 10,
   },
   textInput: {
     backgroundColor: "white",

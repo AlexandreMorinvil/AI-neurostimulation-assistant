@@ -1,39 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const ButtonProblemDimension = ({ setParentStateSelectedDimensionFunction, ...props }) => {
+const ButtonProblemDimension = ({ setParentStateSelectedProblemDimensionTypeFunction, ...props }) => {
 
   /**
    * Props
    */
-  const { isActive, dimension, style } = props;
+  const { isActive, problemDimensionType, style } = props;
 
   /**
    * States
    */
   const [stateIsActive, setStateIsActive] = useState(isActive);
-  const [stateDimension, setStateDimension] = useState(dimension || 10);
 
   /**
    * Functions
    */
-  setParentStateSelectedDimensionFunction = setParentStateSelectedDimensionFunction ? setParentStateSelectedDimensionFunction : () => { };
+   setParentStateSelectedProblemDimensionTypeFunction = setParentStateSelectedProblemDimensionTypeFunction || (() => { });
 
   const makeButtonText = () => {
-    return `${stateDimension} × ${stateDimension}`;
+    const problemDimensionTypeName = problemDimensionType.getName();
+    const dimensionsText = problemDimensionType.getDimensionsList().join(" × ");
+    return `${problemDimensionTypeName}\n${dimensionsText}`;
   }
 
   const setSelectedDimension = () => {
-    setParentStateSelectedDimensionFunction(stateDimension);
+    setParentStateSelectedProblemDimensionTypeFunction(problemDimensionType);
   }
 
   /**
    * Effects
    */
-  useEffect(() => {
-    setStateDimension(props.dimension);
-  }, [props.dimension]);
-
   useEffect(() => {
     setStateIsActive(props.isActive);
   }, [props.isActive]);
@@ -67,9 +64,8 @@ const styles = StyleSheet.create({
   container: {
     borderStyle: "solid",
     borderWidth: 2,
-    height: 150,
+    minHeight: 150,
     minwidth: 150,
-    maxWidth: 150,
     padding: 20,
     flex: 1,
     flexDirection: "column",
@@ -84,8 +80,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#999999",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
+    textAlign: "center"
   },
   active: {
     backgroundColor: "#32C832",

@@ -5,7 +5,7 @@ import { SettingsMessageType } from '../../../const/settings';
 import { textStyles } from "../../../styles/text.styles";
 
 import InformationButton from "../information-button.component";
-import MessageBubble from "../message-bubble.component";
+import MessageBubble from "../../message-bubble.component";
 import ButtonBackendType from "./button-backend-type.component";
 
 const SECTION_TITLE = "Backend Type :";

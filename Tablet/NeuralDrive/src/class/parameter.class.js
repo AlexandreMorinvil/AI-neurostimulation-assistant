@@ -36,9 +36,10 @@ export class Parameter {
   }
 
   isValueAccepted(value) {
-    if (value < 0) return { isAccepted: false, reason: REFUSAL_REASON_ABOVE_MAX(this.getMaximumValue()) };
-    else if (value > this.maxValue) return { isAccepted: false, reason: REFUSAL_REASON_BELOW_MIN(this.getminimumValue()) };
-    else if (/^\d+$/.test(value)) return { isAccepted: false, reason: REFUSAL_REASON_WHOLE_NUMBER };
-    else return { isAccepted: false, reason: ACCEPTANCE_MESSAGE };
+    const valueToTest = Number(value);
+    if (!/^\d+$/.test(valueToTest)) return { isAccepted: false, reason: REFUSAL_REASON_WHOLE_NUMBER };
+    else if (valueToTest > this.getMaximumValue()) return { isAccepted: false, reason: REFUSAL_REASON_ABOVE_MAX(this.getMaximumValue()) };
+    else if (valueToTest < this.getMinimumValue()) return { isAccepted: false, reason: REFUSAL_REASON_BELOW_MIN(this.getMinimumValue()) };
+    else return { isAccepted: true, reason: ACCEPTANCE_MESSAGE };
   }
 }

@@ -6,7 +6,7 @@ import { textStyles } from "../../../styles/text.styles";
 
 import * as patientService from "../../../services/patient.service";
 import InformationButton from "../information-button.component";
-import MessageBubble from "../message-bubble.component";
+import MessageBubble from "../../message-bubble.component";
 
 const sectionTitle = "Patient ID :"
 const HELP_INFORMATION =

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
+import { SettingsMessageType } from '../../../../const/settings';
+
 import { COLOR_BACKGROUND } from '../../../../styles/colors.style';
+import MessageBubble from "../../../message-bubble.component";
 
 const TEXT_INSERT_VALUE = "Insert value";
 const TEXT_SUGGESTED_VALUE_PRESENT = "Sugg. :";
@@ -26,6 +29,10 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
   const [stateValue, setStateValue] = useState(value);
   const [statePreviousValue, setStatePreviousValue] = useState(previousValue);
 
+  const [stateInvalidMessageReason, setStateInvalidMessageReason] = useState("");
+  const [stateMustDisplayInvalidityReason, setStateMustDisplayInvalidityReason] = useState(false);
+  const [stateIsInFocus, setStateIsInFocus] = useState(true);
+
   /**
    * Functions
    */
@@ -33,9 +40,12 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     return Boolean(stateIsFirstInput);
   }
 
-  const setValue = (value) => {
-    setStateValue(value);
-    setParentValueFunction(value);
+  const setValue = (newValue) => {
+    updateMustDisplayInvalidityMessage(newValue);
+    const { isAccepted, reason } = stateParameter.isValueAccepted(newValue);
+    const currentValue = stateValue;
+    setParentValueFunction(isAccepted ? newValue : currentValue);
+    setStateValue(isAccepted ? newValue : currentValue);
   }
 
   const setValueToPreviousValue = () => {
@@ -69,6 +79,28 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     return `{ ${minimumValue}, ${minimumValue + 1}, ${minimumValue + 2}, ... , ${maximumValue} } ${unit}`;
   }
 
+  const updateMustDisplayInvalidityMessage = (attemptedValue = stateValue) => {
+    const { isAccepted, reason } = stateParameter.isValueAccepted(attemptedValue);
+    const isAttemptedValueEmpty = String(attemptedValue).length === 0;
+    setStateInvalidMessageReason(reason);
+    if (!stateIsInFocus || isAttemptedValueEmpty)
+      setStateMustDisplayInvalidityReason(false);
+    else if (isAccepted)
+      setStateMustDisplayInvalidityReason(false);
+    else
+      setStateMustDisplayInvalidityReason(true);
+  }
+
+  const handleEnterInputFocus = () => {
+    setStateIsInFocus(true);
+    updateMustDisplayInvalidityMessage();
+  }
+
+  const handleEndEdittingValue = () => {
+    setStateIsInFocus(false);
+    updateMustDisplayInvalidityMessage();
+  }
+
   /**
    * Effects
    */
@@ -79,6 +111,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     setStatePreviousValue(props.previousValue);
     setStateSuggestedValue(props.suggestedValue);
     setStateValue(props.value);
+    updateMustDisplayInvalidityMessage();
   },
     [
       props.isDisabled,
@@ -88,6 +121,10 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
       props.suggestedValue,
       props.value
     ]);
+
+  useEffect(() => {
+    updateMustDisplayInvalidityMessage();
+  }, [])
 
   /**
    * Render
@@ -135,12 +172,22 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
           multiline={false}
           value={stateValue}
           onChangeText={setValue}
+          onEndEditing={handleEndEdittingValue}
+          onFocus={handleEnterInputFocus}
           textColor="black"
           label={makeLabelText()}
           dense={true}
           keyboardType="numeric"
         />
       </View>
+
+      {
+        stateMustDisplayInvalidityReason &&
+        <MessageBubble
+          type={SettingsMessageType.WARNING}
+          message={stateInvalidMessageReason}
+        />
+      }
     </View >
   );
 

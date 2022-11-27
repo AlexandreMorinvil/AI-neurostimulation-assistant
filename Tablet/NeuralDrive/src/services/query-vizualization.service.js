@@ -42,6 +42,10 @@ export function hasLoadedHeatmap() {
   return Boolean(_loadedHeatmapBase64JpegImageData);
 }
 
+export function hasLoadedParameterGraph() {
+  return Boolean(_loadedParameterGraphBase64JpegImageData);
+}
+
 export async function refreshVizualizations() {
   _isLoadingHeatmap = true;
   _isLoadingParameterGraph = true;

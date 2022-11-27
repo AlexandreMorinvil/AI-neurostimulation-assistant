@@ -18,7 +18,7 @@ const PanelVisualization = () => {
       <Swiper>
         <PanelItemVizualizationTremor2dGraph />
         <PanelItemVizualizationQueryHeatMap />
-        {/* <PanelItemVizualizationQuery2dGraph /> */}
+        <PanelItemVizualizationQuery2dGraph />
       </Swiper>
     </PanelFrame>
   );

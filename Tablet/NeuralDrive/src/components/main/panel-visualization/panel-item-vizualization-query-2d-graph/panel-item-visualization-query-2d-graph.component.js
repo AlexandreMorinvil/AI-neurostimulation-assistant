@@ -1,122 +1,95 @@
-// import React, { useEffect, useState } from 'react';
-// import { StyleSheet, View } from 'react-native';
-// import { LineChart, YAxis, XAxis, Grid } from 'react-native-svg-charts';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { Image } from 'react-native-elements';
 
-// import { get_heat_map_data, get_chosen_param_2D } from '../../../../class/const';
 import PanelVizualizationItem from "../panel-vizualization-item.component";
-// import * as problemDimensionTypeService from "../../../../services/problem-dimension-type.service";
+import * as queryVizualizationService from "../../../../services/query-vizualization.service";
 
 const TITLE_VISUALIZATION = "Averaged Parameter Effect";
 
-export function PanelItemVizualizationQuery2dGraph() {
+const PanelItemVizualizationQuery2dGraph = () => {
 
-  // array = new Array();
-  // const [initialData, setInitialData] = useState(array);
-  // const [dataMean, setDataMean] = useState(array);
-  // const [dimension, setDimension] = useState(10);
-  // const [chosenParam, setChosenParam] = useState(1);
+  /**
+   * States
+   */
+  const [state2dGraohBase64JpegImageData, setState2dGraohBase64JpegImageData] = useState("");
+  const [stateIsLoading, setStateIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     updateData(
-  //       get_heat_map_data(),
-  //       problemDimensionTypeService.getProblemDimensionsList(),
-  //       get_chosen_param_2D()
-  //     );
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, [initialData, dimension, chosenParam]);
+  /**
+   * Functions
+   */
+  const updateParameterGraph = () => {
+    setState2dGraohBase64JpegImageData(queryVizualizationService.getParameterGraphBase64JpegImageData());
+    if (queryVizualizationService.getIsLoadingParameterGraph() ||
+      !queryVizualizationService.hasLoadedParameterGraph()) {
+      setStateIsLoading(true);
+    } else
+      setStateIsLoading(false);
+  }
 
-  // function updateData(data, dimension, param) {
-  //   setInitialData(data);
-  //   setDimension(dimension);
-  //   setChosenParam(param)
-  //   calculate_mean();
-  // }
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    // Initialization
+    updateParameterGraph();
 
-  // function calculate_mean() {
-  //   temp = [];
-  //   if (chosenParam == 0) {
-  //     for (i = 0; i < dimension; i++) {
-  //       sum = 0;
-  //       for (j = 0; j < initialData.length; j += dimension) {
-  //         position = i + j;
-  //         sum += initialData[position][1];
-  //       }
-  //       mean = sum / dimension;
-  //       temp[i] = mean;
-  //     }
-  //   } else if (chosenParam == 1) {
-  //     tempPos = 0;
-  //     for (i = 0; i < initialData.length; i += dimension) {
-  //       sum = 0;
-  //       for (j = 0; j < dimension; j++) {
-  //         position = i + j;
-  //         sum += initialData[position][1];
-  //       }
-  //       mean = sum / dimension;
-  //       temp[tempPos] = mean;
-  //       tempPos++;
-  //     }
-  //   }
-  //   setDataMean(temp);
-  // }
+    // Reactive subcribtion
+    const subscription = queryVizualizationService.subjectParameterGraph.subscribe({
+      next: updateParameterGraph
+    });
 
+    // Cleanup
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  }, []);
+
+  /**
+   * Render
+   */
   return (
     <PanelVizualizationItem title={TITLE_VISUALIZATION}>
-      {/* <View style={styles.chartView}>
-        <View style={styles.lineChart}>
-          <YAxis
-            style={styles.axis}
-            data={dataMean}
-            svg={{
-              fill: 'grey',
-              fontSize: 18,
-            }}
-            numberOfTicks={10}
-            formatLabel={value => `${value}`}
+      <View style={styles.container}>
+        {stateIsLoading ?
+          <ActivityIndicator
+            style={styles.activityIndicator}
+            size="large"
+          /> :
+          <Image
+            source={{ uri: `data:image/jpeg;base64,${state2dGraohBase64JpegImageData}` }}
+            resizeMode='contain'
+            style={styles.image}
           />
-          <LineChart
-            style={styles.chart}
-            data={dataMean}
-            svg={{ stroke: 'black' }}
-            contentInset={{ top: 20, bottom: 20 }}>
-            <Grid />
-          </LineChart>
-        </View>
-        <XAxis
-          style={{ marginHorizontal: '5%', width: '93%' }}
-          data={dataMean}
-          formatLabel={(value, index) => index}
-          contentInset={{ left: 10, right: 10 }}
-          svg={{ fontSize: 18, fill: 'grey' }}
-        />
-      </View> */}
+        }
+      </View>
     </PanelVizualizationItem>
   );
 }
 
-// const styles = StyleSheet.create({
-//   lineChart: {
-//     width: '100%',
-//     height: '100%',
-//     backgroundColor: 'white',
-//     flexDirection: 'row',
-//   },
-//   chartView: {
-//     width: '100%',
-//     height: '90%',
-//     backgroundColor: 'white',
-//     flexDirection: 'column',
-//   },
-//   axis: {
-//     width: '4%',
-//     height: '100%',
-//   },
-//   chart: {
-//     width: '95%',
-//     height: '100%',
-//   },
-// });
+/**
+ * Style Sheet
+ */
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "stretch",
+    width: "100%",
+    height: "100%",
+    flexDirection: "row",
+    overflow: 'hidden',
+  },
+  activityIndicator: {
+    height: "100%",
+    width: "100%",
+  },
+  image: {
+    flex: 1,
+    height: "100%",
+    minWidth: 700,
+  }
+});
 
 export default PanelItemVizualizationQuery2dGraph;

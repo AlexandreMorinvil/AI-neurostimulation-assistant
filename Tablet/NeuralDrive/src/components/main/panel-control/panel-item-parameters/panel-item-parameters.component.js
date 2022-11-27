@@ -6,7 +6,7 @@ import InputQueryParameter from "./input-query-parameter.component"
 import PanelItem from '../../panel-item.component';
 
 import { mainStyles } from '../../../../styles/main.styles';
-import * as problemDimensionService from "../../../../services/problem-dimension.service";
+import * as problemDimensionTypeService from "../../../../services/problem-dimension-type.service";
 import * as queryService from "../../../../services/query.service";
 import * as tremorPointService from "../../../../services/tremor-point.service";
 
@@ -21,9 +21,9 @@ const PanelItemParameters = () => {
    * States
    */
   const [stateIsQuerying, setStateIsQuerying] = useState(false);
-  const [stateSelectedParametersValueList, setStateSelectedParametersValueList] = useState(problemDimensionService.getDefaultValues());
-  const [stateSuggestedParametersValueList, setStateSuggestedParametersValueList] = useState(problemDimensionService.getDefaultValues());
-  const [statePreviousParametersValueList, setStatePreviousParametersValueList] = useState(problemDimensionService.getDefaultValues());
+  const [stateSelectedParametersValueList, setStateSelectedParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
+  const [stateSuggestedParametersValueList, setStateSuggestedParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
+  const [statePreviousParametersValueList, setStatePreviousParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
 
   /**
    * Functions

@@ -1,5 +1,3 @@
-import { Subject } from "rxjs";
-
 import * as httpRequestService from "./http-request.service";
 import * as queryVizualizationService from "./query-vizualization.service";
 

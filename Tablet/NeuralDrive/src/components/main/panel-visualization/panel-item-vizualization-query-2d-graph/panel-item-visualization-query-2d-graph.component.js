@@ -4,7 +4,7 @@
 
 // import { get_heat_map_data, get_chosen_param_2D } from '../../../../class/const';
 import PanelVizualizationItem from "../panel-vizualization-item.component";
-// import * as problemDimensionService from "../../../../services/problem-dimension.service";
+// import * as problemDimensionTypeService from "../../../../services/problem-dimension-type.service";
 
 const TITLE_VISUALIZATION = "Averaged Parameter Effect";
 
@@ -20,7 +20,7 @@ export function PanelItemVizualizationQuery2dGraph() {
   //   const interval = setInterval(() => {
   //     updateData(
   //       get_heat_map_data(),
-  //       problemDimensionService.getProblemDimension(),
+  //       problemDimensionTypeService.getProblemDimensionsList(),
   //       get_chosen_param_2D()
   //     );
   //   }, 1000);

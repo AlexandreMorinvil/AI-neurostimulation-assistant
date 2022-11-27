@@ -1,39 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const ButtonProblemDimension = ({ setParentStateSelectedDimensionFunction, ...props }) => {
+const ButtonProblemDimension = ({ setParentStateSelectedProblemDimensionTypeFunction, ...props }) => {
 
   /**
    * Props
    */
-  const { isActive, dimension, style } = props;
+  const { isActive, problemDimensionType, style } = props;
 
   /**
    * States
    */
   const [stateIsActive, setStateIsActive] = useState(isActive);
-  const [stateDimension, setStateDimension] = useState(dimension || [10, 10]);
 
   /**
    * Functions
    */
-  setParentStateSelectedDimensionFunction = setParentStateSelectedDimensionFunction ? setParentStateSelectedDimensionFunction : () => { };
+   setParentStateSelectedProblemDimensionTypeFunction = setParentStateSelectedProblemDimensionTypeFunction || (() => { });
 
   const makeButtonText = () => {
-    return stateDimension.join(" × ");
+    const problemDimensionTypeName = problemDimensionType.getName();
+    const dimensionsText = problemDimensionType.getDimensionsList().join(" × ");
+    return `${problemDimensionTypeName}\n${dimensionsText}`;
   }
 
   const setSelectedDimension = () => {
-    setParentStateSelectedDimensionFunction(stateDimension);
+    setParentStateSelectedProblemDimensionTypeFunction(problemDimensionType);
   }
 
   /**
    * Effects
    */
-  useEffect(() => {
-    setStateDimension(props.dimension);
-  }, [props.dimension]);
-
   useEffect(() => {
     setStateIsActive(props.isActive);
   }, [props.isActive]);

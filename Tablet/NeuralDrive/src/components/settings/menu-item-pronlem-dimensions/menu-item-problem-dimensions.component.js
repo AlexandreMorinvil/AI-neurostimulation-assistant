@@ -8,17 +8,17 @@ import AccodionItem from "../accordion-item.component";
 import ConfirmButton from "../confirm-button.component";
 import SectionProblemSize from "./section-problem-dimensions.component";
 
-import * as problemDimensionService from "../../../services/problem-dimension.service";
+import * as problemDimensionTypeService from "../../../services/problem-dimension-type.service";
 
 const CONFIRM_BUTTON_TEXT = "Confirm";
-const HEADER_SUMMARY_TEXT = (dimension) => `Dimension ${dimension}`;
+const HEADER_SUMMARY_TEXT = (dimension) => `Dimensions ${dimension}`;
 
 const SettingsMenuItemProblemDimensions = () => {
 
   /**
    * States
    */
-  const [stateSelectedDimension, setStateSelectedDimension] = useState(problemDimensionService.getProblemDimension());
+  const [stateSelectedProblemDimensionType, setStateSelectedProblemDimensionType] = useState(problemDimensionTypeService.getProblemDimensionType());
   const [stateHeaderSummary, setStateHeaderSummary] = useState("");
   const [stateSettingStatus] = useState(SettingsStatus.SET);
   const [stateIsConfirmButtonActive, setStateIsConfirmButtonActive] = useState(false);
@@ -26,17 +26,17 @@ const SettingsMenuItemProblemDimensions = () => {
   /**
    * Functions
    */
-  
   const updateSettingStatus = () => {
-    setStateHeaderSummary(HEADER_SUMMARY_TEXT(stateSelectedDimension));
+    const problemDimensionsList = problemDimensionTypeService.getProblemDimensionsList();
+    setStateHeaderSummary(HEADER_SUMMARY_TEXT(problemDimensionsList));
   }
   
   const updateIsConfirmButtonActive = () => {
     setStateIsConfirmButtonActive(true);
   }
   
-  const setDimension = () => {
-    problemDimensionService.setProblemDimension(stateSelectedDimension);
+  const setProblemDimensionType = () => {
+    problemDimensionTypeService.setProblemDimensionType(stateSelectedProblemDimensionType);
     updateSettingStatus();
     updateIsConfirmButtonActive();
   }
@@ -64,13 +64,13 @@ const SettingsMenuItemProblemDimensions = () => {
     >
       <SectionProblemSize
         style={settingsStyles.sectionSpacing}
-        setParentStateSelectedDimensionFunction={setStateSelectedDimension}
+        setParentStateSelectedDimensionTypeFunction={setStateSelectedProblemDimensionType}
       />
       <View style={styles.spacing}>
         <ConfirmButton
           isActive={stateIsConfirmButtonActive}
           text={CONFIRM_BUTTON_TEXT}
-          handleButtonPressedParentFunction={setDimension}
+          handleButtonPressedParentFunction={setProblemDimensionType}
         />
       </View>
     </AccodionItem>

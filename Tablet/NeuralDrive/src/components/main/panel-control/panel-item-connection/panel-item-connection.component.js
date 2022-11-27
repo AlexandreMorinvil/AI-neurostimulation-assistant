@@ -3,6 +3,9 @@ import { StyleSheet } from 'react-native';
 
 import IndicatorConnection from "./indicator-connection.component";
 import PanelItem from '../../panel-item.component';
+import * as connectionBackendService from "../../../../services/connection-backend.service";
+import * as connectionWatchService from "../../../../services/connection-watch.service";
+
 
 
 import * as Structures from "../../../Structures";
@@ -27,11 +30,11 @@ const PanelItemConnection = () => {
         bgColor={'#00000000'}>
         <IndicatorConnection
           device={'server'}
-          checkConnectionFunction={() => true}
+          checkConnectionFunction={() => connectionBackendService.getIsConnectedStatus()}
         />
         <IndicatorConnection
           device={'watch'}
-          checkConnectionFunction={() => true}
+          checkConnectionFunction={() => connectionWatchService.getIsConnectedStatus()}
         />
       </Structures.FlexContainer>
     </PanelItem>

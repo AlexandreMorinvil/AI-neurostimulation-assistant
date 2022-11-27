@@ -1,5 +1,5 @@
 import { Subject } from "rxjs";
-
+import { watchIsConnected, stopWatchTimeOut } from "./connection-watch.service";
 import { FREQUENCY_WATCH_POINT_GENERATION_IN_HZ } from "../const/watch";
 
 // Constants
@@ -27,6 +27,8 @@ export async function handleReceivedWatchPacket(watchPacket) {
   try {
     const parsedWatchPacket = JSON.parse(watchPacket);
     _watchPointsNewRawDataBuffer = _watchPointsNewRawDataBuffer.concat(parsedWatchPacket);
+    stopWatchTimeOut();
+    watchIsConnected();
   } catch (error) {
     console.error("Watch data format is invalid: ", error);
   }

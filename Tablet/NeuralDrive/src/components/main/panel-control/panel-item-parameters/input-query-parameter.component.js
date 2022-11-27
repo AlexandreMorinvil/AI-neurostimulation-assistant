@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
-import { SettingsMessageType } from '../../../../const/settings';
 
+import { SettingsMessageType } from '../../../../const/settings';
 import { COLOR_BACKGROUND } from '../../../../styles/colors.style';
 import MessageBubble from "../../../message-bubble.component";
 
-const TEXT_INSERT_VALUE = "Insert value";
+const TEXT_INSERT_VALUE = `Insert value`;
 const TEXT_SUGGESTED_VALUE_PRESENT = "Sugg. :";
 const TEXT_SUGGESTED_VALUE = (value) => `Sugg. : ${value}`
 
@@ -60,7 +60,6 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
 
   const updateLabelText = () => {
     if (stateIsFirstInput) {
-      console.log("isValueEmpty", isValueEmpty());
       if (isValueEmpty()) setStateLabelText(TEXT_INSERT_VALUE);
       else setStateLabelText(stateParameter.getName());
     } else {

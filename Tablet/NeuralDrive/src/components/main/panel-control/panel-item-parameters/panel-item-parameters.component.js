@@ -8,14 +8,18 @@ import PanelItem from '../../panel-item.component';
 
 
 import { mainStyles } from '../../../../styles/main.styles';
+import MessageBubble from "../../../message-bubble.component";
 import * as problemDimensionTypeService from "../../../../services/problem-dimension-type.service";
 import * as queryService from "../../../../services/query.service";
 import * as tremorPointService from "../../../../services/tremor-point.service";
+import { SettingsMessageType } from '../../../../const/settings';
 
 const ITEM_TITLE = "Input Parameters";
 
 const BUTTON_TEXT_QUERY = "PERFORM QUERY";
 const BUTTON_TEXT_RESET = "RESET TO RECOMMENDED";
+
+const TEXT_FILL_ALL_VALUES = "Please, fill all the values";
 
 const PanelItemParameters = () => {
 
@@ -23,11 +27,13 @@ const PanelItemParameters = () => {
    * States
    */
   const [stateIsQuerying, setStateIsQuerying] = useState(false);
-  const [statIsFirstQurey, setStatIsFirstQuery] = useState(!queryService.hasDoneQueryPreviously())
+  const [stateIsFirstQurey, setStateIsFirstQuery] = useState(!queryService.hasDoneQueryPreviously())
   const [stateParametersList, setStateParametersList] = useState(problemDimensionTypeService.getParametersList());
   const [stateSelectedParametersValueList, setStateSelectedParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
   const [stateSuggestedParametersValueList, setStateSuggestedParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
   const [statePreviousParametersValueList, setStatePreviousParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
+
+  const [stateAreValuesReadyForQuery, setStateAreValuesReadyForQuery] = useState(false);
 
   /**
    * Functions
@@ -40,7 +46,6 @@ const PanelItemParameters = () => {
   }
 
   const performQuery = async () => {
-    console.log("Got here");
     setStateIsQuerying(true);
     await queryService.performQuery(
       stateSelectedParametersValueList,
@@ -63,7 +68,21 @@ const PanelItemParameters = () => {
   }
 
   const updateStatus = () => {
-    setStatIsFirstQuery(!queryService.hasDoneQueryPreviously());
+    setStateIsFirstQuery(!queryService.hasDoneQueryPreviously());
+    verifyIfAllInputsAreReady();
+  }
+
+  const verifyIfAllInputsAreReady = () => {
+    let areAllInputsReady = true;
+    for (let index = 0; index < stateSelectedParametersValueList.length; index++) {
+      const parameter = stateParametersList[index];
+      const value = stateSelectedParametersValueList[index];
+      console.log(index, value);
+      const { isAccepted } = parameter.isValueAccepted(value);
+      if (!isAccepted || String(value) === "")
+        areAllInputsReady = false;
+    }
+    setStateAreValuesReadyForQuery(areAllInputsReady);
   }
 
   /**
@@ -84,6 +103,10 @@ const PanelItemParameters = () => {
     }
   }, [])
 
+  useEffect(() => {
+    updateStatus();
+  }, [stateSelectedParametersValueList])
+
   /**
    * Render
    */
@@ -102,7 +125,7 @@ const PanelItemParameters = () => {
               <InputQueryParameter
                 key={index}
                 style={styles.interSubSectionSpacing}
-                isFirstInput={statIsFirstQurey}
+                isFirstInput={stateIsFirstQurey}
                 isDisabled={stateIsQuerying}
                 parameter={parameter}
                 previousValue={statePreviousParametersValueList[index]}
@@ -113,22 +136,25 @@ const PanelItemParameters = () => {
             );
           })
         }
-        <Button
-          icon="sync"
-          mode="elevated"
-          dark={false}
-          loading={false}
-          onPress={setAllParameterValuesToSuggestedValues}
-          uppercase={true}
-          disabled={stateIsQuerying}
-        >
-          <Text
-            variant="labelLarge"
-            adjustsFontSizeToFit={true}
+        {
+          !stateIsFirstQurey &&
+          <Button
+            icon="sync"
+            mode="elevated"
+            dark={false}
+            loading={false}
+            onPress={setAllParameterValuesToSuggestedValues}
+            uppercase={true}
+            disabled={stateIsQuerying}
           >
-            {BUTTON_TEXT_RESET}
-          </Text>
-        </Button>
+            <Text
+              variant="labelLarge"
+              adjustsFontSizeToFit={true}
+            >
+              {BUTTON_TEXT_RESET}
+            </Text>
+          </Button>
+        }
       </View>
 
       <View style={mainStyles.sectionContent}>
@@ -143,12 +169,19 @@ const PanelItemParameters = () => {
           loading={stateIsQuerying}
           onPress={performQuery}
           uppercase={true}
-          disabled={stateIsQuerying}
+          disabled={stateIsQuerying || !stateAreValuesReadyForQuery}
         >
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
             {BUTTON_TEXT_QUERY}
           </Text>
         </Button>
+        {
+          !stateAreValuesReadyForQuery &&
+          <MessageBubble
+            type={SettingsMessageType.DISABLED}
+            message={TEXT_FILL_ALL_VALUES}
+          />
+        }
       </View>
 
     </ PanelItem>

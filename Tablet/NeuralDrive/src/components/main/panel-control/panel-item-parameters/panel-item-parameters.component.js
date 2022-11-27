@@ -3,7 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import InputQueryParameter from "./input-query-parameter.component"
+import OutputDisplayTremorMetric from "./output-display-tremor-metric.component";
 import PanelItem from '../../panel-item.component';
+
 
 import { mainStyles } from '../../../../styles/main.styles';
 import * as problemDimensionTypeService from "../../../../services/problem-dimension-type.service";
@@ -90,14 +92,18 @@ const PanelItemParameters = () => {
       isActive={true}
       title={ITEM_TITLE}
     >
-      <View style={mainStyles.sectionContent}>
+      <View style={[
+        mainStyles.sectionContent,
+        styles.interSectionSpacing
+      ]}>
         {
           stateParametersList.map((parameter, index) => {
             return (
               <InputQueryParameter
                 key={index}
-                style={styles.parameterSectionSpacing}
+                style={styles.interSubSectionSpacing}
                 isFirstInput={statIsFirstQurey}
+                isDisabled={stateIsQuerying}
                 parameter={parameter}
                 previousValue={statePreviousParametersValueList[index]}
                 suggestedValue={stateSuggestedParametersValueList[index]}
@@ -114,6 +120,7 @@ const PanelItemParameters = () => {
           loading={false}
           onPress={setAllParameterValuesToSuggestedValues}
           uppercase={true}
+          disabled={stateIsQuerying}
         >
           <Text
             variant="labelLarge"
@@ -125,13 +132,19 @@ const PanelItemParameters = () => {
       </View>
 
       <View style={mainStyles.sectionContent}>
+        <OutputDisplayTremorMetric
+          style={styles.interSubSectionSpacing}
+          isFrozen={stateIsQuerying}
+        />
         <Button
           icon="tab-search"
           mode="elevated"
           dark={false}
           loading={stateIsQuerying}
           onPress={performQuery}
-          uppercase={true}>
+          uppercase={true}
+          disabled={stateIsQuerying}
+        >
           <Text variant="labelLarge" adjustsFontSizeToFit={true}>
             {BUTTON_TEXT_QUERY}
           </Text>
@@ -146,7 +159,10 @@ const PanelItemParameters = () => {
  * Style Sheet
  */
 const styles = StyleSheet.create({
-  parameterSectionSpacing: {
+  interSectionSpacing: {
+    marginBottom: 10,
+  },
+  interSubSectionSpacing: {
     marginBottom: 10,
   },
   buttonArea: {

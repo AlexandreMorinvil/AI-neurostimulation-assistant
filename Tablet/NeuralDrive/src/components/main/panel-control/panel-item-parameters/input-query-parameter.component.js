@@ -34,8 +34,8 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
   }
 
   const setValue = (value) => {
-    setParentValueFunction(value);
     setStateValue(value);
+    setParentValueFunction(value);
   }
 
   const setValueToPreviousValue = () => {

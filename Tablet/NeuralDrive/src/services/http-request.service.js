@@ -60,6 +60,7 @@ export async function getVisualizationsForParameters(firstParameterIndex, second
   };
 
   // Send request and handle errors
+  console.log("The problem hasn't occured so far");
   response = await sendCommand(command, method);
   if (response === ERROR_CODE.FAIL_CONNECT_TO_SERVER) {
     return Status.STOP;

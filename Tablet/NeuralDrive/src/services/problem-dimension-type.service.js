@@ -21,6 +21,10 @@ let _problemDimensionType = DEFAULT_PROBLEM_DIMENSION_TYPE;
 export const subject = new Subject();
 
 // Exported methods
+export function getParametersList() {
+  return _problemDimensionType.getParametersList();
+}
+
 export function getPossibleProblemDimensionTypesList() {
   return POSSIBLE_PROBLEM_DIMENSION_TYPES_LIST;
 }

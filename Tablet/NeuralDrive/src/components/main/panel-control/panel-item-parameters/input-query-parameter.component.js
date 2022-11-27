@@ -4,22 +4,24 @@ import { Button, Text, TextInput } from 'react-native-paper';
 import { COLOR_BACKGROUND } from '../../../../styles/colors.style';
 
 const TEXT_INSERT_VALUE = "Insert value";
-const TEXT_SUGGESTED_VALUE_PRESENT = "Suggestion :";
-const TEXT_SUGGESTED_VALUE = (value) => `Suggestion : ${value}`
+const TEXT_SUGGESTED_VALUE_PRESENT = "Sugg. :";
+const TEXT_SUGGESTED_VALUE = (value) => `Sugg. : ${value}`
+
+const TEXT_OLD_VALUE_BUTTON = "Old";
 
 const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
 
   /**
    * Props
    */
-  const { isDisabled, isFirstInput, parameterName, previousValue, suggestedValue, value, style } = props;
+  const { isDisabled, isFirstInput, parameter, previousValue, suggestedValue, value, style } = props;
 
   /**
    * States
    */
   const [stateIsDisabled, setStateIsDisabled] = useState(isDisabled);
   const [stateIsFirstInput, setStateIsFirstInput] = useState(isFirstInput);
-  const [stateParameterName, setStateParameterName] = useState(parameterName);
+  const [stateParameter, setStateParameter] = useState(parameter);
   const [stateSuggestedValue, setStateSuggestedValue] = useState(suggestedValue);
   const [stateValue, setStateValue] = useState(value);
   const [statePreviousValue, setStatePreviousValue] = useState(previousValue);
@@ -27,6 +29,10 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
   /**
    * Functions
    */
+  const isValueEmpty = () => {
+    return Boolean(stateIsFirstInput);
+  }
+
   const setValue = (value) => {
     setParentValueFunction(value);
     setStateValue(value);
@@ -36,15 +42,31 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     setValue(statePreviousValue);
   }
 
-  const makeLabelText = () => {
-    if (stateIsFirstInput) return TEXT_INSERT_VALUE;
-    else if (stateValue === stateSuggestedValue) return TEXT_SUGGESTED_VALUE_PRESENT;
-    else return TEXT_SUGGESTED_VALUE(stateSuggestedValue);
-
+  const makeTitleText = () => {
+    const name = stateParameter.getName();
+    return `${name}`
   }
 
-  const makeSpecification = () => {
-    return "{ 0, 1, 2, ... , 9 }"
+  const makeLabelText = () => {
+    if (stateIsFirstInput) {
+      if (isValueEmpty()) return TEXT_INSERT_VALUE;
+      else return stateParameter.getName();
+    } else {
+      if (stateValue === stateSuggestedValue) return TEXT_SUGGESTED_VALUE_PRESENT;
+      else return TEXT_SUGGESTED_VALUE(stateSuggestedValue);
+    }
+  }
+
+  const makePreviousButtonText = () => {
+    if (stateIsFirstInput) return TEXT_OLD_VALUE_BUTTON;
+    else return statePreviousValue;
+  }
+
+  const makeRangeText = () => {
+    const minimumValue = stateParameter.getMinimumValue();
+    const maximumValue = stateParameter.getMaximumValue();
+    const unit = stateParameter.getUnit();
+    return `{ ${minimumValue}, ${minimumValue + 1}, ${minimumValue + 2}, ... , ${maximumValue} } ${unit}`;
   }
 
   /**
@@ -53,7 +75,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
   useEffect(() => {
     setStateIsDisabled(props.isDisabled);
     setStateIsFirstInput(props.isFirstInput);
-    setStateParameterName(props.parameterName);
+    setStateParameter(props.parameter);
     setStatePreviousValue(props.previousValue);
     setStateSuggestedValue(props.suggestedValue);
     setStateValue(props.value);
@@ -61,7 +83,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     [
       props.isDisabled,
       props.isFirstInput,
-      props.parameterName,
+      props.parameter,
       props.previousValue,
       props.suggestedValue,
       props.value
@@ -74,29 +96,37 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     <View style={[styles.container, props.style]}>
       <View style={styles.textArea}>
         <Text style={styles.title}>
-          {stateParameterName}
+          {makeTitleText()}
         </Text>
         <Text style={styles.precision}>
-          {makeSpecification()}
+          {makeRangeText()}
         </Text>
       </View>
 
       <View style={styles.controlArea}>
-        <Button
-          style={styles.previousValueButton}
-          icon="sync"
-          mode="elevated"
-          dark={false}
-          loading={false}
-          onPress={setValueToPreviousValue}
-          uppercase={true}>
-          <Text variant="labelLarge" adjustsFontSizeToFit={true}>
-            {statePreviousValue}
-          </Text>
-        </Button>
+        {!stateIsFirstInput &&
+          <Button
+            disabled={stateIsDisabled || stateIsFirstInput}
+            style={styles.previousValueButton}
+            icon="sync"
+            mode="elevated"
+            dark={false}
+            loading={false}
+            onPress={setValueToPreviousValue}
+            uppercase={true}>
+            <Text variant="labelLarge" adjustsFontSizeToFit={true}>
+              {makePreviousButtonText()}
+            </Text>
+          </Button>
+        }
+
 
         <TextInput
-          style={[styles.input, styles.textInput]}
+          style={[
+            styles.input,
+            styles.textInput,
+            stateIsDisabled && styles.disabledText
+          ]}
           mode="outlined"
           disabled={stateIsDisabled}
           activeOutlineColor="black"
@@ -108,6 +138,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
           textColor="black"
           label={makeLabelText()}
           dense={true}
+          keyboardType="numeric"
         />
       </View>
     </View >
@@ -121,7 +152,6 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLOR_BACKGROUND.ItemSubSection,
-    // backgroundColor: "#C3DCE6",
     borderRadius: 10,
     padding: 20,
   },
@@ -150,6 +180,9 @@ const styles = StyleSheet.create({
     flex: 1,
     color: "black",
     textAlign: 'center',
+  },
+  disabledText: {
+    backgroundColor: "#BBBBBB"
   }
 });
 

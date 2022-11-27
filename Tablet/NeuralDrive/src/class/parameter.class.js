@@ -19,11 +19,7 @@ export class Parameter {
     return this.dimension;
   }
 
-  getUnit() {
-    return this.unit;
-  }
-
-  getminimumValue() {
+  getMinimumValue() {
     return 0;
   }
 
@@ -33,6 +29,10 @@ export class Parameter {
 
   getName() {
     return this.name;
+  }
+
+  getUnit() {
+    return this.unit;
   }
 
   isValueAccepted(value) {

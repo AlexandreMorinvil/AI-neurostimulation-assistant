@@ -7,12 +7,16 @@ let _historyTremorMetricList = [];
 let _historySuggestedValues = [];
 
 // Exported methods
+export function hasDoneQueryPreviously() {
+  return _historySelectedParametersList.length > 0;
+}
+
 export function getCurrentSuggestedParametersList() {
-  return _historySuggestedValues.at(-1);
+  return +_historySuggestedValues.slice(-1);
 }
 
 export function getLastQueryParametersList() {
-  return _historySelectedParametersList.at(-1);
+  return +_historySelectedParametersList.slice(-1);
 }
 
 export async function performQuery(parametersValueList, tremorMetric) {

@@ -21,40 +21,47 @@ const PanelItemParameters = () => {
    * States
    */
   const [stateIsQuerying, setStateIsQuerying] = useState(false);
-  const [stateParameters, setStateParameters] = useState(problemDimensionTypeService.getProblemDimensionType());
+  const [statIsFirstQurey, setStatIsFirstQuery] = useState(!queryService.hasDoneQueryPreviously())
+  const [stateParametersList, setStateParametersList] = useState(problemDimensionTypeService.getParametersList());
   const [stateSelectedParametersValueList, setStateSelectedParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
   const [stateSuggestedParametersValueList, setStateSuggestedParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
   const [statePreviousParametersValueList, setStatePreviousParametersValueList] = useState(problemDimensionTypeService.getDefaultValuesList());
 
-  console.log(stateSelectedParametersValueList);
-
   /**
    * Functions
    */
+  const changeParametersUsed = () => {
+    setStateParametersList(problemDimensionTypeService.getParametersList());
+    setStateSelectedParametersValueList(problemDimensionTypeService.getDefaultValuesList());
+    setStateSuggestedParametersValueList(problemDimensionTypeService.getDefaultValuesList());
+    setStatePreviousParametersValueList(problemDimensionTypeService.getDefaultValuesList());
+  }
+
   const performQuery = async () => {
+    console.log("Got here");
     setStateIsQuerying(true);
-    await queryService.postExecuteQuery(
+    await queryService.performQuery(
       stateSelectedParametersValueList,
       tremorPointService.getAveragedTremorMetric()
     );
     setStateSuggestedParametersValueList(queryService.getCurrentSuggestedParametersList());
     setStatePreviousParametersValueList(queryService.getLastQueryParametersList());
+    updateStatus();
     setStateIsQuerying(false);
   }
 
   const setParameterValue = (index, value) => {
     const currentParameterValuesList = stateSelectedParametersValueList.slice();
     currentParameterValuesList[index] = value;
-    // setStateSelectedParametersValueList(currentParameterValuesList);
+    setStateSelectedParametersValueList(currentParameterValuesList);
   }
 
   const setAllParameterValuesToSuggestedValues = () => {
-    // setStateSelectedParametersValueList(stateSuggestedParametersValueList.slice());
+    setStateSelectedParametersValueList(stateSuggestedParametersValueList.slice());
   }
 
-  const changeParametersUsed = () => {
-    setStateParameters(problemDimensionTypeService.getProblemDimensionType());
-    setStateSelectedParametersValueList(problemDimensionTypeService.getDefaultValuesList());
+  const updateStatus = () => {
+    setStatIsFirstQuery(!queryService.hasDoneQueryPreviously());
   }
 
   /**
@@ -85,16 +92,17 @@ const PanelItemParameters = () => {
     >
       <View style={mainStyles.sectionContent}>
         {
-          stateSelectedParametersValueList.map((parameter, index) => {
+          stateParametersList.map((parameter, index) => {
             return (
               <InputQueryParameter
                 key={index}
                 style={styles.parameterSectionSpacing}
-                parameterName={'Parameter #' + (index + 1)}
-                // value={stateSelectedParametersValueList[index]}
+                isFirstInput={statIsFirstQurey}
+                parameter={parameter}
                 previousValue={statePreviousParametersValueList[index]}
-                setParentValueFunction={(value) => setParameterValue(index, value)}
                 suggestedValue={stateSuggestedParametersValueList[index]}
+                setParentValueFunction={(value) => setParameterValue(index, value)}
+                value={stateSelectedParametersValueList[index]}
               />
             );
           })

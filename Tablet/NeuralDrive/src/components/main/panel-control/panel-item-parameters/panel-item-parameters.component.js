@@ -38,7 +38,6 @@ const PanelItemParameters = () => {
    * Functions
    */
   const changeParametersUsed = () => {
-    console.log(problemDimensionTypeService.getDefaultValuesList());
     setStateParametersList(problemDimensionTypeService.getParametersList());
     setStateSelectedParametersValueList(problemDimensionTypeService.getDefaultValuesList());
     setStateSuggestedParametersValueList(problemDimensionTypeService.getDefaultValuesList());
@@ -46,15 +45,21 @@ const PanelItemParameters = () => {
   }
 
   const performQuery = async () => {
-    setStateIsQuerying(true);
-    await queryService.performQuery(
-      stateSelectedParametersValueList,
-      tremorPointService.getAveragedTremorMetric()
-    );
-    setStateSuggestedParametersValueList(queryService.getCurrentSuggestedParametersList());
-    setStatePreviousParametersValueList(queryService.getLastQueryParametersList());
-    updateStatus();
-    setStateIsQuerying(false);
+    try {
+      setStateIsQuerying(true);
+      await queryService.performQuery(
+        stateSelectedParametersValueList,
+        tremorPointService.getAveragedTremorMetric()
+      );
+      setStateSuggestedParametersValueList(queryService.getCurrentSuggestedParametersList());
+      setStatePreviousParametersValueList(queryService.getLastQueryParametersList());
+      updateStatus();
+      setStateIsQuerying(false);
+    }
+    catch (error) {
+      setStateIsQuerying(false);
+      console.error(error);
+    }
   }
 
   const setParameterValue = (index, value) => {

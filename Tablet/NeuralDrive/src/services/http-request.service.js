@@ -43,7 +43,7 @@ export async function postExecuteQuery(parametersValueList, tremorMetric) {
     // Response format
     console.log("response.content?.suggested_parameters_list", response.content?.suggested_parameters_list);
     return {
-      suggestedParametersList: response.content?.suggested_parameters_list
+      suggestedParametersList: JSON.parse(response.content?.suggested_parameters_list)
     }
   }
 };

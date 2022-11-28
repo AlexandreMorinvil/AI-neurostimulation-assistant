@@ -12,11 +12,11 @@ export function hasDoneQueryPreviously() {
 }
 
 export function getCurrentSuggestedParametersList() {
-  return _historySuggestedValues.slice(-1);
+  return _historySuggestedValues.slice(-1)?.pop() || [];
 }
 
 export function getLastQueryParametersList() {
-  return _historySelectedParametersList.slice(-1);
+  return _historySelectedParametersList.slice(-1)?.pop() || [];
 }
 
 export async function performQuery(parametersValueList, tremorMetric) {
@@ -26,11 +26,23 @@ export async function performQuery(parametersValueList, tremorMetric) {
     await httpRequestService.postExecuteQuery(parametersValueList, tremorMetric);
 
   // Store values history
-  _historySuggestedValues.push(suggestedParametersList);
-  _historySelectedParametersList.push(parametersValueList);
-  _historyTremorMetricList.push(tremorMetric);
+  addSuggestedParametersListToHistory(suggestedParametersList)
+  addSelectedParametersListToHistory(parametersValueList)
+  addTremorMetricToHistory(tremorMetric);
 
   // Update the query vizualizations
   queryVizualizationService.refreshVizualizations();
 }
 
+// Private methods
+function addSelectedParametersListToHistory(slectedParametersList) {
+  _historySelectedParametersList.push(slectedParametersList.map(value => Number(value)));
+}
+
+function addSuggestedParametersListToHistory(suggestedParametersList) {
+  _historySuggestedValues.push(suggestedParametersList.map(value => Number(value)));
+}
+
+function addTremorMetricToHistory(tremorMetric) {
+  _historyTremorMetricList.push(Number(tremorMetric));
+}

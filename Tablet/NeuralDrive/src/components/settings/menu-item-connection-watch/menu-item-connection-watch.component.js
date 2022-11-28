@@ -34,10 +34,14 @@ const SettingsMenuItemConnectionWatch = () => {
 
   /**
    * Effects
-   */
+  */
   useEffect(() => {
-    updateSettingStatus();
-  }, [connectionWatchService.isConnected]);
+    const interval = setInterval(async () => {
+      updateSettingStatus();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   /**
    * Render

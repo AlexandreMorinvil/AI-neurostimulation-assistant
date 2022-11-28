@@ -13,7 +13,8 @@ import * as connectionBackendService from "../../../services/connection-backend.
 const SECTION_TITLE = "External Backend :";
 const SECTION_DETAILS = "Insert the IP address indicated by the NeuralDrive desktop application."
 const HELP_INFORMATION =
-  `Details... TODO.`;
+  `When using the external backend connection type, the user will need to either enter the ip address of the server or use the ip address provided by the\n\
+  application which will be the last ip addressed used in the application.`;
 
 const STATUS_CONNECTED = "Connected";
 const STATUS_NOT_CONNECTED = "Not connected";

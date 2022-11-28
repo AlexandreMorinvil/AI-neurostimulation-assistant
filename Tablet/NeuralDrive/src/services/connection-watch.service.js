@@ -2,11 +2,25 @@ import * as connectionBackendService from "./connection-backend.service";
 import * as networkService from "./network.service";
 
 // Variables
-export let isConnected = false;
+let _isConnected = false;
+let _watchTimeOut;
 
 // Methods
+export function watchIsnotConnected(){
+    _isConnected = false;
+}
+
+export function stopWatchTimeOut(){
+  clearTimeout(_watchTimeOut);
+}
+
+export function watchIsConnected(){
+  _isConnected = true;
+  _watchTimeOut = setTimeout(function(){watchIsnotConnected()}, 5000);
+}
+
 export function getIsConnectedStatus() {
-  return isConnected;
+  return _isConnected;
 }
 
 export function getBackendIpAddress() {

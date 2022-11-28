@@ -129,13 +129,13 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
 
   }, [])
 
-  /**
-   * References
-   */
-  useEffect(() => {
-    if (props.ref)
-      props.ref.current = setValue;
-  }, [props.ref])
+  // /**
+  //  * References
+  //  */
+  // useEffect(() => {
+  //   if (props.ref)
+  //     props.ref.current = setValue;
+  // }, [props.ref])
 
   /**
    * Render

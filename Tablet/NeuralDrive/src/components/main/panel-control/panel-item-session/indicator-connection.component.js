@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { BarIndicator } from 'react-native-indicators';
 import { Text } from 'react-native-paper';
 
@@ -28,19 +28,32 @@ const IndicatorConnection = ({ device, checkConnectionFunction }) => {
    * Render
    */
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={styles.container}>
       <BarIndicator
         count={4}
         color={indicatorColor}
         size={20}
         style={{ flex: 0.1, paddingRight: 20 }}
       />
-
-      <Text variant="titleLarge" adjustsFontSizeToFit={true}>
+      <View style={styles.spacer} />
+      <Text adjustsFontSizeToFit={true}>
         {connectionStatus}
       </Text>
     </View>
   );
 };
+
+/**
+ * Style Sheet
+ */
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  spacer: {
+    width: 15,
+  }
+});
 
 export default IndicatorConnection;

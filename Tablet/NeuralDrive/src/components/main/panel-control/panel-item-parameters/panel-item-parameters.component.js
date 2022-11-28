@@ -48,7 +48,7 @@ const PanelItemParameters = () => {
     console.log("elRefs", elRefs);
   }, [stateParametersList]);
 
-  console.log("Outside elRefs", elRefs);
+  // console.log("Outside elRefs", elRefs);
 
   /**
    * Functions

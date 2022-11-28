@@ -56,18 +56,18 @@ class NeuroAlgorithmPrediction:
     def execute_query(self, parameters_value_list, BO_reward):
 
         # We will sample the search space randomly for exactly nrnd queries
+        x_chan = self.convert_parameter_values_to_position(parameters_value_list)
         if self.q>=self.nrnd:
             # Find next point (max of acquisition function)
             self.acquisition_map = self.ymu \
                 + self.kappa * np.nan_to_num(np.sqrt(self.ys2)) # UCB acquisition function 
             
             # Select next query 
-            x_chan = self.convert_parameter_values_to_position(parameters_value_list)
-            self.next_query = x_chan    
+            self.next_query = x_chan
             self.P_test[self.q][0] = self.next_query
 
         else:
-            self.P_test[self.q][0] = int(self.order_this[self.q])
+            self.P_test[self.q][0] = x_chan
             self.query_elec = self.P_test[self.q][0]
 
         # SEND THIS TO CLINICIAN

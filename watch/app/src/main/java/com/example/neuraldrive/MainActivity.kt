@@ -1,5 +1,5 @@
 
-package com.example.neuraldrive
+package com.example.android.wearable.wear.neuraldrive
 
 import android.Manifest
 import android.app.AlarmManager
@@ -19,21 +19,23 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.wear.ambient.AmbientModeSupport
-import com.example.neuraldrive.databinding.ActivityMainBinding
-import java.net.NetworkInterface
+import com.example.android.wearable.wear.neuraldrive.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant
-import java.util.*
 import kotlin.random.Random
-import kotlinx.coroutines.*
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
-import io.socket.client.IO;
-import io.socket.client.Socket;
-
+import java.lang.Runnable
+import java.util.*
 
 class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider,
     SensorEventListener {
@@ -68,10 +70,8 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
     private val client = OkHttpClient()
     private var stack = "["
-//    private var deviceIpAddress: String = ""
-//    private var partialIp: String = ""
-    private var serverIpAddress: String = ""
-//    private var serverIP : String = ""
+    private var ipAddressServer: String = "0.0.0.0"
+
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate()")
@@ -86,15 +86,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         } else {
             Log.d(ContentValues.TAG, "ALREADY GRANTED")
         }
-
-//        val interfaces = NetworkInterface.getNetworkInterfaces()
-//        val list = interfaces.toList()
-//        //look into the interface's ipaddresses (ipv4,ipv6)
-//        val ip = list[1].inetAddresses.toList().get(1).hostAddress
-//        deviceIpAddress = ip as String
-//        println(deviceIpAddress)
-//        partialIp = deviceIpAddress.substring(0,deviceIpAddress.lastIndexOf(".")+1)
-//        println(partialIp)
 
         ambientController = AmbientModeSupport.attach(this)
         ambientUpdateAlarmManager = getSystemService()!!
@@ -118,23 +109,15 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
     public override fun onResume() {
         Log.d(TAG, "onResume()")
-
-//        for (i in 0..255) {
-//            if (serverIP=="") {
-//                serverIpAddress = partialIp + i
-//                sendData()
-//            }
         Timer().scheduleAtFixedRate( object : TimerTask() {
             override fun run() {
-                println("IPAddress::$serverIpAddress")
-//                if(serverIP!="") {
-//                    serverIpAddress = serverIP
-                if(serverIpAddress!=""){
+                println("IPAddress::$ipAddressServer")
+                if(ipAddressServer!="") {
                     println(stack)
                     sendData()
                 }
             }
-        }, 0, 1000)
+        }, 0, 5000)
         super.onResume()
         val filter = IntentFilter(AMBIENT_UPDATE_ACTION)
         registerReceiver(ambientUpdateBroadcastReceiver, filter)
@@ -143,7 +126,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         //        to save Settings IP Address to be reused
         val prefs = PreferenceManager
             .getDefaultSharedPreferences(this)
-        serverIpAddress = prefs.getString("ipAddress","").toString()
+        ipAddressServer = prefs.getString("ipAddress","").toString()
     }
 
     public override fun onPause() {
@@ -341,7 +324,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         val postBody = this.stack.trimMargin()
 
         val request = Request.Builder()
-            .url("http://$serverIpAddress:5000/watch_packet/")
+            .url("http://$ipAddressServer:5000/watch_packet/")
             .post(postBody.toRequestBody(MEDIA_TYPE_MARKDOWN))
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -358,8 +341,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
                     }
 
                     println(response.body!!.string())
-
-//                    serverIP = serverIpAddress
                 }
             }
         })

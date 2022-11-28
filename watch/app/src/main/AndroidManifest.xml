@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.neuraldrive">
+    package="com.example.android.wearable.wear.neuraldrive">
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.BODY_SENSORS" /> <!-- Needed in order to re-register for data on device startup. -->
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <uses-feature android:name="android.hardware.type.watch" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-
 
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:theme="@android:style/Theme.DeviceDefault">
-
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
+            android:parentActivityName="com.example.android.wearable.wear.neuraldrive.MainActivity"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
             <meta-data
                 android:name="android.app.lib_name"
@@ -33,12 +28,20 @@
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
-
+        <!--
+            To update the screen more than once per minute in ambient mode, developers should set
+            the launch mode for the activity to single instance. Otherwise, the AlarmManager launch
+            intent will open a new activity every time the Alarm is triggered rather than reusing
+            the same (already active) Activity.
+        -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -12,8 +12,6 @@
     <string name="config_header">Configuration</string>
     <!-- Messages Preferences -->
     <string name="ip_title">IP Address</string>
-    <string name="ip_scan">Scan Network</string>
-
 
     <string name="enable">On</string>
     <string name="disable">Off</string>

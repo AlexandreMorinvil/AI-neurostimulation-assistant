@@ -7,8 +7,7 @@ import { COLOR_BACKGROUND } from '../../../../styles/colors.style';
 import MessageBubble from "../../../message-bubble.component";
 
 const TEXT_INSERT_VALUE = `Insert value`;
-const TEXT_SUGGESTED_VALUE_PRESENT = "";
-const TEXT_SUGGESTED_VALUE = (value) => `Sugg. : ${value}`
+const TEXT_SUGGESTED_VALUE = (value) => `Suggest : ${value}`
 
 const TEXT_OLD_VALUE_BUTTON = "Old";
 
@@ -17,7 +16,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
   /**
    * Props
    */
-  const { isDisabled, isFirstInput, parameter, previousValue, suggestedValue, value, style } = props;
+  const { isDisabled, isFirstInput, parameter, previousValue, ref, suggestedValue, value, style } = props;
 
   /**
    * States
@@ -26,7 +25,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
   const [stateIsFirstInput, setStateIsFirstInput] = useState(isFirstInput);
   const [stateParameter, setStateParameter] = useState(parameter);
   const [stateSuggestedValue, setStateSuggestedValue] = useState(suggestedValue);
-  const [stateValue, setStateValue] = useState(value);
+  const [stateValue, setStateValue] = useState(String(value));
   const [statePreviousValue, setStatePreviousValue] = useState(previousValue);
 
   const [stateInvalidMessageReason, setStateInvalidMessageReason] = useState("");
@@ -45,12 +44,12 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     updateMustDisplayInvalidityMessage(newValue);
     const { isAccepted, reason } = stateParameter.isValueAccepted(newValue);
     const currentValue = stateValue;
-    setParentValueFunction(isAccepted ? newValue : currentValue);
-    // setStateValue(isAccepted ? newValue : currentValue);
+    setParentValueFunction(isAccepted ? String(newValue) : String(currentValue));
+    setStateValue(isAccepted ? String(newValue) : String(currentValue));
   }
 
   const setValueToPreviousValue = () => {
-    setValue(statePreviousValue);
+    setValue(String(statePreviousValue));
   }
 
   const makeTitleText = () => {
@@ -63,7 +62,7 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
       if (isValueEmpty()) setStateLabelText(TEXT_INSERT_VALUE);
       else setStateLabelText(stateParameter.getName());
     } else {
-      if (stateValue === stateSuggestedValue) setStateLabelText(TEXT_SUGGESTED_VALUE_PRESENT);
+      if (Number(stateValue) === Number(stateSuggestedValue)) setStateLabelText("");
       else setStateLabelText(TEXT_SUGGESTED_VALUE(stateSuggestedValue));
     }
   }
@@ -127,7 +126,16 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
   useEffect(() => {
     updateMustDisplayInvalidityMessage();
     updateLabelText();
+
   }, [])
+
+  /**
+   * References
+   */
+  useEffect(() => {
+    if (props.ref)
+      props.ref.current = setValue;
+  }, [props.ref])
 
   /**
    * Render

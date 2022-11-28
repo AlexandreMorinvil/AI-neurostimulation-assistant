@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
@@ -33,6 +33,22 @@ const PanelItemParameters = () => {
   const [statePreviousParametersValueList, setStatePreviousParametersValueList] = useState([]);
 
   const [stateAreValuesReadyForQuery, setStateAreValuesReadyForQuery] = useState(false);
+  
+  /**
+   * Referemces
+   */
+  const [elRefs, setElRefs] = React.useState([]);
+  useEffect(() => {
+    // add or remove refs
+    setElRefs((elRefs) =>
+      Array(stateParametersList.length)
+        .fill()
+        .map((_, i) => elRefs[i] || React.createRef()),
+    );
+    console.log("elRefs", elRefs);
+  }, [stateParametersList]);
+
+  console.log("Outside elRefs", elRefs);
 
   /**
    * Functions
@@ -69,7 +85,11 @@ const PanelItemParameters = () => {
   }
 
   const setAllParameterValuesToSuggestedValues = () => {
-    setStateSelectedParametersValueList(stateSuggestedParametersValueList.slice());
+    // elRefs.forEach((valueAssignFunctionReference, index) => {
+    //   console.log("valueAssignFunctionReference", valueAssignFunctionReference);
+    //   valueAssignFunctionReference.current(stateSuggestedParametersValueList[index]);
+    // });
+    setStateSelectedParametersValueList(stateSuggestedParametersValueList.map(value => String(value)));
   }
 
   const updateStatus = () => {
@@ -83,7 +103,7 @@ const PanelItemParameters = () => {
       const parameter = stateParametersList[index];
       const value = stateSelectedParametersValueList[index];
       const { isAccepted } = parameter.isValueAccepted(value);
-      if (!isAccepted || (!value && value !== ""))
+      if (!isAccepted || (!value && value === ""))
         areAllInputsReady = false;
     }
     setStateAreValuesReadyForQuery(areAllInputsReady);
@@ -127,15 +147,16 @@ const PanelItemParameters = () => {
           stateParametersList.map((parameter, index) => {
             return (
               <InputQueryParameter
+                ref={elRefs[index]}
                 key={index}
                 style={styles.interSubSectionSpacing}
                 isFirstInput={stateIsFirstQurey}
                 isDisabled={stateIsQuerying}
                 parameter={parameter}
-                previousValue={statePreviousParametersValueList[index]}
-                suggestedValue={stateSuggestedParametersValueList[index]}
+                previousValue={String(statePreviousParametersValueList[index])}
+                suggestedValue={String(stateSuggestedParametersValueList[index])}
                 setParentValueFunction={(value) => setParameterValue(index, value)}
-                value={stateSelectedParametersValueList[index]}
+                value={String(stateSelectedParametersValueList[index])}
               />
             );
           })

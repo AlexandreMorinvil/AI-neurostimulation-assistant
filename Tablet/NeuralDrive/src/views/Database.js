@@ -2,21 +2,47 @@ import React, {useState, useRef} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {current_session} from '../global/environement';
-import {post_save_session, post_get_session_by_ID} from '../class/http';
+import {
+  post_save_session,
+  post_get_session_by_ID,
+  post_get_save_session_info,
+} from '../class/http';
 import DialogData from '../components/database/dialogData';
 
 import {Button, DataTable, Checkbox} from 'react-native-paper';
 import {ScrollView} from 'react-native-gesture-handler';
 
+const testListSessionsInfo = [
+  {
+    session_id: 1999,
+    patient_id: 468748,
+    date: '08/12/1999',
+    time: '20:30',
+    dimention: '50x50',
+    parameter_count: 2,
+  },
+];
+
 const DataBase = () => {
   const [value, setValue] = useState(0);
-  const [sessions, setSessions] = useState(Array(0));
+  const [sessions, setSessions] = useState(testListSessionsInfo);
   const dialogRef = React.useRef();
 
   return (
     <View style={styles.mainBox}>
       <DialogData ref={dialogRef}></DialogData>
       <View style={styles.toolBox}>
+        <Button
+          style={styles.button}
+          mode="contained"
+          onPress={async () => {
+            r = await post_get_save_session_info();
+            setSessions(r);
+            console.log('***********************************');
+            console.log(sessions);
+          }}>
+          LOAD SESSIONS
+        </Button>
         <Button
           style={styles.button}
           mode="contained"
@@ -31,7 +57,77 @@ const DataBase = () => {
           DELETE SESSIONS
         </Button>
       </View>
-      <ScrollView contentContainerStyle={styles.tableBox}>
+
+      <View style={styles.tableBox}>
+        <DataTable>
+          <DataTable.Header>
+            <DataTable.Title style={styles.tableRow}>select</DataTable.Title>
+            <DataTable.Title style={styles.tableRow}>
+              Session ID
+            </DataTable.Title>
+            <DataTable.Title style={styles.tableRow}>
+              Patient ID
+            </DataTable.Title>
+            <DataTable.Title style={styles.tableRow}>Date</DataTable.Title>
+            <DataTable.Title style={styles.tableRow}>Time</DataTable.Title>
+            <DataTable.Title style={styles.tableRow}>Dimention</DataTable.Title>
+            <DataTable.Title style={styles.tableRow}>
+              Number of parameters
+            </DataTable.Title>
+          </DataTable.Header>
+
+          {sessions != null && sessions.length > 0
+            ? sessions.map(session => {
+                return (
+                  <DataTable.Row
+                    key={session.session_id}
+                    onPress={async () => {
+                      if (dialogRef) {
+                        console.log('open dialog session', session.session_id);
+                        session = await post_get_session_by_ID(
+                          session.session_id,
+                        );
+                        dialogRef.current.showDialog(session);
+                      }
+                    }}>
+                    <DataTable.Cell style={styles.tableRow}>
+                      <Checkbox
+                        color="grey"
+                        status={session.isCheck ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                          session.isCheck = !session.isCheck;
+                          console.log(`selected session ${session.session_id}`);
+                          setValue(value => value + 1);
+                        }}
+                      />
+                    </DataTable.Cell>
+
+                    <DataTable.Cell style={styles.tableRow}>
+                      {session.session_id}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableRow}>
+                      {session.patient_id}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableRow}>
+                      {session.date}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableRow}>
+                      {session.time}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableRow}>
+                      {session.dimension}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableRow}>
+                      {session.parameter_count}
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                );
+              })
+            : null}
+        </DataTable>
+      </View>
+
+      {/* <ScrollView contentContainerStyle={styles.tableBox}>
         {sessions != null && sessions.length > 0
           ? sessions.map(session_id => {
               return (
@@ -50,7 +146,7 @@ const DataBase = () => {
               );
             })
           : null}
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 };
@@ -93,7 +189,7 @@ const styles = StyleSheet.create({
   },
   tableBox: {
     width: '90%',
-    height: '300%',
+    height: '90%',
     //backgroundColor: 'pink',
     flexDirection: 'row',
     flexWrap: 'wrap',

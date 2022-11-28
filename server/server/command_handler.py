@@ -33,7 +33,7 @@ class CommandHandler:
         self.socketIO = socketIO
         self.ssid = None
         self.current_session = None
-        self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000), 2, [], [])
+        self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),"10x10", 2, [], [])
         #self.db : Database = Database()
         #self.db.connect()
 
@@ -91,13 +91,16 @@ class CommandHandler:
         elif action == Action.SAVE_SESSION_LOCAL.value:
             self.current_save_session.points = self.stack_watch_data
             sessions = save_session_local(self.current_save_session)
-            self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000), 2, [], [])
+            self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),'10x10', 2, [], [])
             print(sessions)
             return  sessions
 
         elif action == Action.GET_SESSION_BY_ID.value:
             session = get_session_by_ID(arg["id"])
             return session
+
+        elif action == Action.GET_SESSION_INFO.value:
+            return get_all_save_sessions()
 
 
         # elif action == Action.SAVE_SESSION.value:

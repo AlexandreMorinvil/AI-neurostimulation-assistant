@@ -4,7 +4,7 @@
         "patient_id": "", 
         "date": "",
         "time": "",
-        "dimention": [],
+        "dimension": [],
         "parameter_count" : "",
         "points" : [],
         "querys" : [

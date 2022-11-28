@@ -24,6 +24,15 @@ const sendCommand = async command => {
   }
 };
 
+export const post_get_save_session_info = async () => {
+  const command = {
+    action: Action.GET_SESSION_INFO,
+    arg: {},
+  };
+  response = await sendCommand(command);
+  return response.content;
+};
+
 export const post_save_session = async () => {
   const command = {
     action: Action.SAVE_SESSION_LOCAL,

@@ -10,15 +10,17 @@ class SaveSession():
     patient_id = None
     date = None
     time = None
+    dimension = None
     parameter_count = None
     points = []
     querys = []
 
-    def __init__(self, session_id, patient_id,parameter_count, points,querys) -> None:
+    def __init__(self, session_id, patient_id,dimension,parameter_count, points,querys) -> None:
         self.session_id = session_id
         self.patient_id = patient_id
         self.date = date.today().strftime("%d/%m/%Y")
         self.time = datetime.now().strftime("%H:%M:%S")
+        self.dimension = dimension
         self.parameter_count = parameter_count
         self.points = points
         self.querys = querys
@@ -36,18 +38,29 @@ def save_session_local(session):
     return get_all_save_sessions()
 
 def get_all_save_sessions():
-    listSaveSessionsID = []
+    listSession = []
     for file in get_files():
-        id = int(file.split('.')[0])
-        listSaveSessionsID.append(id)
-        print(id)
-    return listSaveSessionsID
+        # Opening JSON file
+        with open("storage/" + file, 'r') as openfile:
+            # Reading from json file
+            json_object = json.load(openfile)
+            fileData = {
+                'session_id' : json_object['session_id'],
+                'patient_id' : json_object['patient_id'],
+                'date' : json_object['date'],
+                'time' : json_object['time'],
+                'dimension' : json_object['dimension'],
+                'parameter_count' : json_object['parameter_count'],
+                'isCheck' : False
+                }
+            print(fileData)
+            listSession.append(fileData) 
+    return listSession
 
 def get_files():
    for file in os.listdir(SAVE_SESSIONS_PATH):
         if os.path.isfile(os.path.join(SAVE_SESSIONS_PATH, file)):
             yield file
-
 
 def get_session_by_ID(id):
     f = open(SAVE_SESSIONS_PATH+'/'+ str(id) + '.json')

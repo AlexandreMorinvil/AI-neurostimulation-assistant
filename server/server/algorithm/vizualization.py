@@ -49,20 +49,23 @@ def generate_heatmap_image(values_list,
 def compute_mean_along_dimension(values_list, parameter):
     return np.mean(values_list, axis=parameter)
 
-def generate_graph_image(values_list, 
-                         dimensions_list, 
-                         x_parameter_name = ""):
+def generate_2d_graph_image(values_list, 
+                            dimensions_list, 
+                            first_parameter_index,
+                            second_parameter_index,
+                            x_parameter_name = "", 
+                            y_parameter_name = ""):
     
-    # Main heatmap
-    plt.clf()
-    plt.imshow(np.reshape(values_list, dimensions_list))
-    plt.xlabel(x_parameter_name, fontsize='x-large')
-    plt.ylabel('Tremor Intensity', fontsize='x-large')
+    # # Main heatmap
+    # plt.clf()
+    # plt.imshow(np.reshape(values_list, dimensions_list))
+    # plt.xlabel(x_parameter_name, fontsize='x-large')
+    # plt.ylabel('Tremor Intensity', fontsize='x-large')
 
-    # Generate image
-    pic_iobytes = io.BytesIO()
-    pic_iobytes.seek(0)
-    pic_hash = base64.b64encode(pic_iobytes.read())
+    # # Generate image
+    # pic_iobytes = io.BytesIO()
+    # pic_iobytes.seek(0)
+    # pic_hash = base64.b64encode(pic_iobytes.read())
     
-    # Return image
-    return pic_hash.decode("utf-8")
+    # # Return image
+    # return pic_hash.decode("utf-8")

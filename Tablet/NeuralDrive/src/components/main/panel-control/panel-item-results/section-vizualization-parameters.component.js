@@ -7,7 +7,12 @@ import { COLOR_BACKGROUND } from '../../../../styles/colors.style';
 
 const TITLE_VIZUALIZATION_PARAMETER = "Vizualization Parameter";
 
-const ItemContentVizualizationParameters = () => {
+const SectionVizualizationParameters = (props) => {
+
+  /**
+   * Props
+   */
+  const { style } = props;
 
   /**
    * States
@@ -30,7 +35,7 @@ const ItemContentVizualizationParameters = () => {
    * Render
    */
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, props.style]}>
       <Text style={styles.title}> {TITLE_VIZUALIZATION_PARAMETER} </Text>
       <SelectList
         style={styles.picklist}
@@ -73,4 +78,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ItemContentVizualizationParameters;
+export default SectionVizualizationParameters;

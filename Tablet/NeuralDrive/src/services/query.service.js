@@ -1,3 +1,4 @@
+import { Subject } from "rxjs";
 import * as httpRequestService from "./http-request.service";
 import * as queryVizualizationService from "./query-vizualization.service";
 
@@ -5,6 +6,9 @@ import * as queryVizualizationService from "./query-vizualization.service";
 let _historySelectedParametersList = [];
 let _historyTremorMetricList = [];
 let _historySuggestedValues = [];
+
+// Reactive behavior handlers
+export const subject = new Subject();
 
 // Exported methods
 export function hasDoneQueryPreviously() {
@@ -29,6 +33,7 @@ export async function performQuery(parametersValueList, tremorMetric) {
   addSuggestedParametersListToHistory(suggestedParametersList)
   addSelectedParametersListToHistory(parametersValueList)
   addTremorMetricToHistory(tremorMetric);
+  subject.next();
 
   // Update the query vizualizations
   queryVizualizationService.refreshVizualizations();

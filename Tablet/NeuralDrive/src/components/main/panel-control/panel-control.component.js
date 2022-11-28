@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native';
 
 import PanelItemParameters from "./panel-item-parameters/panel-item-parameters.component";
 import PanelItemSession from "./panel-item-session/panel-item-session.component";
-import PanelItemVizualizationStatus from "./panel-item-vizualization/panel-item-vizualization.component";
+import PanelItemResults from "./panel-item-results/panel-item-results.component";
 import PanelFrame from '../panel-frame.component';
 
 const PanelControl = (props) => {
@@ -21,7 +21,7 @@ const PanelControl = (props) => {
       <ScrollView>
         <PanelItemSession />
         <PanelItemParameters />
-        <PanelItemVizualizationStatus />
+        <PanelItemResults />
       </ScrollView>
     </PanelFrame>
   );

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import ItemContentVizualizationParamters from "./item-content-vizualization-parameters.component";
+import ItemContentVizualizationParamters from "./section-vizualization-parameters.component";
 import PanelItem from '../../panel-item.component';
 
-const ITEM_TITLE = "Vizualization Status";
+const ITEM_TITLE = "Query Results";
 
-const PanelItemVizualizationStatus = () => {
+const PanelItemResults = () => {
 
   /**
    * Render
@@ -20,4 +20,4 @@ const PanelItemVizualizationStatus = () => {
   );
 };
 
-export default PanelItemVizualizationStatus;
+export default PanelItemResults;

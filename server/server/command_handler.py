@@ -8,7 +8,7 @@ from command import Action
 from command import Session_status
 from algorithm.NeuroAlgorithmPrediction import NeuroAlgorithmPrediction
 from interface.session import Session
-from algorithm.vizualization import generate_heatmap_image
+from algorithm.vizualization import generate_2d_graph_image, generate_heatmap_image
 import numpy as np
 import random
 from interface.watchData import WatchData
@@ -76,10 +76,16 @@ class CommandHandler:
                                                                second_parameter_name,
                                                                first_parameter_name)
 
+            graph_2d_base64_jpeg_image = generate_2d_graph_image(algorithm.ymu,
+                                                                 algorithm.dimensions_list,
+                                                                 first_parameter_index,
+                                                                 second_parameter_index,
+                                                                 second_parameter_name,
+                                                                 first_parameter_name)
             # Response format
             return {
                 "heatmap_base64_jpeg_image" :           json.dumps(heatmap_base64_jpeg_image),
-                "parameter_graph_base64_jpeg_image":    "",
+                "parameter_graph_base64_jpeg_image":    json.dumps(graph_2d_base64_jpeg_image)
             }
 
         elif action == Action.RECEIVE_DATA_WATCH.value:

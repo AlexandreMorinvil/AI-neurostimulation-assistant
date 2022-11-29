@@ -61,7 +61,7 @@ def watch_packet() -> Response:
     data= json.loads(data)
     command_handler.push_watch_data_in_stack(data)
 
-    print(data)
+    # print(data)
     socketio.emit('watch_packet', json.dumps(data), broadcast=True, includde_self=False)
     return jsonify({"content": response})
 

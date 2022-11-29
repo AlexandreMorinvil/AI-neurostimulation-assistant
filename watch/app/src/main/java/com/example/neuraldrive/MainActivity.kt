@@ -2,6 +2,7 @@
 package com.example.neuraldrive
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.*
@@ -20,6 +21,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.wear.ambient.AmbientModeSupport
 import com.example.neuraldrive.databinding.ActivityMainBinding
+import java.text.SimpleDateFormat
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant
@@ -59,8 +61,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
     private var gyroX: Float = 0.0f; private var gyroY: Float = 0.0f ; private var gyroZ: Float = 0.0f
     private var accelX: Float = 0.0f; private var accelY: Float = 0.0f; private var accelZ: Float = 0.0f
-
-//    private var enableIsChecked: Boolean = false
 
     private val client = OkHttpClient()
     private var stack = "["
@@ -127,7 +127,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
     public override fun onResume() {
         Log.d(TAG, "onResume()")
-
+        super.onResume()
         if((sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)  != null)and(sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)  != null)) {
             accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
             sensorManager.registerListener(this,accelSensor, SensorManager.SENSOR_DELAY_GAME)
@@ -137,7 +137,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             //Fail to get
             Log.d("Fail:", doesSensorsExist.toString())
         }
-
         Timer().scheduleAtFixedRate( object : TimerTask() {
             override fun run() {
                 println("IPAddress::$ipAddressServer")
@@ -147,7 +146,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
                 }
             }
         }, 0, 500)
-        super.onResume()
         val filter = IntentFilter(AMBIENT_UPDATE_ACTION)
         registerReceiver(ambientUpdateBroadcastReceiver, filter)
         refreshDisplayAndSetNextUpdate()
@@ -205,26 +203,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             println(ipAddressServer)
             saveData()
         }
-//        binding.enableData.setOnCheckedChangeListener { _, isChecked ->
-//            if (isChecked) {
-//                binding.enableData.setText(R.string.enable)
-//                if((sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)  != null)and(sensorManager.getDefaultSensor(
-//                        Sensor.TYPE_GYROSCOPE)  != null)) {
-//                    accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-//                    sensorManager.registerListener(this,accelSensor, SensorManager.SENSOR_DELAY_GAME)
-//                    gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-//                    sensorManager.registerListener(this,gyroSensor, SensorManager.SENSOR_DELAY_GAME)
-//                }else{
-//                    //Fail to get
-//                    Log.d("Fail:", doesSensorsExist.toString())
-//                }
-//                enableIsChecked = true
-//            } else {
-//                binding.enableData.setText(R.string.disable)
-//                enableIsChecked = false
-//                sensorManager.unregisterListener(this)
-//            }
-//        }
     }
 
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback = MyAmbientCallback()
@@ -247,7 +225,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
             binding.appName.setTextColor(Color.WHITE)
             binding.setIP.setTextColor(Color.WHITE)
-//            binding.enableData.setTextColor(Color.WHITE)
+            binding.current.setTextColor(Color.WHITE)
             if (isLowBitAmbient) {
                 binding.appName.paint.isAntiAlias = false
                 binding.setIP.paint.isAntiAlias = false
@@ -266,9 +244,9 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
             /* Clears out Alarms since they are only used in ambient mode. */
             ambientUpdateAlarmManager.cancel(ambientUpdatePendingIntent)
-            binding.appName.setTextColor(Color.GREEN)
-            binding.setIP.setTextColor(Color.GREEN)
-//            binding.enableData.setTextColor(Color.GREEN)
+            binding.appName.setTextColor(Color.CYAN)
+            binding.setIP.setTextColor(Color.CYAN)
+            binding.current.setTextColor(Color.CYAN)
             if (isLowBitAmbient) {
                 binding.appName.paint.isAntiAlias = true
                 binding.setIP.paint.isAntiAlias = true
@@ -278,6 +256,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onSensorChanged(event: SensorEvent?) {
         if (event!!.sensor.type == Sensor.TYPE_ACCELEROMETER){
             accelX = event.values[0]
@@ -292,7 +271,10 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             gyroZ = event.values[2]
 //            Log.d("Gyroscope:", "$gyroX,$gyroY,$gyroZ")
         }
-        addDataToStack(accelX, accelY, accelZ, gyroX, gyroY, gyroZ)
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentTime = sdf.format(Date())
+
+        addDataToStack(currentTime ,accelX, accelY, accelZ, gyroX, gyroY, gyroZ)
     }
 
     override fun onAccuracyChanged(event: Sensor?, p1: Int) = Unit
@@ -310,8 +292,9 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             "com.example.neuraldrive.action.AMBIENT_UPDATE"
     }
 
-    private fun addDataToStack(acc_x : Float, acc_y : Float, acc_z : Float, gir_x : Float, gir_y : Float, gir_z : Float){
+    private fun addDataToStack(currentTime : String, acc_x : Float, acc_y : Float, acc_z : Float, gir_x : Float, gir_y : Float, gir_z : Float){
         val data = "{"+
+            "\"time\"" + ":" + "\""+currentTime +"\""+ ","+
             "\"acc_x\"" + ":" + "\""+acc_x.toString() +"\""+ ","+
             "\"acc_y\"" + ":" + "\""+acc_y.toString() +"\""+ ","+
             "\"acc_z\"" + ":" + "\""+acc_z.toString() +"\""+ ","+

@@ -2,4 +2,5 @@
 
 <resources>
     <color name="green">#00FF00</color>
+    <color name="cyan">#00FFFF</color>
 </resources>

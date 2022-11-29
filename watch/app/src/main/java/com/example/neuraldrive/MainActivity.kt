@@ -17,9 +17,8 @@ import androidx.annotation.VisibleForTesting
 import androidx.core.content.getSystemService
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.wear.ambient.AmbientModeSupport
-import com.example.android.wearable.wear.neuraldrive.databinding.ActivityMainBinding
+import com.example.neuraldrive.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,8 +33,9 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
-import java.lang.Runnable
 import java.util.*
+import android.content.Intent
+
 
 class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider,
     SensorEventListener {
@@ -117,16 +117,11 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
                     sendData()
                 }
             }
-        }, 0, 5000)
+        }, 0, 500)
         super.onResume()
         val filter = IntentFilter(AMBIENT_UPDATE_ACTION)
         registerReceiver(ambientUpdateBroadcastReceiver, filter)
         refreshDisplayAndSetNextUpdate()
-
-        //        to save Settings IP Address to be reused
-        val prefs = PreferenceManager
-            .getDefaultSharedPreferences(this)
-        ipAddressServer = prefs.getString("ipAddress","").toString()
     }
 
     public override fun onPause() {
@@ -170,16 +165,15 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         drawCount += 1
 
         binding.appName.text = getString(R.string.app_name)
-        binding.state.text = getString(
-            if (ambientController.isAmbient) {
-                R.string.mode_ambient_label
-            } else {
-                R.string.mode_active_label
-            }
-        )
-        binding.settings.setOnClickListener{
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
+
+        val ipPart1 = binding.ip1.text
+        val ipPart2 = binding.ip2.text
+        val ipPart3 = binding.ip3.text
+        val ipPart4 = binding.ip4.text
+
+        binding.connect.setOnClickListener{
+            ipAddressServer = "$ipPart1.$ipPart2.$ipPart3.$ipPart4"
+            println(ipAddressServer)
         }
         binding.enableData.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -206,9 +200,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback = MyAmbientCallback()
 
     private inner class MyAmbientCallback : AmbientModeSupport.AmbientCallback() {
-
         private var isLowBitAmbient = false
-
         private var doBurnInProtection = false
 
         override fun onEnterAmbient(ambientDetails: Bundle) {
@@ -224,13 +216,11 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             activeUpdateJob.cancel()
 
             binding.appName.setTextColor(Color.WHITE)
-            binding.state.setTextColor(Color.WHITE)
-            binding.settings.setTextColor(Color.WHITE)
+            binding.connect.setTextColor(Color.WHITE)
             binding.enableData.setTextColor(Color.WHITE)
             if (isLowBitAmbient) {
                 binding.appName.paint.isAntiAlias = false
-                binding.state.paint.isAntiAlias = false
-                binding.settings.paint.isAntiAlias = false
+                binding.connect.paint.isAntiAlias = false
             }
             refreshDisplayAndSetNextUpdate()
         }
@@ -238,13 +228,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         override fun onUpdateAmbient() {
             super.onUpdateAmbient()
             Log.d(TAG, "onUpdateAmbient()")
-
-            if (doBurnInProtection) {
-                binding.container.translationX =
-                    Random.nextInt(-BURN_IN_OFFSET_PX, BURN_IN_OFFSET_PX + 1).toFloat()
-                binding.container.translationY =
-                    Random.nextInt(-BURN_IN_OFFSET_PX, BURN_IN_OFFSET_PX + 1).toFloat()
-            }
         }
 
         override fun onExitAmbient() {
@@ -254,20 +237,13 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             /* Clears out Alarms since they are only used in ambient mode. */
             ambientUpdateAlarmManager.cancel(ambientUpdatePendingIntent)
             binding.appName.setTextColor(Color.GREEN)
-            binding.state.setTextColor(Color.GREEN)
-            binding.settings.setTextColor(Color.GREEN)
+            binding.connect.setTextColor(Color.GREEN)
             binding.enableData.setTextColor(Color.GREEN)
             if (isLowBitAmbient) {
                 binding.appName.paint.isAntiAlias = true
-                binding.state.paint.isAntiAlias = true
-                binding.settings.paint.isAntiAlias = true
+                binding.connect.paint.isAntiAlias = true
             }
 
-            /* Reset any random offset applied for burn-in protection. */
-            if (doBurnInProtection) {
-                binding.container.translationX = 0f
-                binding.container.translationY = 0f
-            }
             refreshDisplayAndSetNextUpdate()
         }
     }

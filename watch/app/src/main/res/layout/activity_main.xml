@@ -1,55 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10px"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".MainActivity"
     tools:ignore="PxUsage">
 
-    <LinearLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="167dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="28dp"
         android:gravity="center"
-        android:orientation="vertical"
-        app:layout_boxedEdges="all"
-        tools:ignore="UseSwitchCompatOrMaterialXml">
+        android:textColor="@color/green"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/app_name" />
 
-        <TextView
-            android:id="@+id/app_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:textColor="@color/green"
-            tools:text="@string/app_name" />
+    <EditText
+        android:id="@+id/ip1"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:autofillHints="255"
+        android:hint="@string/_255"
+        android:inputType="number"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/dot1"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_name" />
 
-        <TextView
-            android:id="@+id/state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/green"
-            tools:text="Hello, state!" />
+    <TextView
+        android:id="@+id/dot1"
+        android:layout_width="4dp"
+        android:layout_height="23dp"
+        android:text="@string/dot"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ip2"
+        app:layout_constraintEnd_toStartOf="@+id/ip2" />
 
-        <Switch
-            android:id="@+id/enable_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/green"
-            android:text="@string/disable" />
+    <EditText
+        android:id="@+id/ip2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:autofillHints="255"
+        android:hint="@string/_255"
+        android:inputType="number"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/dot2"
+        app:layout_constraintTop_toBottomOf="@+id/app_name" />
 
-        <Button
-            android:id="@+id/settings"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:text="@string/settings_name"
-            android:textSize="10sp"
-            android:textColor="@color/green"
-            tools:ignore="SmallSp" />
+    <TextView
+        android:id="@+id/dot2"
+        android:layout_width="4dp"
+        android:layout_height="23dp"
+        android:text="@string/dot"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/connect"
+        app:layout_constraintEnd_toStartOf="@+id/ip3" />
 
-    </LinearLayout>
-</androidx.wear.widget.BoxInsetLayout>
+    <EditText
+        android:id="@+id/ip3"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:autofillHints="255"
+        android:hint="@string/_255"
+        android:inputType="number"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/dot3"
+        app:layout_constraintTop_toBottomOf="@+id/app_name" />
+
+    <TextView
+        android:id="@+id/dot3"
+        android:layout_width="4dp"
+        android:layout_height="23dp"
+        android:text="@string/dot"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/ip4"
+        app:layout_constraintBottom_toTopOf="@+id/connect" />
+
+    <EditText
+        android:id="@+id/ip4"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="20dp"
+        android:autofillHints="255"
+        android:hint="@string/_255"
+        android:inputType="number"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_name" />
+
+    <Button
+        android:id="@+id/connect"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:text="@string/connection"
+        android:textColor="@color/green"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ip1"
+        tools:ignore="SmallSp" />
+
+    <Switch
+        android:id="@+id/enable_data"
+        android:layout_width="104dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="0dp"
+        android:minHeight="48dp"
+        android:text="@string/disable"
+        android:textColor="@color/green"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/connect"
+        app:layout_constraintVertical_bias="0.035"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <!--        <Button-->
+    <!--            android:id="@+id/settings"-->
+    <!--            android:layout_width="80dp"-->
+    <!--            android:layout_height="35dp"-->
+    <!--            android:text="@string/settings_name"-->
+    <!--            android:textSize="10sp"-->
+    <!--            android:textColor="@color/green"-->
+    <!--            tools:ignore="SmallSp" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

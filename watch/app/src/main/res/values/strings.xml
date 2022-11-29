@@ -7,7 +7,8 @@
     <string name="update_rate_label" tools:ignore="PluralsCandidate">Update rate: %1$d sec</string>
 
     <string name="settings_name">Settings</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="connection">Connect</string>
+
     <!-- Preference Titles -->
     <string name="config_header">Configuration</string>
     <!-- Messages Preferences -->
@@ -15,4 +16,6 @@
 
     <string name="enable">On</string>
     <string name="disable">Off</string>
+    <string name="_255">255</string>
+    <string name="dot">.</string>
 </resources>

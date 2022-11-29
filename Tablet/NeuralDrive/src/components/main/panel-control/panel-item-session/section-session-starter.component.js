@@ -1,16 +1,15 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
-import { Stopwatch } from 'react-native-stopwatch-timer';
+import {StyleSheet, View} from 'react-native';
+import {Button, Text} from 'react-native-paper';
+import {Stopwatch} from 'react-native-stopwatch-timer';
 
-import { postStartNewSession } from "../../../../services/http-request.service";
-import * as problemDimensionTypeService from "../../../../services/problem-dimension-type.service";
-import { COLOR_BACKGROUND } from '../../../../styles/colors.style';
+import {postStartNewSession} from '../../../../services/http-request.service';
+import * as problemDimensionTypeService from '../../../../services/problem-dimension-type.service';
+import {COLOR_BACKGROUND} from '../../../../styles/colors.style';
 
-const TEXT_TIMER_HEADER = "Session Time";
+const TEXT_TIMER_HEADER = 'Session Time';
 
 const SectionSessionStarter = () => {
-
   const [value, setValue] = React.useState(0);
 
   // stopwatch
@@ -57,8 +56,7 @@ const SectionSessionStarter = () => {
             setStopwatchReset(false);
           }
         }}
-        uppercase={true}
-      >
+        uppercase={true}>
         <Text
           variant="labelLarge"
           adjustsFontSizeToFit={true}
@@ -75,26 +73,26 @@ const SectionSessionStarter = () => {
  */
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "stretch",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
     backgroundColor: COLOR_BACKGROUND.ItemSection,
     borderRadius: 10,
     padding: 30,
   },
   button: {
-    marginTop: 10
+    marginTop: 10,
   },
   timerSubSection: {
     backgroundColor: COLOR_BACKGROUND.ItemSubSection,
     padding: 10,
     borderRadius: 10,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   timerHeaderText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   stopwatchOptions: {
     container: {

@@ -13,28 +13,22 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.getSystemService
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.wear.ambient.AmbientModeSupport
 import com.example.neuraldrive.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant
-import kotlin.random.Random
+import java.util.*
+import kotlinx.coroutines.*
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
-import java.util.*
-import android.content.Intent
 
 
 class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider,
@@ -66,7 +60,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
     private var gyroX: Float = 0.0f; private var gyroY: Float = 0.0f ; private var gyroZ: Float = 0.0f
     private var accelX: Float = 0.0f; private var accelY: Float = 0.0f; private var accelZ: Float = 0.0f
 
-    private var enableIsChecked: Boolean = false
+//    private var enableIsChecked: Boolean = false
 
     private val client = OkHttpClient()
     private var stack = "["
@@ -86,6 +80,8 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         } else {
             Log.d(ContentValues.TAG, "ALREADY GRANTED")
         }
+
+        loadData()
 
         ambientController = AmbientModeSupport.attach(this)
         ambientUpdateAlarmManager = getSystemService()!!
@@ -107,8 +103,41 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
+    private fun saveData(){
+        binding.currentIP.text = ipAddressServer
+        val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.apply{
+            putString("String_IP", ipAddressServer)
+        }.apply()
+        Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun loadData(){
+        val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+        val savedIP: String? = sharedPreferences.getString("String_IP", null)
+        binding.currentIP.text = savedIP
+        ipAddressServer = savedIP.toString()
+    }
+
+    public override fun onStop() {
+        super.onStop()
+        sensorManager.unregisterListener(this)
+    }
+
     public override fun onResume() {
         Log.d(TAG, "onResume()")
+
+        if((sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)  != null)and(sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)  != null)) {
+            accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+            sensorManager.registerListener(this,accelSensor, SensorManager.SENSOR_DELAY_GAME)
+            gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+            sensorManager.registerListener(this,gyroSensor, SensorManager.SENSOR_DELAY_GAME)
+        }else{
+            //Fail to get
+            Log.d("Fail:", doesSensorsExist.toString())
+        }
+
         Timer().scheduleAtFixedRate( object : TimerTask() {
             override fun run() {
                 println("IPAddress::$ipAddressServer")
@@ -171,30 +200,31 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         val ipPart3 = binding.ip3.text
         val ipPart4 = binding.ip4.text
 
-        binding.connect.setOnClickListener{
+        binding.setIP.setOnClickListener{
             ipAddressServer = "$ipPart1.$ipPart2.$ipPart3.$ipPart4"
             println(ipAddressServer)
+            saveData()
         }
-        binding.enableData.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                binding.enableData.setText(R.string.enable)
-                if((sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)  != null)and(sensorManager.getDefaultSensor(
-                        Sensor.TYPE_GYROSCOPE)  != null)) {
-                    accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-                    sensorManager.registerListener(this,accelSensor, SensorManager.SENSOR_DELAY_GAME)
-                    gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-                    sensorManager.registerListener(this,gyroSensor, SensorManager.SENSOR_DELAY_GAME)
-                }else{
-                    //Fail to get
-                    Log.d("Fail:", doesSensorsExist.toString())
-                }
-                enableIsChecked = true
-            } else {
-                binding.enableData.setText(R.string.disable)
-                enableIsChecked = false
-                sensorManager.unregisterListener(this)
-            }
-        }
+//        binding.enableData.setOnCheckedChangeListener { _, isChecked ->
+//            if (isChecked) {
+//                binding.enableData.setText(R.string.enable)
+//                if((sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)  != null)and(sensorManager.getDefaultSensor(
+//                        Sensor.TYPE_GYROSCOPE)  != null)) {
+//                    accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+//                    sensorManager.registerListener(this,accelSensor, SensorManager.SENSOR_DELAY_GAME)
+//                    gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+//                    sensorManager.registerListener(this,gyroSensor, SensorManager.SENSOR_DELAY_GAME)
+//                }else{
+//                    //Fail to get
+//                    Log.d("Fail:", doesSensorsExist.toString())
+//                }
+//                enableIsChecked = true
+//            } else {
+//                binding.enableData.setText(R.string.disable)
+//                enableIsChecked = false
+//                sensorManager.unregisterListener(this)
+//            }
+//        }
     }
 
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback = MyAmbientCallback()
@@ -216,11 +246,11 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             activeUpdateJob.cancel()
 
             binding.appName.setTextColor(Color.WHITE)
-            binding.connect.setTextColor(Color.WHITE)
-            binding.enableData.setTextColor(Color.WHITE)
+            binding.setIP.setTextColor(Color.WHITE)
+//            binding.enableData.setTextColor(Color.WHITE)
             if (isLowBitAmbient) {
                 binding.appName.paint.isAntiAlias = false
-                binding.connect.paint.isAntiAlias = false
+                binding.setIP.paint.isAntiAlias = false
             }
             refreshDisplayAndSetNextUpdate()
         }
@@ -237,11 +267,11 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             /* Clears out Alarms since they are only used in ambient mode. */
             ambientUpdateAlarmManager.cancel(ambientUpdatePendingIntent)
             binding.appName.setTextColor(Color.GREEN)
-            binding.connect.setTextColor(Color.GREEN)
-            binding.enableData.setTextColor(Color.GREEN)
+            binding.setIP.setTextColor(Color.GREEN)
+//            binding.enableData.setTextColor(Color.GREEN)
             if (isLowBitAmbient) {
                 binding.appName.paint.isAntiAlias = true
-                binding.connect.paint.isAntiAlias = true
+                binding.setIP.paint.isAntiAlias = true
             }
 
             refreshDisplayAndSetNextUpdate()
@@ -277,9 +307,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         private val AMBIENT_INTERVAL = Duration.ofSeconds(10)
 
         const val AMBIENT_UPDATE_ACTION =
-            "com.example.android.wearable.wear.alwayson.action.AMBIENT_UPDATE"
-
-        private const val BURN_IN_OFFSET_PX = 10
+            "com.example.neuraldrive.action.AMBIENT_UPDATE"
     }
 
     private fun addDataToStack(acc_x : Float, acc_y : Float, acc_z : Float, gir_x : Float, gir_y : Float, gir_z : Float){

@@ -11,12 +11,12 @@
 
     <TextView
         android:id="@+id/app_name"
-        android:layout_width="167dp"
-        android:layout_height="35dp"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
         android:layout_marginTop="28dp"
         android:gravity="center"
         android:textColor="@color/green"
-        android:textSize="24sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,12 +24,14 @@
 
     <EditText
         android:id="@+id/ip1"
+        app:key="ipP1"
+        app:title="ipP1"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:autofillHints="255"
         android:hint="@string/_255"
         android:inputType="number"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/dot1"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,8 +42,8 @@
         android:layout_width="4dp"
         android:layout_height="23dp"
         android:text="@string/dot"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ip2"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/setIP"
         app:layout_constraintEnd_toStartOf="@+id/ip2" />
 
     <EditText
@@ -51,7 +53,7 @@
         android:autofillHints="255"
         android:hint="@string/_255"
         android:inputType="number"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/dot2"
         app:layout_constraintTop_toBottomOf="@+id/app_name" />
 
@@ -60,8 +62,8 @@
         android:layout_width="4dp"
         android:layout_height="23dp"
         android:text="@string/dot"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/connect"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/setIP"
         app:layout_constraintEnd_toStartOf="@+id/ip3" />
 
     <EditText
@@ -71,7 +73,7 @@
         android:autofillHints="255"
         android:hint="@string/_255"
         android:inputType="number"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/dot3"
         app:layout_constraintTop_toBottomOf="@+id/app_name" />
 
@@ -80,9 +82,9 @@
         android:layout_width="4dp"
         android:layout_height="23dp"
         android:text="@string/dot"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/ip4"
-        app:layout_constraintBottom_toTopOf="@+id/connect" />
+        app:layout_constraintBottom_toTopOf="@+id/setIP" />
 
     <EditText
         android:id="@+id/ip4"
@@ -92,48 +94,55 @@
         android:autofillHints="255"
         android:hint="@string/_255"
         android:inputType="number"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_name" />
 
+    <TextView
+        android:id="@+id/current"
+        android:layout_width="60dp"
+        android:layout_height="23dp"
+        android:text="@string/current"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/currentIP"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setIP" />
+
+    <TextView
+        android:id="@+id/currentIP"
+        android:layout_width="110dp"
+        android:layout_height="23dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/currentIP"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setIP" />
+
     <Button
-        android:id="@+id/connect"
-        android:layout_width="80dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="0dp"
+        android:id="@+id/setIP"
+        android:layout_width="70dp"
+        android:layout_height="36dp"
         android:text="@string/connection"
         android:textColor="@color/green"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ip1"
+        app:layout_constraintTop_toBottomOf="@+id/ip2"
         tools:ignore="SmallSp" />
 
-    <Switch
-        android:id="@+id/enable_data"
-        android:layout_width="104dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="0dp"
-        android:minHeight="48dp"
-        android:text="@string/disable"
-        android:textColor="@color/green"
+<!--    <Switch-->
+<!--        android:id="@+id/enable_data"-->
+<!--        android:layout_width="104dp"-->
+<!--        android:layout_height="43dp"-->
+<!--        android:text="@string/disable"-->
+<!--        android:textColor="@color/green"-->
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connect"
-        app:layout_constraintVertical_bias="0.035"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-    <!--        <Button-->
-    <!--            android:id="@+id/settings"-->
-    <!--            android:layout_width="80dp"-->
-    <!--            android:layout_height="35dp"-->
-    <!--            android:text="@string/settings_name"-->
-    <!--            android:textSize="10sp"-->
-    <!--            android:textColor="@color/green"-->
-    <!--            tools:ignore="SmallSp" />-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/setIP"-->
+<!--        app:layout_constraintVertical_bias="0.0"-->
+<!--        tools:ignore="UseSwitchCompatOrMaterialXml" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,15 +7,18 @@
     <string name="update_rate_label" tools:ignore="PluralsCandidate">Update rate: %1$d sec</string>
 
     <string name="settings_name">Settings</string>
-    <string name="connection">Connect</string>
+    <string name="connection">Set IP</string>
 
     <!-- Preference Titles -->
     <string name="config_header">Configuration</string>
     <!-- Messages Preferences -->
     <string name="ip_title">IP Address</string>
 
-    <string name="enable">On</string>
-    <string name="disable">Off</string>
+<!--    <string name="enable">On</string>-->
+<!--    <string name="disable">Off</string>-->
     <string name="_255">255</string>
     <string name="dot">.</string>
+    <string name="currentIP">0.0.0.0</string>
+    <string name="current">Current IP:</string>
+
 </resources>

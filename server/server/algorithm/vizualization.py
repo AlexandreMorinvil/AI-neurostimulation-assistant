@@ -17,15 +17,15 @@ def generate_heatmap_image(values_list,
     # Compute dimensions
     reshaped_values_list = np.reshape(values_list, dimensions_list)
 
-    number_dimensions = len(dimensions_list)
-    mean_axis_parameters_index_list = list(range(number_dimensions))
-    mean_axis_parameters_index_list.remove(first_parameter_index)
-    mean_axis_parameters_index_list.remove(second_parameter_index)
+    # number_dimensions = len(dimensions_list)
+    # mean_axis_parameters_index_list = list(range(number_dimensions))
+    # mean_axis_parameters_index_list.remove(first_parameter_index)
+    # mean_axis_parameters_index_list.remove(second_parameter_index)
 
     heatmap_points = reshaped_values_list
-    if len(mean_axis_parameters_index_list) > 0:
-        heatmap_points = np.mean(reshaped_values_list, 
-                                 axis=mean_axis_parameters_index_list)
+    # if len(mean_axis_parameters_index_list) > 0:
+    #     heatmap_points = np.mean(reshaped_values_list,
+    #                              axis=mean_axis_parameters_index_list)
 
     # Main heatmap
     plt.clf()
@@ -46,39 +46,35 @@ def generate_heatmap_image(values_list,
     # Return image
     return pic_hash.decode("utf-8")
 
-def compute_mean_along_dimension(values_list, parameter):
-    return np.mean(values_list, axis=parameter)
-
-def generate_2d_graph_image(values_list, 
+def generate_2d_graph_image(values_list,
                             dimensions_list, 
                             first_parameter_index,
-                            second_parameter_index,
-                            x_parameter_name = "", 
-                            y_parameter_name = ""):
+                            x_parameter_name = ""):
 
     # Compute dimensions
     reshaped_values_list = np.reshape(values_list, dimensions_list)
 
-    number_dimensions = len(dimensions_list)
-    mean_axis_parameters_index_list = list(range(number_dimensions))
-    mean_axis_parameters_index_list.remove(first_parameter_index)
-    mean_axis_parameters_index_list.remove(second_parameter_index)
+    # number_dimensions = len(dimensions_list)
+    # mean_axis_parameters_index_list = list(range(number_dimensions))
+    # mean_axis_parameters_index_list.remove(first_parameter_index)
+    # mean_axis_parameters_index_list.remove(second_parameter_index)
 
     graph_points = reshaped_values_list
-    if len(mean_axis_parameters_index_list) > 0:
-        graph_points = np.mean(reshaped_values_list,
-                                 axis=mean_axis_parameters_index_list)
+    # if len(mean_axis_parameters_index_list) > 0:
+    #     graph_points = np.mean(reshaped_values_list,
+    #                              axis=mean_axis_parameters_index_list)
 
-    x_points = np.arange(0, graph_points.shape[0])
+    x_points = np.arange(0, graph_points.shape[first_parameter_index])
     # for y_points we use the mean array of each column
-    y_points = np.mean(graph_points, axis=1)
+    y_points = np.mean(graph_points, axis=1-first_parameter_index)
 
     # Main heatmap
     plt.clf()
     plt.plot(x_points, y_points, zorder=1)
     plt.scatter(x_points, y_points, zorder=2)
+
     plt.xlabel(x_parameter_name, fontsize='x-large')
-    plt.ylabel(y_parameter_name, fontsize='x-large')
+    plt.ylabel('Average tremor', fontsize='x-large')
 
     # Generate image
     pic_iobytes = io.BytesIO()

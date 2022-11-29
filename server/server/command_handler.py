@@ -79,8 +79,6 @@ class CommandHandler:
             graph_2d_base64_jpeg_image = generate_2d_graph_image(algorithm.ymu,
                                                                  algorithm.dimensions_list,
                                                                  first_parameter_index,
-                                                                 second_parameter_index,
-                                                                 second_parameter_name,
                                                                  first_parameter_name)
             # Response format
             return {

@@ -1,25 +1,39 @@
+from enum import Enum
+from inspect import _void
 import json
-from typing import Union
+from lib2to3.pgen2.token import STAR
+import sys
+from typing import Callable, Union
 from command import Action
 from command import Session_status
 from algorithm.NeuroAlgorithmPrediction import NeuroAlgorithmPrediction
-from algorithm.vizualization import generate_heatmap_image
 from interface.session import Session
+from interface.saveSession import *
+from algorithm.vizualization import generate_heatmap_image
+import numpy as np
+import random
+from interface.watchData import WatchData
 
 ####################################################################################################
 #### This class execute process depend of the command and the choosen mode
 ####################################################################################################
 class CommandHandler:
     def __init__(self, socketIO):
+        self.stack_watch_data = []
+        self.current_handler = None
         self.socketIO = socketIO
         self.ssid = None
         self.current_session = None
+        self.current_save_session = None
+        #self.db : Database = Database()
+        #self.db.connect()
 
-    ################################################################################################
-    #### Execute command and return resulting values
-    ################################################################################################
+####################################################################################################
+#### START_SESSION : Create a new session.
+#### EXECUTE_QUERY : Execute one iteration of the algorithme
+#### RECEIVE_DATA_WATCH : debug canal to recive watch data
+####################################################################################################
     def handle_command(self, action: int, arg: Union[int, dict, str]) -> Union[None, list, int]:
-        
         print("Action :", action, ", Arguments :", arg)
 
         if action == Action.EXECUTE_QUERY.value:
@@ -65,10 +79,12 @@ class CommandHandler:
                 self.socketIO.emit('message', arg["value"], room=self.ssid)
     
         elif action == Action.START_SESSION.value:
+            self.free_stack_watch_data()
             # Arguments parsing
             dimensions = arg["dimensions"]
 
             # Handling : Create session
+            self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),str(arg["dimensions"]), 2, [], [])
             self.current_session = Session(1, NeuroAlgorithmPrediction())
             self.current_session.algorithm.generate_space(dimensions)
             
@@ -76,3 +92,44 @@ class CommandHandler:
             return  { 
                 "status" : Session_status.START.value
             }
+
+
+        elif action == Action.SAVE_SESSION_LOCAL.value:
+            if(self.current_save_session):
+                self.current_save_session.points = self.stack_watch_data
+                sessions = save_session_local(self.current_save_session)
+                self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),'10x10', 2, [], [])
+                print(sessions)
+                return  sessions
+            else :
+                 return get_all_save_sessions()
+
+        elif action == Action.GET_SESSION_BY_ID.value:
+            session = get_session_by_ID(arg["id"])
+            return session
+
+        elif action == Action.GET_SESSION_INFO.value:
+            return get_all_save_sessions()
+
+        elif action == Action.DELETE_SESSIONS.value:
+            print('Delete session')
+            return delete_sessions_by_ID(arg["listID"])
+
+
+
+
+    def release(self, *_) -> None:
+        if self.current_handler != None:
+            self.current_handler.release()
+        sys.exit(0)
+
+    def push_watch_data_in_stack(self, data):
+        if(self.current_save_session):
+            self.stack_watch_data += data
+            #print(self.stack_watch_data)
+            print("push in stack")
+
+
+    def free_stack_watch_data(self):
+        self.stack_watch_data = []
+        print("free stack")

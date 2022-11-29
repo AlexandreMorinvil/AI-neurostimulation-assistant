@@ -1,21 +1,24 @@
 import io from 'socket.io-client';
-import { Subject } from "rxjs";
+import {Subject} from 'rxjs';
 
-import { initializeValueWithPersistantData, savePersistantData } from "./persistant-data.service";
-import { handleReceivedWatchPacket } from './watch-data.service';
-import { SOCKET_EVENT_WATCH_PACKET } from '../const/socket-events';
+import {
+  initializeValueWithPersistantData,
+  savePersistantData,
+} from './persistant-data.service';
+import {handleReceivedWatchPacket} from './watch-data.service';
+import {SOCKET_EVENT_WATCH_PACKET} from '../const/socket-events';
 
 // Constants
-const LOCALHOST = "localhost";
-const PROTOCOLE = "http://";
-const PORT = "5000";
+const LOCALHOST = 'localhost';
+const PROTOCOLE = 'http://';
+const PORT = '5000';
 
-const STORE_KEY_BACKEND_IP_ADDRESS = "backendIpAddress";
-const STORE_KEY_IS_IN_LOCALHOST_MODE = "isInLocalhostMode";
+const STORE_KEY_BACKEND_IP_ADDRESS = 'backendIpAddress';
+const STORE_KEY_IS_IN_LOCALHOST_MODE = 'isInLocalhostMode';
 
 // Variables
 let socketBackend = io();
-let _backendIpAddress = "0.0.0.0";
+let _backendIpAddress = '0.0.0.0';
 let _isInLocalhostMode = false;
 
 // Reactive behavior handlers
@@ -78,16 +81,16 @@ export function setBackendIpAddress(inputIpAddress) {
 function initializeConnectionListeners() {
   socketBackend.on('connect', () => {
     subject.next();
-    console.log("Connected to server");
+    console.log('Connected to server');
 
-    socketBackend.io.engine.on("close", (reason) => {
-      console.log("Socket.io engine disconnection reason :", reason);
+    socketBackend.io.engine.on('close', reason => {
+      console.log('Socket.io engine disconnection reason :', reason);
     });
   });
 
   socketBackend.on('disconnect', () => {
     subject.next();
-    console.log("Disconnected from server");
+    console.log('Disconnected from server');
   });
 
   socketBackend.on(SOCKET_EVENT_WATCH_PACKET, handleReceivedWatchPacket);
@@ -103,8 +106,14 @@ function initSocket() {
 
 // Initialization
 export async function initialize() {
-  _backendIpAddress = await initializeValueWithPersistantData(STORE_KEY_BACKEND_IP_ADDRESS, _backendIpAddress);
-  _isInLocalhostMode = await initializeValueWithPersistantData(STORE_KEY_IS_IN_LOCALHOST_MODE, _isInLocalhostMode);
+  _backendIpAddress = await initializeValueWithPersistantData(
+    STORE_KEY_BACKEND_IP_ADDRESS,
+    _backendIpAddress,
+  );
+  _isInLocalhostMode = await initializeValueWithPersistantData(
+    STORE_KEY_IS_IN_LOCALHOST_MODE,
+    _isInLocalhostMode,
+  );
   initSocket();
 }
 

@@ -1,22 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {Button, Text, TextInput} from 'react-native-paper';
 
-import { SettingsMessageType } from '../../../../const/settings';
-import { COLOR_BACKGROUND } from '../../../../styles/colors.style';
-import MessageBubble from "../../../message-bubble.component";
+import {SettingsMessageType} from '../../../../const/settings';
+import {COLOR_BACKGROUND} from '../../../../styles/colors.style';
+import MessageBubble from '../../../message-bubble.component';
 
 const TEXT_INSERT_VALUE = `Insert value`;
-const TEXT_SUGGESTED_VALUE = (value) => `Suggest : ${value}`
+const TEXT_SUGGESTED_VALUE = value => `Suggest : ${value}`;
 
-const TEXT_OLD_VALUE_BUTTON = "Old";
+const TEXT_OLD_VALUE_BUTTON = 'Old';
 
-const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
-
+const InputQueryParameter = ({setParentValueFunction, ...props}) => {
   /**
    * Props
    */
-  const { isDisabled, isFirstInput, parameter, previousValue, ref, suggestedValue, value, style } = props;
+  const {
+    isDisabled,
+    isFirstInput,
+    parameter,
+    previousValue,
+    ref,
+    suggestedValue,
+    value,
+    style,
+  } = props;
 
   /**
    * States
@@ -24,12 +32,17 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
   const [stateIsDisabled, setStateIsDisabled] = useState(isDisabled);
   const [stateIsFirstInput, setStateIsFirstInput] = useState(isFirstInput);
   const [stateParameter, setStateParameter] = useState(parameter);
-  const [stateSuggestedValue, setStateSuggestedValue] = useState(suggestedValue);
+  const [stateSuggestedValue, setStateSuggestedValue] =
+    useState(suggestedValue);
   const [stateValue, setStateValue] = useState(String(value));
   const [statePreviousValue, setStatePreviousValue] = useState(previousValue);
 
-  const [stateInvalidMessageReason, setStateInvalidMessageReason] = useState("");
-  const [stateMustDisplayInvalidityReason, setStateMustDisplayInvalidityReason] = useState(false);
+  const [stateInvalidMessageReason, setStateInvalidMessageReason] =
+    useState('');
+  const [
+    stateMustDisplayInvalidityReason,
+    setStateMustDisplayInvalidityReason,
+  ] = useState(false);
   const [stateIsInFocus, setStateIsInFocus] = useState(true);
   const [stateLabelText, setStateLabelText] = useState(TEXT_INSERT_VALUE);
 
@@ -38,68 +51,71 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
    */
   const isValueEmpty = () => {
     return !Boolean(stateValue);
-  }
+  };
 
-  const setValue = (newValue) => {
+  const setValue = newValue => {
     updateMustDisplayInvalidityMessage(newValue);
-    const { isAccepted, reason } = stateParameter.isValueAccepted(newValue);
+    const {isAccepted, reason} = stateParameter.isValueAccepted(newValue);
     const currentValue = stateValue;
-    setParentValueFunction(isAccepted ? String(newValue) : String(currentValue));
+    setParentValueFunction(
+      isAccepted ? String(newValue) : String(currentValue),
+    );
     setStateValue(isAccepted ? String(newValue) : String(currentValue));
-  }
+  };
 
   const setValueToPreviousValue = () => {
     setValue(String(statePreviousValue));
-  }
+  };
 
   const makeTitleText = () => {
     const name = stateParameter.getName();
-    return `${name}`
-  }
+    return `${name}`;
+  };
 
   const updateLabelText = () => {
     if (stateIsFirstInput) {
       if (isValueEmpty()) setStateLabelText(TEXT_INSERT_VALUE);
       else setStateLabelText(stateParameter.getName());
     } else {
-      if (Number(stateValue) === Number(stateSuggestedValue)) setStateLabelText("");
+      if (Number(stateValue) === Number(stateSuggestedValue))
+        setStateLabelText('');
       else setStateLabelText(TEXT_SUGGESTED_VALUE(stateSuggestedValue));
     }
-  }
+  };
 
   const makePreviousButtonText = () => {
     if (stateIsFirstInput) return TEXT_OLD_VALUE_BUTTON;
     else return statePreviousValue;
-  }
+  };
 
   const makeRangeText = () => {
     const minimumValue = stateParameter.getMinimumValue();
     const maximumValue = stateParameter.getMaximumValue();
     const unit = stateParameter.getUnit();
-    return `{ ${minimumValue}, ${minimumValue + 1}, ${minimumValue + 2}, ... , ${maximumValue} } ${unit}`;
-  }
+    return `{ ${minimumValue}, ${minimumValue + 1}, ${
+      minimumValue + 2
+    }, ... , ${maximumValue} } ${unit}`;
+  };
 
   const updateMustDisplayInvalidityMessage = (attemptedValue = stateValue) => {
-    const { isAccepted, reason } = stateParameter.isValueAccepted(attemptedValue);
+    const {isAccepted, reason} = stateParameter.isValueAccepted(attemptedValue);
     const isAttemptedValueEmpty = String(attemptedValue).length === 0;
     setStateInvalidMessageReason(reason);
     if (!stateIsInFocus || isAttemptedValueEmpty)
       setStateMustDisplayInvalidityReason(false);
-    else if (isAccepted)
-      setStateMustDisplayInvalidityReason(false);
-    else
-      setStateMustDisplayInvalidityReason(true);
-  }
+    else if (isAccepted) setStateMustDisplayInvalidityReason(false);
+    else setStateMustDisplayInvalidityReason(true);
+  };
 
   const handleEnterInputFocus = () => {
     setStateIsInFocus(true);
     updateMustDisplayInvalidityMessage();
-  }
+  };
 
   const handleEndEdittingValue = () => {
     setStateIsInFocus(false);
     updateMustDisplayInvalidityMessage();
-  }
+  };
 
   /**
    * Effects
@@ -113,21 +129,19 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
     setStateValue(props.value);
     updateMustDisplayInvalidityMessage();
     updateLabelText();
-  },
-    [
-      props.isDisabled,
-      props.isFirstInput,
-      props.parameter,
-      props.previousValue,
-      props.suggestedValue,
-      props.value
-    ]);
+  }, [
+    props.isDisabled,
+    props.isFirstInput,
+    props.parameter,
+    props.previousValue,
+    props.suggestedValue,
+    props.value,
+  ]);
 
   useEffect(() => {
     updateMustDisplayInvalidityMessage();
     updateLabelText();
-
-  }, [])
+  }, []);
 
   // /**
   //  * References
@@ -143,16 +157,12 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
   return (
     <View style={[styles.container, props.style]}>
       <View style={styles.textArea}>
-        <Text style={styles.title}>
-          {makeTitleText()}
-        </Text>
-        <Text style={styles.precision}>
-          {makeRangeText()}
-        </Text>
+        <Text style={styles.title}>{makeTitleText()}</Text>
+        <Text style={styles.precision}>{makeRangeText()}</Text>
       </View>
 
       <View style={styles.controlArea}>
-        {!stateIsFirstInput &&
+        {!stateIsFirstInput && (
           <Button
             disabled={stateIsDisabled || stateIsFirstInput}
             style={styles.previousValueButton}
@@ -166,14 +176,13 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
               {makePreviousButtonText()}
             </Text>
           </Button>
-        }
-
+        )}
 
         <TextInput
           style={[
             styles.input,
             styles.textInput,
-            stateIsDisabled && styles.disabledText
+            stateIsDisabled && styles.disabledText,
           ]}
           mode="outlined"
           disabled={stateIsDisabled}
@@ -189,21 +198,19 @@ const InputQueryParameter = ({ setParentValueFunction, ...props }) => {
           label={stateLabelText}
           dense={true}
           keyboardType="numeric"
-          defaultValue={""}
+          defaultValue={''}
         />
       </View>
 
-      {
-        stateMustDisplayInvalidityReason &&
+      {stateMustDisplayInvalidityReason && (
         <MessageBubble
           type={SettingsMessageType.WARNING}
           message={stateInvalidMessageReason}
         />
-      }
-    </View >
+      )}
+    </View>
   );
-
-}
+};
 
 /**
  * Style Sheet
@@ -215,34 +222,34 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   textArea: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 10,
   },
   controlArea: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   title: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   precision: {},
   previousValueButton: {
     marginRight: 20,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 100,
   },
   input: {
     flex: 1,
-    color: "black",
+    color: 'black',
     textAlign: 'center',
   },
   disabledText: {
-    backgroundColor: "#BBBBBB"
-  }
+    backgroundColor: '#BBBBBB',
+  },
 });
 
-export default InputQueryParameter
+export default InputQueryParameter;

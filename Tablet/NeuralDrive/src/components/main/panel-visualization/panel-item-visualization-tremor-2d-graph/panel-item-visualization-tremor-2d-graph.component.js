@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { LineChart, YAxis, XAxis, Grid } from 'react-native-svg-charts';
-import { StyleSheet, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {LineChart, YAxis, XAxis, Grid} from 'react-native-svg-charts';
+import {StyleSheet, View} from 'react-native';
 
-import PanelVizualizationItem from "../panel-vizualization-item.component";
-import * as tremorPointService from "../../../../services/tremor-point.service";
-import * as watchDataService from "../../../../services/watch-data.service";
+import PanelVizualizationItem from '../panel-vizualization-item.component';
+import * as tremorPointService from '../../../../services/tremor-point.service';
+import * as watchDataService from '../../../../services/watch-data.service';
 
-const TITLE_VISUALIZATION = "Real Time Tremor";
-const TITLE_X_AXIS = "Time";
-const TITLE_Y_AXIS = "Intensity";
+const TITLE_VISUALIZATION = 'Real Time Tremor';
+const TITLE_X_AXIS = 'Time';
+const TITLE_Y_AXIS = 'Intensity';
 
-const UNIT_X_AXIS = "s";
-const UNIT_Y_AXIS = "m/s²";
+const UNIT_X_AXIS = 's';
+const UNIT_Y_AXIS = 'm/s²';
 
 const REFRESH_RATE_IN_MS = 250;
 const COUNT_DATA_POINTS = 500;
@@ -27,39 +27,57 @@ const CONTENT_INSET = {
   top: 20,
   left: 20,
   right: 20,
-  bottom: 20
-}
+  bottom: 20,
+};
 
-const TIME_INTERVAL_BETWEEN_X_AXIS_TICKS = (COUNT_DATA_POINTS * watchDataService.TIME_INTERVAL_BETWEEN_POINTS_IN_MS) / COUNT_X_AXIS_LABEL ;
+const TIME_INTERVAL_BETWEEN_X_AXIS_TICKS =
+  (COUNT_DATA_POINTS * watchDataService.TIME_INTERVAL_BETWEEN_POINTS_IN_MS) /
+  COUNT_X_AXIS_LABEL;
 
 export function PanelItemVizualizationTremor2dGraph() {
-
   /**
    * States
    */
-  const [stateTremorRawData, setStateTremorRawData] = useState(Array(COUNT_DATA_POINTS).fill(0));
-  const [stateTremorAveragedData, setStateTremorAveragedData] = useState(Array(COUNT_DATA_POINTS).fill(0));
+  const [stateTremorRawData, setStateTremorRawData] = useState(
+    Array(COUNT_DATA_POINTS).fill(0),
+  );
+  const [stateTremorAveragedData, setStateTremorAveragedData] = useState(
+    Array(COUNT_DATA_POINTS).fill(0),
+  );
 
   /**
-   * Function 
+   * Function
    */
   const updateGraph = () => {
-    setStateTremorRawData(tremorPointService.getScalarizedTremorPointListToDisplay(COUNT_DATA_POINTS, KEEP_POINT_FREQUENCY));
-    setStateTremorAveragedData(tremorPointService.getMovingAveragePointsListToDisplay(COUNT_DATA_POINTS, KEEP_POINT_FREQUENCY));
-  }
+    setStateTremorRawData(
+      tremorPointService.getScalarizedTremorPointListToDisplay(
+        COUNT_DATA_POINTS,
+        KEEP_POINT_FREQUENCY,
+      ),
+    );
+    setStateTremorAveragedData(
+      tremorPointService.getMovingAveragePointsListToDisplay(
+        COUNT_DATA_POINTS,
+        KEEP_POINT_FREQUENCY,
+      ),
+    );
+  };
 
   const formatXAxisLabel = (value, index) => {
-    if ((index + 1) === COUNT_X_AXIS_LABEL) return `${TITLE_X_AXIS} `;
+    if (index + 1 === COUNT_X_AXIS_LABEL) return `${TITLE_X_AXIS} `;
     else {
-      const timeInSeconds = (COUNT_X_AXIS_LABEL - (index + 1)) * TIME_INTERVAL_BETWEEN_X_AXIS_TICKS / 1000;
+      const timeInSeconds =
+        ((COUNT_X_AXIS_LABEL - (index + 1)) *
+          TIME_INTERVAL_BETWEEN_X_AXIS_TICKS) /
+        1000;
       return `${timeInSeconds.toFixed(1)} ${UNIT_X_AXIS}`;
     }
-  }
+  };
 
   const formatYAxisLabel = (value, index) => {
     if (value === Y_MAX_VALUE) return `${TITLE_Y_AXIS}`;
     else return `${value} ${UNIT_Y_AXIS}`;
-  }
+  };
 
   /**
    * Effects
@@ -96,26 +114,25 @@ export function PanelItemVizualizationTremor2dGraph() {
             data={[
               {
                 data: stateTremorRawData,
-                svg: { stroke: 'black', strokeWidth: 2 },
+                svg: {stroke: 'black', strokeWidth: 2},
               },
               {
                 data: stateTremorAveragedData,
-                svg: { stroke: 'blue', strokeWidth: 3 },
+                svg: {stroke: 'blue', strokeWidth: 3},
               },
             ]}
-            svg={{ stroke: 'black' }}
-            contentInset={CONTENT_INSET}
-          >
+            svg={{stroke: 'black'}}
+            contentInset={CONTENT_INSET}>
             <Grid />
           </LineChart>
         </View>
         <XAxis
-          style={{ marginHorizontal: '3%', marginLeft: '10%',  width: '87%' }}
+          style={{marginHorizontal: '3%', marginLeft: '10%', width: '87%'}}
           data={Array(COUNT_X_AXIS_LABEL).fill(0)}
           numberOfTicks={COUNT_X_AXIS_LABEL}
           formatLabel={formatXAxisLabel}
           contentInset={CONTENT_INSET}
-          svg={{ fontSize: 18, fill: 'black' }}
+          svg={{fontSize: 18, fill: 'black'}}
         />
       </View>
     </PanelVizualizationItem>
@@ -128,12 +145,12 @@ export function PanelItemVizualizationTremor2dGraph() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
     flexDirection: 'column',
   },
   lineChart: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
     flexDirection: 'row',
   },
   chart: {

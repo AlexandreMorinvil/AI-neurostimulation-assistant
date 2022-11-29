@@ -55,6 +55,7 @@ def generate_2d_graph_image(values_list,
                             second_parameter_index,
                             x_parameter_name = "", 
                             y_parameter_name = ""):
+    pass
     
     # # Main heatmap
     # plt.clf()

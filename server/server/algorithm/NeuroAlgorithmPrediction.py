@@ -151,15 +151,17 @@ class NeuroAlgorithmPrediction:
                 self.acquisition_map.reshape(len(self.acquisition_map))
                 == np.max(self.acquisition_map.reshape(len(self.acquisition_map)))
             )
-            print("Next querry = " + str(self.next_query[0][0]))
-            return position, [5, 5] # str(self.next_query[0][0])
+            print("Next querry =", self.convert_position_to_parameter_values(self.next_query[0][0]))
+            return position, self.convert_position_to_parameter_values(self.next_query[0][0]) # str(self.next_query[0][0])
         return position, [0, 0]
 
     def convert_parameter_values_to_position(self, values_list):
         return np.ravel_multi_index(values_list, self.dimensions_list)
 
     def convert_position_to_parameter_values(self, position):
-        return list(np.unravel_index(position, self.dimensions_list))
+        next_query = np.unravel_index(position, self.dimensions_list)
+        # convert next_query to list of type int32
+        return [int(i) for i in next_query]
 
     def __generate_and_store_list_all_positions(self, dimensions_list):
         

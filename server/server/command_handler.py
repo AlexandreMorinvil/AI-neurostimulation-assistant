@@ -50,8 +50,8 @@ class CommandHandler:
                                                                algorithm.dimensions_list,
                                                                first_parameter_index,
                                                                second_parameter_index,
-                                                               first_parameter_name, 
-                                                               second_parameter_name)
+                                                               second_parameter_name,
+                                                               first_parameter_name)
 
             # Response format
             return {

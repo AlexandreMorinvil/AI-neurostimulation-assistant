@@ -1,0 +1,21 @@
+{
+    "session": {
+        "session_id": "",
+        "patient_id": "", 
+        "date": "",
+        "time": "",
+        "dimension": [],
+        "parameter_count" : "",
+        "points" : [],
+        "querys" : [
+            {
+                "start_time" : "",
+                "end_time" : "",
+                "x_chan": [],
+                "query_result" : "",
+                "error_code": ""
+            }
+        ]
+
+        }
+}

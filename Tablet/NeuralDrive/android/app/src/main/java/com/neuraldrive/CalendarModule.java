@@ -1,9 +1,9 @@
 package com.neuraldrive;
 
 import android.util.Log;
-// import com.chaquo.python.PyObject;
-// import com.chaquo.python.Python;
-// import com.chaquo.python.android.AndroidPlatform;
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
@@ -16,9 +16,9 @@ public class CalendarModule extends ReactContextBaseJavaModule {
     
     CalendarModule(ReactApplicationContext context) {
         super(context);
-        // if (! Python.isStarted()) {
-        //     Python.start(new AndroidPlatform(context));
-        // }
+        if (! Python.isStarted()) {
+            Python.start(new AndroidPlatform(context));
+        }
     }
 
     @Override
@@ -30,13 +30,13 @@ public class CalendarModule extends ReactContextBaseJavaModule {
     public String createCalendarEvent() {
         Log.d("CalendarModule", "Create event");
         
-        // new Thread( new Runnable() { @Override public void run() {
-        //     Python py = Python.getInstance();
-        //     //PyObject utilClass = py.getModule("server").get("Server");
-        //     PyObject pyobj = py.getModule("server");
-        //     //final PyObject pyobj = utilClass.call();
-        //     pyobj.callAttr("main");
-        // } } ).start();
+        new Thread( new Runnable() { @Override public void run() {
+            Python py = Python.getInstance();
+            //PyObject utilClass = py.getModule("server").get("Server");
+            PyObject pyobj = py.getModule("server");
+            //final PyObject pyobj = utilClass.call();
+            pyobj.callAttr("main");
+        } } ).start();
         return "test";
     }
 }

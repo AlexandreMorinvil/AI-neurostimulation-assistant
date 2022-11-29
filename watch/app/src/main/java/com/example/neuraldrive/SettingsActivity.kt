@@ -1,4 +1,4 @@
-package com.example.android.wearable.wear.neuraldrive
+package com.example.neuraldrive
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

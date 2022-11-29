@@ -1,5 +1,5 @@
 
-package com.example.android.wearable.wear.neuraldrive
+package com.example.neuraldrive
 
 import android.Manifest
 import android.app.AlarmManager

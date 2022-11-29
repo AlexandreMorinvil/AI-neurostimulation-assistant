@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.wearable.wear.neuraldrive">
+    package="com.example.neuraldrive">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.BODY_SENSORS" /> <!-- Needed in order to re-register for data on device startup. -->
@@ -18,7 +18,7 @@
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.example.android.wearable.wear.neuraldrive.MainActivity"
+            android:parentActivityName="com.example.neuraldrive.MainActivity"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
             <meta-data
                 android:name="android.app.lib_name"
@@ -28,12 +28,7 @@
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
-        <!--
-            To update the screen more than once per minute in ambient mode, developers should set
-            the launch mode for the activity to single instance. Otherwise, the AlarmManager launch
-            intent will open a new activity every time the Alarm is triggered rather than reusing
-            the same (already active) Activity.
-        -->
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"

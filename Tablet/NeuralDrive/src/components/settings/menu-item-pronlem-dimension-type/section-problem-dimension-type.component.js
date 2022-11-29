@@ -6,47 +6,47 @@ import { textStyles } from "../../../styles/text.styles";
 
 import ButtonProblemDimension from "./button-problem-dimension.component";
 import InformationButton from "../information-button.component";
-import MessageBubble from "../message-bubble.component";
+import MessageBubble from "../../message-bubble.component";
 
-import * as problemDimensionService from "../../../services/problem-dimension.service";
+import * as problemDimensionTypeService from "../../../services/problem-dimension-type.service";
 
 const SECTION_TITLE = "Dimensions :"
 const HELP_INFORMATION =
   `This section enables the user to select the dimension of the problem. These dimensions are used for the parameters that the user will input in the main page.\n\
   Said parameters will not be able to go over the given dimensions, and the graphs in the main page will have the size of the set dimension.`;
 
-const POSSIBLE_DIMENSIONS_LIST = problemDimensionService.POSSIBLE_DIMENSIONS_LIST;
+const POSSIBLE_PROBLEM_DIMENSION_TYPES_LIST = problemDimensionTypeService.getPossibleProblemDimensionTypesList();
 
 const BUTTON_RADIUS = 15;
-
-const SectionInputPatientId = ({ setParentStateSelectedDimensionFunction }) => {
+const SectionInputPatientId = ({ setParentStateSelectedDimensionTypeFunction }) => {
 
   /**
    * States
    */
-  const [stateSelectedDimension, setStateSelectedDimension] = useState(problemDimensionService.getProblemDimension());
+  const [stateSelectedProblemDimensionType, setStateSelectedDimensionType] = useState(problemDimensionTypeService.getProblemDimensionType());
   const [stateIsHelpInformationDisplayed, setStateIsHelpInformationDisplayed] = useState(true);
 
   /**
    * Functions
    */
-  setParentStateSelectedDimensionFunction = setParentStateSelectedDimensionFunction ? setParentStateSelectedDimensionFunction : () => { };
+  setParentStateSelectedDimensionTypeFunction = setParentStateSelectedDimensionTypeFunction || (() => { });
 
   const isFirstButton = (index) => {
     return index === 0;
   }
 
   const isLastButton = (index) => {
-    return index === POSSIBLE_DIMENSIONS_LIST.length - 1;
+    return index === POSSIBLE_PROBLEM_DIMENSION_TYPES_LIST.length - 1;
   }
 
-  const isSelectedOption = (index) => {
-    return POSSIBLE_DIMENSIONS_LIST[index] === stateSelectedDimension;
+  const isSelectedOption = (problemDimensionType) => {
+    return stateSelectedProblemDimensionType.isSame(problemDimensionType);
   }
 
-  const setSelectedDimension = (dimension) => {
-    setStateSelectedDimension(dimension);
-    setParentStateSelectedDimensionFunction(dimension);
+  // const setSelectedDimension = (dimension) => {
+  const setSelectedProblemDimensionType = (problemDimensionType) => {
+    setStateSelectedDimensionType(problemDimensionType);
+    setParentStateSelectedDimensionTypeFunction(problemDimensionType);
   }
 
   /**
@@ -67,7 +67,7 @@ const SectionInputPatientId = ({ setParentStateSelectedDimensionFunction }) => {
       }
       <View style={styles.buttonArea}>
         {
-          POSSIBLE_DIMENSIONS_LIST.map((dimension, index) => {
+          POSSIBLE_PROBLEM_DIMENSION_TYPES_LIST.map((problemDimensionType, index) => {
             return <ButtonProblemDimension
               key={index}
               style={
@@ -77,9 +77,9 @@ const SectionInputPatientId = ({ setParentStateSelectedDimensionFunction }) => {
                   isLastButton(index) && styles.rightMostButton
                 ]
               }
-              dimension={dimension}
-              isActive={isSelectedOption(index)}
-              setParentStateSelectedDimensionFunction={setSelectedDimension}
+              problemDimensionType={problemDimensionType}
+              isActive={isSelectedOption(problemDimensionType)}
+              setParentStateSelectedProblemDimensionTypeFunction={setSelectedProblemDimensionType}
             />
           })
         }

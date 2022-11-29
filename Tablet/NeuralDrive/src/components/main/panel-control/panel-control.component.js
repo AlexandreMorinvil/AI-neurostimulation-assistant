@@ -1,10 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native';
 
-import PanelItemConnection from "./panel-item-connection/panel-item-connection.component";
 import PanelItemParameters from "./panel-item-parameters/panel-item-parameters.component";
 import PanelItemSession from "./panel-item-session/panel-item-session.component";
-import PanelItemStatistics from "./panel-item-statistics/panel-item-statistics.component";
+import PanelItemResults from "./panel-item-results/panel-item-results.component";
 import PanelFrame from '../panel-frame.component';
 
 const PanelControl = (props) => {
@@ -20,10 +19,9 @@ const PanelControl = (props) => {
   return (
     <PanelFrame style={style}>
       <ScrollView>
-        <PanelItemConnection />
         <PanelItemSession />
         <PanelItemParameters />
-        <PanelItemStatistics />
+        <PanelItemResults />
       </ScrollView>
     </PanelFrame>
   );

@@ -51,7 +51,7 @@ const AccordionItem = props => {
         setStateStatusIcon(STATE_STATUS_ICON_EXCLAMATION);
         break;
       case SettingsStatus.SET:
-        setStateBackgroundColor(BACKGROUND_COLOR_GREEN);
+        setStateBackgroundColor(BACKGROUND_COLOR_BLUE);
         setStateStatusIcon(STATE_STATUS_ICON_CHECKED);
         break;
       case SettingsStatus.UNSET:

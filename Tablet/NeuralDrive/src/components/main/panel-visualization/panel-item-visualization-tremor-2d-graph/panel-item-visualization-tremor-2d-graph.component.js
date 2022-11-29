@@ -2,18 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {LineChart, YAxis, XAxis, Grid} from 'react-native-svg-charts';
 import {StyleSheet, View} from 'react-native';
 
-import PanelVizualizationItem from './panel-vizualization-item.component';
-import * as tremorPointService from '../../../services/tremor-point.service';
-import * as watchDataService from '../../../services/watch-data.service';
+import PanelVizualizationItem from '../panel-vizualization-item.component';
+import * as tremorPointService from '../../../../services/tremor-point.service';
+import * as watchDataService from '../../../../services/watch-data.service';
 
-const TITLE_VISUALIZATION = 'Vizualization : Real Time Tremor';
+const TITLE_VISUALIZATION = 'Real Time Tremor';
 const TITLE_X_AXIS = 'Time';
 const TITLE_Y_AXIS = 'Intensity';
 
 const UNIT_X_AXIS = 's';
 const UNIT_Y_AXIS = 'm/s²';
 
-const REFRESH_RATE_IN_MS = 200;
+const REFRESH_RATE_IN_MS = 250;
 const COUNT_DATA_POINTS = 500;
 const KEEP_POINT_FREQUENCY = 2;
 
@@ -34,7 +34,7 @@ const TIME_INTERVAL_BETWEEN_X_AXIS_TICKS =
   (COUNT_DATA_POINTS * watchDataService.TIME_INTERVAL_BETWEEN_POINTS_IN_MS) /
   COUNT_X_AXIS_LABEL;
 
-export function VizualizationTremor2dGraph() {
+export function PanelItemVizualizationTremor2dGraph() {
   /**
    * States
    */
@@ -158,4 +158,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VizualizationTremor2dGraph;
+export default PanelItemVizualizationTremor2dGraph;

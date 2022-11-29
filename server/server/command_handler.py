@@ -9,6 +9,7 @@ from command import Session_status
 from algorithm.NeuroAlgorithmPrediction import NeuroAlgorithmPrediction
 from interface.session import Session
 from interface.saveSession import *
+from algorithm.vizualization import generate_heatmap_image
 import numpy as np
 import random
 from interface.watchData import WatchData
@@ -43,58 +44,74 @@ class CommandHandler:
 #### RECEIVE_DATA_WATCH : debug canal to recive watch data
 ####################################################################################################
     def handle_command(self, action: int, arg: Union[int, dict, str]) -> Union[None, list, int]:
-        if action == Action.START_SESSION.value:
-            self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),str(arg["dimention"]) + "x" + str(arg["dimention"]), 2, [], [])
-            self.current_session = Session(1, NeuroAlgorithmPrediction())
-            self.current_session.algorithm.generate_space(int(arg["dimention"]),int(arg["n_param"]))
-            data = { "status" : Session_status.START.value}
-            return data
+        print("Action :", action, ", Arguments :", arg)
 
-        
-        elif action == Action.EXECUTE_QUERY.value:
-            x_chanel = int(arg["A"]) + int(arg["B"])*self.current_session.algorithm.dimention
-            print("x_chanel = ", x_chanel)
-            output = self.current_session.algorithm.execute_query(x_chanel,float(arg["y_value"]))
-            print("EXECUTE_QUERY")
-            # print(output[0])
-            data = {
-                "predict_heat_map" : json.dumps(output[0]),
-                "position": json.dumps(output[1]),
-                "values": json.dumps(output[2]),
-                "next_query": output[3]
-                }
-            print(data)
-            return data
+        if action == Action.EXECUTE_QUERY.value:
+            # Arguments parsing
+            parameters_value_list = [int(value) for value in arg["parameters_value_list"]]
+            tremor_metric = float(arg["tremor_metric"])
+            
+            # Handling : Execute query and generate vizualzations
+            algorithm = self.current_session.algorithm
+            position, next_query = algorithm.execute_query(parameters_value_list, tremor_metric)
+
+            # Response format
+            return {
+                "suggested_parameters_list":            json.dumps(next_query)
+            }
+
+        elif action == Action.GET_VIZUALIZATIONS.value:
+
+            # Arguments parsing
+            first_parameter_index = int(arg["first_parameter"])
+            second_parameter_index = int(arg["second_parameter"])
+            first_parameter_name = str(arg["first_parameter_name"])
+            second_parameter_name = str(arg["second_parameter_name"])
+            
+            # Handling : Generate vizualzations
+            algorithm = self.current_session.algorithm
+            heatmap_base64_jpeg_image = generate_heatmap_image(algorithm.ymu, 
+                                                               algorithm.dimensions_list,
+                                                               first_parameter_index,
+                                                               second_parameter_index,
+                                                               first_parameter_name, 
+                                                               second_parameter_name)
+
+            # Response format
+            return {
+                "heatmap_base64_jpeg_image" :           json.dumps(heatmap_base64_jpeg_image),
+                "parameter_graph_base64_jpeg_image":    "",
+            }
 
         elif action == Action.RECEIVE_DATA_WATCH.value:
             print(arg["value"])
             if(self.ssid):
-                # print(arg["value"])
                 self.socketIO.emit('message', arg["value"], room=self.ssid)
+    
+        elif action == Action.START_SESSION.value:
+            # Arguments parsing
+            dimensions = arg["dimensions"]
 
+            # Handling : Create session
+            self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),str(arg["dimensions"])+'x'+str(arg["dimensions"]), 2, [], [])
+            self.current_session = Session(1, NeuroAlgorithmPrediction())
+            self.current_session.algorithm.generate_space(dimensions)
+            
+            # Response format
+            return  { 
+                "status" : Session_status.START.value
+            }
 
-        elif action == Action.GET_WATCH_DATA.value:
-
-            ### SIMULATION SANS MONTRE ##############################
-            for i in range(10):
-                n = str(random.randint(0, 9))
-                data = WatchData(n,n,n,n,n,n).__dict__
-                self.stack_watch_data.append(data)
-            #########################################################
-
-            if(len(self.stack_watch_data) > 0):
-                data = self.stack_watch_data.copy()
-                self.free_stack_watch_data()
-                # print(data)
-                print(data)
-                return json.dumps(data)
 
         elif action == Action.SAVE_SESSION_LOCAL.value:
-            self.current_save_session.points = self.stack_watch_data
-            sessions = save_session_local(self.current_save_session)
-            self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),'10x10', 2, [], [])
-            print(sessions)
-            return  sessions
+            if(self.current_save_session):
+                self.current_save_session.points = self.stack_watch_data
+                sessions = save_session_local(self.current_save_session)
+                self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),'10x10', 2, [], [])
+                print(sessions)
+                return  sessions
+            else :
+                 return get_all_save_sessions()
 
         elif action == Action.GET_SESSION_BY_ID.value:
             session = get_session_by_ID(arg["id"])
@@ -105,25 +122,6 @@ class CommandHandler:
 
         elif action == Action.DELETE_SESSIONS.value:
             return get_all_save_sessions()
-
-
-        # elif action == Action.SAVE_SESSION.value:
-        #     print("save session")
-        #     self.db.add_session(arg["session"])
-        #     sessions = self.db.get_all_session()
-        #     print(sessions)
-        #     return sessions
-
-        # elif action == Action.DELETE_SESSION.value:
-        #     print("delete session")
-        #     self.db.delete_session(arg["id"])
-
-        # elif action == Action.GET_ALL_SESSION.value:
-        #     sessions = self.db.get_all_session()
-        #     print(sessions)
-        #     return sessions
-
-
 
 
 

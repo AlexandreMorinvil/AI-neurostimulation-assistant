@@ -5,7 +5,7 @@ import { SettingsMessageType } from '../../../const/settings';
 import { textStyles } from "../../../styles/text.styles";
 
 import InformationButton from "../information-button.component";
-import MessageBubble from "../message-bubble.component";
+import MessageBubble from "../../message-bubble.component";
 
 
 import * as connectionBackendService from "../../../services/connection-backend.service";

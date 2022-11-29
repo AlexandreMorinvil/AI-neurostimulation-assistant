@@ -89,6 +89,7 @@ class CommandHandler:
                 self.socketIO.emit('message', arg["value"], room=self.ssid)
     
         elif action == Action.START_SESSION.value:
+            self.free_stack_watch_data()
             # Arguments parsing
             dimensions = arg["dimensions"]
 
@@ -132,9 +133,10 @@ class CommandHandler:
         sys.exit(0)
 
     def push_watch_data_in_stack(self, data):
-        self.stack_watch_data += data
-        #print(self.stack_watch_data)
-        print("push in stack")
+        if(self.current_save_session):
+            self.stack_watch_data += data
+            #print(self.stack_watch_data)
+            print("push in stack")
 
 
     def free_stack_watch_data(self):

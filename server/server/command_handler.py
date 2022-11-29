@@ -33,7 +33,7 @@ class CommandHandler:
         self.socketIO = socketIO
         self.ssid = None
         self.current_session = None
-        self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),"10x10", 2, [], [])
+        self.current_save_session = None
         #self.db : Database = Database()
         #self.db.connect()
 
@@ -44,6 +44,7 @@ class CommandHandler:
 ####################################################################################################
     def handle_command(self, action: int, arg: Union[int, dict, str]) -> Union[None, list, int]:
         if action == Action.START_SESSION.value:
+            self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),str(arg["dimention"]) + "x" + str(arg["dimention"]), 2, [], [])
             self.current_session = Session(1, NeuroAlgorithmPrediction())
             self.current_session.algorithm.generate_space(int(arg["dimention"]),int(arg["n_param"]))
             data = { "status" : Session_status.START.value}
@@ -100,6 +101,9 @@ class CommandHandler:
             return session
 
         elif action == Action.GET_SESSION_INFO.value:
+            return get_all_save_sessions()
+
+        elif action == Action.DELETE_SESSIONS.value:
             return get_all_save_sessions()
 
 

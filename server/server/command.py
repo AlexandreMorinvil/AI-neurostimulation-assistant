@@ -9,6 +9,7 @@ class Action(str, Enum):
     SAVE_SESSION_LOCAL = 'SAVE_SESSION_LOCAL'
     GET_SESSION_BY_ID= 'GET_SESSION_BY_ID'
     GET_SESSION_INFO = 'GET_SESSION_INFO'
+    DELETE_SESSIONS= 'DELETE_SESSIONS'
 
 class Session_status(Enum):
     STOP = 0

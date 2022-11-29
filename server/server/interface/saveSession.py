@@ -67,3 +67,8 @@ def get_session_by_ID(id):
     data = json.load(f)
     print(data)
     return(data)
+
+def delete_sessions_by_ID(listID):
+    for id in listID:
+        os.remove(SAVE_SESSIONS_PATH+'/'+ str(id) + '.json')
+    return get_all_save_sessions()

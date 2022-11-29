@@ -6,6 +6,7 @@ import {
   post_save_session,
   post_get_session_by_ID,
   post_get_save_session_info,
+  post_delete_session,
 } from '../class/http';
 import DialogData from '../components/database/dialogData';
 
@@ -28,6 +29,16 @@ const DataBase = () => {
   const [sessions, setSessions] = useState(testListSessionsInfo);
   const dialogRef = React.useRef();
 
+  const get_list_sessions_check = () => {
+    list = [];
+    for (let session of sessions) {
+      if (session.isCheck) {
+        list.push(session.session_id);
+      }
+    }
+    return list;
+  };
+
   return (
     <View style={styles.mainBox}>
       <DialogData ref={dialogRef}></DialogData>
@@ -35,6 +46,8 @@ const DataBase = () => {
         <Button
           style={styles.button}
           mode="contained"
+          buttonColor="white"
+          textColor="black"
           onPress={async () => {
             r = await post_get_save_session_info();
             setSessions(r);
@@ -46,6 +59,8 @@ const DataBase = () => {
         <Button
           style={styles.button}
           mode="contained"
+          buttonColor="white"
+          textColor="black"
           onPress={async () => {
             r = await post_save_session();
             setSessions(r);
@@ -53,7 +68,15 @@ const DataBase = () => {
           }}>
           SAVE SESSION
         </Button>
-        <Button style={styles.button} mode="contained" onPress={async () => {}}>
+        <Button
+          style={styles.button}
+          mode="contained"
+          buttonColor="white"
+          textColor="black"
+          onPress={async () => {
+            r = await post_delete_session(get_list_sessions_check());
+            setSessions(r);
+          }}>
           DELETE SESSIONS
         </Button>
       </View>
@@ -199,7 +222,8 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    //backgroundColor: 'white',
+    borderColor: 'black',
+    borderWidth: 2,
   },
   tableRow: {
     alignContent: 'center',

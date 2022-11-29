@@ -13,16 +13,6 @@ from algorithm.vizualization import generate_heatmap_image
 import numpy as np
 import random
 from interface.watchData import WatchData
-#from database import Database
-
-####################################################################################################
-#### Represent the different mode available to tranfer data
-#### SERIAL : watch - tablet - server - dataBase 
-#### STAR : all data is pass to the server
-####################################################################################################
-class Mode(Enum):
-    SERIAL = 0
-    STAR = 1
 
 ####################################################################################################
 #### This class execute process depend of the command and the choosen mode
@@ -94,7 +84,7 @@ class CommandHandler:
             dimensions = arg["dimensions"]
 
             # Handling : Create session
-            self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),str(arg["dimensions"])+'x'+str(arg["dimensions"]), 2, [], [])
+            self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),str(arg["dimensions"]), 2, [], [])
             self.current_session = Session(1, NeuroAlgorithmPrediction())
             self.current_session.algorithm.generate_space(dimensions)
             
@@ -122,7 +112,8 @@ class CommandHandler:
             return get_all_save_sessions()
 
         elif action == Action.DELETE_SESSIONS.value:
-            return get_all_save_sessions()
+            print('Delete session')
+            return delete_sessions_by_ID(arg["listID"])
 
 
 

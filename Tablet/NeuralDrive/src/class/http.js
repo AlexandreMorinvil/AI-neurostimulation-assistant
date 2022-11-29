@@ -53,14 +53,14 @@ export const post_get_session_by_ID = async id => {
   return response.content;
 };
 
-export const post_delete_session = async id => {
+export const post_delete_session = async listID => {
   const command = {
-    action: Action.DELETE_SESSION,
+    action: Action.DELETE_SESSIONS,
     arg: {
-      id: id,
+      listID: listID,
     },
   };
-  response = await send_command(command);
+  response = await sendCommand(command);
   return response.content;
 };
 
@@ -69,7 +69,7 @@ export const post_get_all_session = async () => {
     action: Action.GET_ALL_SESSION,
     arg: {},
   };
-  response = await send_command(command);
+  response = await sendCommand(command);
   return response.content;
 };
 

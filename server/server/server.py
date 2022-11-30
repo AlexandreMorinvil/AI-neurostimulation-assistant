@@ -1,5 +1,6 @@
 import logging
 import json
+import random
 import signal
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
@@ -8,6 +9,8 @@ from flask import jsonify
 from flask.wrappers import Response
 from command_handler import CommandHandler
 import numpy as np
+from interface.watchData import WatchData
+
 
 # Server initializations
 app = Flask(__name__)
@@ -57,13 +60,15 @@ def handle_watch_packet(watch_packet):
 @app.route("/watch_packet/", methods=["POST", "GET"])
 def watch_packet() -> Response:
     data = request.data.decode('UTF-8')
-    response = "packet accepted"
+    response = "packet accepted" 
     data= json.loads(data)
     command_handler.push_watch_data_in_stack(data)
-
-    # print(data)
+    
+    print(data)
     socketio.emit('watch_packet', json.dumps(data), broadcast=True, includde_self=False)
     return jsonify({"content": response})
+
+
 
 ####################################################################################################
 #### Reception and handling of commands from the tablet.

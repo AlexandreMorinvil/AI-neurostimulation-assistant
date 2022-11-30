@@ -1,47 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SettingsStatus } from '../../const/settings';
-import { COLOR_BACKGROUND } from '../../styles/colors.style.js';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {SettingsStatus} from '../../const/settings';
+import {COLOR_BACKGROUND} from '../../styles/colors.style.js';
 
 const HEIGHT = 80;
 const FONT_SIZE = 20;
 
-const BACKGROUND_COLOR_BLUE = "#00BCD4";
-const BACKGROUND_COLOR_GREEN = "#32C832";
-const BACKGROUND_COLOR_GREY = "#AAAAAA";
-const BACKGROUND_COLOR_ORANGE = "#fac832";
-const BACKGROUND_COLOR_RED = "#FA4632";
+const BACKGROUND_COLOR_BLUE = '#00BCD4';
+const BACKGROUND_COLOR_GREEN = '#32C832';
+const BACKGROUND_COLOR_GREY = '#AAAAAA';
+const BACKGROUND_COLOR_ORANGE = '#fac832';
+const BACKGROUND_COLOR_RED = '#FA4632';
 
-const STATE_STATUS_ICON_CHECKED = "✓";
-const STATE_STATUS_ICON_NOTHING = " ";
-const STATE_STATUS_ICON_CROSS_MARK = "✕";
-const STATE_STATUS_ICON_EXCLAMATION = "!";
-const STATE_STATUS_ICON_QUESTION = "?";
+const STATE_STATUS_ICON_CHECKED = '✓';
+const STATE_STATUS_ICON_NOTHING = ' ';
+const STATE_STATUS_ICON_CROSS_MARK = '✕';
+const STATE_STATUS_ICON_EXCLAMATION = '!';
+const STATE_STATUS_ICON_QUESTION = '?';
 
-const AccordionItem = (props) => {
-
+const AccordionItem = props => {
   /**
    * Props
    */
-  const { isActive, summaryText, title, settingStatus, children } = props;
+  const {isActive, summaryText, title, settingStatus, children} = props;
 
   /**
    * States
    */
   const [stateIsActive, setStateIsActive] = useState(isActive || false);
-  const [stateSummaryText, setStateSummaryText] = useState(summaryText || "");
-  const [stateTitle] = useState(title || "");
-  const [stateBackgroundColor, setStateBackgroundColor] = useState(BACKGROUND_COLOR_GREY);
-  const [stateStatusIcon, setStateStatusIcon] = useState(STATE_STATUS_ICON_NOTHING);
+  const [stateSummaryText, setStateSummaryText] = useState(summaryText || '');
+  const [stateTitle] = useState(title || '');
+  const [stateBackgroundColor, setStateBackgroundColor] = useState(
+    BACKGROUND_COLOR_GREY,
+  );
+  const [stateStatusIcon, setStateStatusIcon] = useState(
+    STATE_STATUS_ICON_NOTHING,
+  );
 
   /**
    * Functions
    */
   const handleToggleIsActive = () => {
     setStateIsActive(!stateIsActive);
-  }
+  };
 
-  const updateHeaderForStatus = (settingStatus) => {
+  const updateHeaderForStatus = settingStatus => {
     switch (settingStatus) {
       case SettingsStatus.NEEDED:
         setStateBackgroundColor(BACKGROUND_COLOR_ORANGE);
@@ -64,7 +67,7 @@ const AccordionItem = (props) => {
         setStateStatusIcon(STATE_STATUS_ICON_QUESTION);
         break;
     }
-  }
+  };
 
   /**
    * Effects
@@ -83,39 +86,30 @@ const AccordionItem = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.shadow}>
-      <View style={[styles.headerContainer, { backgroundColor: stateBackgroundColor }]}>
+        <View
+          style={[
+            styles.headerContainer,
+            {backgroundColor: stateBackgroundColor},
+          ]}>
+          <TouchableOpacity
+            style={styles.expandIconArea}
+            onPress={handleToggleIsActive}>
+            <Text style={styles.expandIcon}>{stateIsActive ? '-' : '+'}</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.expandIconArea}
-          onPress={handleToggleIsActive}
-        >
-          <Text style={styles.expandIcon}>
-            {stateIsActive ? '-' : '+'}
-          </Text>
-        </TouchableOpacity>
+          <Text style={styles.title}>{`${stateTitle} : `}</Text>
 
-        <Text style={styles.title}>
-          {`${stateTitle} : `}
-        </Text>
+          <View style={styles.spacer}></View>
 
-        <View style={styles.spacer}></View>
+          <Text style={styles.summary}>{stateSummaryText}</Text>
 
-        <Text style={styles.summary}>
-          {stateSummaryText}
-        </Text>
-
-        <View style={styles.statusArea}>
-          <Text style={styles.statusIcon}>
-            {stateStatusIcon}
-          </Text>
+          <View style={styles.statusArea}>
+            <Text style={styles.statusIcon}>{stateStatusIcon}</Text>
+          </View>
         </View>
-      </View>
-      {
-        stateIsActive &&
-        <View style={styles.contentContainer}>
-          {children}
-        </View>
-      }
+        {stateIsActive && (
+          <View style={styles.contentContainer}>{children}</View>
+        )}
       </View>
     </View>
   );
@@ -129,8 +123,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   shadow: {
-    backgroundColor: "#000000",
-    shadowOffset: { width: 10, height: 10 },
+    backgroundColor: 'white',
+    shadowOffset: {width: 10, height: 10},
     shadowColor: '#171717',
     shadowOpacity: 0.2,
     shadowRadius: 3,
@@ -138,10 +132,10 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor: BACKGROUND_COLOR_GREY,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     height: HEIGHT,
-    width: "100%",
+    width: '100%',
   },
   contentContainer: {
     backgroundColor: COLOR_BACKGROUND.AccordionItemContent,
@@ -154,35 +148,35 @@ const styles = StyleSheet.create({
   },
   expandIcon: {
     fontSize: 50,
-    alignItems: "center",
-    textAlign: "center",
+    alignItems: 'center',
+    textAlign: 'center',
     height: HEIGHT,
     width: HEIGHT,
   },
   title: {
-    color: "white",
+    color: 'white',
     fontSize: FONT_SIZE,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   spacer: {
     flex: 1,
   },
   summary: {
-    color: "white",
+    color: 'white',
     fontSize: FONT_SIZE,
     paddingRight: 10,
   },
   statusArea: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     height: HEIGHT,
     width: HEIGHT,
   },
   statusIcon: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 40,
-    opacity: 0.5
-  }
+    opacity: 0.5,
+  },
 });
 
 export default AccordionItem;

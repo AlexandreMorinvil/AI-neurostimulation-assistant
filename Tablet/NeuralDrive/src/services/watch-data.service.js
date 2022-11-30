@@ -49,15 +49,8 @@ function makeWatchPoint(watchPointObject) {
 
 async function updateWatchPointDisplayedBuffer() {
 
-  // Determine the amount of points that must be refreshed
-  const retreivedRawPointList = _watchPointsNewRawDataBuffer.splice(0, _watchPointsNewRawDataBuffer.length);
-  const countPointsRefreshed = Math.max(retreivedRawPointList.length, MIN_POINTS_RENEWED_PER_BUFFER_PULL);
-
-  // Generate the new points to diplay
-  let newPointsList = Array(countPointsRefreshed).fill(0);
-  const pointsFromBuffer = retreivedRawPointList;
-  newPointsList.splice(0, pointsFromBuffer.length);
-  newPointsList = newPointsList.concat(pointsFromBuffer);
+  // Retreive the points from the buffer
+  let newPointsList = _watchPointsNewRawDataBuffer.splice(0, _watchPointsNewRawDataBuffer.length);
 
   // Shift the points in the buffer of points to diplay
   _watchPointsRawDataBuffer.splice(0, newPointsList.length);

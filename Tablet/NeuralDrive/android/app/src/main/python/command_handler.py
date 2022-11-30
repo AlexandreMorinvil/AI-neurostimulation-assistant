@@ -45,6 +45,14 @@ class CommandHandler:
             algorithm = self.current_session.algorithm
             position, next_query = algorithm.execute_query(parameters_value_list, tremor_metric)
 
+            # save query
+            if(self.current_save_session):
+                self.current_save_session.querys.append({
+                    'parameters_value_list': arg["parameters_value_list"],
+                    'tremor_metric' : arg["tremor_metric"],
+                    })
+                print(self.current_save_session.querys)
+
             # Response format
             return {
                 "suggested_parameters_list":            json.dumps(next_query)
@@ -66,6 +74,9 @@ class CommandHandler:
                                                                second_parameter_index,
                                                                first_parameter_name, 
                                                                second_parameter_name)
+
+            # Save visualisation
+            self.current_save_session.hashHeatMap = heatmap_base64_jpeg_image
 
             # Response format
             return {
@@ -93,6 +104,8 @@ class CommandHandler:
                 "status" : Session_status.START.value
             }
 
+        elif action == Action.START_SESSION.value:
+            print('stop session')
 
         elif action == Action.SAVE_SESSION_LOCAL.value:
             if(self.current_save_session):
@@ -114,6 +127,17 @@ class CommandHandler:
         elif action == Action.DELETE_SESSIONS.value:
             print('Delete session')
             return delete_sessions_by_ID(arg["listID"])
+        
+        elif action == Action.SAVE_SESSION_LOCAL_TABLET.value:
+            if (self.current_save_session):
+                print('save_session_local_tablet call')
+                self.current_save_session.points = self.stack_watch_data
+                return save_session_local_tablet(self.current_save_session)
+
+        elif action == Action.EXPORT_SESSION_TO_DISTANT_SERVER.value:
+            print(arg["session"])
+            save_exported_session(arg["session"])
+            return True
 
 
 
@@ -126,7 +150,6 @@ class CommandHandler:
     def push_watch_data_in_stack(self, data):
         if(self.current_save_session):
             self.stack_watch_data += data
-            #print(self.stack_watch_data)
             print("push in stack")
 
 

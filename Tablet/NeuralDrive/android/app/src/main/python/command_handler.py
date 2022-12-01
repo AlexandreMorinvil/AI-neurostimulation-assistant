@@ -9,7 +9,7 @@ from command import Session_status
 from algorithm.NeuroAlgorithmPrediction import NeuroAlgorithmPrediction
 from interface.session import Session
 from interface.saveSession import *
-from algorithm.vizualization import generate_heatmap_image
+from algorithm.vizualization import generate_2d_graph_image, generate_heatmap_image
 import numpy as np
 import random
 from interface.watchData import WatchData
@@ -40,7 +40,7 @@ class CommandHandler:
             # Arguments parsing
             parameters_value_list = [int(value) for value in arg["parameters_value_list"]]
             tremor_metric = float(arg["tremor_metric"])
-            
+
             # Handling : Execute query and generate vizualzations
             algorithm = self.current_session.algorithm
             position, next_query = algorithm.execute_query(parameters_value_list, tremor_metric)
@@ -50,6 +50,7 @@ class CommandHandler:
                 self.current_save_session.querys.append({
                     'parameters_value_list': arg["parameters_value_list"],
                     'tremor_metric' : arg["tremor_metric"],
+                    'time': datetime.now().strftime("%H:%M:%S")
                     })
                 print(self.current_save_session.querys)
 
@@ -65,30 +66,34 @@ class CommandHandler:
             second_parameter_index = int(arg["second_parameter"])
             first_parameter_name = str(arg["first_parameter_name"])
             second_parameter_name = str(arg["second_parameter_name"])
-            
+
             # Handling : Generate vizualzations
             algorithm = self.current_session.algorithm
-            heatmap_base64_jpeg_image = generate_heatmap_image(algorithm.ymu, 
+            heatmap_base64_jpeg_image = generate_heatmap_image(algorithm.ymu,
                                                                algorithm.dimensions_list,
                                                                first_parameter_index,
                                                                second_parameter_index,
-                                                               first_parameter_name, 
-                                                               second_parameter_name)
+                                                               second_parameter_name,
+                                                               first_parameter_name)
 
             # Save visualisation
-            self.current_save_session.hashHeatMap = heatmap_base64_jpeg_image
+            self.current_save_session.hashHeatMap = json.dumps(heatmap_base64_jpeg_image)
 
+            graph_2d_base64_jpeg_image = generate_2d_graph_image(algorithm.ymu,
+                                                                 algorithm.dimensions_list,
+                                                                 first_parameter_index,
+                                                                 first_parameter_name)
             # Response format
             return {
                 "heatmap_base64_jpeg_image" :           json.dumps(heatmap_base64_jpeg_image),
-                "parameter_graph_base64_jpeg_image":    "",
+                "parameter_graph_base64_jpeg_image":    json.dumps(graph_2d_base64_jpeg_image)
             }
 
         elif action == Action.RECEIVE_DATA_WATCH.value:
             print(arg["value"])
             if(self.ssid):
                 self.socketIO.emit('message', arg["value"], room=self.ssid)
-    
+
         elif action == Action.START_SESSION.value:
             self.free_stack_watch_data()
             # Arguments parsing
@@ -98,9 +103,9 @@ class CommandHandler:
             self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),str(arg["dimensions"]), 2, [], [])
             self.current_session = Session(1, NeuroAlgorithmPrediction())
             self.current_session.algorithm.generate_space(dimensions)
-            
+
             # Response format
-            return  { 
+            return  {
                 "status" : Session_status.START.value
             }
 

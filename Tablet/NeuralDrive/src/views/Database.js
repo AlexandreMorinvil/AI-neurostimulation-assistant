@@ -82,7 +82,7 @@ const DataBase = () => {
           textColor="black"
           icon={'database-export'}
           onPress={async () => {
-            if (getIsInLocalhostMode()) {
+            if (!getIsInLocalhostMode()) {
               r = await export_local_to_distant();
               setSessions(r);
             }

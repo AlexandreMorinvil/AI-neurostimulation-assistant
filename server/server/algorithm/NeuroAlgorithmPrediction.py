@@ -56,18 +56,18 @@ class NeuroAlgorithmPrediction:
     def execute_query(self, parameters_value_list, BO_reward):
 
         # We will sample the search space randomly for exactly nrnd queries
+        x_chan = self.convert_parameter_values_to_position(parameters_value_list)
         if self.q>=self.nrnd:
             # Find next point (max of acquisition function)
             self.acquisition_map = self.ymu \
                 + self.kappa * np.nan_to_num(np.sqrt(self.ys2)) # UCB acquisition function 
             
             # Select next query 
-            x_chan = self.convert_parameter_values_to_position(parameters_value_list)
-            self.next_query = x_chan    
+            self.next_query = x_chan
             self.P_test[self.q][0] = self.next_query
 
         else:
-            self.P_test[self.q][0] = int(self.order_this[self.q])
+            self.P_test[self.q][0] = x_chan
             self.query_elec = self.P_test[self.q][0]
 
         # SEND THIS TO CLINICIAN
@@ -151,15 +151,17 @@ class NeuroAlgorithmPrediction:
                 self.acquisition_map.reshape(len(self.acquisition_map))
                 == np.max(self.acquisition_map.reshape(len(self.acquisition_map)))
             )
-            print("Next querry = " + str(self.next_query[0][0]))
-            return position, [5, 5] # str(self.next_query[0][0])
+            print("Next querry =", self.convert_position_to_parameter_values(self.next_query[0][0]))
+            return position, self.convert_position_to_parameter_values(self.next_query[0][0]) # str(self.next_query[0][0])
         return position, [0, 0]
 
     def convert_parameter_values_to_position(self, values_list):
         return np.ravel_multi_index(values_list, self.dimensions_list)
 
     def convert_position_to_parameter_values(self, position):
-        return list(np.unravel_index(position, self.dimensions_list))
+        next_query = np.unravel_index(position, self.dimensions_list)
+        # convert next_query to list of type int32
+        return [int(i) for i in next_query]
 
     def __generate_and_store_list_all_positions(self, dimensions_list):
         

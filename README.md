@@ -90,21 +90,22 @@ npx react-native run-android
 <p class="has-line-data" data-line-start="99" data-line-end="100">Ensuite lancer la commande :</p>
 <pre><code class="has-line-data" data-line-start="101" data-line-end="103" class="language-sh">pyinstaller .\NeuralDriveServer.py 
 </code></pre>
-<p class="has-line-data" data-line-start="103" data-line-end="104">Ouvrez le dossier <strong>/dist/NeuralDriveServer/</strong> puis lancer l’executable <strong>NeuralDriveServer.exe</strong></p>
-<p class="has-line-data" data-line-start="105" data-line-end="107"><strong><em>Si vous obtenez une erreur</em></strong> :<br>
+<p class="has-line-data" data-line-start="103" data-line-end="105">Ouvrez le dossier <strong>/dist/NeuralDriveServer/</strong> puis lancer l’executable <strong>NeuralDriveServer.exe</strong><br>
+<img src="https://i.postimg.cc/d1YyztN8/serveur-UI.png" alt="Alt text" title="a title"></p>
+<p class="has-line-data" data-line-start="106" data-line-end="108"><strong><em>Si vous obtenez une erreur</em></strong> :<br>
 Vous pouvez essayer de :</p>
 <ul>
-<li class="has-line-data" data-line-start="107" data-line-end="108">Copier la librairy <strong>/venv/lib/GPY</strong> de votre environement virtuel dans le dossier  <strong>/dist/NeuralDriveServer/</strong>. Cela va écraser le fichier déja present et ca devrais fonctionner.</li>
-<li class="has-line-data" data-line-start="108" data-line-end="110">Desactiver votre anti-virus pour 10 min</li>
+<li class="has-line-data" data-line-start="108" data-line-end="109">Copier la librairy <strong>/venv/lib/GPY</strong> de votre environement virtuel dans le dossier  <strong>/dist/NeuralDriveServer/</strong>. Cela va écraser le fichier déja present et ca devrais fonctionner.</li>
+<li class="has-line-data" data-line-start="109" data-line-end="111">Desactiver votre anti-virus pour 10 min</li>
 </ul>
-<h2 class="code-line" data-line-start=110 data-line-end=111 ><a id="Folder_Structure_110"></a>Folder Structure</h2>
-<p class="has-line-data" data-line-start="111" data-line-end="112">The project follows the following structure</p>
+<h2 class="code-line" data-line-start=111 data-line-end=112 ><a id="Folder_Structure_111"></a>Folder Structure</h2>
+<p class="has-line-data" data-line-start="112" data-line-end="113">The project follows the following structure</p>
 <ul>
-<li class="has-line-data" data-line-start="112" data-line-end="116"><strong>server</strong> :<br>
+<li class="has-line-data" data-line-start="113" data-line-end="117"><strong>server</strong> :<br>
  - server:<br>
   - algorithm: This folder contains the algorithm that was provided by Neuraldrive that does the backend calculations for our application<br>
   - interface:</li>
-<li class="has-line-data" data-line-start="116" data-line-end="128"><strong>Tablet/NeuralDrive</strong> :<br>
+<li class="has-line-data" data-line-start="117" data-line-end="129"><strong>Tablet/NeuralDrive</strong> :<br>
  - android:<br>
  - ios:<br>
  - node_modules:<br>
@@ -116,7 +117,7 @@ Vous pouvez essayer de :</p>
   - services: This folder contains the services of our application that permits us to connect to the backend and setup the patients information<br>
   - styles: This folder contains the information that permits us to setup the colours and aesthetics of the application<br>
   - views: This folder contains the various pages of our application such as the setting page, main page and etc.</li>
-<li class="has-line-data" data-line-start="128" data-line-end="136"><strong>watch_app</strong> :<br>
+<li class="has-line-data" data-line-start="129" data-line-end="137"><strong>watch_app</strong> :<br>
  - AlwaysOnNeuralDrive:<br>
   - app:<br>
    - src/main:<br>
@@ -124,11 +125,11 @@ Vous pouvez essayer de :</p>
     - res: This folders contains all the layout components of the watch application<br>
     - AndroidManifest.xml: This file contains all the permissions to allow the app to use all its features</li>
 </ul>
-<h2 class="code-line" data-line-start=136 data-line-end=137 ><a id="Possibles_issues_136"></a>Possibles issues</h2>
+<h2 class="code-line" data-line-start=137 data-line-end=138 ><a id="Possibles_issues_137"></a>Possibles issues</h2>
 <ul>
-<li class="has-line-data" data-line-start="137" data-line-end="140">If you encounter this error :<br>
+<li class="has-line-data" data-line-start="138" data-line-end="141">If you encounter this error :<br>
 <strong>React-Native: Error: spawnSync adb ENOENT at Object.spawnSync</strong><br>
 while running the command <strong>npx react-native run-android</strong>, the solution is to first run the following command in the same folder:</li>
 </ul>
-<pre><code class="has-line-data" data-line-start="141" data-line-end="143" class="language-sh">adb reverse tcp:<span class="hljs-number">8081</span> tcp:<span class="hljs-number">8081</span>
+<pre><code class="has-line-data" data-line-start="142" data-line-end="144" class="language-sh">adb reverse tcp:<span class="hljs-number">8081</span> tcp:<span class="hljs-number">8081</span>
 </code></pre>

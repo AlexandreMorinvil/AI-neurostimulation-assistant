@@ -83,5 +83,6 @@ def main():
         if command != None:
             response = command_handler.handle_command(command["action"], command["arg"])
         return jsonify({"content": response})
+
         
     socketio.run(app, host='0.0.0.0',allow_unsafe_werkzeug=True)

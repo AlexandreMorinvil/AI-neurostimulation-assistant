@@ -50,6 +50,7 @@ class CommandHandler:
                 self.current_save_session.querys.append({
                     'parameters_value_list': arg["parameters_value_list"],
                     'tremor_metric' : arg["tremor_metric"],
+                    'time': datetime.now().strftime("%H:%M:%S")
                     })
                 print(self.current_save_session.querys)
 

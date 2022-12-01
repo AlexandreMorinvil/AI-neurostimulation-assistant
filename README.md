@@ -65,47 +65,79 @@ Si vous voulez utiliser un <strong>emulateur</strong> réferer vous a la section
 <li class="has-line-data" data-line-start="72" data-line-end="73">In Android Studio, open the <strong>Android Virtual Device Manager</strong> by selecting <strong>Tools &gt; AVD Manager</strong>.</li>
 <li class="has-line-data" data-line-start="73" data-line-end="74">To setup the smartwatch emulator click <strong>Create Virtual Device</strong>.</li>
 <li class="has-line-data" data-line-start="74" data-line-end="75">In the Category pane, <strong>select Wear OS</strong> and <strong>choose a hardware profile</strong>. <strong>Click Next</strong>.</li>
-<li class="has-line-data" data-line-start="75" data-line-end="76">Select a <strong>system image</strong> to download. Select the <strong>image with API Level 30</strong>, and the Target <strong>“Android 11.0 (Wear OS)”</strong>. Click <strong>Next</strong> and then click <strong>Finish</strong>.</li>
-<li class="has-line-data" data-line-start="76" data-line-end="78"></li>
+<li class="has-line-data" data-line-start="75" data-line-end="77">Select a <strong>system image</strong> to download. Select the <strong>image with API Level 30</strong>, and the Target <strong>“Android 11.0 (Wear OS)”</strong>. Click <strong>Next</strong> and then click <strong>Finish</strong>.</li>
 </ul>
-<h3 class="code-line" data-line-start=78 data-line-end=79 ><a id="7__Installer_le_serveur_sur_la_tablette_78"></a>7 - Installer le serveur sur la tablette</h3>
-<p class="has-line-data" data-line-start="79" data-line-end="81">Pour cette section il faudra ouvrir le projet avec <strong>Android Studio</strong> (application tablette /tablet/NeuralDraive/android) et <strong>Visual Studio Code</strong>. Cette etape est relativement difficile et depend de la configuration de chacun.<br>
+<h3 class="code-line" data-line-start=77 data-line-end=78 ><a id="7_Smart_watch_application_77"></a>7 -Smart watch application</h3>
+<p class="has-line-data" data-line-start="78" data-line-end="80">Deploying an app to a watch:<br>
+Enable adb debugging on the watch:</p>
+<ol>
+<li class="has-line-data" data-line-start="80" data-line-end="81">Open the Settings menu on the watch.</li>
+<li class="has-line-data" data-line-start="81" data-line-end="82">Scroll to the bottom of the menu. If no Developer options item is provided, tap System and then About.</li>
+<li class="has-line-data" data-line-start="82" data-line-end="83">Tap the build number 7 times. A dialog will appear confirming that you are now a developer.</li>
+<li class="has-line-data" data-line-start="83" data-line-end="84">From the Settings menu, tap Developer options.</li>
+<li class="has-line-data" data-line-start="84" data-line-end="86">Enable ADB debugging.<br>
+Connect the watch:</li>
+</ol>
+<h5 class="code-line" data-line-start=86 data-line-end=87 ><a id="Debug_Over_WiFi_86"></a>Debug Over Wi-Fi:</h5>
+<ol>
+<li class="has-line-data" data-line-start="87" data-line-end="88">Open the watch’s Settings.</li>
+<li class="has-line-data" data-line-start="88" data-line-end="89">Tap Connectivity &gt; Wi-Fi.</li>
+<li class="has-line-data" data-line-start="89" data-line-end="91">Choose a network and enter its password if necessary.<br>
+Enable Wi-Fi debugging</li>
+<li class="has-line-data" data-line-start="91" data-line-end="92">Open the watch’s Settings.</li>
+<li class="has-line-data" data-line-start="92" data-line-end="93">Tap Developer options &gt; Debug over Wi-Fi.</li>
+<li class="has-line-data" data-line-start="93" data-line-end="95">After a moment the screen will display the watch’s IP address (for example 192.168.1.100).<br>
+On Android Studio</li>
+<li class="has-line-data" data-line-start="95" data-line-end="96">Open the Device Manager</li>
+<li class="has-line-data" data-line-start="96" data-line-end="97">Click on Physical</li>
+<li class="has-line-data" data-line-start="97" data-line-end="98">Click on Pair using Wi-Fi</li>
+<li class="has-line-data" data-line-start="98" data-line-end="99">Click on Pair using pairing code</li>
+<li class="has-line-data" data-line-start="99" data-line-end="101">Pair the watch to Android studio<br>
+(If needed) Connect the debugger to the watch (in a terminal)</li>
+<li class="has-line-data" data-line-start="101" data-line-end="102">Connect your watch and development machine to the same network.</li>
+<li class="has-line-data" data-line-start="102" data-line-end="103">Navigate to your Android/sdk/platform-tools</li>
+<li class="has-line-data" data-line-start="103" data-line-end="107">Connect the debugger to the watch using the watch’s IP address. For example, if the IP address is 192.168.1.100, the adb connect command and its response will look like this (a port number, 5555 is added to the address):<br>
+ - adb connect 192.168.1.100:5555<br>
+ - connected to 192.168.1.100:5555</li>
+</ol>
+<h3 class="code-line" data-line-start=107 data-line-end=108 ><a id="8__Installer_le_serveur_sur_la_tablette_107"></a>8 - Installer le serveur sur la tablette</h3>
+<p class="has-line-data" data-line-start="108" data-line-end="110">Pour cette section il faudra ouvrir le projet avec <strong>Android Studio</strong> (application tablette /tablet/NeuralDraive/android) et <strong>Visual Studio Code</strong>. Cette etape est relativement difficile et depend de la configuration de chacun.<br>
 Dans un terminal VScode :</p>
-<pre><code class="has-line-data" data-line-start="82" data-line-end="85" class="language-sh">git checkout serverTablet
+<pre><code class="has-line-data" data-line-start="111" data-line-end="114" class="language-sh">git checkout serverTablet
 npx react-native run-android
 </code></pre>
-<p class="has-line-data" data-line-start="85" data-line-end="86"><strong>En cas d’erreur de compilation !</strong> :</p>
+<p class="has-line-data" data-line-start="114" data-line-end="115"><strong>En cas d’erreur de compilation !</strong> :</p>
 <ul>
-<li class="has-line-data" data-line-start="86" data-line-end="88">Dans android studio, essayer de vider le projet : file/invalidate cache<br>
+<li class="has-line-data" data-line-start="115" data-line-end="117">Dans android studio, essayer de vider le projet : file/invalidate cache<br>
 <img src="https://i.postimg.cc/4xgbw6Hw/invalidate.png" alt="Alt text" title="a title"></li>
-<li class="has-line-data" data-line-start="88" data-line-end="90">Voir la documentation de <a href="https://chaquo.com/chaquopy/">chaquopy</a> si l’erreur persiste</li>
+<li class="has-line-data" data-line-start="117" data-line-end="119">Voir la documentation de <a href="https://chaquo.com/chaquopy/">chaquopy</a> si l’erreur persiste</li>
 </ul>
-<h4 class="code-line" data-line-start=90 data-line-end=91 ><a id="Metre_a_jour_le_serveur_tablette_90"></a>Metre a jour le serveur tablette</h4>
-<p class="has-line-data" data-line-start="91" data-line-end="93">Le seveur tablette ce retrouve ici :<br>
+<h4 class="code-line" data-line-start=119 data-line-end=120 ><a id="Metre_a_jour_le_serveur_tablette_119"></a>Metre a jour le serveur tablette</h4>
+<p class="has-line-data" data-line-start="120" data-line-end="122">Le seveur tablette ce retrouve ici :<br>
 <img src="https://i.postimg.cc/85WS1myx/serveur-Local.png" alt="Alt text" title="a title"></p>
-<h2 class="code-line" data-line-start=94 data-line-end=95 ><a id="8__Crer_un_fichier_xcutable_du_serveur_94"></a>8 - Créer un fichier éxécutable du serveur</h2>
-<p class="has-line-data" data-line-start="95" data-line-end="96">Dans votre environement virtuel.</p>
-<pre><code class="has-line-data" data-line-start="97" data-line-end="99" class="language-sh">pip install pyinstaller
+<h2 class="code-line" data-line-start=123 data-line-end=124 ><a id="9__Crer_un_fichier_xcutable_du_serveur_123"></a>9 - Créer un fichier éxécutable du serveur</h2>
+<p class="has-line-data" data-line-start="124" data-line-end="125">Dans votre environement virtuel.</p>
+<pre><code class="has-line-data" data-line-start="126" data-line-end="128" class="language-sh">pip install pyinstaller
 </code></pre>
-<p class="has-line-data" data-line-start="99" data-line-end="100">Ensuite lancer la commande :</p>
-<pre><code class="has-line-data" data-line-start="101" data-line-end="103" class="language-sh">pyinstaller .\NeuralDriveServer.py 
+<p class="has-line-data" data-line-start="128" data-line-end="129">Ensuite lancer la commande :</p>
+<pre><code class="has-line-data" data-line-start="130" data-line-end="132" class="language-sh">pyinstaller .\NeuralDriveServer.py 
 </code></pre>
-<p class="has-line-data" data-line-start="103" data-line-end="105">Ouvrez le dossier <strong>/dist/NeuralDriveServer/</strong> puis lancer l’executable <strong>NeuralDriveServer.exe</strong><br>
+<p class="has-line-data" data-line-start="132" data-line-end="134">Ouvrez le dossier <strong>/dist/NeuralDriveServer/</strong> puis lancer l’executable <strong>NeuralDriveServer.exe</strong><br>
 <img src="https://i.postimg.cc/d1YyztN8/serveur-UI.png" alt="Alt text" title="a title"></p>
-<p class="has-line-data" data-line-start="106" data-line-end="108"><strong><em>Si vous obtenez une erreur</em></strong> :<br>
+<p class="has-line-data" data-line-start="135" data-line-end="137"><strong><em>Si vous obtenez une erreur</em></strong> :<br>
 Vous pouvez essayer de :</p>
 <ul>
-<li class="has-line-data" data-line-start="108" data-line-end="109">Copier la librairy <strong>/venv/lib/GPY</strong> de votre environement virtuel dans le dossier  <strong>/dist/NeuralDriveServer/</strong>. Cela va écraser le fichier déja present et ca devrais fonctionner.</li>
-<li class="has-line-data" data-line-start="109" data-line-end="111">Desactiver votre anti-virus pour 10 min</li>
+<li class="has-line-data" data-line-start="137" data-line-end="138">Copier la librairy <strong>/venv/lib/GPY</strong> de votre environement virtuel dans le dossier  <strong>/dist/NeuralDriveServer/</strong>. Cela va écraser le fichier déja present et ca devrais fonctionner.</li>
+<li class="has-line-data" data-line-start="138" data-line-end="140">Desactiver votre anti-virus pour 10 min</li>
 </ul>
-<h2 class="code-line" data-line-start=111 data-line-end=112 ><a id="Folder_Structure_111"></a>Folder Structure</h2>
-<p class="has-line-data" data-line-start="112" data-line-end="113">The project follows the following structure</p>
+<h2 class="code-line" data-line-start=140 data-line-end=141 ><a id="Folder_Structure_140"></a>Folder Structure</h2>
+<p class="has-line-data" data-line-start="141" data-line-end="142">The project follows the following structure</p>
 <ul>
-<li class="has-line-data" data-line-start="113" data-line-end="117"><strong>server</strong> :<br>
+<li class="has-line-data" data-line-start="142" data-line-end="146"><strong>server</strong> :<br>
  - server:<br>
   - algorithm: This folder contains the algorithm that was provided by Neuraldrive that does the backend calculations for our application<br>
   - interface:</li>
-<li class="has-line-data" data-line-start="117" data-line-end="129"><strong>Tablet/NeuralDrive</strong> :<br>
+<li class="has-line-data" data-line-start="146" data-line-end="158"><strong>Tablet/NeuralDrive</strong> :<br>
  - android:<br>
  - ios:<br>
  - node_modules:<br>
@@ -117,7 +149,7 @@ Vous pouvez essayer de :</p>
   - services: This folder contains the services of our application that permits us to connect to the backend and setup the patients information<br>
   - styles: This folder contains the information that permits us to setup the colours and aesthetics of the application<br>
   - views: This folder contains the various pages of our application such as the setting page, main page and etc.</li>
-<li class="has-line-data" data-line-start="129" data-line-end="137"><strong>watch_app</strong> :<br>
+<li class="has-line-data" data-line-start="158" data-line-end="166"><strong>watch_app</strong> :<br>
  - AlwaysOnNeuralDrive:<br>
   - app:<br>
    - src/main:<br>
@@ -125,11 +157,11 @@ Vous pouvez essayer de :</p>
     - res: This folders contains all the layout components of the watch application<br>
     - AndroidManifest.xml: This file contains all the permissions to allow the app to use all its features</li>
 </ul>
-<h2 class="code-line" data-line-start=137 data-line-end=138 ><a id="Possibles_issues_137"></a>Possibles issues</h2>
+<h2 class="code-line" data-line-start=166 data-line-end=167 ><a id="Possibles_issues_166"></a>Possibles issues</h2>
 <ul>
-<li class="has-line-data" data-line-start="138" data-line-end="141">If you encounter this error :<br>
+<li class="has-line-data" data-line-start="167" data-line-end="170">If you encounter this error :<br>
 <strong>React-Native: Error: spawnSync adb ENOENT at Object.spawnSync</strong><br>
 while running the command <strong>npx react-native run-android</strong>, the solution is to first run the following command in the same folder:</li>
 </ul>
-<pre><code class="has-line-data" data-line-start="142" data-line-end="144" class="language-sh">adb reverse tcp:<span class="hljs-number">8081</span> tcp:<span class="hljs-number">8081</span>
+<pre><code class="has-line-data" data-line-start="171" data-line-end="173" class="language-sh">adb reverse tcp:<span class="hljs-number">8081</span> tcp:<span class="hljs-number">8081</span>
 </code></pre>

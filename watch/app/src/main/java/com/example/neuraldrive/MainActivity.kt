@@ -13,10 +13,13 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.getSystemService
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.wear.ambient.AmbientModeSupport
@@ -110,7 +113,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         editor.apply{
             putString("String_IP", ipAddressServer)
         }.apply()
-        Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "IP Address Saved", Toast.LENGTH_SHORT).show()
     }
 
     private fun loadData(){
@@ -120,9 +123,17 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         ipAddressServer = savedIP.toString()
     }
 
-    public override fun onStop() {
-        super.onStop()
-        sensorManager.unregisterListener(this)
+    private fun showHideSettings(view: View){
+        view.visibility = if (view.visibility == View.VISIBLE){
+            View.INVISIBLE
+        } else{
+            View.VISIBLE
+        }
+        if(view.isVisible){
+            binding.showIP.setText(R.string.hide)
+        }else{
+            binding.showIP.setText(R.string.show)
+        }
     }
 
     public override fun onResume() {
@@ -154,6 +165,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
     public override fun onPause() {
         Log.d(TAG, "onPause()")
         super.onPause()
+        sensorManager.unregisterListener(this)
         unregisterReceiver(ambientUpdateBroadcastReceiver)
         activeUpdateJob.cancel()
         ambientUpdateAlarmManager.cancel(ambientUpdatePendingIntent)
@@ -194,14 +206,31 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         binding.appName.text = getString(R.string.app_name)
 
         val ipPart1 = binding.ip1.text
+        ipPart1.filters = arrayOf<InputFilter>(InputFilterMinMax("0", "255"))
         val ipPart2 = binding.ip2.text
+        ipPart2.filters = arrayOf<InputFilter>(InputFilterMinMax("0", "255"))
         val ipPart3 = binding.ip3.text
+        ipPart3.filters = arrayOf<InputFilter>(InputFilterMinMax("0", "255"))
         val ipPart4 = binding.ip4.text
+        ipPart4.filters = arrayOf<InputFilter>(InputFilterMinMax("0", "255"))
 
         binding.setIP.setOnClickListener{
             ipAddressServer = "$ipPart1.$ipPart2.$ipPart3.$ipPart4"
             println(ipAddressServer)
             saveData()
+        }
+
+        binding.showIP.setOnClickListener{
+            showHideSettings(binding.ip1)
+            showHideSettings(binding.ip2)
+            showHideSettings(binding.ip3)
+            showHideSettings(binding.ip4)
+            showHideSettings(binding.dot1)
+            showHideSettings(binding.dot2)
+            showHideSettings(binding.dot3)
+            showHideSettings(binding.setIP)
+            showHideSettings(binding.current)
+            showHideSettings(binding.currentIP)
         }
     }
 
@@ -225,10 +254,12 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
             binding.appName.setTextColor(Color.WHITE)
             binding.setIP.setTextColor(Color.WHITE)
+            binding.showIP.setTextColor(Color.WHITE)
             binding.current.setTextColor(Color.WHITE)
             if (isLowBitAmbient) {
                 binding.appName.paint.isAntiAlias = false
                 binding.setIP.paint.isAntiAlias = false
+                binding.showIP.paint.isAntiAlias = false
             }
             refreshDisplayAndSetNextUpdate()
         }
@@ -246,10 +277,12 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             ambientUpdateAlarmManager.cancel(ambientUpdatePendingIntent)
             binding.appName.setTextColor(Color.CYAN)
             binding.setIP.setTextColor(Color.CYAN)
+            binding.showIP.setTextColor(Color.CYAN)
             binding.current.setTextColor(Color.CYAN)
             if (isLowBitAmbient) {
                 binding.appName.paint.isAntiAlias = true
                 binding.setIP.paint.isAntiAlias = true
+                binding.showIP.paint.isAntiAlias = true
             }
 
             refreshDisplayAndSetNextUpdate()

@@ -60,9 +60,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-  implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-  androidTestImplementation libs.kotlinx.coroutines.test
     androidTestImplementation libs.test.core
     androidTestImplementation libs.test.core.ktx
     androidTestImplementation libs.test.espresso.core
@@ -73,4 +72,16 @@ dependencies {
     androidTestImplementation libs.test.rules
     androidTestImplementation libs.test.uiautomator
     androidTestImplementation libs.com.google.truth
+    androidTestImplementation libs.kotlinx.coroutines.test
+    androidTestImplementation libs.test.core
+    androidTestImplementation libs.test.core.ktx
+    androidTestImplementation libs.test.espresso.core
+    androidTestImplementation libs.test.ext.junit
+    androidTestImplementation libs.test.ext.junit.ktx
+    androidTestImplementation libs.test.ext.truth
+    androidTestImplementation libs.test.runner
+    androidTestImplementation libs.test.rules
+    androidTestImplementation libs.test.uiautomator
+    androidTestImplementation libs.com.google.truth
+    testImplementation 'junit:junit:5.9.1'
 }

@@ -8,5 +8,6 @@
     <string name="dot">.</string>
     <string name="currentIP">0.0.0.0</string>
     <string name="current">Current IP:</string>
-
+    <string name="show">Show IP</string>
+    <string name="hide">Hide IP</string>
 </resources>

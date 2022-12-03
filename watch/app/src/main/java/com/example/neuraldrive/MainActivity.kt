@@ -38,11 +38,9 @@ import okio.IOException
 
 class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider,
     SensorEventListener {
-
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var ambientController: AmbientModeSupport.AmbientController
-
     private lateinit var ambientUpdateAlarmManager: AlarmManager
     private lateinit var ambientUpdatePendingIntent: PendingIntent
     private lateinit var ambientUpdateBroadcastReceiver: BroadcastReceiver
@@ -69,12 +67,8 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
     private var stack = "["
     private var ipAddressServer: String = "0.0.0.0"
 
-
     public override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreate()")
-
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -106,6 +100,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
+    //To save the most recent IP address used
     private fun saveData(){
         binding.currentIP.text = ipAddressServer
         val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
@@ -116,6 +111,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         Toast.makeText(this, "IP Address Saved", Toast.LENGTH_SHORT).show()
     }
 
+    //To set the IP address to the last saved ip address
     private fun loadData(){
         val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
         val savedIP: String? = sharedPreferences.getString("String_IP", null)
@@ -123,6 +119,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         ipAddressServer = savedIP.toString()
     }
 
+    //To hide the IP address settings
     private fun showHideSettings(view: View){
         view.visibility = if (view.visibility == View.VISIBLE){
             View.INVISIBLE
@@ -136,8 +133,8 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         }
     }
 
+    //When the watch is in onResume state
     public override fun onResume() {
-        Log.d(TAG, "onResume()")
         super.onResume()
         if((sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)  != null)and(sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)  != null)) {
             accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -148,9 +145,9 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             //Fail to get
             Log.d("Fail:", doesSensorsExist.toString())
         }
+        //Sending data every 500 ms
         Timer().scheduleAtFixedRate( object : TimerTask() {
             override fun run() {
-                println("IPAddress::$ipAddressServer")
                 if(ipAddressServer!="") {
                     println(stack)
                     sendData()
@@ -162,8 +159,8 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         refreshDisplayAndSetNextUpdate()
     }
 
+    //When the watch is in onPause state
     public override fun onPause() {
-        Log.d(TAG, "onPause()")
         super.onPause()
         sensorManager.unregisterListener(this)
         unregisterReceiver(ambientUpdateBroadcastReceiver)
@@ -171,6 +168,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         ambientUpdateAlarmManager.cancel(ambientUpdatePendingIntent)
     }
 
+    //To refresh the display on ambient mode
     private fun refreshDisplayAndSetNextUpdate() {
         loadDataAndUpdateScreen()
         val instant = Instant.now(clock)
@@ -200,6 +198,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
     private fun Instant.getNextInstantWithInterval(interval: Duration): Instant =
         plus(getDelayToNextInstantWithInterval(interval))
 
+    // To update the screen when something happens
     private fun loadDataAndUpdateScreen() {
         drawCount += 1
 
@@ -234,6 +233,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         }
     }
 
+    //This section is used to control the ambient mode feature
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback = MyAmbientCallback()
 
     private inner class MyAmbientCallback : AmbientModeSupport.AmbientCallback() {
@@ -242,8 +242,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
         override fun onEnterAmbient(ambientDetails: Bundle) {
             super.onEnterAmbient(ambientDetails)
-            Log.d(TAG, "onEnterAmbient()")
-
             isLowBitAmbient =
                 ambientDetails.getBoolean(AmbientModeSupport.EXTRA_LOWBIT_AMBIENT, false)
             doBurnInProtection =
@@ -266,13 +264,10 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
         override fun onUpdateAmbient() {
             super.onUpdateAmbient()
-            Log.d(TAG, "onUpdateAmbient()")
         }
 
         override fun onExitAmbient() {
             super.onExitAmbient()
-            Log.d(TAG, "onExitAmbient()")
-
             /* Clears out Alarms since they are only used in ambient mode. */
             ambientUpdateAlarmManager.cancel(ambientUpdatePendingIntent)
             binding.appName.setTextColor(Color.CYAN)
@@ -289,20 +284,19 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         }
     }
 
+    //To capture the sensor changes as well as the current time and add them to the stack
     @SuppressLint("SimpleDateFormat")
     override fun onSensorChanged(event: SensorEvent?) {
         if (event!!.sensor.type == Sensor.TYPE_ACCELEROMETER){
             accelX = event.values[0]
             accelY = event.values[1]
             accelZ = event.values[2]
-//            Log.d("Accelerometer:", "$accelX,$accelY,$accelZ")
         }
 
         if (event.sensor.type == Sensor.TYPE_GYROSCOPE){
             gyroX = event.values[0]
             gyroY = event.values[1]
             gyroZ = event.values[2]
-//            Log.d("Gyroscope:", "$gyroX,$gyroY,$gyroZ")
         }
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         val currentTime = sdf.format(Date())
@@ -310,6 +304,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         addDataToStack(currentTime ,accelX, accelY, accelZ, gyroX, gyroY, gyroZ)
     }
 
+    //Sensor feature
     override fun onAccuracyChanged(event: Sensor?, p1: Int) = Unit
 
     companion object {
@@ -325,6 +320,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             "com.example.neuraldrive.action.AMBIENT_UPDATE"
     }
 
+    //Creating the data stack
     private fun addDataToStack(currentTime : String, acc_x : Float, acc_y : Float, acc_z : Float, gir_x : Float, gir_y : Float, gir_z : Float){
         val data = "{"+
             "\"time\"" + ":" + "\""+currentTime +"\""+ ","+
@@ -338,6 +334,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         this.stack += data
     }
 
+    //sendData sends http request to the IP address that is entered
     private fun sendData(){
         this.stack = this.stack.dropLast(1)
         this.stack += "]"

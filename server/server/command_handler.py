@@ -41,9 +41,12 @@ class CommandHandler:
             parameters_value_list = [int(value) for value in arg["parameters_value_list"]]
             tremor_metric = float(arg["tremor_metric"])
 
+            # Variables to use
+            algorithm_tremor_value = 1/(1 + tremor_metric)
+
             # Handling : Execute query and generate vizualzations
             algorithm = self.current_session.algorithm
-            position, next_query = algorithm.execute_query(parameters_value_list, tremor_metric)
+            position, next_query = algorithm.execute_query(parameters_value_list, algorithm_tremor_value)
 
             # Response format
             return {
@@ -131,7 +134,7 @@ class CommandHandler:
         if(self.current_save_session):
             self.stack_watch_data += data
             #print(self.stack_watch_data)
-            print("push in stack")
+            # print("push in stack")
 
 
     def free_stack_watch_data(self):

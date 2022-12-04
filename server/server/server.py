@@ -21,7 +21,7 @@ ssid = None
 # Deactivate socket.io logs
 logging.getLogger('socketio').setLevel(logging.ERROR)
 logging.getLogger('engineio').setLevel(logging.ERROR)
-# logging.getLogger('werkzeug').setLevel(logging.ERROR)
+logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
 # Initialize the command handler
 command_handler = CommandHandler(socketio)

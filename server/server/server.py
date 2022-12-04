@@ -21,7 +21,7 @@ ssid = None
 # Deactivate socket.io logs
 logging.getLogger('socketio').setLevel(logging.ERROR)
 logging.getLogger('engineio').setLevel(logging.ERROR)
-logging.getLogger('werkzeug').setLevel(logging.ERROR)
+# logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
 # Initialize the command handler
 command_handler = CommandHandler(socketio)
@@ -61,13 +61,17 @@ def handle_watch_packet(watch_packet):
 def watch_packet() -> Response:
     data = request.data.decode('UTF-8')
     response = "packet accepted" 
-    data= json.loads(data)
-    command_handler.push_watch_data_in_stack(data)
-    
-    print(data)
-    socketio.emit('watch_packet', json.dumps(data), broadcast=True, includde_self=False)
-    return jsonify({"content": response})
+    try:
+        data= json.loads(data)
+        command_handler.push_watch_data_in_stack(data)
 
+        # print(data)
+        socketio.emit('watch_packet', json.dumps(data), broadcast=True, includde_self=False)
+    except Exception as e: 
+        # print(e)
+        print("Watch packet error")
+
+    return jsonify({"content": response})
 
 
 ####################################################################################################

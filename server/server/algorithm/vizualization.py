@@ -39,7 +39,7 @@ def generate_heatmap_image(values_list,
 
     # Generate image
     pic_iobytes = io.BytesIO()
-    plt.savefig(pic_iobytes, format='jpeg')
+    plt.savefig(pic_iobytes, format='png')
     pic_iobytes.seek(0)
     pic_hash = base64.b64encode(pic_iobytes.read())
     
@@ -78,7 +78,7 @@ def generate_2d_graph_image(values_list,
 
     # Generate image
     pic_iobytes = io.BytesIO()
-    plt.savefig(pic_iobytes, format='jpeg')
+    plt.savefig(pic_iobytes, format='png')
     pic_iobytes.seek(0)
     pic_hash = base64.b64encode(pic_iobytes.read())
 

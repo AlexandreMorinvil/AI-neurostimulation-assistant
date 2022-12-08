@@ -1,80 +1,92 @@
+import logging
 import json
+import random
 import signal
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 from flask import jsonify
 from flask.wrappers import Response
 from command_handler import CommandHandler
 import numpy as np
+from interface.watchData import WatchData
 
 
+# Server initializations
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
 CORS(app)
 ssid = None
 
+# Deactivate socket.io logs
+logging.getLogger('socketio').setLevel(logging.ERROR)
+logging.getLogger('engineio').setLevel(logging.ERROR)
+logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
+# Initialize the command handler
 command_handler = CommandHandler(socketio)
 
-signal.signal(signal.SIGINT, command_handler.release)
-signal.signal(signal.SIGTERM, command_handler.release)
+# Server connections global variables
+connections_set = set()
 
+####################################################################################################
+#### Handling the socket connections.
+####################################################################################################
+@socketio.on('connect')
+def handle_connection():
+    connections_set.add(request.sid)
+    print("New User {request.sid} connected.  Current users :", connections_set)
 
-
-users = {}
+####################################################################################################
+#### Handling the socket disconnections.
+####################################################################################################
 @socketio.on('disconnect')
-def on_disconnect():
-    users.pop(request.sid,'No user found')
-    socketio.emit('current_users', users)
-    print("User disconnected!\nThe users are: ", users)
-
-@socketio.on('message')
-def messaging(message, methods=['GET', 'POST']):
-    print('received message: ' + str(message))
-    ssid = request.sid
-    command_handler.ssid = ssid
-    socketio.emit('message', 'reponseVersNoe', room=request.sid)
+def handle_disconnection():
+    connections_set.discard(request.sid)
+    print("User disconnected. Current users : ", connections_set)
 
 ####################################################################################################
-#### Only for debug
+#### Reception of packets from the smart watch from the socket connected to the smart watch and 
+#### transfer the packet to the connected tablets via the socket connection.
 ####################################################################################################
-@app.route("/packet/", methods=["POST", "GET"])
-def packet() -> Response:
-    data = request.data.decode('UTF-8')
-    print(data)
-    response = "packet accepted"
-    socketio.emit('message', '1', room=ssid)
-    return jsonify({"content": response})
-
+@socketio.on('watch_packet')
+def handle_watch_packet(watch_packet):
+    emit('watch_packet', watch_packet, broadcast=True, includde_self=False)
 
 ####################################################################################################
-#### Only for debug
+#### Reception of packets from the smart watch over HTTP and transfer the packet to the connected 
+#### tablets via the socket connection.
 ####################################################################################################
 @app.route("/watch_packet/", methods=["POST", "GET"])
 def watch_packet() -> Response:
     data = request.data.decode('UTF-8')
-    print(len(command_handler.stack_watch_data))
-    if(len(command_handler.stack_watch_data)<50):
-        command_handler.push_watch_data_in_stack(json.loads(data))
-    response = "packet accepted"
-    socketio.emit('message', data, room=ssid)
+    response = "packet accepted" 
+    try:
+        data= json.loads(data)
+        command_handler.push_watch_data_in_stack(data)
+
+        # print(data)
+        socketio.emit('watch_packet', json.dumps(data), broadcast=True, includde_self=False)
+    except Exception as e: 
+        # print(e)
+        print("Watch packet error")
+
     return jsonify({"content": response})
 
 
 ####################################################################################################
-#### Recive command form client
-#### See command enum
+#### Reception and handling of commands from the tablet.
 ####################################################################################################
 @app.route("/command", methods=["POST", "GET"])
 def command() -> Response:
-    data = request.get_json()
-    print(data)
+    command = request.get_json()
     response = None
-    if data != None:
-        response = command_handler.handle_command(data["action"], data["arg"])
+    if command != None:
+        response = command_handler.handle_command(command["action"], command["arg"])
     return jsonify({"content": response})
 
-
+####################################################################################################
+#### Launching the server
+####################################################################################################
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0')

@@ -1,55 +1,42 @@
-// React Native Imports
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-// Drawer Imports
-import {Navigation} from 'react-native-navigation';
-import {NavigationContainer} from '@react-navigation/native';
+import React, {useEffect} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-
-// Icon Imports
+import {NavigationContainer} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-// View Imports
-import HomeScreen from './views/Home';
-import ServerTesting from './views/ServerTesting';
-import SettingsScreen from './views/Settings';
-import Main from './views/Main';
-import WatchTesting from './views/WatchTesting';
-
-// Component Imports
+import {cleanUp, initialize} from './services/app-setup.service';
 import CustomDrawer from './components/CustomDrawer';
-
-// Style Imports
 import * as ColorTheme from './styles/Colors';
+
+import MainView from './views/main.view';
+import SettingsView from './views/settings.view';
+import Database from './views/Database';
 
 // ----------------------------------------------------------------------
 
 const Drawer = createDrawerNavigator();
 
 const App = () => {
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    initialize();
+    return cleanUp;
+  }, []);
+
+  /**
+   * Render
+   */
   return (
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={props => <CustomDrawer {...props} />}
         screenOptions={{
           headerShown: false,
-          drawerBackgroundColor: '#2596be',
-          drawerActiveBackgroundColor: '#2596be',
+          drawerBackgroundColor: ColorTheme.Fruity.Third,
+          drawerActiveBackgroundColor: ColorTheme.Fruity.Second,
           drawerActiveTintColor: '#fff',
-          drawerInactiveTintColor: '#222',
+          drawerInactiveTintColor: ColorTheme.Fruity.Second,
           drawerLabelStyle: {
             marginLeft: -20,
             fontSize: 14,
@@ -58,8 +45,8 @@ const App = () => {
           },
         }}>
         <Drawer.Screen
-          name="DASH BOARD"
-          component={Main}
+          name="Main"
+          component={MainView}
           options={{
             drawerIcon: () => (
               <Ionicons name="grid-outline" size={20} color={'#000'} />
@@ -67,21 +54,17 @@ const App = () => {
           }}
         />
         <Drawer.Screen
-          name="SERVER"
-          component={ServerTesting}
+          name="Settings"
+          component={SettingsView}
           options={{
             drawerIcon: () => (
-              <MaterialCommunityIcons
-                name="test-tube"
-                size={20}
-                color={'#000'}
-              />
+              <Ionicons name="settings-outline" size={20} color={'#000'} />
             ),
           }}
         />
         <Drawer.Screen
-          name="SETTINGS"
-          component={SettingsScreen}
+          name="Database"
+          component={Database}
           options={{
             drawerIcon: () => (
               <Ionicons name="settings-outline" size={20} color={'#000'} />

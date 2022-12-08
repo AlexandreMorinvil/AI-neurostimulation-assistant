@@ -1,0 +1,20 @@
+.idea
+*.iml
+<<<<<<< HEAD
+=======
+.google
+>>>>>>> ab6d0bf5bbc98c12026d2fa3285404e2896b6277
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties

@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
-//apply plugin: "com.chaquo.python"
+// apply plugin: 'com.chaquo.python'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
 
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
@@ -134,26 +135,40 @@ def reactNativeArchitectures() {
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 32
 
     defaultConfig {
         applicationId "com.neuraldrive"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
-        /*ndk{
-            abiFilters "armeabi-v7a", "x86"
-        }
-        python {
-            buildPython "/usr/bin/python3"
-        }
-        sourceSets {
-            main {
-                python.srcDir "src/main/python"
-            }
-        }*/
+
+        // ndk {
+        //     abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        // }
+
+        // python {
+        //     buildPython "python3"
+        //     pip {
+        //         install "gpy"
+        //         install "numpy"
+        //         install "matplotlib"
+        //         install "Flask"
+        //         install "Flask_cors"
+        //         install "flask_socketio"
+        //     }
+        // }
+
+        // sourceSets{
+        //     main{
+        //         python.srcDir "src/main/python"
+        //     }
+        // }
+
+
+
         if (isNewArchitectureEnabled()) {
             // We configure the CMake build only if you decide to opt-in for the New Architecture.
             externalNativeBuild {
@@ -267,6 +282,8 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    implementation project(':react-native-fs')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'

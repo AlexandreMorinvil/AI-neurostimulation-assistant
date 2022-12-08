@@ -25,9 +25,8 @@ const set_session_status = status => {
   mission_status = status;
 };
 
-const start_new_session = () => {
-  console.log('START SESSION');
-  return post_start_new_session();
+const start_new_session = (dimension, n_param) => {
+  return post_start_new_session(dimension, n_param);
 };
 
 // const set_dimension = dimension => {
@@ -60,7 +59,6 @@ const set_old_Y_value = old_y_value => {
 
 session_status = Status.IDLE;
 n_param = 2;
-dimension = 10;
 A = 2;
 B = 0;
 y_value = 0;
@@ -131,8 +129,10 @@ export function Parameters({canvas_ref}) {
                 <Pressable
                   style={styles.button}
                   onPress={async () => {
-                    let status = await start_new_session();
-                    console.log('status = ', status);
+                    canvas_ref.current.current_algorithm.n_param = n_param;
+                    canvas_ref.current.current_algorithm.dimention = dimension;
+
+                    let status = await start_new_session(n_param, dimension);
                     session_status = status;
                     setValue(value => value + 1);
                   }}>
@@ -258,6 +258,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: 'Roboto',
     fontWeight: 'bold',
+    color: 'black',
   },
   button: {
     alignItems: 'center',
@@ -300,9 +301,10 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: 'grey',
+    color: 'black',
     fontSize: 17,
     fontWeight: 'bold',
+    color: 'black',
   },
   box: {
     width: '100%',
@@ -321,7 +323,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 20,
     fontWeight: 'bold',
-
+    color: 'black',
     padding: 5,
   },
   input: {
@@ -333,6 +335,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     fontSize: 35,
     fontWeight: 'bold',
+    color: 'black',
   },
 
   startButton: {
@@ -357,7 +360,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontWeight: 'bold',
     textAlignVertical: 'center',
-    color: 'grey',
+    color: 'black',
     width: '100%',
     textAlign: 'center',
   },

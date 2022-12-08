@@ -7,14 +7,15 @@ import {
   StyleSheet,
   useColorScheme,
   View,
+  Text,
 } from 'react-native';
-import MainModules from '../components/MainModules.js';
 import {get_watch_data} from '../class/http';
 import {
   set_patient_level,
   smartwatch_is_disconnected,
   smartwatch_is_connected,
   get_smartwatch_connected,
+  get_allow_get_watch_data,
 } from '../class/const';
 
 const max_size = 150;
@@ -26,18 +27,22 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-j = 0;
-export function Chart() {
-  //const [position, setPosition] = useState(graph_size);
+const avrageXYZ = (acc_x, acc_y, acc_z) => {
+  return (Math.abs(acc_x) + Math.abs(acc_y) + Math.abs(acc_z)) / 3;
+};
 
-  // const interval = setInterval(async () => {
-  //   watch_data = await get_watch_data();
-  //   if (watch_data) {
-  //     console.log(watch_data[0]);
-  //     this.add_point(watch_data, dataSet);
-  //   }
-  // }, 1000);
-  //console.log('j = ', j);
+const tab_avrageXYZ = tab => {
+  let avrage = 0;
+  for (let i = 0; i < tab.length; i++) {
+    avrage += tab[i];
+  }
+  return avrage / tab.length;
+};
+
+j = 0;
+
+saveData = new Array();
+export function Chart() {
   const graph_size = 500;
   array = new Array(graph_size);
   array.fill(0);
@@ -49,6 +54,8 @@ export function Chart() {
   const [position, setPosition] = useState(graph_size);
   useEffect(() => {
     const interval = setInterval(async () => {
+      //if (false) {
+
       const watch_data = await get_watch_data();
       let temp = watch_data;
       if (temp) {
@@ -58,22 +65,32 @@ export function Chart() {
         for (let i = 0; i < temp.length; i++) {
           if (data.length > graph_size) {
             data.shift();
+            data2.shift();
           }
-          data.push(Number(temp[i].acc_y));
-          temp_array.push(Number(temp[i].acc_y));
+          let avrage = avrageXYZ(
+            Number(temp[i].acc_x),
+            Number(temp[i].acc_y),
+            Number(temp[i].acc_z),
+          );
+          data.push(avrage);
+          //saveData.push(avrage);
+          temp_array.push(avrage);
         }
-        let max = Math.max.apply(null, temp_array);
-        data2.fill(max);
-        set_patient_level(max.toFixed(2));
+        let tab_avrage = tab_avrageXYZ(temp_array);
+        for (let i = 0; i < temp_array.length; i++) {
+          data2.push(tab_avrage);
+        }
+        set_patient_level(tab_avrage.toFixed(2));
       } else {
         smartwatch_is_disconnected();
       }
       j++;
+      //console.log('saveData lenght = ', saveData.length);
       setValue(value => value + 1);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [data, value]);
+  });
 
   return (
     <View style={styles.chartView}>
@@ -83,7 +100,7 @@ export function Chart() {
           data={data}
           //contentInset={contentInset}
           svg={{
-            fill: 'grey',
+            fill: 'black',
             fontSize: 18,
           }}
           numberOfTicks={10}
@@ -98,7 +115,7 @@ export function Chart() {
             },
             {
               data: data2,
-              svg: {stroke: 'red'},
+              svg: {stroke: 'red', strokeWidth: 3},
             },
           ]}
           svg={{stroke: 'black'}}
@@ -116,7 +133,7 @@ export function Chart() {
           return '';
         }}
         contentInset={{left: 10, right: 10}}
-        svg={{fontSize: 18, fill: 'grey'}}
+        svg={{fontSize: 18, fill: 'black'}}
       />
     </View>
   );

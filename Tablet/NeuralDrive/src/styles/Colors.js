@@ -48,7 +48,15 @@ const Custom = {
   Fourth: '#B3756F'
 };
 
-export {Periwinkle, CalmCoastal, Fruity, Sailing, Reef, Custom};
+const Greens = {
+  First: '#62A899',
+  Second: '#68B38D',
+  Third: '#629C6E',
+  Fourth: '#6EB368',
+  Fifth: '#80A862'
+};
+
+export {Periwinkle, CalmCoastal, Fruity, Sailing, Reef, Custom, Greens};
 
 
 

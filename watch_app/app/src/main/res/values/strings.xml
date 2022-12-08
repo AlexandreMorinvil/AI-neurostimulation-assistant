@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">NeuralDrive</string>
-
-    <string name="enable">On</string>
-    <string name="disable">Off</string>
-
-</resources>

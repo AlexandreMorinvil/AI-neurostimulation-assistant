@@ -7,3 +7,4 @@ matplotlib
 gpy
 flask_socketio
 
+# numpy matplotlib gpy flask_socketio

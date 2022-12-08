@@ -1,7 +1,5 @@
 import logging
 import json
-import random
-import signal
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO, emit
@@ -9,7 +7,6 @@ from flask import jsonify
 from flask.wrappers import Response
 from command_handler import CommandHandler
 import numpy as np
-from interface.watchData import WatchData
 
 
 # Server initializations
@@ -64,11 +61,8 @@ def watch_packet() -> Response:
     try:
         data= json.loads(data)
         command_handler.push_watch_data_in_stack(data)
-
-        # print(data)
         socketio.emit('watch_packet', json.dumps(data), broadcast=True, includde_self=False)
     except Exception as e: 
-        # print(e)
         print("Watch packet error")
 
     return jsonify({"content": response})

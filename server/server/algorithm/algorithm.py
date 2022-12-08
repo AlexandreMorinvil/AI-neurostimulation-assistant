@@ -125,7 +125,6 @@ while q < MaxQueries:
     q+=1
 
 # this is a list of what square has been tested and the result obtained
-print(P_test)
 
 #this is an image of what the ground truth is, followed by what BO believes after the search
 # import matplotlib.pyplot as plt

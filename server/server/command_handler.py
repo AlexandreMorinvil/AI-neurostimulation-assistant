@@ -53,7 +53,6 @@ class CommandHandler:
                     'tremor_metric' : arg["tremor_metric"],
                     'time': datetime.now().strftime("%H:%M:%S")
                     })
-                print(self.current_save_session.querys)
 
             # Response format
             return {
@@ -89,7 +88,6 @@ class CommandHandler:
             }
 
         elif action == Action.RECEIVE_DATA_WATCH.value:
-            print(arg["value"])
             if(self.ssid):
                 self.socketIO.emit('message', arg["value"], room=self.ssid)
 
@@ -113,7 +111,6 @@ class CommandHandler:
                 self.current_save_session.points = self.stack_watch_data
                 sessions = save_session_local(self.current_save_session)
                 self.current_save_session = SaveSession(random.randint(0, 1000), random.randint(0, 1000),'10x10', 2, [], [])
-                print(sessions)
                 return  sessions
             else :
                  return get_all_save_sessions()
@@ -126,22 +123,16 @@ class CommandHandler:
             return get_all_save_sessions()
 
         elif action == Action.DELETE_SESSIONS.value:
-            print('Delete session')
             return delete_sessions_by_ID(arg["listID"])
         
         elif action == Action.SAVE_SESSION_LOCAL_TABLET.value:
             if (self.current_save_session):
-                print('save_session_local_tablet call')
                 self.current_save_session.points = self.stack_watch_data
                 return save_session_local_tablet(self.current_save_session)
 
         elif action == Action.EXPORT_SESSION_TO_DISTANT_SERVER.value:
-            print(arg["session"])
             save_exported_session(arg["session"])
             return True
-
-
-
 
     def release(self, *_) -> None:
         if self.current_handler != None:
@@ -151,10 +142,6 @@ class CommandHandler:
     def push_watch_data_in_stack(self, data):
         if(self.current_save_session):
             self.stack_watch_data += data
-            # print(self.stack_watch_data)
-            # print("push in stack")
-
 
     def free_stack_watch_data(self):
         self.stack_watch_data = []
-        print("free stack")

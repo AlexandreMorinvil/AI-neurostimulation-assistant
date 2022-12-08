@@ -45,8 +45,6 @@ def save_session_local_tablet(session):
 
 
 def save_session_local(session):
-    print(' save localy --------------------------')
-    print(session.__dict__)
     json_object = json.dumps(session.__dict__)
     
     with open("storage/"+ str(session.session_id) + ".json", "w") as outfile:
@@ -55,7 +53,6 @@ def save_session_local(session):
     return get_all_save_sessions()
 
 def save_exported_session(session):
-    print(' save localy --------------------------') 
     with open("storage/"+ str(session["session_id"]) + ".json", "w") as outfile:
         outfile.write(json.dumps(session))
 
@@ -77,7 +74,6 @@ def get_all_save_sessions():
                 'parameter_count' : json_object['parameter_count'],
                 'isCheck' : False
                 }
-            print(fileData)
             listSession.append(fileData) 
     return listSession
 
@@ -89,7 +85,6 @@ def get_files():
 def get_session_by_ID(id):
     f = open(SAVE_SESSIONS_PATH+'/'+ str(id) + '.json')
     data = json.load(f)
-    print(data)
     return(data)
 
 def delete_sessions_by_ID(listID):

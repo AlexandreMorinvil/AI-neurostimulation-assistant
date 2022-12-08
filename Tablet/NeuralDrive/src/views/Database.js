@@ -1,13 +1,9 @@
 import React, {useState, useRef} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {ToggleButton} from 'react-native-paper';
 import DialogData from '../components/database/dialogData';
 import {Button, DataTable, Checkbox} from 'react-native-paper';
 import {
-  save_session,
   load_all_sessions_info,
-  // BACKEND_STATUS,
-  // setBackendStatus,
   delete_sessions,
   get_session_info_by_ID,
   export_local_to_distant,
@@ -44,12 +40,6 @@ const DataBase = () => {
     <View style={styles.mainBox}>
       <DialogData ref={dialogRef}></DialogData>
       <View style={styles.toolBox}>
-        {/* <ToggleButton.Row
-          onValueChange={value => setBackendStatus(value)}
-          value={value}>
-          <ToggleButton icon="tablet-android" value={BACKEND_STATUS.LOCAL} />
-          <ToggleButton icon="desktop-tower" value={BACKEND_STATUS.DISTANT} />
-        </ToggleButton.Row> */}
         <Button
           style={styles.button}
           mode="contained"
@@ -58,8 +48,6 @@ const DataBase = () => {
           onPress={async () => {
             r = await load_all_sessions_info();
             setSessions(r);
-            console.log('***********************************');
-            console.log(sessions);
           }}>
           LOAD SESSIONS
         </Button>
@@ -116,7 +104,6 @@ const DataBase = () => {
                     key={session.session_id}
                     onPress={async () => {
                       if (dialogRef) {
-                        console.log('open dialog session', session.session_id);
                         session = await get_session_info_by_ID(
                           session.session_id,
                         );
@@ -129,7 +116,6 @@ const DataBase = () => {
                         status={session.isCheck ? 'checked' : 'unchecked'}
                         onPress={() => {
                           session.isCheck = !session.isCheck;
-                          console.log(`selected session ${session.session_id}`);
                           setValue(value => value + 1);
                         }}
                       />
@@ -167,7 +153,6 @@ const styles = StyleSheet.create({
   mainBox: {
     width: '100%',
     height: '100%',
-    //backgroundColor: 'pink',
     flexDirection: 'column',
     alignContent: 'center',
     alignItems: 'center',
@@ -187,13 +172,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'black',
     color: 'black',
-    //flexBasis: '20%',
     margin: 25,
   },
   toolBox: {
     width: '90%',
     height: '10%',
-    //backgroundColor: 'pink',
     flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',
@@ -202,10 +185,8 @@ const styles = StyleSheet.create({
   tableBox: {
     width: '90%',
     height: '90%',
-    //backgroundColor: 'pink',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    //justifyContent: 'space-between',
   },
   button: {
     alignContent: 'center',
@@ -218,7 +199,6 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    //backgroundColor: 'green',
   },
 });
 

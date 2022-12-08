@@ -4,7 +4,6 @@ import {sendRequest} from './connection-backend.service';
 
 const sendCommand = async command => {
   try {
-    console.log(command);
     const response = await fetch(getBackendUrl() + '/command', {
       method: 'POST',
       headers: {

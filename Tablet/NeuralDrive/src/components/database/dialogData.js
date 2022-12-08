@@ -27,7 +27,6 @@ const DialogData = (props, ref) => {
     }
     setData(new_data);
   };
-  console.log(session);
 
   const hideDialog = () => setVisible(false);
 

@@ -50,14 +50,10 @@ export async function get_session_info_by_ID(id) {
 
 export async function export_local_to_distant() {
   listID = await read_all_sessions_id();
-  console.log(listID);
   for (let id of listID) {
     session = await read_session_by_id(id);
-    console.log(session);
     response = await post_export_session_to_distant_server(session);
-    console.log(response);
   }
-  //delete_session_local();
 }
 /************************************************************** */
 /************************************************************** */
@@ -86,9 +82,7 @@ function write_sessions(session) {
 async function read_all_sessions_id() {
   listFileName = [];
   result = await RNFS.readDir(RNFS.DocumentDirectoryPath + '/storage');
-  console.log('GOT RESULT', result);
   for (let file of result) {
-    console.log(file.name);
     listFileName.push(file.name);
   }
   return listFileName;
@@ -137,7 +131,6 @@ async function delete_session_local(listID) {
 async function get_all_session_info() {
   listInfo = [];
   listFile = await read_all_sessions_id();
-  console.log('list file : ', listFile);
   for (let file of listFile) {
     file = await RNFS.readFile(
       RNFS.DocumentDirectoryPath + '/storage/' + file,

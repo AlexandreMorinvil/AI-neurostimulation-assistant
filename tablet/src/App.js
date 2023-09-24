@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {NavigationContainer} from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {cleanUp, initialize} from './services/app-setup.service';
+import { cleanUp, initialize } from './services/app-setup.service';
 import CustomDrawer from './components/CustomDrawer';
 import * as ColorTheme from './styles/Colors';
 
@@ -16,6 +16,7 @@ import Database from './views/Database';
 const Drawer = createDrawerNavigator();
 
 const App = () => {
+
   /**
    * Effects
    */
@@ -72,7 +73,7 @@ const App = () => {
           }}
         />
       </Drawer.Navigator>
-    </NavigationContainer>
+    </NavigationContainer >
   );
 };
 

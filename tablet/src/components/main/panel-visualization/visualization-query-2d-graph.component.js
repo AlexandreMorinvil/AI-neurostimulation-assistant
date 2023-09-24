@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {LineChart, YAxis, XAxis, Grid} from 'react-native-svg-charts';
+// import {LineChart, YAxis, XAxis, Grid} from 'react-native-svg-charts';
 import {StyleSheet, View} from 'react-native';
 import {get_heat_map_data, get_chosen_param_2D} from '../../../class/const';
 
@@ -61,7 +61,10 @@ export function VizualizationQuery2dGraph() {
   return (
     <View style={styles.chartView}>
       <View style={styles.lineChart}>
-        <YAxis
+        {/* <YAxis
+        
+          // TODO: REIMPLEMENT USING SOMETHING DIFFERENT FROM react-native-svg-chart
+
           style={styles.axis}
           data={dataMean}
           svg={{
@@ -77,15 +80,15 @@ export function VizualizationQuery2dGraph() {
           svg={{stroke: 'black'}}
           contentInset={{top: 20, bottom: 20}}>
           <Grid />
-        </LineChart>
+        </LineChart> */}
       </View>
-      <XAxis
+      {/* <XAxis
         style={{marginHorizontal: '5%', width: '93%'}}
         data={dataMean}
         formatLabel={(value, index) => index}
         contentInset={{left: 10, right: 10}}
         svg={{fontSize: 18, fill: 'grey'}}
-      />
+      /> */}
     </View>
   );
 }

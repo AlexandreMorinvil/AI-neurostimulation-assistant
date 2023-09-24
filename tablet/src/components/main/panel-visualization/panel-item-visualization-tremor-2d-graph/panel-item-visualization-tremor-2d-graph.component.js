@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {LineChart, YAxis, XAxis, Grid} from 'react-native-svg-charts';
+// import {LineChart, YAxis, XAxis, Grid} from 'react-native-svg-charts';
 import {StyleSheet, View} from 'react-native';
 
 import PanelVizualizationItem from '../panel-vizualization-item.component';
@@ -94,6 +94,8 @@ export function PanelItemVizualizationTremor2dGraph() {
     <PanelVizualizationItem title={TITLE_VISUALIZATION}>
       <View style={styles.container}>
         <View style={styles.lineChart}>
+          {/* 
+          // TODO : FIX THIS COMPONENT BY USING SOMETHING DIFFERENT FROM THE 'react-native-svg-chart' LIBRARY
           <YAxis
             style={styles.axis}
             data={Array(COUNT_Y_AXIS_LABEL).fill(0)}
@@ -124,16 +126,16 @@ export function PanelItemVizualizationTremor2dGraph() {
             svg={{stroke: 'black'}}
             contentInset={CONTENT_INSET}>
             <Grid />
-          </LineChart>
+          </LineChart> */}
         </View>
-        <XAxis
+        {/* <XAxis
           style={{marginHorizontal: '3%', marginLeft: '10%', width: '87%'}}
           data={Array(COUNT_X_AXIS_LABEL).fill(0)}
           numberOfTicks={COUNT_X_AXIS_LABEL}
           formatLabel={formatXAxisLabel}
           contentInset={CONTENT_INSET}
           svg={{fontSize: 18, fill: 'black'}}
-        />
+        /> */}
       </View>
     </PanelVizualizationItem>
   );

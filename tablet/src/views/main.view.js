@@ -5,17 +5,6 @@ import {COLOR_BACKGROUND} from '../styles/colors.style.js';
 import PanelControl from '../components/main/panel-control/panel-control.component.js';
 import PanelVizualization from '../components/main/panel-visualization/panel-visualization.component';
 
-/********************* SERVER ON TABLET ****************************/
-/*****************************************************************/
-/*****************************************************************/
-
-import {NativeModules} from 'react-native';
-const {CalendarModule} = NativeModules;
-CalendarModule.createCalendarEvent();
-
-/*****************************************************************/
-/*****************************************************************/
-
 const MainView = () => {
   /**
    * States

@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, Dimensions, StyleSheet } from 'react-native';
-
-// import * as socketService from '../services/socket.service.ts';
-import { socketService } from '../services/socket.service.ts';
+import { useState } from 'react';
+import { View, Dimensions, StyleSheet } from 'react-native';
 
 import { COLOR_BACKGROUND } from '../styles/colors.style.js';
 import PanelControl from '../components/main/panel-control/panel-control.component.js';
 import PanelVizualization from '../components/main/panel-visualization/panel-visualization.component';
-import { Button } from 'react-native-paper';
 
 const MainView = () => {
   /**
@@ -26,22 +22,6 @@ const MainView = () => {
     setstateIsOrientationHorizontal(screenWidth > screenHeight);
   };
 
-  const initializeSocket = () => {
-    console.log('Got inside the function in the component');
-    // socketService.testFunction()
-    socketService.testFunction()
-
-
-  };
-
-  /**
-   * Effects
-   */
-  useEffect(() => {
-    initializeSocket();
-  }, []);
-
-
   /**
    * Render
    */
@@ -59,15 +39,6 @@ const MainView = () => {
       </View>
       <View style={styles.vizualizationPanelArea}>
         <PanelVizualization />
-      </View>
-      <View style={styles.vizualizationPanelArea}>
-        <Text style={styles.testArea}> {"HERE IS A TEXT EXAMPLE"} </Text>
-        <Button 
-          style={styles.testButton}
-          onPress={() => { socketService.send() }}
-        >
-          <Text> {"HERE IS A BUTTON"} </Text> 
-        </Button>
       </View>
     </View>
   );
@@ -96,13 +67,6 @@ const styles = StyleSheet.create({
     minWidth: 500,
     minHeight: 500,
   },
-  testArea: {
-    backgroundColor: 'red',
-  },
-  testButton: {
-    backgroundColor: 'pink',
-    margin: 20,
-  }
 });
 
 export default MainView;

@@ -12,10 +12,10 @@ abstract class TcpClientSocket {
   abstract onConnection(): void
   abstract onData(data: string | Buffer): void
   abstract onError(error: Error): void
+
   onClose(): void {
     this.close();
   }
-
 
   close(): void {
     this.socket?.destroy();
@@ -23,17 +23,10 @@ abstract class TcpClientSocket {
   }
 
   connect(): void {
-    try {
-      this.socket = TcpSocket.createConnection(
-        this.connectionOptions, 
-        () => { this.onConnection() }
-      );
+      this.socket = TcpSocket.createConnection(this.connectionOptions, () => { this.onConnection() });
       (this.socket as EventEmitter).on('data', (data) => { this.onData(data) });
       (this.socket as EventEmitter).on('error', (error) => { this.onError(error) });
       (this.socket as EventEmitter).on('close', () => { this.onClose() });
-    } catch(error: unknown) {
-
-    }
   }
 
   public send(data: string | Buffer): void {
@@ -46,10 +39,8 @@ class SmartwatchSocket extends TcpClientSocket {
     super()
     this.connectionOptions = {
       port: 9000,         // 9000,
-      host: '192.168.0.170' // '192.168.0.170',
+      host: '192.168.0.100' // '192.168.0.170',
     };
-
-    
 
     this.socket = new TcpSocket.Socket();
   }

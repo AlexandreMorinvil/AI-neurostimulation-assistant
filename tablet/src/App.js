@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { cleanUp, initialize } from './services/app-setup.service';
-import CustomDrawer from './components/CustomDrawer';
 import * as ColorTheme from './styles/Colors';
 
 import MainView from './views/main.view';
@@ -30,7 +29,6 @@ const App = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        drawerContent={props => <CustomDrawer {...props} />}
         screenOptions={{
           headerShown: false,
           drawerActiveBackgroundColor: ColorTheme.Fruity.Second,

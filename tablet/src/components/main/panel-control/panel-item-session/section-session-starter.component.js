@@ -1,7 +1,9 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-paper';
-import {Stopwatch} from 'react-native-stopwatch-timer';
+
+// TODO: Use another component for the timer since this one causes an error
+import {Stopwatch} from 'react-native-stopwatch-timer'; 
 
 import {postStartNewSession} from '../../../../services/http-request.service';
 import * as problemDimensionTypeService from '../../../../services/problem-dimension-type.service';
@@ -27,11 +29,12 @@ const SectionSessionStarter = () => {
     <View style={styles.container}>
       <View style={styles.timerSubSection}>
         <Text style={styles.timerHeaderText}> {TEXT_TIMER_HEADER} </Text>
-        <Stopwatch
+        <Text style={styles.timerHeaderText}> {"TODO"} </Text>
+        {/* <Stopwatch
           start={sessionStarted}
           reset={stopwatchReset}
           options={styles.stopwatchOptions}
-        />
+        /> */}
       </View>
       <Button
         style={styles.button}

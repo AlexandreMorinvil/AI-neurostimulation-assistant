@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">NeuralDrive</string>
-    <string name="connection">Set IP</string>
-
-    <string name="_255">255</string>
-    <string name="dot">.</string>
-    <string name="currentIP">0.0.0.0</string>
-    <string name="current">Current IP:</string>
-    <string name="show">Show IP</string>
-    <string name="hide">Hide IP</string>
+<resources>
+    <string name="app_name">Neurostim AI</string>
+    <string name="sensor_data_service_name">Sensor data transfer</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="ip_address">IP address,\n %1$s</string>
+    <string name="tile_label">Example tile</string>
+    <string name="title_activity_presentation._main">presentation.MainActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="complication_label">Example complication</string>
 </resources>

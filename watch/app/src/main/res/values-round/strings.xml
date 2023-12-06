@@ -1,0 +1,4 @@
+<resources>
+    <string name="ip_address">IP address,\n %1$s</string>
+    <string name="sensor_data_service_name">Sensor data transfer</string>
+</resources>

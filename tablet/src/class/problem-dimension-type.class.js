@@ -1,3 +1,6 @@
+// TODO: Transform into typescript file
+// TODO: Rename the class
+
 import { Parameter } from "./parameter.class";
 
 export class ProblemDimensionType {

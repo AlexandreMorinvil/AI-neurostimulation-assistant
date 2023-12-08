@@ -6,12 +6,8 @@ import { name as appName } from './app.json';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 export default function Main() {
-  const theme = {
-    dark: true,
-    mode: 'exact',
-  };
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider>
       <App />
     </PaperProvider>
   );

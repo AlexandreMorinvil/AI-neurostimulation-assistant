@@ -1,3 +1,5 @@
+// TODO: Reimplement
+
 import {Action, ERROR_CODE, Status} from '../class/actions';
 import {getBackendUrl} from '../services/connection-backend.service';
 import {sendRequest} from './connection-backend.service';

@@ -1,3 +1,6 @@
+
+// TODO: Delete this file when the code will be ready to be adapted
+
 export const Action = {
   START_SESSION: 'START_SESSION',
   CONNECT_WATCH: 'CONNECT_WATCH',

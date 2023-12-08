@@ -1,3 +1,6 @@
+// TODO: Transform into typescript file
+// TODO: Rename the class
+
 const REFUSAL_REASON_ABOVE_MAX = (maximum) => `The maximum value is ${maximum}.`;
 const REFUSAL_REASON_BELOW_MIN = (minimum) => `The minimum value is ${minimum}.`;
 const REFUSAL_REASON_WHOLE_NUMBER = "The value must be a whole number.";

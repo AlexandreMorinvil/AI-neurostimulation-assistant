@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -9,7 +9,7 @@ import * as ColorTheme from './styles/Colors';
 import MainView from './views/main.view';
 import SettingsView from './views/settings.view';
 import Database from './views/Database';
-import TestView from './views/test.view';
+import TestView from './.dev/debug.view';
 
 const Drawer = createDrawerNavigator();
 
@@ -70,7 +70,7 @@ const App = () => {
         />
 
         <Drawer.Screen
-          name="Tests"
+          name="Debug and tests"
           component={TestView}
           options={{
             drawerIcon: () => (

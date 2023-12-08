@@ -23,6 +23,7 @@
     "@react-navigation/drawer": "^6.5.0",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.8.0",
+    "@realm/react": "^0.6.2",
     "@testing-library/react-native": "^11.5.0",
     "eslint-plugin-react": "^7.31.8",
     "package.json": "^0.0.0",
@@ -36,6 +37,7 @@
     "react-native-fontawesome": "^7.0.0",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.6.1",
+    "react-native-get-random-values": "^1.10.0",
     "react-native-indicators": "^0.17.0",
     "react-native-ionicons": "^4.6.5",
     "react-native-linear-gradient": "^2.6.2",
@@ -50,6 +52,7 @@
     "react-native-tcp-socket": "^6.0.6",
     "react-native-vector-icons": "^10.0.0",
     "react-native-webview": "^11.23.1",
+    "realm": "^12.3.1",
     "rxjs": "^7.5.7",
     "socket.io-client": "^4.5.3",
     "to-fast-properties": "^4.0.0"

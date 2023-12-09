@@ -22,8 +22,7 @@ export default class SmartWatchPacketParser extends TcpSocketPacketParser {
     /**
      * Extract the string of one packet item.
      * 
-     * @param decodedString 
-     * @param startIndex 
+     * @param decodedString
      * @returns An array of strings with the content of all the packet items from the input string.
      */
     private extractPacketItems(decodedString: string): Array<string> {

@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-import { socketService } from './test-socket.service';
 import * as databaseTestService from './test-database.service';
+
+import { smartWatchService } from 'src/services/smartWatchService';
 
 import { Button } from 'react-native-paper';
 
@@ -10,36 +11,52 @@ const TestView = () => {
   /**
    * States
    */
+  const [stateIsConnected, setStateIsConnected] = useState(smartWatchService.isConnected);
 
   /**
    * Functions
    */
-  const initializeSocket = () => {
-    console.log('Got inside the function in the component');
-    socketService.testFunction()
-  };
+  const updateConnectionStatus = (isConnected: boolean) => {
+    setStateIsConnected(isConnected);
+  }
 
   /**
    * Effects
    */
-  useEffect(() => {
-    initializeSocket();
+  useEffect(() => {    
+    // Subscriptions
+    const subscription = smartWatchService.subscribeToConnectionStatus(
+      updateConnectionStatus
+    );
+    
+    // Cleanup
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
   }, []);
+
 
   /**
    * Render
    */
   return (
       <View>
-        <Text style={styles.testArea}> {"HERE IS A TEXT EXAMPLE"} </Text>
+        <Text style={styles.testArea}> {"Is smart watch connected: " + stateIsConnected } </Text>
 
         <Button 
           style={styles.testButton}
-          onPress={() => { 
-            socketService.send("HERE IS A TEXT EXAMPLE") }}
+          onPress={() => { smartWatchService.connect() }}
         >
-          <Text> {"Socket Test"} </Text> 
+          <Text> {"Connect to Smartwatch"} </Text> 
         </Button>
+
+        <Button 
+          style={styles.testButton}
+          onPress={() => { smartWatchService.destroy() }}
+        >
+          <Text> {"Disconnect from Smartwatch"} </Text> 
+        </Button>
+
 
         <Button 
           style={styles.testButton}

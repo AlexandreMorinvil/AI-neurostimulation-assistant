@@ -1,6 +1,6 @@
-import PacketItem from '@class/socket/PacketItem';
-import SmartwatchSocketClient from '@class/socket/SmartwatchSocketClient';
-import Service from '@class/Service';
+import { PacketItem } from '@class/socket/PacketItem';
+import { SmartwatchSocketClient } from '@class/socket/SmartwatchSocketClient';
+import { Service } from '@class/Service';
 import { Subscription } from 'rxjs';
 
 // TODO: Transfer points to the data point service

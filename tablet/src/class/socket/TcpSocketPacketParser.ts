@@ -1,4 +1,4 @@
-export default abstract class TcpSocketPacketParser {
+export abstract class TcpSocketPacketParser {
 	
 	public abstract parsePacket(buffer : Buffer): any
 

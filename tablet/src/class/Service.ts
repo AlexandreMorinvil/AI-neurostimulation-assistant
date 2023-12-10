@@ -1,4 +1,4 @@
-export default interface Service {
-    initialize: () => void;
-    destroy: () => void;
+export interface Service {
+  initialize: () => void;
+  destroy: () => void;
 }

@@ -3,7 +3,7 @@ import TcpSocket from 'react-native-tcp-socket';
 import { ConnectionOptions } from 'react-native-tcp-socket/lib/types/Socket';
 import { Subject, Subscription } from "rxjs";
 
-export default abstract class TcpSocketClient {
+export abstract class TcpSocketClient {
 
   protected socket: TcpSocket.Socket | null = null;
   protected connectionOptions: ConnectionOptions = { port: 9000 };

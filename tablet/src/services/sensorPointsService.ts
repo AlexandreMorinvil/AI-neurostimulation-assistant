@@ -1,11 +1,11 @@
-import Service from "@class/Service";
-import DataPoint from "@class/dataPoint/DataPoint";
+import { Service } from "@class/Service";
+import { SensorPoint } from "@class/dataPoint/SensorPoint";
 
 class DataPointsService implements Service {
   destroy(): void { }
   initialize(): void { }
 
-  handleSmartwatchData(dataPoint: DataPoint): void {
+  handleSmartwatchData(dataPoint: Array<SensorPoint>): void {
     console.log(`message:`, dataPoint);
   }
 }

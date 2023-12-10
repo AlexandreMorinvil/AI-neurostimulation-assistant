@@ -5,23 +5,20 @@ import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePo
 enum PakcetItemType {
   ACCELEROMETER = 'ACCELEROMETER',
   GYROSCOPE = 'GYROSCOPE',
+  UNKNOWN = 'UNKNOWN',
 }
 
 export class PacketItem {
-
-  static readonly PakcetItemType = PakcetItemType;
 
   type!: string;
   payload!: SensorPoint | null;
 
   constructor(type: string, payload: Array<string>) {
+    
+    // Assign the packet item type.
+    this.type = (type in PakcetItemType) ? type: PakcetItemType.UNKNOWN;
 
-    // Refuse the packet item if it has an unknown type.
-    if (!(type in PakcetItemType))
-      throw new Error(`Unknown packet type received from smartwatch: ${type}`);
-
-    // Assign the packet item type and payload.
-    this.type = type;
+    // Assign the packet payload
     switch (this.type) {
       case PakcetItemType.ACCELEROMETER:
         this.payload = SmartwatchAccelerometerPoint.createFromStringArray(payload);
@@ -35,5 +32,9 @@ export class PacketItem {
         this.payload = null;
         break;
     }
+  }
+
+  containsSensorPoint(): boolean {
+    return this.type !== PakcetItemType.UNKNOWN;
   }
 }

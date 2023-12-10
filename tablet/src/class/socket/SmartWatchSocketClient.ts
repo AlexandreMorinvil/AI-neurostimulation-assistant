@@ -22,7 +22,7 @@ export class SmartwatchSocketClient extends TcpSocketClient {
   }
 
   destroy(): void {
-    clearTimeout(this.pingIntervalId);
+    this.stopMonitoringConnection();
     super.destroy();
   }
 
@@ -81,7 +81,7 @@ export class SmartwatchSocketClient extends TcpSocketClient {
 
   protected onClose(): void {
     console.log('Connection to smartwatch aborted');
-    clearTimeout(this.pingIntervalId);
+    this.stopMonitoringConnection();
   }
 
   private monitorConnection(): void {
@@ -90,5 +90,9 @@ export class SmartwatchSocketClient extends TcpSocketClient {
 
   private ping(): void {
     this.send('PING');
+  }
+
+  private stopMonitoringConnection(): void {
+    clearTimeout(this.pingIntervalId);
   }
 }

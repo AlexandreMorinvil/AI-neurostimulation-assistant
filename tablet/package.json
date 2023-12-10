@@ -51,7 +51,6 @@
     "react-native-swiper": "^1.6.0",
     "react-native-tcp-socket": "^6.0.6",
     "react-native-vector-icons": "^10.0.0",
-    "react-native-webview": "^11.23.1",
     "realm": "^12.3.1",
     "rxjs": "^7.5.7",
     "socket.io-client": "^4.5.3",

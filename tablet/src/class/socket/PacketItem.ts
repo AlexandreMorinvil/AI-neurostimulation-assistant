@@ -1,4 +1,3 @@
-import { SensorPoint } from "@class/dataPoint/SensorPoint";
 import { SmartwatchAccelerometerPoint } from "@class/dataPoint/SmartwatchAccelerometerPoint";
 import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePoint";
 
@@ -10,8 +9,10 @@ enum PakcetItemType {
 
 export class PacketItem {
 
+  static readonly PakcetItemType = PakcetItemType;
+
   type!: string;
-  payload!: SensorPoint | null;
+  payload!: unknown;
 
   constructor(type: string, payload: Array<string>) {
     
@@ -34,7 +35,11 @@ export class PacketItem {
     }
   }
 
-  containsSensorPoint(): boolean {
-    return this.type !== PakcetItemType.UNKNOWN;
+  containsAccelerometerPoint(): boolean {
+    return this.type !== PakcetItemType.ACCELEROMETER;
+  }
+
+  containsGyroscopePoint(): boolean {
+    return this.type !== PakcetItemType.GYROSCOPE;
   }
 }

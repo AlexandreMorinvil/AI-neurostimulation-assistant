@@ -8,10 +8,10 @@ export abstract class TcpSocketClient {
   protected socket: TcpSocket.Socket | null = null;
   protected connectionOptions: ConnectionOptions = { port: 9000 };
   
+  protected abstract onClose(): void
   protected abstract onConnection(): void
   protected abstract onData(data: string | Buffer): void
   protected abstract onError(error: Error): void
-  protected abstract onClose(): void
   
   private connectionStatusSubject: Subject<boolean> = new Subject();
 
@@ -27,15 +27,12 @@ export abstract class TcpSocketClient {
         this.socket = socket;
         this.onConnection();
         this.connectionStatusSubject.next(this.isConnected);
+        (this.socket as EventEmitter).on('close', () => { this.onClose() });
         (this.socket as EventEmitter).on('data', (data) => { this.onData(data) });
         (this.socket as EventEmitter).on('error', (error) => { 
           this.onError(error) 
           this.destroy();
         });
-        (this.socket as EventEmitter).on('close', () => {
-            this.onClose();
-          }
-        );
       }
     );
   }
@@ -50,7 +47,7 @@ export abstract class TcpSocketClient {
     this.socket?.write(data);
   }
 
-  subscribeToConnectionStatus(callback: (connectionStatus: boolean) => void): Subscription  {
+  subscribeToConnectionStatus(callback: (connectionStatus: boolean) => void): Subscription {
     return this.connectionStatusSubject.subscribe(callback);
   }
 }

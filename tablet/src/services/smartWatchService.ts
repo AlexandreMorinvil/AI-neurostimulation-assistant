@@ -13,7 +13,12 @@ class SmartwatchService implements Service {
   private clientSocket: SmartwatchSocketClient = new SmartwatchSocketClient();
 
   constructor() {
-    this.clientSocket.subscribeToSensorPoints(sensorPointsService.handleSmartwatchData);
+    this.clientSocket.subscribeToAccelerometerPoints(
+      sensorPointsService.handleSmartwatchAccelerometerPoints
+    );
+    this.clientSocket.subscribeToGyroscopePoints(
+      sensorPointsService.handleSmartwatchGyroscopePoints
+    );
   }
 
   connect(): void {

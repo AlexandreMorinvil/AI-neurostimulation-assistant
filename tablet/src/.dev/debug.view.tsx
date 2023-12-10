@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
 
 import * as databaseTestService from './test-database.service';
-
 import { smartwatchService } from 'src/services/smartwatchService';
 
-import { Button } from 'react-native-paper';
+import { AccelerometerPointsSummary } from './SensorPointsSummary';
 
 const TestView = () => {
   /**
@@ -24,17 +24,9 @@ const TestView = () => {
    * Effects
    */
   useEffect(() => {    
-    // Subscriptions
-    const subscription = smartwatchService.subscribeToConnectionStatus(
-      updateConnectionStatus
-    );
-    
-    // Cleanup
-    return function cleanup() {
-      subscription.unsubscribe()
-    }
+    const subscription = smartwatchService.subscribeToConnectionStatus(updateConnectionStatus);
+    return () => { subscription.unsubscribe() }
   }, []);
-
 
   /**
    * Render
@@ -99,6 +91,10 @@ const TestView = () => {
         >
           <Text> {"Generate Unique ID"} </Text> 
         </Button>
+
+        <View style={styles.graphArea}>
+          <AccelerometerPointsSummary />
+        </View>
       </View>
   );
 };
@@ -111,6 +107,13 @@ const styles = StyleSheet.create({
   testButton: {
     backgroundColor: 'pink',
     margin: 20,
+  },
+
+  graphArea: {
+    height: 400,
+    width: 400,
+    backgroundColor: 'lightgrey',
+    padding: 30,
   }
 });
 

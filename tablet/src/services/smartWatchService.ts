@@ -13,12 +13,16 @@ class SmartwatchService implements Service {
   private clientSocket: SmartwatchSocketClient = new SmartwatchSocketClient();
 
   constructor() {
-    this.clientSocket.subscribeToAccelerometerPoints(
-      sensorPointsService.handleSmartwatchAccelerometerPoints
-    );
-    this.clientSocket.subscribeToGyroscopePoints(
-      sensorPointsService.handleSmartwatchGyroscopePoints
-    );
+    this.clientSocket.subscribeToAccelerometerPoints((accelerometerPointsPoints) => { 
+      sensorPointsService.handleSmartwatchAccelerometerPoints(accelerometerPointsPoints);
+    });
+    this.clientSocket.subscribeToGyroscopePoints((gyroscopePoints) => { 
+      sensorPointsService.handleSmartwatchGyroscopePoints(gyroscopePoints);
+    });
+  }
+
+  get isConnected() {
+    return this.clientSocket.isConnected;
   }
 
   connect(): void {
@@ -35,10 +39,6 @@ class SmartwatchService implements Service {
 
   subscribeToConnectionStatus(callback: (connectionStatus: boolean) => void): Subscription {
     return this.clientSocket.subscribeToConnectionStatus(callback);
-  }
-
-  get isConnected() {
-    return this.clientSocket.isConnected;
   }
 }
 

@@ -1,11 +1,12 @@
 import { Service } from "@class/Service";
+import { SensorPointsAccumulator } from "@class/dataPoint/SensorPointsAccumulator";
 import { SmartwatchAccelerometerPoint } from "@class/dataPoint/SmartwatchAccelerometerPoint";
 import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePoint";
 
 class SensorPointsService implements Service {
 
-  // TODO: Implement the logic for the gyroscope points
-  accelerometerPoints: Array<SmartwatchAccelerometerPoint> = [];
+  accelerometerPointsAccumulator: SensorPointsAccumulator = new SensorPointsAccumulator();
+  gyroscopePointsAccumulator: SensorPointsAccumulator = new SensorPointsAccumulator();
 
   constructor() {
     // TODO: Add the subscription of the sessions service
@@ -13,15 +14,18 @@ class SensorPointsService implements Service {
 
   destroy(): void { }
 
+  handleSmartwatchAccelerometerPoints(
+    accelerometerPoints: Array<SmartwatchAccelerometerPoint>): void {
+    this.accelerometerPointsAccumulator.add(accelerometerPoints);
+    console.log(`Accelerometer point received`);
+  }
+
+  handleSmartwatchGyroscopePoints(gyroscopePoints: Array<SmartwatchGyroscopePoint>): void {
+    this.gyroscopePointsAccumulator.add(gyroscopePoints);
+    console.log(`Gyroscope point received`);
+  }
+
   initialize(): void { }
-
-  handleSmartwatchAccelerometerPoints(dataPoints: Array<SmartwatchAccelerometerPoint>): void {
-    console.log(`Accelerometer point(s):`, dataPoints);
-  }
-
-  handleSmartwatchGyroscopePoints(dataPoints: Array<SmartwatchGyroscopePoint>): void {
-    console.log(`Gyroscope point(s):`, dataPoints);
-  }
 }
 
 const sensorPointsService = new SensorPointsService();

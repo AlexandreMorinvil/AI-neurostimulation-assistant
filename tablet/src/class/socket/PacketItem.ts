@@ -1,6 +1,6 @@
 import DataPoint from "@class/dataPoint/DataPoint";
-import SmartWatchAccelerometerDataPoint from "@class/dataPoint/SmartWatchAccelerometerDataPoint";
-import SmartWatchGyroscopeDataPoint from "@class/dataPoint/SmartWatchGyroscopeDataPoint";
+import SmartwatchAccelerometerDataPoint from "@class/dataPoint/SmartwatchAccelerometerDataPoint";
+import SmartwatchGyroscopeDataPoint from "@class/dataPoint/SmartwatchGyroscopeDataPoint";
 
 enum PakcetItemType {
     ACCELEROMETER = 'ACCELEROMETER',
@@ -24,11 +24,11 @@ export default class PacketItem {
         this.type = type;
         switch(this.type) {
             case PakcetItemType.ACCELEROMETER:
-                this.payload = SmartWatchAccelerometerDataPoint.createFromStringArray(payload);
+                this.payload = SmartwatchAccelerometerDataPoint.createFromStringArray(payload);
                 break;
 
             case PakcetItemType.GYROSCOPE:
-                this.payload = SmartWatchGyroscopeDataPoint.createFromStringArray(payload);
+                this.payload = SmartwatchGyroscopeDataPoint.createFromStringArray(payload);
                 break;
 
             default:

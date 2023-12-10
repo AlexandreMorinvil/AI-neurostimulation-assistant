@@ -1,5 +1,5 @@
 import PacketItem from '@class/socket/PacketItem';
-import SmartWatchSocketClient from '@class/socket/SmartWatchSocketClient'
+import SmartwatchSocketClient from '@class/socket/SmartwatchSocketClient';
 import Service from '@class/Service';
 import { Subscription } from 'rxjs';
 
@@ -9,12 +9,12 @@ import { Subscription } from 'rxjs';
 // TODO: Properly handle the initialization : Attempt socket creation and on failure retry periodically
 // TODO: Properly handle the destruction : Destroy the socket and stop trying to reconnect periodically
 
-class SmartWatchService implements Service {
+class SmartwatchService implements Service {
 
-  private clientSocket: SmartWatchSocketClient = new SmartWatchSocketClient();
+  private clientSocket: SmartwatchSocketClient = new SmartwatchSocketClient();
 
   constructor() {
-    this.clientSocket.subscribeToDataStatus((pakcetItems: Array<PacketItem>) => {
+    this.clientSocket.subscribeToData((pakcetItems: Array<PacketItem>) => {
       console.log(`message:`, pakcetItems);
     });
   }
@@ -40,5 +40,5 @@ class SmartWatchService implements Service {
   }
 }
 
-const smartWatchService = new SmartWatchService()
-export { smartWatchService }
+const smartwatchService = new SmartwatchService()
+export { smartwatchService }

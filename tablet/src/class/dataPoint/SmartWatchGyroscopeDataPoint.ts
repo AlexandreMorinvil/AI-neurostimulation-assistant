@@ -1,6 +1,6 @@
 import DataPoint from "./DataPoint";
 
-export default class SmartWatchGyroscopeDataPoint extends DataPoint {
+export default class SmartwatchGyroscopeDataPoint extends DataPoint {
 
     rotationX!: number;
     rotationY!: number; 
@@ -15,6 +15,6 @@ export default class SmartWatchGyroscopeDataPoint extends DataPoint {
     }
 
     static createFromStringArray(parameters: Array<string>) {
-        return new SmartWatchGyroscopeDataPoint(parameters.map((value) => Number(value)));
+        return new SmartwatchGyroscopeDataPoint(parameters.map((value) => Number(value)));
     }
 }

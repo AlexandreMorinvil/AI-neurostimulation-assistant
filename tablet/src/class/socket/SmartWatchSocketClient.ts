@@ -1,5 +1,5 @@
 import TcpSocketClient from '@class/socket/TcpSocketClient'
-import SmartWatchPacketParser from './SmartWatchPacketParser';
+import SmartwatchPacketParser from './SmartwatchPacketParser';
 import PacketItem from './PacketItem';
 import { Subject, Subscription } from 'rxjs';
 
@@ -7,7 +7,7 @@ export default class SmartwatchSocket extends TcpSocketClient {
 	
 	private dataSubject: Subject<Array<PacketItem>> = new Subject();
 	private pingIntervalId!: NodeJS.Timeout;
-	private smartWatchPacketParser: SmartWatchPacketParser = new SmartWatchPacketParser();
+	private SmartwatchPacketParser: SmartwatchPacketParser = new SmartwatchPacketParser();
 
 	constructor() {
 		super()
@@ -22,7 +22,7 @@ export default class SmartwatchSocket extends TcpSocketClient {
     super.destroy();
   }
 
-  subscribeToDataStatus(callback: (pakcetItems: Array<PacketItem>) => void): Subscription  {
+  subscribeToData(callback: (pakcetItems: Array<PacketItem>) => void): Subscription  {
     return this.dataSubject.subscribe(callback);
   }
 
@@ -33,7 +33,7 @@ export default class SmartwatchSocket extends TcpSocketClient {
 	}
 
 	protected onData(data: string | Buffer): void {
-		const receivedPakcetItems = this.smartWatchPacketParser.parsePacket(data);
+		const receivedPakcetItems = this.SmartwatchPacketParser.parsePacket(data);
     if (receivedPakcetItems.length > 0)
 		  this.dataSubject.next(receivedPakcetItems);
 	}

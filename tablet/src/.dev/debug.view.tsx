@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 
 import * as databaseTestService from './test-database.service';
 
-import { smartWatchService } from 'src/services/smartWatchService';
+import { smartwatchService } from 'src/services/smartwatchService';
 
 import { Button } from 'react-native-paper';
 
@@ -11,7 +11,7 @@ const TestView = () => {
   /**
    * States
    */
-  const [stateIsConnected, setStateIsConnected] = useState(smartWatchService.isConnected);
+  const [stateIsConnected, setStateIsConnected] = useState(smartwatchService.isConnected);
 
   /**
    * Functions
@@ -25,7 +25,7 @@ const TestView = () => {
    */
   useEffect(() => {    
     // Subscriptions
-    const subscription = smartWatchService.subscribeToConnectionStatus(
+    const subscription = smartwatchService.subscribeToConnectionStatus(
       updateConnectionStatus
     );
     
@@ -45,14 +45,14 @@ const TestView = () => {
 
         <Button 
           style={styles.testButton}
-          onPress={() => { smartWatchService.connect() }}
+          onPress={() => { smartwatchService.connect() }}
         >
           <Text> {"Connect to Smartwatch"} </Text> 
         </Button>
 
         <Button 
           style={styles.testButton}
-          onPress={() => { smartWatchService.destroy() }}
+          onPress={() => { smartwatchService.destroy() }}
         >
           <Text> {"Disconnect from Smartwatch"} </Text> 
         </Button>

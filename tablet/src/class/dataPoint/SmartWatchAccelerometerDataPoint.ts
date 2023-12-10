@@ -1,6 +1,6 @@
 import DataPoint from "./DataPoint";
 
-export default class SmartWatchAccelerometerDataPoint extends DataPoint {
+export default class SmartwatchAccelerometerDataPoint extends DataPoint {
 
     accelerationX!: number;
     accelerationY!: number; 
@@ -15,6 +15,6 @@ export default class SmartWatchAccelerometerDataPoint extends DataPoint {
     }
 
     static createFromStringArray(parameters: Array<string>) {
-        return new SmartWatchAccelerometerDataPoint(parameters.map((value) => Number(value)));
+        return new SmartwatchAccelerometerDataPoint(parameters.map((value) => Number(value)));
     }
 }

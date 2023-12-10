@@ -1,7 +1,7 @@
 import TcpSocketPacketParser from "./TcpSocketPacketParser";
 import PacketItem from "./PacketItem";
 
-export default class SmartWatchPacketParser extends TcpSocketPacketParser {
+export default class SmartwatchPacketParser extends TcpSocketPacketParser {
 
     /**
      * Parse the packet of a packet received from a smartwatch.

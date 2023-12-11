@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { COLOR_BACKGROUND } from '../../styles/colors.style';
+import { COLOR_BACKGROUND } from '../../styles/colorStyles';
 
 const PanelFrame = (props) => {
 

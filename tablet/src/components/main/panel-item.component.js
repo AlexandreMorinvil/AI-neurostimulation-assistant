@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { COLOR_BACKGROUND } from '../../styles/colors.style.js';
+import { COLOR_BACKGROUND, COLOR_TEXT } from '../../styles/colorStyles.js';
 
+/**
+ * Constants
+ */
 const HEIGHT = 80;
-const FONT_SIZE = 20;
-
-const BACKGROUND_COLOR_BLUE = "#00BCD4";
+const HEADER_FONT_SIZE = 20;
 
 const PanelItem = (props) => {
-
+  
   /**
    * Props
    */
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
 
   },
   headerContainer: {
-    backgroundColor: BACKGROUND_COLOR_BLUE,
+    backgroundColor: COLOR_BACKGROUND.AccordionItemHeader,
     flexDirection: "row",
     alignItems: "center",
     height: HEIGHT,
@@ -109,8 +110,8 @@ const styles = StyleSheet.create({
     width: HEIGHT,
   },
   title: {
-    color: "white",
-    fontSize: FONT_SIZE,
+    color: COLOR_TEXT.AccordionItemHeader,
+    fontSize: HEADER_FONT_SIZE,
     fontWeight: "bold",
   },
   invisible: {

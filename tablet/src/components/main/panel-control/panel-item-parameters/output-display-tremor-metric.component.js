@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import * as tremorPointService from '../../../../services/tremor-point.service';
-import {COLOR_BACKGROUND} from '../../../../styles/colors.style';
+import {COLOR_BACKGROUND} from '../../../../styles/colorStyles';
 
 const TITLE_TREMOR_METRIC = 'Average Tremor';
 const UNIT_TREMOR_METRIC = 'm/s²';

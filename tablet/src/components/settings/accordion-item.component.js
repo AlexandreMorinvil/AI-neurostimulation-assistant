@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {SettingsStatus} from '../../const/settings';
-import {COLOR_BACKGROUND} from '../../styles/colors.style.js';
+import {COLOR_BACKGROUND} from '../../styles/colorStyles.js';
 
 const HEIGHT = 80;
 const FONT_SIZE = 20;

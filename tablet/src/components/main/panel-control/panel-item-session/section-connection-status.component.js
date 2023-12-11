@@ -2,8 +2,7 @@ import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 
 import IndicatorConnection from './indicator-connection.component';
-import {COLOR_BACKGROUND} from '../../../../styles/colors.style';
-import * as connectionBackendService from '../../../../services/connection-backend.service';
+import {COLOR_BACKGROUND} from '../../../../styles/colorStyles';
 import * as connectionWatchService from '../../../../services/connection-watch.service';
 
 const TEXT_CONNECTIONS_HEADER = 'Connections Status';
@@ -23,12 +22,6 @@ const SectionConnectionStatus = props => {
         {' '}
         {TEXT_CONNECTIONS_HEADER}{' '}
       </Text>
-      {/* <IndicatorConnection
-        device={'backend'}
-        checkConnectionFunction={() =>
-          connectionBackendService.getIsConnectedStatus()
-        }
-      /> */}
       <IndicatorConnection
         device={'watch'}
         checkConnectionFunction={() =>

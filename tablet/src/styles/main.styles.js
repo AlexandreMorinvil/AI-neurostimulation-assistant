@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLOR_BACKGROUND } from "./colors.style";
+import { COLOR_BACKGROUND } from "./colorStyles";
 
 export const mainStyles = StyleSheet.create({
   sectionContent: {

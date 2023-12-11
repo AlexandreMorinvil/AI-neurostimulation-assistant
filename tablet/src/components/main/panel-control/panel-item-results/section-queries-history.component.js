@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import * as queryService from "../../../../services/query.service";
-import { COLOR_BACKGROUND } from '../../../../styles/colors.style';
+import { COLOR_BACKGROUND } from '../../../../styles/colorStyles';
 import { Query } from '../../../../class/query.class';
 
 const TITLE_SECTION = "Queries History";

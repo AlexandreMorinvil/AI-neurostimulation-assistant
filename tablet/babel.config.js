@@ -22,6 +22,7 @@ module.exports = {
             '@class': './src/class',
             '@components': './src/components',
             '@service': './src/service',
+            '@styles': './src/styles',
             '@utils': './src/utils',
           },
         },

@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { cleanUp, initialize } from './services/app-setup.service';
-import * as ColorTheme from './styles/Colors';
+import { COLOR_BACKGROUND, COLOR_TEXT } from './styles/colorStyles';
 
 import MainView from './views/main.view';
 import SettingsView from './views/settings.view';
@@ -31,40 +31,59 @@ const App = () => {
       <Drawer.Navigator
         screenOptions={{
           headerShown: false,
-          drawerActiveBackgroundColor: ColorTheme.Fruity.Second,
-          drawerActiveTintColor: '#fff',
-          drawerInactiveTintColor: ColorTheme.Fruity.Second,
+          drawerActiveBackgroundColor: COLOR_BACKGROUND.MenuSelected,
+          drawerActiveTintColor: COLOR_TEXT.DrawerItemSelected,
+          drawerInactiveTintColor: COLOR_TEXT.DrawerItem,
           drawerLabelStyle: {
-            marginLeft: 0,
+            marginLeft: -10,
             fontSize: 20,
             fontFamily: 'Roboto',
             fontWeight: 'bold',
           },
         }}>
+
         <Drawer.Screen
-          name="Main"
+          name="Session Recording"
           component={MainView}
           options={{
-            drawerIcon: () => (
-              <Ionicons name="home" size={25} />
+            drawerItemStyle: { paddingLeft: 10 },
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name="home"
+                color={focused ? COLOR_TEXT.DrawerItemSelected : COLOR_TEXT.DrawerItem}
+                size={size}
+              />
             ),
           }}
         />
+
+        <Drawer.Screen
+          name="Data Management"
+          component={Database}
+          options={{
+            drawerItemStyle: { paddingLeft: 10 },
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name='analytics'
+                color={focused ? COLOR_TEXT.DrawerItemSelected : COLOR_TEXT.DrawerItem}
+                size={size}
+              />
+            ),
+          }}
+        />
+
+
         <Drawer.Screen
           name="Settings"
           component={SettingsView}
           options={{
-            drawerIcon: () => (
-              <Ionicons name="settings-outline" size={25} />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name="Data"
-          component={Database}
-          options={{
-            drawerIcon: () => (
-              <Ionicons name='analytics' size={25} />
+            drawerItemStyle: { paddingLeft: 10 },
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name="settings-outline"
+                color={focused ? COLOR_TEXT.DrawerItemSelected : COLOR_TEXT.DrawerItem}
+                size={size}
+              />
             ),
           }}
         />
@@ -73,8 +92,13 @@ const App = () => {
           name="Debug and tests"
           component={TestView}
           options={{
-            drawerIcon: () => (
-              <Ionicons name="code-working" size={25} />
+            drawerItemStyle: { paddingLeft: 10 },
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name="code-working"
+                color={focused ? COLOR_TEXT.DrawerItemSelected : COLOR_TEXT.DrawerItem}
+                size={size}
+              />
             ),
           }}
         />

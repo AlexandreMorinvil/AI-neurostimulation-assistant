@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 
-import { COLOR_BACKGROUND } from '../styles/colors.style.js';
+import { COLOR_BACKGROUND } from '../styles/colorStyles.js';
 import PanelControl from '../components/main/panel-control/panel-control.component.js';
 import PanelVizualization from '../components/main/panel-visualization/panel-visualization.component';
 

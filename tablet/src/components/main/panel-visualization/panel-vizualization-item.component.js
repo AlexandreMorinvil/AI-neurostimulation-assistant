@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { COLOR_BACKGROUND } from '../../../styles/colors.style.js';
+import { COLOR_BACKGROUND } from '../../../styles/colorStyles.js';
 
 const HEIGHT = 80;
 const FONT_SIZE = 20;

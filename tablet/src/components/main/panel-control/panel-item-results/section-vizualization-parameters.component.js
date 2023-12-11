@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 
 import * as queryVizualizationService from '../../../../services/query-vizualization.service';
-import {COLOR_BACKGROUND} from '../../../../styles/colors.style';
+import {COLOR_BACKGROUND} from '../../../../styles/colorStyles';
 
 const TITLE_VIZUALIZATION_PARAMETER = 'Vizualization Parameter';
 

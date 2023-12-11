@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View } from "react-native";
 import { BarIndicator } from 'react-native-indicators';
 import { Text } from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 const IndicatorConnection = ({ device, checkConnectionFunction }) => {
   const [connectionStatus, setConnectionStatus] = React.useState(
@@ -35,6 +37,7 @@ const IndicatorConnection = ({ device, checkConnectionFunction }) => {
         size={20}
         style={{ flex: 0.1, paddingRight: 20 }}
       />
+      <Ionicons name="watch" size={25} />
       <View style={styles.spacer} />
       <Text adjustsFontSizeToFit={true}>
         {connectionStatus}

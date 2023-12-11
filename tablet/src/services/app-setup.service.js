@@ -3,6 +3,7 @@ import * as patientService from "./patient.service";
 import * as problemDimensionTypeService from "./problem-dimension-type.service";
 import * as tremorPointService from "./tremor-point.service";
 import * as watchDataService from "./watch-data.service";
+import { networkService } from "./networkService";
 import { sensorPointsService } from "./sensorPointsService";
 import { smartwatchService } from "./smartwatchService";
 import { sessionService } from "./sessionService";
@@ -11,6 +12,7 @@ export function cleanUp() {
   smartwatchService.destroy();
   sensorPointsService.destroy();
   sessionService.destroy();
+  networkService.destroy();
 
   connectionBackendService.cleanUp();
   tremorPointService.cleanUp();
@@ -18,6 +20,7 @@ export function cleanUp() {
 }
 
 export function initialize() {
+  networkService.initialize();
   sessionService.initialize();
   sensorPointsService.initialize();
   smartwatchService.initialize();

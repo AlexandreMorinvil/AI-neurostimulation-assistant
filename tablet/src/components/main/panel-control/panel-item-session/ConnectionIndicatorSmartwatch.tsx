@@ -32,7 +32,7 @@ export const SmartWatchConnectionIndicator = (props: Props) => {
       setIsConnected(isConnected);
     });
     return () => { subscription.unsubscribe() };
-  }, [])
+  }, []);
 
   /**
    * Render

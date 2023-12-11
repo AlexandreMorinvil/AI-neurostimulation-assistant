@@ -1,9 +1,9 @@
 // Code adapted from https://github.com/michaeljstevens/react-native-stopwatch-timer/
 
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
-import { formatTimeString } from '../../../utils/timeFormat';
+import { formatTimeString } from '@utils/timeFormat';
 
 class Stopwatch extends Component {
   static propTypes = {

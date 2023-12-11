@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 
 import InputQueryParameter from './input-query-parameter.component';
 import OutputDisplayTremorMetric from './output-display-tremor-metric.component';
-import PanelItem from '../../panel-item.component';
+import PanelItem from '../../../utils/container/AccordionContainer';
 
 import {mainStyles} from '../../../../styles/main.styles';
 import MessageBubble from '../../../message-bubble.component';

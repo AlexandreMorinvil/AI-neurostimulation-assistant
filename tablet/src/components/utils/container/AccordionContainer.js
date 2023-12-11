@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { COLOR_BACKGROUND, COLOR_TEXT } from '../../styles/colorStyles.js';
+import { COLOR_BACKGROUND, COLOR_TEXT } from '../../../styles/colorStyles.js';
 
 /**
  * Constants

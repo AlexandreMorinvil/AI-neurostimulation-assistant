@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import ItemContentVizualizationParamters from "./section-vizualization-parameters.component";
-import PanelItem from '../../panel-item.component';
+import PanelItem from '../../../utils/container/AccordionContainer';
 import SectionQuriesHistory from './section-queries-history.component';
 
 const ITEM_TITLE = "Query Results";

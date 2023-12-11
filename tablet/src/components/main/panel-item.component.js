@@ -33,8 +33,10 @@ const PanelItem = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.shadow}>
-        <View style={styles.headerContainer}>
-
+        <View style={[
+          styles.headerContainer, 
+          !stateIsActive ? styles.closedHeaderContainer: null
+        ]}>
           <TouchableOpacity
             style={styles.expandIconArea}
             onPress={handleToggleIsActive}
@@ -72,8 +74,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 3,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderRadius: 20,
+
   },
   headerContainer: {
     backgroundColor: BACKGROUND_COLOR_BLUE,
@@ -81,6 +83,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: HEIGHT,
     width: "100%",
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+  },
+  closedHeaderContainer: {
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
   },
   contentContainer: {
     backgroundColor: COLOR_BACKGROUND.AccordionItemContent,

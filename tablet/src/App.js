@@ -35,8 +35,8 @@ const App = () => {
           drawerActiveTintColor: '#fff',
           drawerInactiveTintColor: ColorTheme.Fruity.Second,
           drawerLabelStyle: {
-            marginLeft: -20,
-            fontSize: 14,
+            marginLeft: 0,
+            fontSize: 20,
             fontFamily: 'Roboto',
             fontWeight: 'bold',
           },
@@ -46,7 +46,7 @@ const App = () => {
           component={MainView}
           options={{
             drawerIcon: () => (
-              <Ionicons name="grid-outline" size={20} color={'#000'} />
+              <Ionicons name="home" size={25} />
             ),
           }}
         />
@@ -55,16 +55,16 @@ const App = () => {
           component={SettingsView}
           options={{
             drawerIcon: () => (
-              <Ionicons name="settings-outline" size={20} color={'#000'} />
+              <Ionicons name="settings-outline" size={25} />
             ),
           }}
         />
         <Drawer.Screen
-          name="Database"
+          name="Data"
           component={Database}
           options={{
             drawerIcon: () => (
-              <Ionicons name="settings-outline" size={20} color={'#000'} />
+              <Ionicons name='analytics' size={25} />
             ),
           }}
         />
@@ -74,7 +74,7 @@ const App = () => {
           component={TestView}
           options={{
             drawerIcon: () => (
-              <Ionicons name="settings-outline" size={20} color={'#000'} />
+              <Ionicons name="code-working" size={25} />
             ),
           }}
         />

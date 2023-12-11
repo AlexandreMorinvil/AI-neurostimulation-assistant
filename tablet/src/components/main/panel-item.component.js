@@ -67,12 +67,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   shadow: {
-    backgroundColor: "#000000",
     shadowOffset: { width: 10, height: 10 },
     shadowColor: '#171717',
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 3,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   headerContainer: {
     backgroundColor: BACKGROUND_COLOR_BLUE,
@@ -85,6 +86,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_BACKGROUND.AccordionItemContent,
     padding: 25,
     fontSize: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   expandIconArea: {
     height: HEIGHT,

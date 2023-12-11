@@ -23,12 +23,12 @@ const SectionConnectionStatus = props => {
         {' '}
         {TEXT_CONNECTIONS_HEADER}{' '}
       </Text>
-      <IndicatorConnection
+      {/* <IndicatorConnection
         device={'backend'}
         checkConnectionFunction={() =>
           connectionBackendService.getIsConnectedStatus()
         }
-      />
+      /> */}
       <IndicatorConnection
         device={'watch'}
         checkConnectionFunction={() =>

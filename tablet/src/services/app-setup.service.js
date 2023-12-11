@@ -5,10 +5,12 @@ import * as tremorPointService from "./tremor-point.service";
 import * as watchDataService from "./watch-data.service";
 import { sensorPointsService } from "./sensorPointsService";
 import { smartwatchService } from "./smartwatchService";
+import { sessionService } from "./sessionService";
 
 export function cleanUp() {
-  sensorPointsService.destroy();
   smartwatchService.destroy();
+  sensorPointsService.destroy();
+  sessionService.destroy();
 
   connectionBackendService.cleanUp();
   tremorPointService.cleanUp();
@@ -16,6 +18,7 @@ export function cleanUp() {
 }
 
 export function initialize() {
+  sessionService.initialize();
   sensorPointsService.initialize();
   smartwatchService.initialize();
 

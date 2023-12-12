@@ -1,5 +1,5 @@
 import AccordionContainer from '@components/utils/container/AccordionContainer';
-import SectionSessionManager from './SectionSessionManager';
+import { SectionSessionStarter } from './SectionSessionStarter';
 import { SectionConnectionStatus } from './SectionConnectionStatus';
 
 export const BoxSessionManagement = () => {
@@ -8,7 +8,7 @@ export const BoxSessionManagement = () => {
    * Constant
    */
   const TITLE = "Session Management";
-  
+
   /**
    * Render
    */
@@ -18,7 +18,7 @@ export const BoxSessionManagement = () => {
       title={TITLE}
     >
       <SectionConnectionStatus />
-      <SectionSessionManager />
+      <SectionSessionStarter />
     </AccordionContainer>
   );
 };

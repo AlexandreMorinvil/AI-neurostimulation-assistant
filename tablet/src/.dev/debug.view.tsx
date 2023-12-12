@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
@@ -11,30 +10,21 @@ const TestView = () => {
   /**
    * States
    */
-  const [stateIsConnected, setStateIsConnected] = useState(smartwatchService.isConnected);
+
 
   /**
    * Functions
    */
-  const updateConnectionStatus = (isConnected: boolean) => {
-    setStateIsConnected(isConnected);
-  }
 
   /**
    * Effects
    */
-  useEffect(() => {    
-    const subscription = smartwatchService.subscribeToConnectionStatus(updateConnectionStatus);
-    return () => { subscription.unsubscribe() }
-  }, []);
 
   /**
    * Render
    */
   return (
       <View>
-        <Text style={styles.testArea}> {"Is smart watch connected: " + stateIsConnected } </Text>
-
         <Button 
           style={styles.testButton}
           onPress={() => { smartwatchService.connect() }}
@@ -48,7 +38,6 @@ const TestView = () => {
         >
           <Text> {"Disconnect from Smartwatch"} </Text> 
         </Button>
-
 
         <Button 
           style={styles.testButton}
@@ -108,7 +97,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     margin: 20,
   },
-
   graphArea: {
     height: 400,
     width: 400,

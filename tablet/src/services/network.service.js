@@ -6,7 +6,6 @@ export let selfIpAddress = "";
 
 // Event Listeners
 NetInfo.addEventListener((state) => {
-  console.log('NetInfo', state);
   isConnected = state.isConnected;
   selfIpAddress = state.details.ipAddress;
 });

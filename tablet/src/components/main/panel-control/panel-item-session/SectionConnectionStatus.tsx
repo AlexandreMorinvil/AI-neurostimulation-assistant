@@ -15,8 +15,8 @@ export const SectionConnectionStatus = (props: Props) => {
    */
   return (
     <View style={[styles.container, props.style]}>
-        <ConnectionIndicatorNetwork />
-        <SmartWatchConnectionIndicator />
+      <ConnectionIndicatorNetwork />
+      <SmartWatchConnectionIndicator />
     </View>
   );
 };

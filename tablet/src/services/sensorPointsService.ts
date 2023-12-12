@@ -3,6 +3,7 @@ import { SensorPointsAccumulator } from "@class/dataPoint/SensorPointsAccumulato
 import { SmartwatchAccelerometerPoint } from "@class/dataPoint/SmartwatchAccelerometerPoint";
 import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePoint";
 import { sessionService } from "./sessionService";
+import { databaseService } from "./databaseService";
 
 class SensorPointsService implements Service {
 
@@ -14,16 +15,20 @@ class SensorPointsService implements Service {
   handleSmartwatchAccelerometerPoints(
     accelerometerPoints: Array<SmartwatchAccelerometerPoint>): void {
     this.accelerometerPointsAccumulator.add(accelerometerPoints);
-    console.log(`Accelerometer point received`);
     if (sessionService.isSessionInProgress)
-      console.log("TODO: Save point in the database");
+      databaseService.storeSmartwatchAccelerometerPoint(
+        accelerometerPoints,
+        sessionService.getSnapshot(),
+      );
   }
 
   handleSmartwatchGyroscopePoints(gyroscopePoints: Array<SmartwatchGyroscopePoint>): void {
     this.gyroscopePointsAccumulator.add(gyroscopePoints);
-    console.log(`Gyroscope point received`);
     if (sessionService.isSessionInProgress)
-      console.log("TODO: Save point in the database");
+      databaseService.storeSmartwatchGyroscopePoint(
+        gyroscopePoints,
+        sessionService.getSnapshot(),
+      );
   }
 
   initialize(): void { }

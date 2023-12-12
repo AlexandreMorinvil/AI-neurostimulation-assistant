@@ -7,7 +7,7 @@ import {
   post_export_session_to_distant_server,
 } from '../class/http';
 
-import {getIsInLocalhostMode} from '../services/connection-backend.service';
+import {getIsInLocalhostMode} from './connection-backend.service';
 
 var RNFS = require('react-native-fs');
 RNFS.mkdir(RNFS.DocumentDirectoryPath + '/storage');

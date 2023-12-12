@@ -77,6 +77,7 @@ export async function closeRealmDatabase() {
 }
 
 export async function deleteRealmDatabase() {
+  console.log('Database deleted');
   Realm.deleteFile(config);
 }
 

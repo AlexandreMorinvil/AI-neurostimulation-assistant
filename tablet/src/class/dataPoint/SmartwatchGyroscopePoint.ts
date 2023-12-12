@@ -1,6 +1,12 @@
+import { SmartwatchGyroscopePointSchema } from "src/database/sensorPoint/sensorPointSchema";
 import { SensorPoint } from "./SensorPoint";
+import { SessionSnapshot } from "@class/session/SessionSnapshot";
 
 export class SmartwatchGyroscopePoint extends SensorPoint {
+
+  static createFromStringArray(parameters: Array<string>) {
+    return new SmartwatchGyroscopePoint(parameters.map((value) => Number(value)));
+  }
 
   rotationX!: number;
   rotationY!: number;
@@ -26,7 +32,14 @@ export class SmartwatchGyroscopePoint extends SensorPoint {
     return this.cachedMagnitude
   }
 
-  static createFromStringArray(parameters: Array<string>) {
-    return new SmartwatchGyroscopePoint(parameters.map((value) => Number(value)));
+  generateDatabaseEntry(sessionSnapshot?: SessionSnapshot): SmartwatchGyroscopePointSchema {
+    return {
+      sessionId: sessionSnapshot?.sessionId,
+      sessionTime: sessionSnapshot?.sessionTime,
+      timestamp: this.timestamp,
+      rotationX: this.rotationX,
+      rotationY: this.rotationY,
+      rotationZ: this.rotationZ,
+    } as SmartwatchGyroscopePointSchema;
   }
 }

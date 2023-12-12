@@ -1,6 +1,12 @@
+import { SmartWatchAccelerometerPointSchema } from "src/database/sensorPoint/sensorPointSchema";
 import { SensorPoint } from "./SensorPoint";
+import { SessionSnapshot } from "@class/session/SessionSnapshot";
 
 export class SmartwatchAccelerometerPoint extends SensorPoint {
+
+  static createFromStringArray(parameters: Array<string>) {
+    return new SmartwatchAccelerometerPoint(parameters.map((value) => Number(value)));
+  }
 
   accelerationX!: number;
   accelerationY!: number;
@@ -26,7 +32,14 @@ export class SmartwatchAccelerometerPoint extends SensorPoint {
     return this.cachedMagnitude
   }
 
-  static createFromStringArray(parameters: Array<string>) {
-    return new SmartwatchAccelerometerPoint(parameters.map((value) => Number(value)));
+  generateDatabaseEntry(sessionSnapshot?: SessionSnapshot): SmartWatchAccelerometerPointSchema {
+    return {
+      sessionId: sessionSnapshot?.sessionId,
+      sessionTime: sessionSnapshot?.sessionTime,
+      timestamp: this.timestamp,
+      accelerationX: this.accelerationX,
+      accelerationY: this.accelerationY,
+      accelerationZ: this.accelerationZ,
+    } as SmartWatchAccelerometerPointSchema;
   }
 }

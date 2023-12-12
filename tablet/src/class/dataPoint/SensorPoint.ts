@@ -1,3 +1,5 @@
+import { SessionSnapshot } from "@class/session/SessionSnapshot";
+
 export abstract class SensorPoint {
 
   timestamp!: number;  
@@ -7,4 +9,5 @@ export abstract class SensorPoint {
   }
 
   abstract get magnitude(): unknown;
+  abstract generateDatabaseEntry(sessionSnapshot?: SessionSnapshot): unknown;
 } 

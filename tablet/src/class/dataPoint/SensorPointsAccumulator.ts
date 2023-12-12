@@ -27,8 +27,10 @@ export class SensorPointsAccumulator {
   }
 
   private removeOutdatedPoints() {
-    this.sensorPoints = this.sensorPoints.filter((sensorPoint: SensorPoint) => {
-      return !(sensorPoint.timestamp < this.lowerLimitTimestamp); 
+    const lowerLimitTimestamp = this.lowerLimitTimestamp;
+    const cutoffPointIndex = this.sensorPoints.findIndex((sensorPoint: SensorPoint) => {
+      return sensorPoint.timestamp >= lowerLimitTimestamp;
     });
+    this.sensorPoints = this.sensorPoints.splice(cutoffPointIndex);
   }
 } 

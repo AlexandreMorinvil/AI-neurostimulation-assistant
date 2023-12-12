@@ -1,7 +1,7 @@
 import { ScrollView } from 'react-native';
 
 // import PanelItemParameters from "./panel-item-parameters/panel-item-parameters.component";
-import { BoxSessionManagement } from "./panel-item-session/BoxSessionManagement";
+import { BoxSessionManagement } from "./BoxSessionManagement/BoxSessionManagement";
 // import PanelItemResults from "./panel-item-results/panel-item-results.component";
 import PanelFrame from '../panel-frame.component';
 

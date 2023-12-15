@@ -15,20 +15,28 @@ class SensorPointsService implements Service {
   handleSmartwatchAccelerometerPoints(
     accelerometerPoints: Array<SmartwatchAccelerometerPoint>): void {
     this.accelerometerPointsAccumulator.add(accelerometerPoints);
-    if (sessionService.isSessionInProgress)
-      databaseService.storeSmartwatchAccelerometerPoint(
-        accelerometerPoints,
-        sessionService.getSnapshot(),
-      );
+
+    if (sessionService.isSessionInProgress) {
+      const sessionSnapshot = sessionService.getSnapshot();
+      if (sessionSnapshot)
+        databaseService.storeSmartwatchAccelerometerPoint(
+          accelerometerPoints,
+          sessionSnapshot,
+        );
+    }
   }
 
   handleSmartwatchGyroscopePoints(gyroscopePoints: Array<SmartwatchGyroscopePoint>): void {
     this.gyroscopePointsAccumulator.add(gyroscopePoints);
-    if (sessionService.isSessionInProgress)
-      databaseService.storeSmartwatchGyroscopePoint(
-        gyroscopePoints,
-        sessionService.getSnapshot(),
-      );
+
+    if (sessionService.isSessionInProgress) {
+      const sessionSnapshot = sessionService.getSnapshot();
+      if (sessionSnapshot)
+        databaseService.storeSmartwatchGyroscopePoint(
+          gyroscopePoints,
+          sessionSnapshot,
+        );
+    }
   }
 
   initialize(): void { }

@@ -8,13 +8,13 @@ import { SmartwatchGyroscopePointSchema } from "./sensorPointSchema";
 export function createSmartwatchAccelerometerPoints(
   realm: Realm,
   smartwatchAccelerometerPoints: Array<SmartwatchAccelerometerPoint>,
-  sessionSnapshot?: SessionSnapshot,
+  sessionSnapshot: SessionSnapshot,
 ) {
   realm.write(() => {
     smartwatchAccelerometerPoints.forEach((point) => {
       realm.create(
-        SmartWatchAccelerometerPointSchema.schema.name,
-        point.generateDatabaseEntry(sessionSnapshot),
+        SmartWatchAccelerometerPointSchema,
+        SmartWatchAccelerometerPointSchema.generateRecord(point, sessionSnapshot),
       );
     });
   });
@@ -23,13 +23,13 @@ export function createSmartwatchAccelerometerPoints(
 export function createSmartwatcGyroscopePoints(
   realm: Realm,
   smartwatchGyroscopePoints: Array<SmartwatchGyroscopePoint>,
-  sessionSnapshot?: SessionSnapshot,
+  sessionSnapshot: SessionSnapshot,
 ) {
   realm.write(() => {
     smartwatchGyroscopePoints.forEach((point) => {
       realm.create(
-        SmartwatchGyroscopePointSchema.schema.name,
-        point.generateDatabaseEntry(sessionSnapshot),
+        SmartwatchGyroscopePointSchema,
+        SmartwatchGyroscopePointSchema.generateRecord(point, sessionSnapshot),
       );
     })
   });

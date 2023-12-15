@@ -1,6 +1,4 @@
-import { SmartWatchAccelerometerPointSchema } from "src/database/sensorPoint/sensorPointSchema";
 import { SensorPoint } from "./SensorPoint";
-import { SessionSnapshot } from "@class/session/SessionSnapshot";
 
 export class SmartwatchAccelerometerPoint extends SensorPoint {
 
@@ -30,16 +28,5 @@ export class SmartwatchAccelerometerPoint extends SensorPoint {
         this.accelerationZ ** 2
       );
     return this.cachedMagnitude
-  }
-
-  generateDatabaseEntry(sessionSnapshot?: SessionSnapshot): SmartWatchAccelerometerPointSchema {
-    return {
-      sessionId: sessionSnapshot?.sessionId,
-      sessionTime: sessionSnapshot?.sessionTime,
-      timestamp: this.timestamp,
-      accelerationX: this.accelerationX,
-      accelerationY: this.accelerationY,
-      accelerationZ: this.accelerationZ,
-    } as SmartWatchAccelerometerPointSchema;
   }
 }

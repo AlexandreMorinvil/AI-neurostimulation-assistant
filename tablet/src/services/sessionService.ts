@@ -14,7 +14,7 @@ class SessionService implements Service {
   }
 
   get isSessionInProgress(): boolean {
-    return this.activeSession?.isSessionConcluded || false;
+    return (this.activeSession && !this.activeSession.isSessionConcluded) || false;
   }
 
   concludeSession(): void {
@@ -36,6 +36,7 @@ class SessionService implements Service {
     const session = new Session();
     databaseService.createSession(session);
     this.activeSession = session;
+    console.log(this.activeSession, this.isSessionInProgress);
     this.sessionStatusSubject.next(this.isSessionInProgress);
   }
 

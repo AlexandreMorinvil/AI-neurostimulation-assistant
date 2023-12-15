@@ -1,6 +1,4 @@
-import { SmartwatchGyroscopePointSchema } from "src/database/sensorPoint/sensorPointSchema";
 import { SensorPoint } from "./SensorPoint";
-import { SessionSnapshot } from "@class/session/SessionSnapshot";
 
 export class SmartwatchGyroscopePoint extends SensorPoint {
 
@@ -30,16 +28,5 @@ export class SmartwatchGyroscopePoint extends SensorPoint {
         this.rotationZ ** 2
       );
     return this.cachedMagnitude
-  }
-
-  generateDatabaseEntry(sessionSnapshot?: SessionSnapshot): SmartwatchGyroscopePointSchema {
-    return {
-      sessionId: sessionSnapshot?.sessionId,
-      sessionTime: sessionSnapshot?.sessionTime,
-      timestamp: this.timestamp,
-      rotationX: this.rotationX,
-      rotationY: this.rotationY,
-      rotationZ: this.rotationZ,
-    } as SmartwatchGyroscopePointSchema;
   }
 }

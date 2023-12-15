@@ -1,16 +1,27 @@
+import { RecordedSensorPoint } from "@class/dataPoint/RecordedSensorPoint";
+import { SmartwatchAccelerometerPoint } from "@class/dataPoint/SmartwatchAccelerometerPoint";
+import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePoint";
+import { SessionSnapshot } from "@class/session/SessionSnapshot";
 import Realm, { ObjectSchema } from "realm";
 
 /**
  * The 'schemaVersion' of the Realm.Configuration must be incremented when a schema is modified.
  */
 
-export class SmartWatchAccelerometerPointSchema extends
-  Realm.Object<SmartWatchAccelerometerPointSchema> {
-
-  _id?: Realm.BSON.ObjectId;
+export abstract class SensorPointSchema<T> extends Realm.Object<T> {
+  _id!: Realm.BSON.ObjectId;
   sessionId!: Realm.BSON.ObjectId;
-  sessionTime?: number;
+  sessionTime!: number;
   timestamp!: number;
+}
+
+/**
+ * Concrete schemas
+ */
+
+export class SmartWatchAccelerometerPointSchema extends
+  SensorPointSchema<SmartWatchAccelerometerPointSchema> {
+
   accelerationX!: number;
   accelerationY!: number;
   accelerationZ!: number;
@@ -24,7 +35,7 @@ export class SmartWatchAccelerometerPointSchema extends
       },
       sessionId: {
         type: 'objectId',
-        indexed: true, 
+        indexed: true,
       },
       sessionTime: 'int?',
       timestamp: 'int',
@@ -34,15 +45,31 @@ export class SmartWatchAccelerometerPointSchema extends
     },
     primaryKey: '_id',
   };
+
+  static generateRecord(point: SmartwatchAccelerometerPoint, sessionSnapshot: SessionSnapshot):
+    SmartWatchAccelerometerPointSchema {
+    return {
+      sessionId: sessionSnapshot.sessionId,
+      sessionTime: sessionSnapshot.sessionTime,
+      timestamp: point.timestamp,
+      accelerationX: point.accelerationX,
+      accelerationY: point.accelerationY,
+      accelerationZ: point.accelerationZ,
+    } as SmartWatchAccelerometerPointSchema;
+  }
+
+  generateEntity(): RecordedSensorPoint<SmartwatchAccelerometerPoint> {
+    const { timestamp, accelerationX, accelerationY, accelerationZ } = this;
+    return new RecordedSensorPoint<SmartwatchAccelerometerPoint>(
+      new SmartwatchAccelerometerPoint([timestamp, accelerationX, accelerationY, accelerationZ]),
+      new SessionSnapshot(this.sessionId, this.sessionTime),
+    );
+  }
 }
 
 export class SmartwatchGyroscopePointSchema extends
-  Realm.Object<SmartwatchGyroscopePointSchema> {
+  SensorPointSchema<SmartwatchGyroscopePointSchema> {
 
-  _id?: Realm.BSON.ObjectId;
-  sessionId!: Realm.BSON.ObjectId;
-  sessionTime?: number;
-  timestamp!: number;
   rotationX!: number;
   rotationY!: number;
   rotationZ!: number;
@@ -56,7 +83,7 @@ export class SmartwatchGyroscopePointSchema extends
       },
       sessionId: {
         type: 'objectId',
-        indexed: true, 
+        indexed: true,
       },
       sessionTime: 'int?',
       timestamp: 'int',
@@ -66,4 +93,24 @@ export class SmartwatchGyroscopePointSchema extends
     },
     primaryKey: '_id',
   };
+  
+  static generateRecord(point: SmartwatchGyroscopePoint, sessionSnapshot: SessionSnapshot):
+  SmartwatchGyroscopePointSchema {
+    return {
+      sessionId: sessionSnapshot.sessionId,
+      sessionTime: sessionSnapshot.sessionTime,
+      timestamp: point.timestamp,
+      rotationX: point.rotationX,
+      rotationY: point.rotationY,
+      rotationZ: point.rotationZ,
+    } as SmartwatchGyroscopePointSchema;
+  }
+
+  generateEntity(): RecordedSensorPoint<SmartwatchGyroscopePoint> {
+    const { timestamp, rotationX, rotationY, rotationZ } = this;
+    return new RecordedSensorPoint<SmartwatchGyroscopePoint>(
+      new SmartwatchGyroscopePoint([timestamp, rotationX, rotationY, rotationZ]),
+      new SessionSnapshot(this.sessionId, this.sessionTime),
+    );
+  }
 }

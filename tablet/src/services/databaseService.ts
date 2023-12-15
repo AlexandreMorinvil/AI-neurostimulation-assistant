@@ -25,7 +25,7 @@ class DatabaseService implements Service {
   /**
    * Service interface
    */
-  
+
   destroy(): void { }
 
   initialize(): void {
@@ -53,22 +53,22 @@ class DatabaseService implements Service {
 
   storeSmartwatchAccelerometerPoint(
     smartWatchAccelerometerPoints: Array<SmartwatchAccelerometerPoint>,
-    sessionSnapshot?: SessionSnapshot|null): void {
+    sessionSnapshot: SessionSnapshot): void {
     sensorPointQuery.createSmartwatchAccelerometerPoints(
       this.realm,
       smartWatchAccelerometerPoints,
-      sessionSnapshot || undefined,
+      sessionSnapshot,
     );
     console.log("Accelerometer point saved");
   }
 
   storeSmartwatchGyroscopePoint(
     smartWatchGyroscopePoints: Array<SmartwatchGyroscopePoint>,
-    sessionSnapshot?: SessionSnapshot|null): void {
+    sessionSnapshot: SessionSnapshot): void {
     sensorPointQuery.createSmartwatcGyroscopePoints(
       this.realm,
       smartWatchGyroscopePoints,
-      sessionSnapshot || undefined,
+      sessionSnapshot,
     );
     console.log("Gyroscope point saved");
   }

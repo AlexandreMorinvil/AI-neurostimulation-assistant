@@ -6,9 +6,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { cleanUp, initialize } from './services/app-setup.service';
 import { COLOR_BACKGROUND, COLOR_TEXT } from './styles/colorStyles';
 
+import { DataManagementView } from './views/DataManagementView';
 import MainView from './views/main.view';
 import SettingsView from './views/settings.view';
-import Database from './views/Database';
 import TestView from './.dev/debug.view';
 
 const Drawer = createDrawerNavigator();
@@ -59,7 +59,7 @@ const App = () => {
 
         <Drawer.Screen
           name="Data Management"
-          component={Database}
+          component={DataManagementView}
           options={{
             drawerItemStyle: { paddingLeft: 10 },
             drawerIcon: ({ focused, size }) => (
@@ -71,7 +71,6 @@ const App = () => {
             ),
           }}
         />
-
 
         <Drawer.Screen
           name="Settings"

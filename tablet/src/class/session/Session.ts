@@ -1,12 +1,18 @@
 import Realm from "realm";
-import { SessionSchema } from "../../database/session/sessionSchema";
+import { SessionSchema } from "src/database/session/sessionSchema";
 import { SessionSnapshot } from "./SessionSnapshot";
 
 export class Session {
   
-  private _id: Realm.BSON.ObjectId = new Realm.BSON.ObjectId();
-  private _dateStart: Date = new Date();
-  private _dateCompletion: Date | null = null;
+  private _id: Realm.BSON.ObjectId;
+  private _dateStart: Date;
+  private _dateCompletion: Date | null;
+
+  constructor(sessionSchema?: SessionSchema) {
+    this._id = sessionSchema?._id ?? new Realm.BSON.ObjectId();
+    this._dateStart = sessionSchema?.dateStart ?? new Date();
+    this._dateCompletion = sessionSchema?.dateCompletion ?? null;
+  }
   
   get dateStart(): Date {
     return this._dateStart;
@@ -21,7 +27,7 @@ export class Session {
   }
 
   get isSessionConcluded(): boolean {
-    return !Boolean(this.dateCompletion);
+    return Boolean(this.dateCompletion);
   }
   
   get sessionTime(): number {
@@ -36,13 +42,5 @@ export class Session {
 
   getSnapshot(): SessionSnapshot {
     return new SessionSnapshot(this._id, this.sessionTime);
-  }
-
-  generateDatabaseEntry(): SessionSchema {
-    return {
-      _id: this._id,
-      dateStart: this.dateStart,
-      dateCompletion: this.dateCompletion,
-    } as SessionSchema;
   }
 }

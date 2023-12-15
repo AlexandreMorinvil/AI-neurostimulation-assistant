@@ -4,42 +4,34 @@ import { Session } from "@class/session/Session";
 import { SessionSnapshot } from "@class/session/SessionSnapshot";
 import { SmartwatchAccelerometerPoint } from "@class/dataPoint/SmartwatchAccelerometerPoint";
 import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePoint";
-import { 
-  SmartWatchAccelerometerPointSchema, 
-  SmartwatchGyroscopePointSchema, 
-} from "@database/sensorPoint/sensorPointSchema";
-import { SessionSchema } from "@database/session/sessionSchema";
-import * as sessionQuery from "@database/session/sessionQuery";
-import * as sensorPointQuery from "@database/sensorPoint/sensorPointQuery";
+import { realmConfiguration } from "src/database/configuration";
+import * as sessionQuery from "src/database/session/sessionQuery";
+import * as sensorPointQuery from "src/database/sensorPoint/sensorPointQuery";
+import { Subject, Subscription } from "rxjs";
 
 class DatabaseService implements Service {
 
   private realm!: Realm;
+  private sessionsSubscription: Subject<void> = new Subject();
 
   constructor() {
-    const configuration: Realm.Configuration = {
-      deleteRealmIfMigrationNeeded: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
-      schemaVersion: 1,
-      schema: [
-        SessionSchema,
-        SmartWatchAccelerometerPointSchema,
-        SmartwatchGyroscopePointSchema,
-      ],
-    };
-    Realm.open(configuration).then((realm: Realm) => {
-      this.realm = realm;
-    });
+    this.realm = new Realm(realmConfiguration);
+  }
+
+  get isInitialized(): boolean {
+    return Boolean(this.realm);
   }
 
   /**
    * Service interface
    */
+  
+  destroy(): void { }
 
-  destroy(): void {
-    this.realm?.close();
+  initialize(): void {
+    if(this.isInitialized) return;
+    this.realm = new Realm(realmConfiguration);
   }
-
-  initialize(): void { }
 
   /**
    * Database queries 
@@ -47,10 +39,16 @@ class DatabaseService implements Service {
 
   createSession(session: Session): void {
     sessionQuery.createSession(this.realm, session);
+    this.sessionsSubscription.next();
   }
 
   concludeSession(session: Session): void {
     sessionQuery.setSessionAsCompleted(this.realm, session);
+    this.sessionsSubscription.next();
+  }
+
+  getAllSessions(): Array<Session> {
+    return sessionQuery.getAllSessions(this.realm);
   }
 
   storeSmartwatchAccelerometerPoint(
@@ -73,6 +71,13 @@ class DatabaseService implements Service {
       sessionSnapshot || undefined,
     );
     console.log("Gyroscope point saved");
+  }
+
+  /**
+   * Subscriptions
+   */
+  subscribeToSessions(callback: () => void): Subscription {
+    return this.sessionsSubscription.subscribe(callback);
   }
 }
 

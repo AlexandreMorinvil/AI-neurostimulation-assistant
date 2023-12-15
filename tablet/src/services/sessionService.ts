@@ -10,7 +10,7 @@ class SessionService implements Service {
   private sessionStatusSubject: Subject<boolean> = new Subject;
 
   constructor() {
-    // TODO: Verify the database to see if the is an unfinished session to potentially resume.
+    // TODO: Verify the database to see if there is an unfinished session to potentially resume.
   }
 
   get isSessionInProgress(): boolean {

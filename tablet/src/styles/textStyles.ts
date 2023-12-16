@@ -1,13 +1,18 @@
 import { StyleSheet } from "react-native";
+import { COLOR_TEXT } from "./colorStyles";
 
 export const textStyles = StyleSheet.create({
   default: {
-    color: "#777777",
+    color: COLOR_TEXT.default,
   },
   boxText: {
-    color: 'black',
+    color: COLOR_TEXT.default,
+  },
+  buttonText: {
+    color: COLOR_TEXT.button,
   },
   cellText: {
-    fontSize: 18,
+    color: COLOR_TEXT.default,
+    fontSize: 12,
   }
 });

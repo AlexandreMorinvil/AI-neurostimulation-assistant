@@ -1,3 +1,4 @@
+import Realm from "realm";
 import { Service } from "@class/Service";
 import { Session } from "@class/session/Session";
 import { Subject, Subscription } from "rxjs";
@@ -6,11 +7,15 @@ import { SessionSnapshot } from "@class/session/SessionSnapshot";
 
 class SessionService implements Service {
 
-  private activeSession: Session|null = null;
+  activeSession: Session|null = null;
   private sessionStatusSubject: Subject<boolean> = new Subject;
 
   constructor() {
     // TODO: Verify the database to see if there is an unfinished session to potentially resume.
+  }
+
+  get activeSessionId(): Realm.BSON.ObjectId | null {
+    return this.activeSession?.id || null;
   }
 
   get isSessionInProgress(): boolean {
@@ -22,6 +27,10 @@ class SessionService implements Service {
     this.activeSession.conclude();
     databaseService.concludeSession(this.activeSession);
     this.sessionStatusSubject.next(this.isSessionInProgress);
+  }
+
+  correspondsToActiveSession(session: Session): boolean {
+    return  session.id.toString() == sessionService.activeSessionId?.toString()
   }
 
   destroy(): void { }
@@ -36,7 +45,6 @@ class SessionService implements Service {
     const session = new Session();
     databaseService.createSession(session);
     this.activeSession = session;
-    console.log(this.activeSession, this.isSessionInProgress);
     this.sessionStatusSubject.next(this.isSessionInProgress);
   }
 

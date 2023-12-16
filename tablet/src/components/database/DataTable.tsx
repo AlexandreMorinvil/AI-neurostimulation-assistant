@@ -1,9 +1,10 @@
 import { Session } from '@class/session/Session';
-import { boxStyles, textStyles } from 'src/styles';
 import { useEffect, useState } from 'react';
 import { Text, View, ViewStyle } from 'react-native';
 import { DataTable as ReactNativeDataTable } from 'react-native-paper';
+import { boxStyles, textStyles } from 'src/styles';
 import { databaseService } from 'src/services/databaseService';
+import { sessionService } from 'src/services/sessionService';
 
 type Props = {
   style: ViewStyle
@@ -68,6 +69,7 @@ export const DataTable = (props: Props) => {
   }
 
   const getFormattedIsCompleted = (session: Session): string => {
+    if (sessionService.correspondsToActiveSession(session)) return 'Active';
     return session.isSessionConcluded ? 'Complete' : 'Incomplete';
   }
 

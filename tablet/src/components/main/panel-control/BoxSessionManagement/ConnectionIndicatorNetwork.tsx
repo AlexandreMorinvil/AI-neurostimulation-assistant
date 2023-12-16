@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { Text } from 'react-native-paper';
 import { networkService } from 'src/services/networkService';
 import { COLOR_ICON } from '@styles/colorStyles';
+import { textStyles } from '@styles/textStyles';
 
 type Props = {
   iconSize?: number;
@@ -50,7 +51,7 @@ export const ConnectionIndicatorNetwork = (props: Props) => {
       ]}>
         {isConnected ? connectedText : disconnectedText}
       </Text>
-      <Text style={styles.text}>
+      <Text style={[styles.text, textStyles.default]}>
         {deviceName}
       </Text>
     </View>

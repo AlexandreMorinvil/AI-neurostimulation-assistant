@@ -26,6 +26,8 @@ export const COLOR_BUTTON = {
 }
 
 export const COLOR_TEXT = {
+  button: 'black',
+  default: '#555555',
   AccordionItemHeader: 'white',
   DrawerItemSelected: '#FAFAFA',
   DrawerItem: COLOR_GREY_PRIMARY,

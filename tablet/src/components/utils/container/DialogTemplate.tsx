@@ -1,8 +1,9 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 import { useState, useImperativeHandle, forwardRef, Ref } from 'react';
 import { stylesButton } from '@styles/buttonStyles';
 import { IconSource } from 'react-native-paper/lib/typescript/components/Icon';
+import { textStyles } from '@styles/textStyles';
 
 type Props = {
   icon: IconSource,
@@ -49,14 +50,18 @@ export const DialogTemplate = (props: Props | any, ref: Ref<unknown> | undefined
       >
         <View>
           <Dialog.Icon icon={props.icon} />
-          <Dialog.Title style={styles.dialogTitle}>{props.title}</Dialog.Title>
-          <Paragraph style={styles.dialogText}>{props.description} </Paragraph>
+          <Dialog.Title style={[styles.dialogTitle, textStyles.default]}>
+            {props.title}
+          </Dialog.Title>
+          <Paragraph style={[styles.dialogText, textStyles.default]}>
+            {props.description}
+          </Paragraph>
         </View>
 
         <View style={styles.dialogActions}>
           <Button
             style={[
-              props.isFirstButtonHiglighted ? stylesButton.highlighted : stylesButton.normal, 
+              props.isFirstButtonHiglighted ? stylesButton.highlighted : stylesButton.normal,
               styles.button
             ]}
             mode="elevated"
@@ -66,12 +71,12 @@ export const DialogTemplate = (props: Props | any, ref: Ref<unknown> | undefined
               props?.onPressFirstButton();
               hideDialog();
             }}>
-            {props.firstButtonText}
+            <Text style={textStyles.buttonText}>{props.firstButtonText}</Text>
           </Button>
 
           <Button
             style={[
-              props.isSecondButtonHighlighted ? stylesButton.highlighted : stylesButton.normal, 
+              props.isSecondButtonHighlighted ? stylesButton.highlighted : stylesButton.normal,
               styles.button
             ]}
             mode="elevated"
@@ -81,7 +86,7 @@ export const DialogTemplate = (props: Props | any, ref: Ref<unknown> | undefined
               props?.onPressSecondButton();
               hideDialog();
             }}>
-            {props.secondButtonText}
+            <Text style={textStyles.buttonText}>{props.secondButtonText}</Text>
           </Button>
         </View>
       </Dialog>

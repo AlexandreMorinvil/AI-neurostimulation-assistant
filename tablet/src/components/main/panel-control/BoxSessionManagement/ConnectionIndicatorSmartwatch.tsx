@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { Text } from 'react-native-paper';
 import { smartwatchService } from "src/services/smartwatchService";
 import { COLOR_ICON } from '@styles/colorStyles';
+import { textStyles } from '@styles/textStyles';
 
 type Props = {
   iconSize?: number;
@@ -50,7 +51,7 @@ export const SmartWatchConnectionIndicator = (props: Props) => {
       ]}>
         {isConnected ? connectedText : disconnectedText}
       </Text>
-      <Text style={styles.text}>
+      <Text style={[styles.text, textStyles.default]}>
         {deviceName}
       </Text>
     </View>

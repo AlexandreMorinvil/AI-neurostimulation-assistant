@@ -41,21 +41,6 @@ const App = () => {
             fontWeight: 'bold',
           },
         }}>
-          
-                  <Drawer.Screen
-                    name="Data Management"
-                    component={DataManagementView}
-                    options={{
-                      drawerItemStyle: { paddingLeft: 10 },
-                      drawerIcon: ({ focused, size }) => (
-                        <Ionicons
-                          name='analytics'
-                          color={focused ? COLOR_TEXT.DrawerItemSelected : COLOR_TEXT.DrawerItem}
-                          size={size}
-                        />
-                      ),
-                    }}
-                  />
 
         <Drawer.Screen
           name="Session Recording"
@@ -65,6 +50,21 @@ const App = () => {
             drawerIcon: ({ focused, size }) => (
               <Ionicons
                 name="home"
+                color={focused ? COLOR_TEXT.DrawerItemSelected : COLOR_TEXT.DrawerItem}
+                size={size}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Data Management"
+          component={DataManagementView}
+          options={{
+            drawerItemStyle: { paddingLeft: 10 },
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name='analytics'
                 color={focused ? COLOR_TEXT.DrawerItemSelected : COLOR_TEXT.DrawerItem}
                 size={size}
               />

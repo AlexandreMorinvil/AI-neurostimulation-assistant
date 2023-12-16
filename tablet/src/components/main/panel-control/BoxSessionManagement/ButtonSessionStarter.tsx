@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button, Text } from 'react-native-paper';
 import { stylesButton } from '@styles/buttonStyles';
 import { sessionService } from 'src/services/sessionService';
+import { textStyles } from '@styles/textStyles';
 
 export const ButtonSessionStarter = () => {
 
@@ -56,7 +57,7 @@ export const ButtonSessionStarter = () => {
         style={sessionStarted ? stylesButton.important : stylesButton.highlighted}
         onPress={showDialog}
       >
-        <Text variant="labelLarge">
+        <Text style={textStyles.buttonText} variant="labelLarge">
           {sessionStarted ? 'STOP SESSION' : 'START SESSION'}
         </Text>
       </Button>

@@ -22,7 +22,7 @@ export class Session {
     return this._dateCompletion;
   }
 
-  get id() {
+  get id(): Realm.BSON.ObjectId {
     return this._id;
   }
 

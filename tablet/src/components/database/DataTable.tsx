@@ -1,9 +1,15 @@
 import { Session } from '@class/session/Session';
+import { boxStyles, textStyles } from 'src/styles';
 import { useEffect, useState } from 'react';
+import { Text, View, ViewStyle } from 'react-native';
 import { DataTable as ReactNativeDataTable } from 'react-native-paper';
 import { databaseService } from 'src/services/databaseService';
 
-export const DataTable = () => {
+type Props = {
+  style: ViewStyle
+}
+
+export const DataTable = (props: Props) => {
 
   /**
    * Constants
@@ -22,7 +28,7 @@ export const DataTable = () => {
 
   /**
    * States
-  */  
+  */
   const getSortedSessionsList = (): Array<Session> => {
     return databaseService.getAllSessions().sort((a: Session, b: Session) => {
       return a.dateStart.getTime() - b.dateStart.getTime();
@@ -60,7 +66,7 @@ export const DataTable = () => {
       session.dateCompletion.toLocaleDateString(locale, dateFormmatingOptions) :
       NO_VALUE;
   }
- 
+
   const getFormattedIsCompleted = (session: Session): string => {
     return session.isSessionConcluded ? 'Complete' : 'Incomplete';
   }
@@ -82,36 +88,58 @@ export const DataTable = () => {
    * Render
    */
   return (
-    <ReactNativeDataTable>
-      <ReactNativeDataTable.Header>
-        <ReactNativeDataTable.Title>ID</ReactNativeDataTable.Title>
-        <ReactNativeDataTable.Title>Start</ReactNativeDataTable.Title>
-        <ReactNativeDataTable.Title>Completion</ReactNativeDataTable.Title>
-        <ReactNativeDataTable.Title>Status</ReactNativeDataTable.Title>
-      </ReactNativeDataTable.Header>
+    <View style={[boxStyles.container, props.style]}>
+      <View style={boxStyles.shadow}>
+        <ReactNativeDataTable>
+          <ReactNativeDataTable.Header style={boxStyles.headerContainer}>
+            <ReactNativeDataTable.Title>
+              <Text style={boxStyles.title}>ID</Text>
+            </ReactNativeDataTable.Title>
+            <ReactNativeDataTable.Title>
+              <Text style={boxStyles.title}>Start</Text>
+            </ReactNativeDataTable.Title>
+            <ReactNativeDataTable.Title>
+              <Text style={boxStyles.title}>Completion</Text>
+            </ReactNativeDataTable.Title>
+            <ReactNativeDataTable.Title>
+              <Text style={boxStyles.title}>Status</Text>
+            </ReactNativeDataTable.Title>
+          </ReactNativeDataTable.Header>
 
-      {sessions.slice(from, to).map((session) => (
-        <ReactNativeDataTable.Row key={session.id.toString()}>
-          <ReactNativeDataTable.Cell>{getFormattedId(session)}</ReactNativeDataTable.Cell>
-          <ReactNativeDataTable.Cell>{getFormattedStartDate(session)}</ReactNativeDataTable.Cell>
-          <ReactNativeDataTable.Cell>
-            {getFormattedCompletionDate(session)}
-          </ReactNativeDataTable.Cell>
-          <ReactNativeDataTable.Cell>{getFormattedIsCompleted(session)}</ReactNativeDataTable.Cell>
-        </ReactNativeDataTable.Row>
-      ))}
+          {sessions.slice(from, to).map((session) => (
+            <ReactNativeDataTable.Row
+              style={boxStyles.contentContainerRow}
+              key={session.id.toString()}
+            >
+              <ReactNativeDataTable.Cell>
+                <Text style={textStyles.cellText}>{getFormattedId(session)}</Text>
+              </ReactNativeDataTable.Cell>
+              <ReactNativeDataTable.Cell>
+              <Text style={textStyles.cellText}>{getFormattedStartDate(session)}</Text>
+              </ReactNativeDataTable.Cell>
+              <ReactNativeDataTable.Cell>
+              <Text style={textStyles.cellText}>{getFormattedCompletionDate(session)}</Text>
+              </ReactNativeDataTable.Cell>
+              <ReactNativeDataTable.Cell>
+              <Text style={textStyles.cellText}>{getFormattedIsCompleted(session)}</Text>
+              </ReactNativeDataTable.Cell>
+            </ReactNativeDataTable.Row>
+          ))}
 
-      <ReactNativeDataTable.Pagination
-        page={page}
-        numberOfPages={Math.ceil(sessions.length / itemsPerPage)}
-        onPageChange={(page) => setPage(page)}
-        label={`${from + 1}-${to} of ${sessions.length}`}
-        numberOfItemsPerPageList={numberOfItemsPerPageList}
-        numberOfItemsPerPage={itemsPerPage}
-        onItemsPerPageChange={onItemsPerPageChange}
-        showFastPaginationControls
-        selectPageDropdownLabel={'Rows per page'}
-      />
-    </ReactNativeDataTable>
+          <ReactNativeDataTable.Pagination
+            style={[boxStyles.contentContainerBottomRow]}
+            page={page}
+            numberOfPages={Math.ceil(sessions.length / itemsPerPage)}
+            onPageChange={(page) => setPage(page)}
+            label={`${from + 1}-${to} of ${sessions.length}`}
+            numberOfItemsPerPageList={numberOfItemsPerPageList}
+            numberOfItemsPerPage={itemsPerPage}
+            onItemsPerPageChange={onItemsPerPageChange}
+            showFastPaginationControls
+            selectPageDropdownLabel={'Rows per page'}
+          />
+        </ReactNativeDataTable>
+      </View>
+    </View>
   );
 };

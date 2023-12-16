@@ -1,5 +1,5 @@
 import { boxStyles } from './boxStyles';
-import { textStyles } from './text.styles';
+import { textStyles } from './textStyles';
 
 export {
   boxStyles,

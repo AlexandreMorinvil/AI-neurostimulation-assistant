@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsMessageType } from '../../../const/settings';
-import { textStyles } from "../../../styles/text.styles";
+import { textStyles } from "../../../styles/textStyles";
 
 import * as patientService from "../../../services/patient.service";
 import InformationButton from "../information-button.component";

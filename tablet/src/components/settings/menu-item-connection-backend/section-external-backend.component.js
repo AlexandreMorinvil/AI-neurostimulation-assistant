@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsMessageType } from '../../../const/settings';
-import { textStyles } from "../../../styles/text.styles";
+import { textStyles } from "../../../styles/textStyles";
 
 import InformationButton from "../information-button.component";
 import InputIpAddress from "./input-ip-address.component";

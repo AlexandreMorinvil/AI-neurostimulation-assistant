@@ -30,10 +30,13 @@ export const boxStyles = StyleSheet.create({
     borderBottomRightRadius: BOX_BORDER_RADIUS,
     borderBottomLeftRadius: BOX_BORDER_RADIUS,
   },
+  headerSummaryText: {
+    color: 'white',
+    fontSize: 20,
+  },
   contentContainer: {
     backgroundColor: COLOR_BACKGROUND.AccordionItemContent,
     padding: 25,
-    fontSize: 20,
     borderBottomLeftRadius: BOX_BORDER_RADIUS,
     borderBottomRightRadius: BOX_BORDER_RADIUS,
   },

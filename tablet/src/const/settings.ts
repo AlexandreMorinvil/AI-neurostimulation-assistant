@@ -1,9 +1,9 @@
-export const SettingsStatus = {
-  UNSURE: "unsure",
-  NEEDED: "needed",
-  SET: "set",
-  UNSET: "unset",
-  PROBLEMATIC: "problematic",
+export enum SettingsStatus {
+  UNSURE = "UNSURE",
+  NEEDED = "NEEDED",
+  SET = "SET",
+  UNSET = "UNSET",
+  PROBLEMATIC = "PROBLEMATIC",
 };
 
 export const SettingsMessageType = {

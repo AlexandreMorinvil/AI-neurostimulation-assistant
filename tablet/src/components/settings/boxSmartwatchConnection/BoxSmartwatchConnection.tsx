@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
 
 import { SettingsStatus } from "../../../const/settings";
-import AccodionItem from "../accordion-item.component";
+import { AccordionItem } from "@components/utils/container/SettingsAccordionContainer";
 import SectionConnectionWatch from "./section-connection-watch.component";
 
-import * as connectionWatchService from "../../../services/connection-watch.service";
+import { smartwatchService } from "src/services/smartwatchService";
+import { Subscription } from "rxjs";
 
-const CONNECTED_HEADER_SUMMARY = "Connected";
-const NO_CONNECTION_HEADER_SUMMARY = "No Connection";
+export const BoxSmartwatchConnection = () => {
 
-const SettingsMenuItemConnectionWatch = () => {
+  /**
+   * Constants
+   */
+  const CONNECTED_HEADER_SUMMARY = "Connected";
+  const NO_CONNECTION_HEADER_SUMMARY = "No Connection";
 
   /**
    * States
@@ -21,8 +24,8 @@ const SettingsMenuItemConnectionWatch = () => {
   /**
    * Functions
    */
-   const updateSettingStatus = () => {
-    if (connectionWatchService.getIsConnectedStatus()) {
+  const updateSettingStatus = () => {
+    if (smartwatchService.isConnected) {
       setStateSettingStatus(SettingsStatus.SET);
       setStateHeaderSummary(CONNECTED_HEADER_SUMMARY);
     }
@@ -36,30 +39,24 @@ const SettingsMenuItemConnectionWatch = () => {
    * Effects
   */
   useEffect(() => {
-    const interval = setInterval(async () => {
+    updateSettingStatus();
+    const subscription: Subscription = smartwatchService.subscribeToConnectionStatus(() => {
       updateSettingStatus();
-    }, 1000);
-
-    return () => clearInterval(interval);
+    });
+    return () => { subscription.unsubscribe() };
   }, []);
 
   /**
    * Render
    */
   return (
-    <AccodionItem
+    <AccordionItem
       title="Smart Watch Connection"
       summaryText={stateHeaderSummary}
       settingStatus={stateSettingStatus}
     >
+      <></>
       <SectionConnectionWatch />
-    </AccodionItem>
+    </AccordionItem>
   );
 };
-
-/**
- * Style Sheet
- */
-const styles = StyleSheet.create({});
-
-export default SettingsMenuItemConnectionWatch;

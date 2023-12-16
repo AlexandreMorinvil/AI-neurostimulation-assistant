@@ -1,20 +1,21 @@
-import {StyleSheet, ScrollView} from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
-import {COLOR_BACKGROUND} from '../styles/colorStyles.js';
+import { COLOR_BACKGROUND } from '../styles/colorStyles.js';
+import { BoxSmartwatchConnection
+} from '@components/settings/boxSmartwatchConnection/BoxSmartwatchConnection';
 // import SettingsMenuItemConnectionBackend from '../components/settings/menu-item-connection-backend/menu-item-connection-backend.component';
-import SettingsMenuItemConnectionWatch from '../components/settings/boxSmartwatch/menu-item-connection-watch.component.js';
-import SettingsMenuItemPatient from '../components/settings/menu-item-patient/menu-item-patient.component';
+// import SettingsMenuItemPatient from '../components/settings/menu-item-patient/menu-item-patient.component';
 // import SettingsMenuItemProblemDimensionType from '../components/settings/menu-item-pronlem-dimension-type/menu-item-problem-dimension-type.component';
 
 const SettingsView = () => {
   return (
     <ScrollView style={styles.viewContainer}>
+      <BoxSmartwatchConnection />
       {/* TODO: Update this component 
       <SettingsMenuItemProblemDimensionType /> */}
-      <SettingsMenuItemPatient />
+      {/* <SettingsMenuItemPatient /> */}
       {/* TODO: Update this component  
       <SettingsMenuItemConnectionBackend /> */}
-      <SettingsMenuItemConnectionWatch />
     </ScrollView>
   );
 };

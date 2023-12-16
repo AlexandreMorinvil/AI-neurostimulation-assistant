@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsStatus } from "../../../const/settings";
 
-import AccodionItem from "../accordion-item.component";
+import AccodionItem from "../../utils/container/SettingsAccordionContainer";
 import ConfirmButton from "../confirm-button.component";
 import SectionProblemDimensionType from "./section-problem-dimension-type.component";
 

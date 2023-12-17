@@ -9,7 +9,7 @@ class SmartwatchService implements Service {
 
  
   private clientSocket: SmartwatchSocketClient = new SmartwatchSocketClient(
-    true,             // Must Probe Connections Continuously
+    true,             // Must attempt Connections Continuously
     '192.168.0.170',  // Initial IP address
   );
 
@@ -31,7 +31,7 @@ class SmartwatchService implements Service {
   }
 
   connect(): void {
-    this.clientSocket.connect();
+    this.clientSocket.attemptConnection();
   }
 
   destroy() : void {

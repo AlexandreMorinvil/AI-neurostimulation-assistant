@@ -14,44 +14,35 @@ export class SmartwatchSocketClient extends TcpSocketClient {
   private attemptConnectionIntervalId!: NodeJS.Timeout;
 
   private smartwatchPacketParser: SmartwatchPacketParser = new SmartwatchPacketParser();
-  private mustProbeConnectionsContinuously: boolean = true;
+  private mustAttemptConnectionsContinuously: boolean = true;
 
-  constructor(mustProbeConnectionsContinuously: boolean, ipAddress?: string) {
+  constructor(mustAttemptConnectionsContinuously: boolean, ipAddress?: string) {
     super()
     this.connectionOptions = {
       port: 9000,
       host: ipAddress ?? '0.0.0.0',
     };
-    this.mustProbeConnectionsContinuously = mustProbeConnectionsContinuously;
+    this.mustAttemptConnectionsContinuously = mustAttemptConnectionsContinuously;
   }
 
   get ipAddress(): string {
     return this.connectionOptions.host ?? '0.0.0.0';
   }
 
-  attemptConnectionsContinuously(): void {
-    this.attemptConnectionIntervalId = setInterval(() => { this.connect() }, 1000);
-  }
-
-  connect(): void {
-    super.connect();
-    if (this.mustProbeConnectionsContinuously)
+  attemptConnection(): void {
+    this.connect();
+    if (this.mustAttemptConnectionsContinuously)
       this.attemptConnectionsContinuously();
   }
 
   destroy(): void {
     this.stopMonitoringConnection();
-    this.stopAttemptingConnectionsContinuously();
     super.destroy();
   }
 
   setIpAddress(ipAddress: string): void {
     this.connectionOptions.host = ipAddress;
     this.connect();
-  }
-
-  stopAttemptingConnectionsContinuously(): void {
-    clearInterval(this.attemptConnectionIntervalId);
   }
 
   subscribeToAccelerometerPoints(
@@ -111,8 +102,12 @@ export class SmartwatchSocketClient extends TcpSocketClient {
   protected onClose(): void {
     console.log('Connection to smartwatch aborted');
     this.stopMonitoringConnection();
-    if (this.mustProbeConnectionsContinuously)
+    if (this.mustAttemptConnectionsContinuously)
       this.attemptConnectionsContinuously();
+  }
+
+  private attemptConnectionsContinuously(): void {
+    this.attemptConnectionIntervalId = setInterval(() => { this.connect() }, 1000);
   }
 
   private monitorConnection(): void {
@@ -121,6 +116,11 @@ export class SmartwatchSocketClient extends TcpSocketClient {
 
   private ping(): void {
     this.send('PING');
+  }
+
+  private stopAttemptingConnectionsContinuously(): void {
+    console.log('This was called');
+    clearInterval(this.attemptConnectionIntervalId);
   }
 
   private stopMonitoringConnection(): void {

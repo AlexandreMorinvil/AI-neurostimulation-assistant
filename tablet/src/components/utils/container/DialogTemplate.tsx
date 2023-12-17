@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 import { useState, useImperativeHandle, forwardRef, Ref } from 'react';
-import { stylesButton } from '@styles/buttonStyles';
+import { buttonStyles } from '@styles/buttonStyles';
 import { IconSource } from 'react-native-paper/lib/typescript/components/Icon';
 import { textStyles } from '@styles/textStyles';
 
@@ -61,7 +61,7 @@ export const DialogTemplate = (props: Props | any, ref: Ref<unknown> | undefined
         <View style={styles.dialogActions}>
           <Button
             style={[
-              props.isFirstButtonHiglighted ? stylesButton.highlighted : stylesButton.normal,
+              props.isFirstButtonHiglighted ? buttonStyles.highlighted : buttonStyles.normal,
               styles.button
             ]}
             mode="elevated"
@@ -76,7 +76,7 @@ export const DialogTemplate = (props: Props | any, ref: Ref<unknown> | undefined
 
           <Button
             style={[
-              props.isSecondButtonHighlighted ? stylesButton.highlighted : stylesButton.normal,
+              props.isSecondButtonHighlighted ? buttonStyles.highlighted : buttonStyles.normal,
               styles.button
             ]}
             mode="elevated"

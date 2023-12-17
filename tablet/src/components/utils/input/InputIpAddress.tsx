@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
-
-import { settingsStyles } from "../../../styles/settings.styles";
-import { textStyles } from "src/styles";
+import { inputStyles, textStyles } from "src/styles";
 
 type Props = {
   initialIpAddress?: string,
@@ -101,7 +99,7 @@ const InputIpAddress = (props: Props) => {
   return (
     <View style={[styles.container, props.style]}>
       <TextInput
-        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
+        style={[inputStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpFirstOctet}
         onChangeText={updateFirstIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
@@ -111,7 +109,7 @@ const InputIpAddress = (props: Props) => {
         <Text style={textStyles.default}> {"."} </Text>
       </View>
       <TextInput
-        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
+        style={[inputStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpSecondOctet}
         onChangeText={updateSecondIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
@@ -121,7 +119,7 @@ const InputIpAddress = (props: Props) => {
         <Text style={textStyles.default}> {"."} </Text>
       </View>
       <TextInput
-        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
+        style={[inputStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpThirdOctet}
         onChangeText={updateThirdIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
@@ -131,7 +129,7 @@ const InputIpAddress = (props: Props) => {
         <Text style={textStyles.default}> {"."} </Text>
       </View>
       <TextInput
-        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
+        style={[inputStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpFourthOctet}
         onChangeText={updateFourthIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}

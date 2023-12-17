@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
+import { Button } from "react-native-paper";
+import { Subscription } from "rxjs";
 import { StyleSheet, Text, View } from "react-native";
-import { settingsStyles } from "../../../styles/settings.styles";
-import { SettingsMessageType } from '../../../const/settings';
-import { textStyles } from "../../../styles/textStyles";
+import { boxContentStyles } from "../../../styles/boxContentStyles";
+import { SettingsMessageType } from 'src/const/settings';
+import { buttonStyles, textStyles } from "src/styles";
 
 import MessageBubble from "@components/utils/container/MessageBubble";
 import InputIpAddress from "@components/utils/input/InputIpAddress";
 import { networkService } from "src/services/networkService";
-import { Subscription } from "rxjs";
-import { Button } from "react-native-paper";
-import { stylesButton } from "@styles/buttonStyles";
 
 
 export const SectionSmartwatchConnection = () => {
@@ -74,9 +73,9 @@ export const SectionSmartwatchConnection = () => {
    * Render
    */
   return (
-    <View style={settingsStyles.sectionContent}>
-      <View style={settingsStyles.sectionTitleArea}>
-        <Text style={[textStyles.default, settingsStyles.sectionTitle]}> {SECTION_TITLE} </Text>
+    <View style={boxContentStyles.sectionContent}>
+      <View style={boxContentStyles.sectionTitleArea}>
+        <Text style={[textStyles.default, boxContentStyles.sectionTitle]}> {SECTION_TITLE} </Text>
       </View>
       <Text style={textStyles.default}> {MESSAGE_INSERT_WATCH_IP_ADDRESS} </Text>
       <InputIpAddress
@@ -96,7 +95,7 @@ export const SectionSmartwatchConnection = () => {
         <View style={styles.buttonsArea}>
           <Button
             mode="elevated"
-            style={[styles.topSpacing, stylesButton.normal]}
+            style={[styles.topSpacing, buttonStyles.normal]}
             onPress={undoChange}
           >
             <Text style={textStyles.buttonText}>UNDO</Text>
@@ -104,14 +103,13 @@ export const SectionSmartwatchConnection = () => {
 
           <Button
             mode="elevated"
-            style={[styles.topSpacing, stylesButton.normal]}
+            style={[styles.topSpacing, buttonStyles.normal]}
             onPress={confirmIpAddress}
           >
             <Text style={textStyles.buttonText}>CONFIRM</Text>
           </Button>
         </View>
       }
-
     </View >
   );
 };

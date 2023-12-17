@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { settingsStyles } from "../../../styles/settings.styles";
+import { boxContentStyles } from "../../../styles/boxContentStyles";
 import { SettingsStatus } from "../../../const/settings";
 import { store } from "../../../services/store.service";
 
@@ -119,7 +119,7 @@ const SettingsMenuItemConnectionBackend = () => {
     >
       <View>
         <SectionChoiceBackend
-          style={settingsStyles.sectionSpacing}
+          style={boxContentStyles.sectionSpacing}
           initialIsLocalBackendTypeSelected={connectionBackendService.getIsInLocalhostMode()}
           setParentIsLocalBackendTypeSelected={setStateIsLocalBackendTypeSelected}
         />

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import { settingsStyles } from "../../../styles/settings.styles";
+import { boxContentStyles } from "../../../styles/boxContentStyles";
 import { SettingsMessageType } from '../../../const/settings';
-import { textStyles } from "../../../styles/textStyles";
+import { inputStyles, textStyles } from "src/styles";
 
 import * as patientService from "../../../services/patient.service";
 import InformationButton from "../information-button.component";
 import MessageBubble from "../../utils/container/MessageBubble";
-
 const sectionTitle = "Patient ID :"
 const HELP_INFORMATION =
   `The patient ID is an unique identifier assigned to each patient to be able to distinguish each patient while preserving the anonymity of each patient.\n\n\
@@ -83,10 +82,10 @@ const SectionInputPatientId = ({ setParentIsValidPatientIdFunction, setParentInp
    * Render
    */
   return (
-    <View style={settingsStyles.sectionContent}>
-      <View style={settingsStyles.sectionTitleArea}>
+    <View style={boxContentStyles.sectionContent}>
+      <View style={boxContentStyles.sectionTitleArea}>
         <InformationButton setParentIsActiveFunction={setStateIsHelpInformationDisplayed} />
-        <Text style={[textStyles.default, settingsStyles.sectionTitle]}> {sectionTitle} </Text>
+        <Text style={[textStyles.default, boxContentStyles.sectionTitle]}> {sectionTitle} </Text>
       </View>
       {
         stateIsHelpInformationDisplayed &&
@@ -104,7 +103,7 @@ const SectionInputPatientId = ({ setParentIsValidPatientIdFunction, setParentInp
       }
 
       <TextInput
-        style={[textStyles.default, settingsStyles.textInput]}
+        style={[textStyles.default, inputStyles.textInput]}
         onEndEditing={updateToIsNotInFocus}
         onFocus={indicateIsInFocus}
         value={statePatientId}

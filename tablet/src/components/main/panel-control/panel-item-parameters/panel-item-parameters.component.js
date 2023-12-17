@@ -7,7 +7,7 @@ import InputQueryParameter from './input-query-parameter.component';
 import OutputDisplayTremorMetric from './output-display-tremor-metric.component';
 import PanelItem from '../../../utils/container/AccordionContainer';
 
-import {mainStyles} from '../../../../styles/main.styles';
+import {boxContentStyles} from 'src/styles';
 import MessageBubble from '../../../utils/container/MessageBubble';
 import * as problemDimensionTypeService from '../../../../services/problem-dimension-type.service';
 import * as queryService from '../../../../services/query.service';
@@ -150,7 +150,7 @@ const PanelItemParameters = () => {
    */
   return (
     <PanelItem isActive={true} title={ITEM_TITLE}>
-      <View style={[mainStyles.sectionContent, styles.interSectionSpacing]}>
+      <View style={[boxContentStyles.sectionContent, styles.interSectionSpacing]}>
         {stateParametersList.map((parameter, index) => {
           return (
             <InputQueryParameter
@@ -183,7 +183,7 @@ const PanelItemParameters = () => {
         )}
       </View>
 
-      <View style={mainStyles.sectionContent}>
+      <View style={boxContentStyles.sectionContent}>
         <OutputDisplayTremorMetric
           style={styles.interSubSectionSpacing}
           isFrozen={stateIsQuerying}

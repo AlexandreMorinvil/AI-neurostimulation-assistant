@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { settingsStyles } from "../../../styles/settings.styles";
+import { boxContentStyles } from "../../../styles/boxContentStyles";
 import { SettingsStatus } from "../../../const/settings";
 
 import { AccodionItem } from "@components/utils/container/SettingsAccordionBoxContainer";
@@ -72,7 +72,7 @@ const SettingsMenuItemPatient = () => {
       settingStatus={stateSettingStatus}
     >
       <SectionInputPatientId
-        style={settingsStyles.sectionSpacing}
+        style={boxContentStyles.sectionSpacing}
         setParentIsValidPatientIdFunction={setStateIsPatientIdValid}
         setParentInputPatientId={setStateInputPatientId}
       />

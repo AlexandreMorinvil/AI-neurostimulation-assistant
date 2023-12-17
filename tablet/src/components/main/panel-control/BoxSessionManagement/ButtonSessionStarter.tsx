@@ -2,7 +2,7 @@ import DialogConcludeSession from '@components/main/dialog/DialogConcludeSession
 import DialogStartSession from '@components/main/dialog/DialogStartSession';
 import { useEffect, useRef, useState } from 'react';
 import { Button, Text } from 'react-native-paper';
-import { stylesButton } from '@styles/buttonStyles';
+import { buttonStyles } from '@styles/buttonStyles';
 import { sessionService } from 'src/services/sessionService';
 import { textStyles } from '@styles/textStyles';
 
@@ -54,7 +54,7 @@ export const ButtonSessionStarter = () => {
     <>
       <Button
         mode="elevated"
-        style={sessionStarted ? stylesButton.important : stylesButton.highlighted}
+        style={sessionStarted ? buttonStyles.important : buttonStyles.highlighted}
         onPress={showDialog}
       >
         <Text style={textStyles.buttonText} variant="labelLarge">

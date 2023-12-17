@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
-import { settingsStyles } from "../../../styles/settings.styles";
-import { textStyles } from "../../../styles/textStyles";
+import { boxContentStyles } from "../../../styles/boxContentStyles";
+import { inputStyles, textStyles } from "src/styles";
 
 const IP_ADDREES_OCTET_PLACEHOLDER = "255";
 
@@ -87,9 +87,9 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
    * Render
    */
   return (
-    <View style={[settingsStyles.sectionContent, styles.container, props.style]}>
+    <View style={[boxContentStyles.sectionContent, styles.container, props.style]}>
       <TextInput
-        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
+        style={[inputStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpFirstOctet}
         onChangeText={updateFirstIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
@@ -99,7 +99,7 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
         <Text> {"."} </Text>
       </View>
       <TextInput
-        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
+        style={[inputStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpSecondOctet}
         onChangeText={updateSecondIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
@@ -109,7 +109,7 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
         <Text> {"."} </Text>
       </View>
       <TextInput
-        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
+        style={[inputStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpThirdOctet}
         onChangeText={updateThirdIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}
@@ -119,7 +119,7 @@ const InputIpAddress = ({ setParentInputIpAddressFunction, setParentIsInputIpAdd
         <Text> {"."} </Text>
       </View>
       <TextInput
-        style={[settingsStyles.textInput, textStyles.default, styles.octetInput]}
+        style={[inputStyles.textInput, textStyles.default, styles.octetInput]}
         value={stateInputIpFourthOctet}
         onChangeText={updateFourthIpOctetValue}
         placeholder={IP_ADDREES_OCTET_PLACEHOLDER}

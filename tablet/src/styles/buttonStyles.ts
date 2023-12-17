@@ -6,7 +6,7 @@ const mainButtonStyles = {
   padding: 5,
 }
 
-export const stylesButton = StyleSheet.create({
+export const buttonStyles = StyleSheet.create({
   highlighted: {
     ...mainButtonStyles,
     backgroundColor: COLOR_BUTTON.activeHighlighted,

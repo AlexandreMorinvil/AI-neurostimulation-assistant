@@ -7,13 +7,15 @@ export const SessionStopWatch = () => {
   /**
    * States
    */
-  const [sessionStarted, setSessionStarted] = useState(false);
+  const [isSessionStarted, setIsSessionStarted] = useState(false);
+  const [mustReset, setMustReset] = useState<boolean>(false);
 
   /**
    * Functions
    */
   const toggleStopWatch = (isSessionStarted: boolean) => {
-    setSessionStarted(isSessionStarted);
+    setIsSessionStarted(isSessionStarted);
+    setMustReset(!isSessionStarted);
   };
 
   /**
@@ -31,7 +33,8 @@ export const SessionStopWatch = () => {
    */
   return (
     <Stopwatch
-      start={sessionStarted}
+      start={isSessionStarted}
+      reset={mustReset}
     />
   );
 };

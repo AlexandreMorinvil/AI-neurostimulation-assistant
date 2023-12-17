@@ -7,7 +7,7 @@ import { SessionSnapshot } from "@class/session/SessionSnapshot";
 
 class SessionService implements Service {
 
-  activeSession: Session|null = null;
+  private activeSession: Session|null = null;
   private sessionStatusSubject: Subject<boolean> = new Subject;
 
   constructor() {

@@ -1,5 +1,6 @@
-import {  View, ViewStyle } from 'react-native';
+import { ViewStyle } from 'react-native';
 import { AccordionBoxContainer } from '@components/utils/container/AccordionBoxContainer';
+import { SmartwatchSensorsSummary } from './SmartwatchSensorsSummary';
 
 type Props = {
   style?: ViewStyle,
@@ -21,7 +22,7 @@ export const BoxSensorsSummary = (props: Props) => {
       title={TITLE}
       isMinimizable={false}
     >
-      <View></View>
+      <SmartwatchSensorsSummary />
     </AccordionBoxContainer>
   );
 }

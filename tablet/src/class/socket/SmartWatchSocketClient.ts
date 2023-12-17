@@ -119,7 +119,6 @@ export class SmartwatchSocketClient extends TcpSocketClient {
   }
 
   private stopAttemptingConnectionsContinuously(): void {
-    console.log('This was called');
     clearInterval(this.attemptConnectionIntervalId);
   }
 

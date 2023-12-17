@@ -59,7 +59,6 @@ class DatabaseService implements Service {
       smartWatchAccelerometerPoints,
       sessionSnapshot,
     );
-    console.log("Accelerometer point saved");
   }
 
   storeSmartwatchGyroscopePoint(
@@ -70,7 +69,6 @@ class DatabaseService implements Service {
       smartWatchGyroscopePoints,
       sessionSnapshot,
     );
-    console.log("Gyroscope point saved");
   }
 
   /**

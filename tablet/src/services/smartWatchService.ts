@@ -4,13 +4,14 @@ import { Subscription } from 'rxjs';
 import { sensorPointsService } from './sensorPointsService';
 
 // TODO: Receive IP address from the settings
-// TODO: Attempt reconnections at strategic times (every 1 second + when the application is launched)
-// TODO: Properly handle the initialization : Attempt socket creation and on failure retry periodically
-// TODO: Properly handle the destruction : Destroy the socket and stop trying to reconnect periodically
 
 class SmartwatchService implements Service {
 
-  private clientSocket: SmartwatchSocketClient = new SmartwatchSocketClient();
+ 
+  private clientSocket: SmartwatchSocketClient = new SmartwatchSocketClient(
+    true,             // Must Probe Connections Continuously
+    '192.168.0.170',  // Initial IP address
+  );
 
   constructor() {
     this.clientSocket.subscribeToAccelerometerPoints((accelerometerPointsPoints) => { 
@@ -19,6 +20,10 @@ class SmartwatchService implements Service {
     this.clientSocket.subscribeToGyroscopePoints((gyroscopePoints) => { 
       sensorPointsService.handleSmartwatchGyroscopePoints(gyroscopePoints);
     });
+  }
+
+  get ipAddress() {
+    return this.clientSocket.ipAddress;
   }
 
   get isConnected() {
@@ -35,6 +40,10 @@ class SmartwatchService implements Service {
 
   initialize() : void {
     this.connect();
+  }
+
+  setIpAddress(ipAddress: string): void {
+    this.clientSocket.setIpAddress(ipAddress);
   }
 
   subscribeToConnectionStatus(callback: (connectionStatus: boolean) => void): Subscription {

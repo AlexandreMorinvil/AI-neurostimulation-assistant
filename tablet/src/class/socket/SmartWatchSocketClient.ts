@@ -11,19 +11,47 @@ export class SmartwatchSocketClient extends TcpSocketClient {
   private gyroscopePointsSubject: Subject<Array<SmartwatchGyroscopePoint>> = new Subject();
   
   private pingIntervalId!: NodeJS.Timeout;
-  private smartwatchPacketParser: SmartwatchPacketParser = new SmartwatchPacketParser();
+  private attemptConnectionIntervalId!: NodeJS.Timeout;
 
-  constructor() {
+  private smartwatchPacketParser: SmartwatchPacketParser = new SmartwatchPacketParser();
+  private mustProbeConnectionsContinuously: boolean = true;
+
+  constructor(mustProbeConnectionsContinuously: boolean, ipAddress?: string) {
     super()
     this.connectionOptions = {
       port: 9000,
-      host: '192.168.0.170',
+      host: ipAddress ?? '0.0.0.0',
     };
+    this.mustProbeConnectionsContinuously = mustProbeConnectionsContinuously;
+  }
+
+  get ipAddress(): string {
+    return this.connectionOptions.host ?? '0.0.0.0';
+  }
+
+  attemptConnectionsContinuously(): void {
+    this.attemptConnectionIntervalId = setInterval(() => { this.connect() }, 1000);
+  }
+
+  connect(): void {
+    super.connect();
+    if (this.mustProbeConnectionsContinuously)
+      this.attemptConnectionsContinuously();
   }
 
   destroy(): void {
     this.stopMonitoringConnection();
+    this.stopAttemptingConnectionsContinuously();
     super.destroy();
+  }
+
+  setIpAddress(ipAddress: string): void {
+    this.connectionOptions.host = ipAddress;
+    this.connect();
+  }
+
+  stopAttemptingConnectionsContinuously(): void {
+    clearInterval(this.attemptConnectionIntervalId);
   }
 
   subscribeToAccelerometerPoints(
@@ -38,6 +66,7 @@ export class SmartwatchSocketClient extends TcpSocketClient {
   }
 
   protected onConnection(): void {
+    this.stopAttemptingConnectionsContinuously();
     console.log("Socket connection was established with a smartwatch");
     this.send('NeurostimAI endpoint connection');
     this.monitorConnection();
@@ -82,6 +111,8 @@ export class SmartwatchSocketClient extends TcpSocketClient {
   protected onClose(): void {
     console.log('Connection to smartwatch aborted');
     this.stopMonitoringConnection();
+    if (this.mustProbeConnectionsContinuously)
+      this.attemptConnectionsContinuously();
   }
 
   private monitorConnection(): void {

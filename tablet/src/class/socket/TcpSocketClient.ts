@@ -21,10 +21,9 @@ export abstract class TcpSocketClient {
 
   connect(): void {
     this.destroy();
-    const socket = TcpSocket.createConnection(
+    this.socket = TcpSocket.createConnection(
       this.connectionOptions, 
       () => {
-        this.socket = socket;
         this.onConnection();
         this.connectionStatusSubject.next(this.isConnected);
         (this.socket as EventEmitter).on('close', () => { this.onClose() });

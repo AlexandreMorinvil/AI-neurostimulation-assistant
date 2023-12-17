@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 
 import InputQueryParameter from './input-query-parameter.component';
 import OutputDisplayTremorMetric from './output-display-tremor-metric.component';
-import PanelItem from '../../../utils/container/AccordionContainer';
+import { AccordionBoxContainer } from '@components/utils/container/AccordionBoxContainer';
 
 import {boxContentStyles} from 'src/styles';
 import MessageBubble from '../../../utils/container/MessageBubble';
@@ -23,7 +23,7 @@ const TEXT_FILL_ALL_VALUES = 'Please, fill all the values';
 
 const IMPOSED_VALUE_TYPE_SUGGESTED = 'suggested';
 
-const PanelItemParameters = () => {
+const AccordionBoxContainerParameters = () => {
   /**
    * States
    */
@@ -149,7 +149,7 @@ const PanelItemParameters = () => {
    * Render
    */
   return (
-    <PanelItem isActive={true} title={ITEM_TITLE}>
+    <AccordionBoxContainer isActive={true} title={ITEM_TITLE}>
       <View style={[boxContentStyles.sectionContent, styles.interSectionSpacing]}>
         {stateParametersList.map((parameter, index) => {
           return (
@@ -207,7 +207,7 @@ const PanelItemParameters = () => {
           />
         )}
       </View>
-    </PanelItem>
+    </AccordionBoxContainer>
   );
 };
 
@@ -226,4 +226,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PanelItemParameters;
+export default AccordionBoxContainerParameters;

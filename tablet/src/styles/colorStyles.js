@@ -9,8 +9,8 @@ const COLOR_RED_SECONDARY = '#E66D60';
 
 // Exported colors
 export const COLOR_BACKGROUND = {
-  Application: '#EEEEEE',
-  Panel: '#DEDEDE',
+  Application: '#FAFAFA',
+  Panel: '#EEEEEE',
   AccordionItemHeader: COLOR_BLUE_PRIMARY,
   AccordionItemContent: '#FFFFFF',
   ItemSection: '#F0F0F0',

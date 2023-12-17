@@ -1,11 +1,10 @@
+import { PanelControl } from '@components/main/panel-control/PanelControl';
 import { useState } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
-
 import { COLOR_BACKGROUND } from '../styles/colorStyles.js';
-import PanelControl from '../components/main/panel-control/panel-control.component.js';
-import PanelVizualization from '../components/main/panel-visualization/panel-visualization.component';
+import { PanelVisualization } from '@components/main/panel-visualization/PanelVisualizations';
 
-const MainView = () => {
+export const MainView = () => {
   /**
    * States
    */
@@ -38,7 +37,7 @@ const MainView = () => {
         <PanelControl />
       </View>
       <View style={styles.vizualizationPanelArea}>
-        <PanelVizualization />
+        <PanelVisualization />
       </View>
     </View>
   );
@@ -68,5 +67,3 @@ const styles = StyleSheet.create({
     minHeight: 500,
   },
 });
-
-export default MainView;

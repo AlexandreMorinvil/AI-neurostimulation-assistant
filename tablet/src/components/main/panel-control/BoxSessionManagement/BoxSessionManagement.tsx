@@ -1,4 +1,4 @@
-import AccordionContainer from '@components/utils/container/AccordionContainer';
+import { AccordionBoxContainer } from '@components/utils/container/AccordionBoxContainer';
 import { SectionSessionStarter } from './SectionSessionStarter';
 import { SectionConnectionStatus } from './SectionConnectionStatus';
 
@@ -13,12 +13,12 @@ export const BoxSessionManagement = () => {
    * Render
    */
   return (
-    <AccordionContainer
+    <AccordionBoxContainer
       isActive={true}
       title={TITLE}
     >
       <SectionConnectionStatus />
       <SectionSessionStarter />
-    </AccordionContainer>
+    </AccordionBoxContainer>
   );
 };

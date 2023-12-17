@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import ItemContentVizualizationParamters from "./section-vizualization-parameters.component";
-import PanelItem from '../../../utils/container/AccordionContainer';
+import { AccordionBoxContainer } from '@components/utils/container/AccordionBoxContainer';
 import SectionQuriesHistory from './section-queries-history.component';
 
 const ITEM_TITLE = "Query Results";
@@ -13,13 +13,13 @@ const PanelItemResults = () => {
    * Render
    */
   return (
-    <PanelItem
+    <AccordionBoxContainer
       isActive={true}
       title={ITEM_TITLE}
     >
       <ItemContentVizualizationParamters style={styles.spacing} />
       <SectionQuriesHistory />
-    </PanelItem>
+    </AccordionBoxContainer>
   );
 };
 

@@ -9,6 +9,7 @@ import { buttonStyles, textStyles } from "src/styles";
 import MessageBubble from "@components/utils/container/MessageBubble";
 import InputIpAddress from "@components/utils/input/InputIpAddress";
 import { networkService } from "src/services/networkService";
+import { smartwatchService } from "src/services/smartwatchService";
 
 
 export const SectionSmartwatchConnection = () => {
@@ -27,7 +28,7 @@ export const SectionSmartwatchConnection = () => {
    * States
    */
   const [hasInputChanged, setHasInputChanged] = useState<boolean>(false);
-  const [ipAddress, setIpAddress] = useState<string>('');
+  const [ipAddress, setIpAddress] = useState<string>(smartwatchService.ipAddress);
   const [isConnectedToNetwork, setIsConnectedToNetwork] = useState<boolean>(
     networkService.isConnected
   );
@@ -40,18 +41,16 @@ export const SectionSmartwatchConnection = () => {
   }
 
   const confirmIpAddress = (): void => {
-    // TODO: To implement.
-    console.log('Confirm Ip address');
+    smartwatchService.setIpAddress(ipAddress);
+    updateHasInputChanged();
   }
 
   const undoChange = (): void => {
-    // TODO: To implement.
-    console.log('Undo changes');
+    setIpAddress(smartwatchService.ipAddress);
   }
 
   const updateHasInputChanged = (): void => {
-    // TODO: To implement.
-    console.log('Has input changed');
+    setHasInputChanged(smartwatchService.ipAddress !== ipAddress);
   }
 
   /**
@@ -65,7 +64,6 @@ export const SectionSmartwatchConnection = () => {
   }, []);
 
   useEffect(() => {
-    // TODO: To implement.
     updateHasInputChanged();
   }, [ipAddress]);
 
@@ -80,6 +78,7 @@ export const SectionSmartwatchConnection = () => {
       <Text style={textStyles.default}> {MESSAGE_INSERT_WATCH_IP_ADDRESS} </Text>
       <InputIpAddress
         style={styles.topSpacing}
+        initialIpAddress={ipAddress}
         setInputIpAddress={getIpAddress}
       />
       {

@@ -2,22 +2,20 @@ import { SmartwatchSocketClient } from '@class/socket/SmartwatchSocketClient';
 import { Service } from '@class/Service';
 import { Subscription } from 'rxjs';
 import { sensorPointsService } from './sensorPointsService';
-
-// TODO: Receive IP address from the settings
+import { persistantDataService } from './persistantDataService';
 
 class SmartwatchService implements Service {
 
- 
   private clientSocket: SmartwatchSocketClient = new SmartwatchSocketClient(
-    true,             // Must attempt Connections Continuously
-    '192.168.0.170',  // Initial IP address
+    true,      // Must attempt Connections Continuously
+    '0.0.0.0', // Initial IP address
   );
 
   constructor() {
-    this.clientSocket.subscribeToAccelerometerPoints((accelerometerPointsPoints) => { 
+    this.clientSocket.subscribeToAccelerometerPoints((accelerometerPointsPoints) => {
       sensorPointsService.handleSmartwatchAccelerometerPoints(accelerometerPointsPoints);
     });
-    this.clientSocket.subscribeToGyroscopePoints((gyroscopePoints) => { 
+    this.clientSocket.subscribeToGyroscopePoints((gyroscopePoints) => {
       sensorPointsService.handleSmartwatchGyroscopePoints(gyroscopePoints);
     });
   }
@@ -34,16 +32,22 @@ class SmartwatchService implements Service {
     this.clientSocket.attemptConnection();
   }
 
-  destroy() : void {
+  destroy(): void {
     this.clientSocket.destroy();
   }
 
-  initialize() : void {
-    this.connect();
+  initialize(): void {
+    persistantDataService.loadSmartwatchIpAddress()
+      .then((ipAddress: string | null) => {
+        if (ipAddress)
+          this.setIpAddress(ipAddress);
+        this.connect();
+      });
   }
 
   setIpAddress(ipAddress: string): void {
     this.clientSocket.setIpAddress(ipAddress);
+    persistantDataService.saveSmartwatchIpAddress(this.ipAddress);
   }
 
   subscribeToConnectionStatus(callback: (connectionStatus: boolean) => void): Subscription {

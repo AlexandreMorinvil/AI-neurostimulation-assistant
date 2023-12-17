@@ -6,7 +6,7 @@ import { textStyles } from "../../../styles/textStyles";
 
 import ButtonProblemDimension from "./button-problem-dimension.component";
 import InformationButton from "../information-button.component";
-import MessageBubble from "../../MessageBubble";
+import MessageBubble from "../../utils/container/MessageBubble";
 
 import * as problemDimensionTypeService from "../../../services/problem-dimension-type.service";
 

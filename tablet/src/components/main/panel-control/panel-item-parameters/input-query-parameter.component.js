@@ -4,7 +4,7 @@ import { Button, Text, TextInput } from 'react-native-paper';
 
 import { SettingsMessageType } from '../../../../const/settings';
 import { COLOR_BACKGROUND } from '../../../../styles/colorStyles';
-import MessageBubble from '../../../MessageBubble';
+import MessageBubble from '../../../utils/container/MessageBubble';
 
 const TEXT_INSERT_VALUE = `Insert value`;
 const TEXT_SUGGESTED_VALUE = value => `Sug : ${value}`;

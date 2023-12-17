@@ -4,7 +4,7 @@ import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsMessageType } from '../../../const/settings';
 import { textStyles } from "../../../styles/textStyles";
 
-import MessageBubble from "@components/MessageBubble";
+import MessageBubble from "@components/utils/container/MessageBubble";
 import InputIpAddress from "@components/utils/input/InputIpAddress";
 import { networkService } from "src/services/networkService";
 import { Subscription } from "rxjs";

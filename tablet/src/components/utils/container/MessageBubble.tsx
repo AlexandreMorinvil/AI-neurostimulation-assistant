@@ -1,8 +1,8 @@
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ViewStyle } from "react-native";
-import { SettingsMessageType } from '../const/settings';
-import { textStyles } from "../styles/textStyles";
+import { SettingsMessageType } from '../../../const/settings';
+import { textStyles } from "../../../styles/textStyles";
 import { COLOR_TEXT } from '@styles/colorStyles';
 
 type Props = {

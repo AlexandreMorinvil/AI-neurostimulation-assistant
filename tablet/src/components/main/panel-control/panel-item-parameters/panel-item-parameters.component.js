@@ -8,7 +8,7 @@ import OutputDisplayTremorMetric from './output-display-tremor-metric.component'
 import PanelItem from '../../../utils/container/AccordionContainer';
 
 import {mainStyles} from '../../../../styles/main.styles';
-import MessageBubble from '../../../MessageBubble';
+import MessageBubble from '../../../utils/container/MessageBubble';
 import * as problemDimensionTypeService from '../../../../services/problem-dimension-type.service';
 import * as queryService from '../../../../services/query.service';
 import * as tremorPointService from '../../../../services/tremor-point.service';

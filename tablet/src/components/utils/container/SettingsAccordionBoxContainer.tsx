@@ -13,7 +13,7 @@ type Props = {
   children: React.ReactNode,
 }
 
-export const AccordionItem = (props: Props) => {
+export const SettingsAccordionBoxContainer = (props: Props) => {
   
   /**
    * Constants
@@ -104,7 +104,7 @@ export const AccordionItem = (props: Props) => {
             <Text style={boxStyles.expandIcon}>{stateIsActive ? '-' : '+'}</Text>
           </TouchableOpacity>
 
-          <Text style={boxStyles.title}>{`${stateTitle} : `}</Text>
+          <Text style={boxStyles.title}>{stateTitle}</Text>
 
           <View style={styles.spacer}></View>
 

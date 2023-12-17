@@ -14,5 +14,8 @@ export const textStyles = StyleSheet.create({
   cellText: {
     color: COLOR_TEXT.default,
     fontSize: 12,
+  },
+  inputText: {
+    color: COLOR_TEXT.default,
   }
 });

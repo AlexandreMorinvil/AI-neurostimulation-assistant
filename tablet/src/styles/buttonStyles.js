@@ -21,5 +21,6 @@ export const stylesButton = StyleSheet.create({
   },
   normal: {
     ...mainButtonStyles,
+    backgroundColor: 'white',
   },
 });

@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsStatus } from "../../../const/settings";
 
-import { AccodionItem } from "@components/utils/container/SettingsAccordionContainer";
+import { AccodionItem } from "@components/utils/container/SettingsAccordionBoxContainer";
 import ConfirmButton from "../confirm-button.component";
 import SectionInputPatientId from "./section-input-patient-id.component";
 import * as patientService from "../../../services/patient.service";

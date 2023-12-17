@@ -5,7 +5,7 @@ import { settingsStyles } from "../../../styles/settings.styles";
 import { SettingsStatus } from "../../../const/settings";
 import { store } from "../../../services/store.service";
 
-import AccodionItem from "../../utils/container/SettingsAccordionContainer";
+import AccodionItem from "../../utils/container/SettingsAccordionBoxContainer";
 import ConfirmButton from "../confirm-button.component";
 import SectionChoiceBackend from "./section-choice-backend.component";
 import SectionExternalBackend from "./section-external-backend.component";

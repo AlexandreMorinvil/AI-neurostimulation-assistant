@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-
-import { SettingsStatus } from "../../../const/settings";
-import { AccordionItem } from "@components/utils/container/SettingsAccordionContainer";
-import SectionConnectionWatch from "./section-connection-watch.component";
-
-import { smartwatchService } from "src/services/smartwatchService";
 import { Subscription } from "rxjs";
+import { SettingsAccordionBoxContainer 
+} from "@components/utils/container/SettingsAccordionBoxContainer";
+import { smartwatchService } from "src/services/smartwatchService";
+import { SectionSmartwatchConnection } from "./SectionSmartwatchConnection";
+import { SettingsStatus } from "../../../const/settings";
 
 export const BoxSmartwatchConnection = () => {
 
@@ -18,8 +17,10 @@ export const BoxSmartwatchConnection = () => {
   /**
    * States
    */
-  const [stateHeaderSummary, setStateHeaderSummary] = useState("");
-  const [stateSettingStatus, setStateSettingStatus] = useState(SettingsStatus.UNSET);
+  const [stateHeaderSummary, setStateHeaderSummary] = useState<string>('');
+  const [stateSettingStatus, setStateSettingStatus] = useState<SettingsStatus>(
+    SettingsStatus.UNSET
+  );
 
   /**
    * Functions
@@ -50,13 +51,12 @@ export const BoxSmartwatchConnection = () => {
    * Render
    */
   return (
-    <AccordionItem
+    <SettingsAccordionBoxContainer
       title="Smart Watch Connection"
       summaryText={stateHeaderSummary}
       settingStatus={stateSettingStatus}
     >
-      <></>
-      <SectionConnectionWatch />
-    </AccordionItem>
+      <SectionSmartwatchConnection />
+    </SettingsAccordionBoxContainer>
   );
 };

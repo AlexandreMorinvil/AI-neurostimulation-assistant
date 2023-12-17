@@ -4,12 +4,16 @@ import { textStyles } from '@styles/textStyles';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import { Subscription } from 'rxjs';
 import { sensorPointsService } from 'src/services/sensorPointsService';
 
 export const SmartwatchSensorsSummary = () => {
 
-  /***
+  /**
+   * Constants
+   */
+  const refreshTimeIntervalInMs = 200;
+
+  /**
    * States
    */
   const [lastAccelerationPoint, setLastAccelerationPoint] =
@@ -28,22 +32,13 @@ export const SmartwatchSensorsSummary = () => {
    * Effects
    */
   useEffect(() => {
-    const subscription: Subscription = sensorPointsService.subscribeToAccelerometerPoints(
-      (points: Array<SmartwatchAccelerometerPoint>) => {
-        const [lastPoint] = points.slice(-1);
-        setLastAccelerationPoint(lastPoint);
-      });
-    return () => { subscription.unsubscribe() };
+    const intervalId = setInterval(() => {
+      setLastAccelerationPoint(sensorPointsService.lastAccelerometerPoint);
+      setLastGyroscopePoint(sensorPointsService.lastGyroscopePoint);
+    }, refreshTimeIntervalInMs);
+    return () => { clearInterval(intervalId) };
   }, []);
 
-  useEffect(() => {
-    const subscription: Subscription = sensorPointsService.subscribeToGyroscopesPoints(
-      (points: Array<SmartwatchGyroscopePoint>) => {
-        const [lastPoint] = points.slice(-1);
-        setLastGyroscopePoint(lastPoint);
-      });
-    return () => { subscription.unsubscribe() };
-  }, []);
 
   /**
    * Render

@@ -4,15 +4,21 @@ import { SmartwatchAccelerometerPoint } from "@class/dataPoint/SmartwatchAcceler
 import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePoint";
 import { sessionService } from "./sessionService";
 import { databaseService } from "./databaseService";
-import { Subject, Subscription } from "rxjs";
 
 class SensorPointsService implements Service {
 
   accelerometerPointsAccumulator: SensorPointsAccumulator = new SensorPointsAccumulator();
   gyroscopePointsAccumulator: SensorPointsAccumulator = new SensorPointsAccumulator();
-  
-  private accelerometerPointsSubject: Subject<Array<SmartwatchAccelerometerPoint>> = new Subject();
-  private gyroscopePointsSubject: Subject<Array<SmartwatchGyroscopePoint>> = new Subject();
+
+  get lastAccelerometerPoint(): SmartwatchAccelerometerPoint|null {
+    const lastPoint = this.accelerometerPointsAccumulator.latestPoint;
+    return lastPoint ? (lastPoint as SmartwatchAccelerometerPoint) : null;
+  }
+
+  get lastGyroscopePoint(): SmartwatchGyroscopePoint|null {
+    const lastPoint = this.gyroscopePointsAccumulator.latestPoint;
+    return lastPoint ? (lastPoint as SmartwatchGyroscopePoint) : null;
+  }
 
   destroy(): void { }
 
@@ -28,8 +34,6 @@ class SensorPointsService implements Service {
           sessionSnapshot,
         );
     }
-    
-    this.accelerometerPointsSubject.next(accelerometerPoints);
   }
 
   handleSmartwatchGyroscopePoints(gyroscopePoints: Array<SmartwatchGyroscopePoint>): void {
@@ -43,21 +47,9 @@ class SensorPointsService implements Service {
           sessionSnapshot,
         );
     }
-
-    this.gyroscopePointsSubject.next(gyroscopePoints);
   }
 
   initialize(): void { }
-
-  subscribeToAccelerometerPoints(callback: (points: Array<SmartwatchAccelerometerPoint>) => void): 
-    Subscription {
-    return this.accelerometerPointsSubject.subscribe(callback);
-  }
-
-  subscribeToGyroscopesPoints(callback: (points: Array<SmartwatchGyroscopePoint>) => void): 
-    Subscription {
-    return this.gyroscopePointsSubject.subscribe(callback);
-  }
 }
 
 const sensorPointsService = new SensorPointsService();

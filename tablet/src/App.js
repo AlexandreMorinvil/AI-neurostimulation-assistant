@@ -9,7 +9,6 @@ import { COLOR_BACKGROUND, COLOR_TEXT } from './styles/colorStyles';
 import { DataManagementView } from './views/DataManagementView';
 import { MainView } from './views/MainView';
 import SettingsView from './views/SettingsView';
-import TestView from './.dev/debug.view';
 
 const Drawer = createDrawerNavigator();
 
@@ -80,21 +79,6 @@ const App = () => {
             drawerIcon: ({ focused, size }) => (
               <Ionicons
                 name="settings-outline"
-                color={focused ? COLOR_TEXT.DrawerItemSelected : COLOR_TEXT.DrawerItem}
-                size={size}
-              />
-            ),
-          }}
-        />
-
-        <Drawer.Screen
-          name="Debug and tests"
-          component={TestView}
-          options={{
-            drawerItemStyle: { paddingLeft: 10 },
-            drawerIcon: ({ focused, size }) => (
-              <Ionicons
-                name="code-working"
                 color={focused ? COLOR_TEXT.DrawerItemSelected : COLOR_TEXT.DrawerItem}
                 size={size}
               />

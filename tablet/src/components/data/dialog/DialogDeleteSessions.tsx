@@ -36,10 +36,11 @@ const DialogDeleteSessions = (_props: any, ref: Ref<unknown> | undefined) => {
         size={80}
       />
     ),
-    title: "Delete session?",
-    description: 'Press "Yes" to permanently delete the selected sessions or press "No" to cancel.',
+    title: "Delete session(s)?",
+    description: 
+    'Press "Yes" to permanently delete the selected session(s) or press "No" to cancel.',
     firstButtonText: 'No',
-    onPressFirstButton: () => {},
+    onPressFirstButton: () => { },
     isFirstButtonHiglighted: false,
     secondButtonText: 'Yes',
     onPressSecondButton: () => { deleteSessions() },

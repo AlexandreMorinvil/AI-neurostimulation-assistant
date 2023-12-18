@@ -1,10 +1,12 @@
 import { Session } from '@class/session/Session';
 import { useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { DataTable as ReactNativeDataTable } from 'react-native-paper';
 import { boxStyles, textStyles } from 'src/styles';
 import { databaseService } from 'src/services/databaseService';
 import { sessionService } from 'src/services/sessionService';
+import { recordedSessionsService } from 'src/services/recordedSessionsService';
+import { COLOR_BACKGROUND } from '@styles/colorStyles';
 
 export const DataTable = () => {
 
@@ -36,6 +38,9 @@ export const DataTable = () => {
   const [numberOfItemsPerPageList] = useState<Array<number>>([5, 10]);
   const [itemsPerPage, onItemsPerPageChange] = useState<number>(numberOfItemsPerPageList[0]);
   const [sessions, setSessions] = useState<Array<Session>>(getSortedSessionsList());
+  const [selectedSessions, setSelectedSessions] = useState<Array<Session>>(
+    recordedSessionsService.selectedSessions
+  );
 
   /**
    * Variables
@@ -46,8 +51,9 @@ export const DataTable = () => {
   /**
    * Functions
    */
-  const updateList = () => {
-    setSessions(getSortedSessionsList());
+  const isSelected = (session: Session): boolean => {
+    const index = selectedSessions.findIndex((element) => session.isSameAs(element));
+    return index !== -1;
   }
 
   const getFormattedId = (session: Session): string => {
@@ -60,7 +66,7 @@ export const DataTable = () => {
 
   const getFormattedCompletionDate = (session: Session): string => {
     return session.dateCompletion ?
-      session.dateCompletion.toLocaleDateString(locale, dateFormmatingOptions) :
+    session.dateCompletion.toLocaleDateString(locale, dateFormmatingOptions) :
       NO_VALUE;
   }
 
@@ -69,12 +75,28 @@ export const DataTable = () => {
     return session.isSessionConcluded ? 'Complete' : 'Incomplete';
   }
 
+  const toogleSessionSelection = (session: Session): void => {
+    recordedSessionsService.toggleSessionSelection(session);
+  }
+  
+  const updateList = () => {
+    setSessions(getSortedSessionsList());
+    setSelectedSessions(recordedSessionsService.selectedSessions);
+  }
+
   /**
    * Effects
    */
   useEffect(() => {
     updateList();
     const subscription = databaseService.subscribeToSessions(() => { updateList() });
+    return () => { subscription.unsubscribe() };
+  }, []);
+
+  useEffect(() => {
+    const subscription = recordedSessionsService.subscribeToSelectedSessions(() => { 
+      updateList();
+    });
     return () => { subscription.unsubscribe() };
   }, []);
 
@@ -88,35 +110,39 @@ export const DataTable = () => {
   return (
     <ReactNativeDataTable>
       <ReactNativeDataTable.Header style={boxStyles.contentContainerRow}>
-        <ReactNativeDataTable.Title>
+        <ReactNativeDataTable.Title style={{flex: 3}}>
           <Text style={textStyles.cellText}>ID</Text>
         </ReactNativeDataTable.Title>
-        <ReactNativeDataTable.Title>
+        <ReactNativeDataTable.Title style={{flex: 2}}>
           <Text style={textStyles.cellText}>Start</Text>
         </ReactNativeDataTable.Title>
-        <ReactNativeDataTable.Title>
+        <ReactNativeDataTable.Title style={{flex: 2}}>
           <Text style={textStyles.cellText}>Completion</Text>
         </ReactNativeDataTable.Title>
-        <ReactNativeDataTable.Title>
+        <ReactNativeDataTable.Title style={{flex: 1}}>
           <Text style={textStyles.cellText}>Status</Text>
         </ReactNativeDataTable.Title>
       </ReactNativeDataTable.Header>
 
       {sessions.slice(from, to).map((session) => (
         <ReactNativeDataTable.Row
-          style={boxStyles.contentContainerRow}
+          onPress={() => {toogleSessionSelection(session)}}
+          style={[
+            // boxStyles.contentContainerRow,
+            isSelected(session) ? styles.selectedRow : null,
+          ]}
           key={session.id.toString()}
         >
-          <ReactNativeDataTable.Cell>
+          <ReactNativeDataTable.Cell style={{flex: 3}}>
             <Text style={textStyles.cellText}>{getFormattedId(session)}</Text>
           </ReactNativeDataTable.Cell>
-          <ReactNativeDataTable.Cell>
+          <ReactNativeDataTable.Cell style={{flex: 2}}>
             <Text style={textStyles.cellText}>{getFormattedStartDate(session)}</Text>
           </ReactNativeDataTable.Cell>
-          <ReactNativeDataTable.Cell>
+          <ReactNativeDataTable.Cell style={{flex: 2}}>
             <Text style={textStyles.cellText}>{getFormattedCompletionDate(session)}</Text>
           </ReactNativeDataTable.Cell>
-          <ReactNativeDataTable.Cell>
+          <ReactNativeDataTable.Cell style={{flex: 1}}>
             <Text style={textStyles.cellText}>{getFormattedIsCompleted(session)}</Text>
           </ReactNativeDataTable.Cell>
         </ReactNativeDataTable.Row>
@@ -137,3 +163,12 @@ export const DataTable = () => {
     </ReactNativeDataTable>
   );
 };
+
+/**
+ * Stylesheet
+ */
+const styles = StyleSheet.create({
+  selectedRow: {
+    backgroundColor: COLOR_BACKGROUND.cellSelected,
+  }
+});

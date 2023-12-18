@@ -43,4 +43,8 @@ export class Session {
   getSnapshot(): SessionSnapshot {
     return new SessionSnapshot(this._id, this.sessionTime);
   }
+
+  isSameAs(session: Session) {
+    return this._id.toString() === session.id.toString();
+  }
 }

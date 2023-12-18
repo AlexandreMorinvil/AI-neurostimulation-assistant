@@ -53,6 +53,9 @@ export const MainView = () => {
   );
 };
 
+  /**
+   * Stylesheet
+   */
 const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,

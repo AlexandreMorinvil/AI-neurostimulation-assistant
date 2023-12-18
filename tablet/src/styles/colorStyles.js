@@ -1,6 +1,7 @@
 // Color definitions
 const COLOR_BLUE_PRIMARY = "#00BCD4";
 const COLOR_BLUE_SECONDARY = "#5AE1F2";
+const COLOR_BLUE_SOFT = "#E8FCFF";
 const COLOR_GREEN_PRIMARY = '#32C832';
 const COLOR_GREY_PRIMARY = '#777777';
 const COLOR_ORANGE_PRIMARY = '#fac832';
@@ -17,6 +18,7 @@ export const COLOR_BACKGROUND = {
   ItemSubSection: '#DDDDDD',
   TextInput: '#EEEEEE',
   MenuSelected: COLOR_BLUE_PRIMARY,
+  cellSelected: COLOR_BLUE_SOFT,
 };
 
 export const COLOR_BUTTON = {

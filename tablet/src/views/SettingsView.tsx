@@ -4,6 +4,10 @@ import { BoxSmartwatchConnection
 import { COLOR_BACKGROUND } from '@styles/colorStyles';
 
 const SettingsView = () => {
+
+  /**
+   * Render
+   */
   return (
     <ScrollView style={styles.viewContainer}>
       <BoxSmartwatchConnection />
@@ -11,6 +15,9 @@ const SettingsView = () => {
   );
 };
 
+  /**
+   * Stylesheet
+   */
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: COLOR_BACKGROUND.Application,

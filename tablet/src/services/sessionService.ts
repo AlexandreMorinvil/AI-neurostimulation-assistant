@@ -14,10 +14,6 @@ class SessionService implements Service {
     // TODO: Verify the database to see if there is an unfinished session to potentially resume.
   }
 
-  get activeSessionId(): Realm.BSON.ObjectId | null {
-    return this.activeSession?.id || null;
-  }
-
   get isSessionInProgress(): boolean {
     return (this.activeSession && !this.activeSession.isSessionConcluded) || false;
   }
@@ -30,7 +26,7 @@ class SessionService implements Service {
   }
 
   correspondsToActiveSession(session: Session): boolean {
-    return  session.id.toString() == sessionService.activeSessionId?.toString()
+    return this.activeSession?.isSameAs(session) || false;
   }
 
   destroy(): void { }

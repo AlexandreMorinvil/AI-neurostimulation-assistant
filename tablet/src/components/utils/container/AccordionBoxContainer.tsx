@@ -6,6 +6,7 @@ type Props = {
   children: React.ReactNode,
   isActive?: boolean,
   isMinimizable?: boolean,
+  onlyHeader?: boolean,
   style?: ViewStyle,
   title: string,
 }
@@ -16,7 +17,8 @@ export const AccordionBoxContainer = (props: Props) => {
    * States
    */
   const [isMinimizable] = useState<boolean>(props.isMinimizable ?? true)
-  const [stateIsActive, setStateIsActive] = useState<boolean>(
+  const [isOnlyHeader] = useState<boolean>(props.onlyHeader ?? false)
+  const [isActive, setStateIsActive] = useState<boolean>(
     (!props.isMinimizable || props.isActive) ?? false
   );
   const [stateTitle] = useState(props.title);
@@ -25,7 +27,7 @@ export const AccordionBoxContainer = (props: Props) => {
    * Functions
    */
   const handleToggleIsActive = () => {
-    setStateIsActive(!stateIsActive);
+    setStateIsActive(!isActive);
   }
 
   /**
@@ -37,7 +39,7 @@ export const AccordionBoxContainer = (props: Props) => {
         <View style={[
           props.style,
           boxStyles.headerContainer,
-          !stateIsActive ? boxStyles.closedHeaderContainer : null
+          !isActive ? boxStyles.closedHeaderContainer : null
         ]}>
           {isMinimizable &&
             <TouchableOpacity
@@ -45,7 +47,7 @@ export const AccordionBoxContainer = (props: Props) => {
               onPress={handleToggleIsActive}
             >
               <Text style={boxStyles.expandIcon}>
-                {stateIsActive ? '-' : '+'}
+                {isActive ? '-' : '+'}
               </Text>
             </TouchableOpacity>
           }
@@ -59,7 +61,7 @@ export const AccordionBoxContainer = (props: Props) => {
         </View>
         <View style={[
           boxStyles.contentContainer,
-          !stateIsActive && boxStyles.invisible
+          !isActive && boxStyles.invisible
         ]}>
           {props.children}
         </View>

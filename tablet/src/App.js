@@ -8,7 +8,7 @@ import { COLOR_BACKGROUND, COLOR_TEXT } from './styles/colorStyles';
 
 import { DataManagementView } from './views/DataManagementView';
 import { MainView } from './views/MainView';
-import SettingsView from './views/settings.view';
+import SettingsView from './views/SettingsView';
 import TestView from './.dev/debug.view';
 
 const Drawer = createDrawerNavigator();

@@ -15,6 +15,7 @@ export const BoxSessionManagement = () => {
   return (
     <AccordionBoxContainer
       isActive={true}
+      isMinimizable={false}
       title={TITLE}
     >
       <SectionConnectionStatus />

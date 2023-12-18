@@ -1,8 +1,10 @@
-import { PanelControl } from '@components/main/panel-control/PanelControl';
 import { useState } from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
-import { COLOR_BACKGROUND } from '../styles/colorStyles.js';
-import { PanelVisualization } from '@components/main/panel-visualization/PanelVisualizations';
+import { View, Dimensions, StyleSheet, ScrollView } from 'react-native';
+import { COLOR_BACKGROUND } from '@styles/colorStyles.js';
+import { BoxSessionManagement 
+} from '@components/main/boxSessionManagement/BoxSessionManagement';
+import { BoxSensorsSummary 
+} from '@components/main/boxSensorsSummary/BoxSensorSummary';
 
 export const MainView = () => {
   /**
@@ -33,12 +35,20 @@ export const MainView = () => {
           : styles.verticalOrientation,
       ]}
       onLayout={updateLayout}>
-      <View style={styles.controlPanelArea}>
-        <PanelControl />
-      </View>
-      <View style={styles.vizualizationPanelArea}>
-        <PanelVisualization />
-      </View>
+      <ScrollView
+        style={styles.controlsArea}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+      >
+        <BoxSessionManagement />
+      </ScrollView>
+      <ScrollView
+        style={styles.vizualizationsArea}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+      >
+        <BoxSensorsSummary />
+      </ScrollView>
     </View>
   );
 };
@@ -56,12 +66,12 @@ const styles = StyleSheet.create({
   verticalOrientation: {
     flexDirection: 'column',
   },
-  controlPanelArea: {
+  controlsArea: {
     flex: 1,
     minWidth: 300,
     minHeight: 300,
   },
-  vizualizationPanelArea: {
+  vizualizationsArea: {
     flex: 2,
     minWidth: 500,
     minHeight: 500,

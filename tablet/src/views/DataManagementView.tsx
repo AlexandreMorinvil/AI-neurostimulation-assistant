@@ -1,6 +1,6 @@
-import { StyleSheet, View } from 'react-native';
-import { DataTable } from '@components/database/DataTable';
-import { COLOR_BACKGROUND } from '@styles/colorStyles.js';
+import { ScrollView, StyleSheet } from 'react-native';
+import { BoxDataTable } from '@components/database/boxDataTable/BoxDataTable';
+import { COLOR_BACKGROUND } from '@styles/colorStyles';
 
 export const DataManagementView = () => {
 
@@ -8,22 +8,15 @@ export const DataManagementView = () => {
    * Render
    */
   return (
-    <View style={styles.viewContainer}>
-      <DataTable style={styles.dataTable} />
-    </View>
+    <ScrollView contentContainerStyle={styles.viewContainer}>
+      <BoxDataTable />
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   viewContainer: {
-    flex: 1,
     backgroundColor: COLOR_BACKGROUND.Application,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
-  dataTable: {
     flex: 1,
-    alignSelf: 'stretch',
   },
 });

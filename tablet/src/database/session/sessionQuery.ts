@@ -8,6 +8,15 @@ export function createSession(realm: Realm, session: Session) {
   });
 }
 
+export function deleteSessions(realm: Realm, sessionIds: Array<Realm.BSON.ObjectId>) {
+  realm.write(() => {
+    sessionIds.forEach((sessionId) => {
+      const session = realm.objectForPrimaryKey(SessionSchema, sessionId);
+      realm.delete(session);
+    });
+  });
+}
+
 export function getAllSessions(realm: Realm): Array<Session> {
   const sessions = realm.objects(SessionSchema);
   return sessions.map((session) => session.generateEntity());

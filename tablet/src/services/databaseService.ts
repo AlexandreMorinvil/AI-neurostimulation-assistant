@@ -47,6 +47,11 @@ class DatabaseService implements Service {
     this.sessionsSubscription.next();
   }
 
+  deleteSessions(sessionIds: Array<Realm.BSON.ObjectId>): void {
+    sessionQuery.deleteSessions(this.realm, sessionIds);
+    this.sessionsSubscription.next();
+  }
+
   getAllSessions(): Array<Session> {
     return sessionQuery.getAllSessions(this.realm);
   }

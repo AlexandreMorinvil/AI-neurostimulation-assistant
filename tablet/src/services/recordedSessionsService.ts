@@ -1,6 +1,7 @@
 import { Subject, Subscription } from "rxjs";
 import { Service } from "@class/Service";
 import { Session } from "@class/session/Session";
+import { databaseService } from "./databaseService";
 
 class RecordedSessionsService implements Service {
 
@@ -17,6 +18,16 @@ class RecordedSessionsService implements Service {
   
   get selectedSessions(): Array<Session> {
     return this._selectedSessions;
+  }
+
+  get selectedSessionsCount(): number {
+    return this._selectedSessions.length;
+  }
+
+  deleteSelectedSessions(): void {
+    databaseService.deleteSessions(this._selectedSessions.map((session) => session.id));
+    this._selectedSessions = [];
+    this.selectedSessionsSubject.next(this.selectedSessions);
   }
 
   subscribeToSelectedSessions(callback: (selectedSessions: Array<Session>) => void): Subscription {

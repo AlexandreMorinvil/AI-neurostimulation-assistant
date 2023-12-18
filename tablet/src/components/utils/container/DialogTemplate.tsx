@@ -12,9 +12,11 @@ type Props = {
   firstButtonText: string,
   onPressFirstButton: Function,
   isFirstButtonHiglighted: boolean,
+  isFirstButtonCritical: boolean,
   secondButtonText: string
   onPressSecondButton: Function
   isSecondButtonHighlighted: boolean,
+  isSecondButtonCritical: boolean,
 }
 
 export const DialogTemplate = (props: Props | any, ref: Ref<unknown> | undefined) => {
@@ -62,6 +64,7 @@ export const DialogTemplate = (props: Props | any, ref: Ref<unknown> | undefined
           <Button
             style={[
               props.isFirstButtonHiglighted ? buttonStyles.highlighted : buttonStyles.normal,
+              props.isFirstButtonCritical && buttonStyles.important,
               styles.button
             ]}
             mode="elevated"
@@ -77,6 +80,7 @@ export const DialogTemplate = (props: Props | any, ref: Ref<unknown> | undefined
           <Button
             style={[
               props.isSecondButtonHighlighted ? buttonStyles.highlighted : buttonStyles.normal,
+              props.isSecondButtonCritical && buttonStyles.important,
               styles.button
             ]}
             mode="elevated"

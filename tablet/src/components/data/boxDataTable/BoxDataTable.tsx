@@ -1,12 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DataTable } from '@components/data/boxDataTable/DataTable';
 import { AccordionBoxContainer } from '@components/utils/container/AccordionBoxContainer';
 import { recordedSessionsService } from 'src/services/recordedSessionsService';
 import { Button, Text } from 'react-native-paper';
 import { buttonStyles } from '@styles/buttonStyles';
 import { StyleSheet, View } from 'react-native';
+import DialogDeleteSessions from '../dialog/DialogDeleteSessions';
 
 export const BoxDataTable = () => {
+
+  /**
+   * Referemces
+   */
+  const dialogDeleteSessionsRef = useRef<any>();
 
   /**
    * State
@@ -14,12 +20,19 @@ export const BoxDataTable = () => {
   const [hasSelectedSession, setHasSelectedSessions] = useState<boolean>(
     recordedSessionsService.hasSelectedSession
   );
+  const [selectedSessionsCount, setSelectedSessionsCount] = useState<number>(
+    recordedSessionsService.selectedSessionsCount
+  )
 
   /**
    * Function
    */
-  const unselectAll = () => {
+  const unselectSessions = () => {
     recordedSessionsService.unselectAll();
+  }
+
+  const deleteSessions = () => {
+    dialogDeleteSessionsRef.current?.showDialog();
   }
 
   /**
@@ -27,7 +40,8 @@ export const BoxDataTable = () => {
    */
   useEffect(() => {
     const subscription = recordedSessionsService.subscribeToSelectedSessions(() => {
-      setHasSelectedSessions(recordedSessionsService.hasSelectedSession)
+      setHasSelectedSessions(recordedSessionsService.hasSelectedSession);
+      setSelectedSessionsCount(recordedSessionsService.selectedSessionsCount);
     });
     return () => { subscription.unsubscribe() };
   }, []);
@@ -39,16 +53,24 @@ export const BoxDataTable = () => {
     <AccordionBoxContainer title='Sessions Recorded'>
       <DataTable />
       {hasSelectedSession &&
-        <View style={styles.centering}>
+        <View style={styles.buttons}>
           <Button
             mode="elevated"
             style={buttonStyles.normal}
-            onPress={() => { unselectAll() }}
+            onPress={() => { unselectSessions() }}
           >
-            <Text>UNSELECT ALL</Text>
+            <Text>UNSELECT</Text>
+          </Button>
+          <Button
+            mode="elevated"
+            style={buttonStyles.important}
+            onPress={() => { deleteSessions() }}
+          >
+            <Text>DELETE ({selectedSessionsCount})</Text>
           </Button>
         </View>
       }
+      <DialogDeleteSessions ref={dialogDeleteSessionsRef} />
     </AccordionBoxContainer>
   );
 };
@@ -57,8 +79,10 @@ export const BoxDataTable = () => {
  * Stylesheet
  */
 const styles = StyleSheet.create({
-  centering: {
+  buttons: {
+    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'center',
+    gap: 10,
   }
 })

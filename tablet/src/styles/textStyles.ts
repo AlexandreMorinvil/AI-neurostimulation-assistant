@@ -5,6 +5,10 @@ export const textStyles = StyleSheet.create({
   default: {
     color: COLOR_TEXT.default,
   },
+  defaultBold: {
+    color: COLOR_TEXT.default,
+    fontWeight: 'bold',
+  },
   boxText: {
     color: COLOR_TEXT.default,
   },

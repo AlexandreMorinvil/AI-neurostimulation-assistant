@@ -56,6 +56,14 @@ class DatabaseService implements Service {
     return sessionQuery.getAllSessions(this.realm);
   }
 
+  getAccelerometerPointsCountForSession(sessionId: Realm.BSON.ObjectId): number {
+    return sensorPointQuery.getAccelerometerPointsCountForSession(this.realm, sessionId);
+  }
+
+  getGyroscopePointsCountForSession(sessionId: Realm.BSON.ObjectId): number {
+    return sensorPointQuery.getGyroscopePointsCountForSession(this.realm, sessionId);
+  }
+
   storeSmartwatchAccelerometerPoint(
     smartWatchAccelerometerPoints: Array<SmartwatchAccelerometerPoint>,
     sessionSnapshot: SessionSnapshot): void {

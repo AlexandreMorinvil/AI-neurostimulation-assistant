@@ -3,6 +3,7 @@ import { textStyles } from '@styles/textStyles';
 import { formatTimeString } from '@utils/timeFormat';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { databaseService } from 'src/services/databaseService';
 import { sessionService } from 'src/services/sessionService';
 
 type Props = {
@@ -57,6 +58,15 @@ export const SessionSummary = (props: Props) => {
     return session.isSessionConcluded ? 'Complete' : 'Incomplete';
   }
 
+  const getAccelerometerPointsCount = (session: Session): number => {
+    return databaseService.getAccelerometerPointsCountForSession(session.id);
+  }
+
+  const getGyroscopePointsCount = (session: Session): number => {
+    return databaseService.getGyroscopePointsCountForSession(session.id);
+  }
+
+
   /**
    * Effects
    */
@@ -84,8 +94,8 @@ export const SessionSummary = (props: Props) => {
         <Text style={textStyles.default}>{getFormattedCompletionDate(session)}</Text>
         <Text style={textStyles.default}>{getFormattedDuration(session)}</Text>
         <Text style={textStyles.default}>{getFormattedIsCompleted(session)}</Text>
-        <Text style={textStyles.default}>TODO</Text>
-        <Text style={textStyles.default}>TODO</Text>
+        <Text style={textStyles.default}>{getAccelerometerPointsCount(session)}</Text>
+        <Text style={textStyles.default}>{getGyroscopePointsCount(session)}</Text>
       </View>
     </View>
   );

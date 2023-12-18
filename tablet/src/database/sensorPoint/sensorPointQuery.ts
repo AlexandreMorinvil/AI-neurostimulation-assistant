@@ -34,3 +34,19 @@ export function createSmartwatcGyroscopePoints(
     })
   });
 }
+
+export function getAccelerometerPointsCountForSession(
+  realm: Realm, 
+  sessionId: Realm.BSON.ObjectId
+) {
+  const sessions = realm.objects(SmartWatchAccelerometerPointSchema);
+  return sessions.filtered("sessionId == $0", sessionId).length;
+}
+
+export function getGyroscopePointsCountForSession(
+  realm: Realm, 
+  sessionId: Realm.BSON.ObjectId
+) {
+  const sessions = realm.objects(SmartwatchGyroscopePointSchema);
+  return sessions.filtered("sessionId == $0", sessionId).length;
+}

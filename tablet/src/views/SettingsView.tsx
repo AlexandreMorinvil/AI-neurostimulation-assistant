@@ -1,4 +1,5 @@
 import { StyleSheet, ScrollView } from 'react-native';
+import { BoxServerConnection } from '@components/settings/boxServerConnection/BoxServerConnection';
 import { BoxSmartwatchConnection
 } from '@components/settings/boxSmartwatchConnection/BoxSmartwatchConnection';
 import { COLOR_BACKGROUND } from '@styles/colorStyles';
@@ -11,6 +12,7 @@ const SettingsView = () => {
   return (
     <ScrollView style={styles.viewContainer}>
       <BoxSmartwatchConnection />
+      <BoxServerConnection />
     </ScrollView>
   );
 };

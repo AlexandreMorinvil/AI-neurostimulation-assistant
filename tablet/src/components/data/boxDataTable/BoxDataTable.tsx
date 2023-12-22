@@ -6,11 +6,12 @@ import { Button, Text } from 'react-native-paper';
 import { buttonStyles } from '@styles/buttonStyles';
 import { StyleSheet, View } from 'react-native';
 import DialogDeleteSessions from '../dialog/DialogDeleteSessions';
+import { textStyles } from '@styles/textStyles';
 
 export const BoxDataTable = () => {
 
   /**
-   * Referemces
+   * References
    */
   const dialogDeleteSessionsRef = useRef<any>();
 
@@ -25,7 +26,7 @@ export const BoxDataTable = () => {
   )
 
   /**
-   * Function
+   * Functions
    */
   const unselectSessions = () => {
     recordedSessionsService.unselectAll();
@@ -59,14 +60,14 @@ export const BoxDataTable = () => {
             style={buttonStyles.normal}
             onPress={() => { unselectSessions() }}
           >
-            <Text>UNSELECT</Text>
+            <Text style={textStyles.buttonText}>UNSELECT</Text>
           </Button>
           <Button
             mode="elevated"
             style={buttonStyles.important}
             onPress={() => { deleteSessions() }}
           >
-            <Text>DELETE ({selectedSessionsCount})</Text>
+            <Text style={textStyles.buttonText}>DELETE ({selectedSessionsCount})</Text>
           </Button>
         </View>
       }

@@ -1,8 +1,9 @@
 
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { SmartWatchConnectionIndicator } from './ConnectionIndicatorSmartwatch';
+import { ConnectionIndicatorSmartwatch } from './ConnectionIndicatorSmartwatch';
 import { COLOR_BACKGROUND } from '@styles/colorStyles';
 import { ConnectionIndicatorNetwork } from './ConnectionIndicatorNetwork';
+import { ConnectionIndicatorServer } from './ConnectionIndicatorServer';
 
 type Props = {
   style?: StyleProp<ViewStyle>
@@ -16,7 +17,8 @@ export const SectionConnectionStatus = (props: Props) => {
   return (
     <View style={[styles.container, props.style]}>
       <ConnectionIndicatorNetwork />
-      <SmartWatchConnectionIndicator />
+      <ConnectionIndicatorSmartwatch />
+      <ConnectionIndicatorServer />
     </View>
   );
 };

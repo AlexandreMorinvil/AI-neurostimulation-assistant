@@ -1,8 +1,8 @@
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from 'react-native-paper';
-import { smartwatchService } from "src/services/smartwatchService";
+import { serverConnectionService } from 'src/services/serverConnectionService';
 import { COLOR_ICON } from '@styles/colorStyles';
 import { textStyles } from '@styles/textStyles';
 
@@ -10,26 +10,26 @@ type Props = {
   iconSize?: number;
 };
 
-export const ConnectionIndicatorSmartwatch = (props: Props) => {
+export const ConnectionIndicatorServer = (props: Props) => {
 
   /**
    * Constants
    */
   const iconSize: number = props.iconSize || 50;
-  const deviceName: string = "Smartwatch";
+  const deviceName: string = "Server";
   const connectedText: string = "Connected";
   const disconnectedText: string = "Disconnected";
 
   /**
    * States
    */
-  const [isConnected, setIsConnected] = useState<boolean>(smartwatchService.isConnected);
+  const [isConnected, setIsConnected] = useState<boolean>(serverConnectionService.isConnected);
 
   /**
    * Effects 
    */
   useEffect(() => {
-    const subscription = smartwatchService.subscribeToConnectionStatus((isConnected) => {
+    const subscription = serverConnectionService.subscribeToConnectionStatus((isConnected) => {
       setIsConnected(isConnected);
     });
     return () => { subscription.unsubscribe() };
@@ -40,8 +40,8 @@ export const ConnectionIndicatorSmartwatch = (props: Props) => {
    */
   return (
     <View style={styles.container}>
-      <Ionicons
-        name="watch"
+      <FontAwesome
+        name="laptop"
         color={isConnected ? COLOR_ICON.fine : COLOR_ICON.innactive}
         size={iconSize}
       />

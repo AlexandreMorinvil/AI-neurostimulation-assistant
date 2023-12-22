@@ -52,7 +52,7 @@ export const BoxSmartwatchConnection = () => {
    */
   return (
     <SettingsAccordionBoxContainer
-      title="Smart Watch Connection"
+      title="Smartwatch Connection"
       summaryText={stateHeaderSummary}
       settingStatus={stateSettingStatus}
     >

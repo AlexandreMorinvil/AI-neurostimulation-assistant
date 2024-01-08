@@ -4,7 +4,7 @@ import { BoxSmartwatchConnection
 } from '@components/settings/boxSmartwatchConnection/BoxSmartwatchConnection';
 import { COLOR_BACKGROUND } from '@styles/colorStyles';
 
-const SettingsView = () => {
+export const SettingsView = () => {
 
   /**
    * Render
@@ -26,5 +26,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export default SettingsView;

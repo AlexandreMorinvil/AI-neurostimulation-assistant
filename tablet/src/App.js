@@ -1,18 +1,20 @@
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useEffect } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import { cleanUp, initialize } from './services/app-setup.service';
+import { cleanUp, initialize } from './services/serviceSetups';
 import { COLOR_BACKGROUND, COLOR_TEXT } from './styles/colorStyles';
-
 import { DataManagementView } from './views/DataManagementView';
 import { MainView } from './views/MainView';
-import SettingsView from './views/SettingsView';
+import { SettingsView } from './views/SettingsView';
 
-const Drawer = createDrawerNavigator();
 
 const App = () => {
+  
+  /**
+   * Constants
+   */
+  const Drawer = createDrawerNavigator();
 
   /**
    * Effects

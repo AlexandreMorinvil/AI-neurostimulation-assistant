@@ -1,1 +1,0 @@
-export const SOCKET_EVENT_WATCH_PACKET = "watch_packet";

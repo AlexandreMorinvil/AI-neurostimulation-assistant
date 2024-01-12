@@ -10,7 +10,7 @@ export const MainView = () => {
   /**
    * States
    */
-  const [stateIsOrientationHorizontal, setstateIsOrientationHorizontal] =
+  const [isOrientationHorizontal, setIsOrientationHorizontal] =
     useState(true);
 
 
@@ -20,7 +20,7 @@ export const MainView = () => {
   const updateLayout = () => {
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
-    setstateIsOrientationHorizontal(screenWidth > screenHeight);
+    setIsOrientationHorizontal(screenWidth > screenHeight);
   };
 
   /**
@@ -30,7 +30,7 @@ export const MainView = () => {
     <View
       style={[
         styles.viewContainer,
-        stateIsOrientationHorizontal
+        isOrientationHorizontal
           ? styles.horizontalOrientation
           : styles.verticalOrientation,
       ]}

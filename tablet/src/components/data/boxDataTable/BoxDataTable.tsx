@@ -7,6 +7,7 @@ import { buttonStyles } from '@styles/buttonStyles';
 import { StyleSheet, View } from 'react-native';
 import DialogDeleteSessions from '../dialog/DialogDeleteSessions';
 import { textStyles } from '@styles/textStyles';
+import { RemoteStorageSelector } from './RemoteStorageSelector';
 
 export const BoxDataTable = () => {
 
@@ -52,6 +53,7 @@ export const BoxDataTable = () => {
    */
   return (
     <AccordionBoxContainer title='Sessions Recorded'>
+      <RemoteStorageSelector />
       <DataTable />
       {hasSelectedSession &&
         <View style={styles.buttons}>

@@ -1,6 +1,6 @@
-import { RecordedSensorPoint } from "@class/dataPoint/RecordedSensorPoint";
-import { SmartwatchAccelerometerPoint } from "@class/dataPoint/SmartwatchAccelerometerPoint";
-import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePoint";
+import { RecordedSensorPoint } from "@class/sensorPoint/RecordedSensorPoint";
+import { SmartwatchAccelerometerPoint } from "@class/sensorPoint/SmartwatchAccelerometerPoint";
+import { SmartwatchGyroscopePoint } from "@class/sensorPoint/SmartwatchGyroscopePoint";
 import { SessionSnapshot } from "@class/session/SessionSnapshot";
 import Realm, { ObjectSchema } from "realm";
 

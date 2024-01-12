@@ -2,8 +2,8 @@ import { TcpSocketClient } from '@class/socket/TcpSocketClient'
 import { SmartwatchPacketParser } from './SmartwatchPacketParser';
 import { PacketItem } from './PacketItem';
 import { Subject, Subscription } from 'rxjs';
-import { SmartwatchAccelerometerPoint } from "@class/dataPoint/SmartwatchAccelerometerPoint";
-import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePoint";
+import { SmartwatchAccelerometerPoint } from "@class/sensorPoint/SmartwatchAccelerometerPoint";
+import { SmartwatchGyroscopePoint } from "@class/sensorPoint/SmartwatchGyroscopePoint";
 
 export class SmartwatchSocketClient extends TcpSocketClient {
 

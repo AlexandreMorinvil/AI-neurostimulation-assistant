@@ -1,7 +1,7 @@
 import { Service } from "@class/Service";
-import { SensorPointsAccumulator } from "@class/dataPoint/SensorPointsAccumulator";
-import { SmartwatchAccelerometerPoint } from "@class/dataPoint/SmartwatchAccelerometerPoint";
-import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePoint";
+import { SensorPointsAccumulator } from "@class/sensorPoint/SensorPointsAccumulator";
+import { SmartwatchAccelerometerPoint } from "@class/sensorPoint/SmartwatchAccelerometerPoint";
+import { SmartwatchGyroscopePoint } from "@class/sensorPoint/SmartwatchGyroscopePoint";
 import { sessionService } from "./sessionService";
 import { databaseService } from "./databaseService";
 

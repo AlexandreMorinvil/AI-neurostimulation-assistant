@@ -1,5 +1,5 @@
-import { SmartwatchAccelerometerPoint } from '@class/dataPoint/SmartwatchAccelerometerPoint';
-import { SmartwatchGyroscopePoint } from '@class/dataPoint/SmartwatchGyroscopePoint';
+import { SmartwatchAccelerometerPoint } from '@class/sensorPoint/SmartwatchAccelerometerPoint';
+import { SmartwatchGyroscopePoint } from '@class/sensorPoint/SmartwatchGyroscopePoint';
 import { textStyles } from '@styles/textStyles';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';

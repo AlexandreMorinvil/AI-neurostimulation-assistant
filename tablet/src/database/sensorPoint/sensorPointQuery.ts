@@ -1,8 +1,8 @@
 import Realm from "realm";
 import { SessionSnapshot } from "@class/session/SessionSnapshot";
-import { SmartwatchAccelerometerPoint } from "@class/dataPoint/SmartwatchAccelerometerPoint";
+import { SmartwatchAccelerometerPoint } from "@class/sensorPoint/SmartwatchAccelerometerPoint";
 import { SmartWatchAccelerometerPointSchema } from "./sensorPointSchema";
-import { SmartwatchGyroscopePoint } from "@class/dataPoint/SmartwatchGyroscopePoint";
+import { SmartwatchGyroscopePoint } from "@class/sensorPoint/SmartwatchGyroscopePoint";
 import { SmartwatchGyroscopePointSchema } from "./sensorPointSchema";
 
 export function createSmartwatchAccelerometerPoints(

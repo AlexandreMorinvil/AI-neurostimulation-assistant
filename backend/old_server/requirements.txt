@@ -1,8 +1,0 @@
-cflib==0.1.16
-Flask==2.0.1
-Flask-Cors==3.0.10
-matplotlib
-gpy
-flask_socketio
-
-# numpy matplotlib gpy flask_socketio
